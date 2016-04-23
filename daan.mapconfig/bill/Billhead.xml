@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Billhead"  type="daan.domain.Billhead,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="BillheadResult" class="daan.domain.Billhead">
+      <result property="Billheadid" column="billheadid" />
+      <result property="Dictlabid" column="dictlabid" />
+      <result property="Invoiceno" column="invoiceno" />
+      <result property="Status" column="status" />
+      <result property="Remark" column="remark" />
+      <result property="Createdate" column="createdate" />
+      <result property="Billby" column="billby" />
+      <result property="Duedate" column="duedate" />
+      <result property="Receipno" column="receipno" />
+      <result property="Dictcustomerid" column="dictcustomerid" />
+      <result property="Customertype" column="customertype" />
+      <result property="Billtype" column="billtype" />
+      <result property="Dictcheckbillid" column="dictcheckbillid" />
+      <result property="Totalfinalprice" column="totalfinalprice" />
+      <result property="Totalcontractprice" column="totalcontractprice" />
+      <result property="Totalgrouprprice" column="totalgrouprprice" />
+      <result property="Totalstandardprice" column="totalstandardprice" />
+    </resultMap>
+
+    <!--已出账、已接收账单头查询和导出-->
+    <resultMap id="BillheadResultList" class="daan.domain.Billhead">
+      <result property="Billheadid" column="billheadid" />
+      <result property="Createdate" column="createdate"/>
+      <result property="Duedate" column="duedate" />
+      <result property="Totalfinalprice" column="totalfinalprice" />
+      <result property="Totalcontractprice" column="totalcontractprice" />
+      <result property="Totalgrouprprice" column="totalgrouprprice" />
+      <result property="Totalstandardprice" column="totalstandardprice" />
+      <result property="Customername" column="customername" />
+      <result property="Salename" column="salename" />
+      <result property="Dictcheckbillid" column="dictcheckbillid"/>
+      <result property="Begindate" column="begindate"/>
+      <result property="Enddate" column="enddate"/>
+      <result property="Customertype" column="customertype"/>
+    </resultMap>
+    <!-- 现金接收查询和导出-->
+    <resultMap id="BillheadResultForCashReceive" class="daan.domain.Billhead">
+      <result property="Billheadid" column="billheadid" />
+      <!--<result property="Billdetailid" column="billdetailid" />-->
+      <result property="Status" column="status" />
+      <result property="Totalfinalprice" column="totalfinalprice" />
+      <result property="Totalcontractprice" column="totalcontractprice" />
+      <result property="Totalgrouprprice" column="totalgrouprprice" />
+      <result property="Totalstandardprice" column="totalstandardprice" />
+      <result property="Duedate" column="duedate" />
+      <result property="Realname" column="realname" />
+      <result property="Ordernum" column="ordernum" />
+      <result property="Testname" column="testname" />
+      <result property="Selfremark" column="selfremark" />
+      <result property="Remark" column="remark" />
+      <result property="Testcount" column="testcount" />
+    </resultMap>
+    
+    <!-- 现金接收打印 -->
+    <resultMap  id="BillheadListForPrint" class="daan.domain.Billhead">
+      <result property="Totalfinalprice" column="totalfinalprice" />
+      <result property="Totalstandardprice" column="totalstandardprice" />
+      <result property="Realname" column="realname" />
+		<result property="Username" column="username" />
+      <result property="Ordernum" column="ordernum" />
+      <result property="Remark" column="remark" />
+      <result property="Productname" column="productname" />
+      <result property="Orderenterdate" column="orderenterdate" />
+      <result property="Billheadid" column="billheadid" />
+    </resultMap>
+    
+    <!-- 获得账单明细价格统计信息 -->
+    <resultMap id="BillheadPriceStatistics" class="daan.domain.Billhead">
+      <result property="Billheadid" column="billheadid" />
+      <result property="Totalfinalprice" column="totalfinalprice" />
+      <result property="Totalcontractprice" column="totalcontractprice" />
+      <result property="Totalgrouprprice" column="totalgrouprprice" />
+      <result property="Totalstandardprice" column="totalstandardprice" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Bill.SelectBillhead" parameterClass="string" resultMap="BillheadResult">
+      SELECT BILLHEADID AS Billheadid,DICTLABID AS Dictlabid,INVOICENO AS Invoiceno,STATUS AS Status,REMARK AS Remark,CREATEDATE AS Createdate,BILLBY AS Billby,DUEDATE AS Duedate,RECEIPNO AS Receipno,DICTCUSTOMERID AS Dictcustomerid,CUSTOMERTYPE AS Customertype,BILLTYPE AS Billtype,DICTCHECKBILLID AS Dictcheckbillid,TOTALSENDOURPRICE AS Totalsendourprice,TOTALFINALPRICE AS Totalfinalprice,TOTALCONTRACTPRICE AS Totalcontractprice,TOTALGROUPRPRICE AS Totalgrouprprice,TOTALSTANDARDPRICE AS Totalstandardprice
+      FROM BILLHEAD
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          BILLHEADID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+
+    <!-- 导出:已出账、已接收账单头查询-->
+    <select id="Bill.SelectBillheadExcel" parameterClass="Hashtable" resultMap="BillheadResultList">
+      select a.billheadid,a.createdate,a.duedate,a.totalfinalprice,a.totalcontractprice,a.totalgrouprprice,a.totalstandardprice,
+      b.customername,c.username as salename,a.dictcheckbillid,a.begindate,a.enddate,a.customertype
+      from billhead a
+      left join dictcustomer b
+      on a.dictcustomerid = b.dictcustomerid
+      left join dictuser c
+      on b.dictsalemanid = c.dictuserid
+      where a.billtype='团检账单' and a.status = #status#
+      <isNotNull prepend="and" property="billheadids">
+        a.billheadid in ($billheadids$)
+      </isNotNull>
+      order by a.billheadid asc
+    </select>
+    
+      <!-- 分页:已出账、已接收账单头分页查询-->
+    <select id="Bill.SelectBillheadList" parameterClass="Hashtable" resultMap="BillheadResultList">
+      select * from (select rownum rn, t.* from (select a.billheadid,a.createdate,a.duedate,a.totalfinalprice,a.totalcontractprice,a.totalgrouprprice,a.totalstandardprice,
+      b.customername,c.username as salename,a.dictcheckbillid,a.begindate,a.enddate,a.customertype
+      from billhead a
+      left join dictcustomer b
+      on a.dictcustomerid = b.dictcustomerid
+      left join dictuser c
+      on b.dictsalemanid = c.dictuserid
+      where a.billtype='团检账单' and a.status = #status#
+      <!-- 查询条件:分点 -->
+      <isNotNull prepend="and" property="dictLabid">
+        a.dictlabid=#dictLabid#
+      </isNotNull>
+      <!-- 查询条件:客户类型 -->
+      <isNotNull prepend="and" property="customertype">
+        a.customertype=#customertype#
+      </isNotNull>
+      <!-- 查询条件:客户 -->
+      <isNotNull prepend="and" property="customerid">
+        a.dictcustomerid=#customerid#
+      </isNotNull>
+      <!-- 查询条件:帐单号 -->
+      <isNotNull prepend="and" property="billheadid">
+        a.billheadid = #billheadid#
+      </isNotNull>
+      <!-- 查询条件:出账开始时间 -->
+      <isNotNull prepend="and" property="startDate">
+        a.duedate <![CDATA[>=]]>to_date(#startDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 查询条件:结束时间 -->
+      <isNotNull prepend="and" property="endDate">
+        a.duedate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+      order by a.billheadid asc) t where rownum <![CDATA[<=]]>#pageEnd#
+      )where rn<![CDATA[>]]>=#pageStart#
+    </select>
+    
+    <!-- 分页:获取已出账、已接收账单头总记录数 -->
+    <select id="Bill.SelectBillheadListCount" parameterClass="Hashtable">
+      select count(a.billheadid) as pageCount from billhead a
+      where a.billtype='团检账单' and a.status = #status#
+      <!-- 查询条件:分点 -->
+      <isNotNull prepend="and" property="dictLabid">
+        a.dictlabid=#dictLabid#
+      </isNotNull>
+      <!-- 查询条件:客户类型 -->
+      <isNotNull prepend="and" property="customertype">
+        a.customertype=#customertype#
+      </isNotNull>
+      <!-- 查询条件:客户 -->
+      <isNotNull prepend="and" property="customerid">
+        a.dictcustomerid=#customerid#
+      </isNotNull>
+      <!-- 查询条件:帐单号 -->
+      <isNotNull prepend="and" property="billheadid">
+        a.billheadid = #billheadid#
+      </isNotNull>
+      <!-- 查询条件:出账开始时间 -->
+      <isNotNull prepend="and" property="startDate">
+        a.createdate <![CDATA[>=]]>to_date(#startDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 查询条件:结束时间 -->
+      <isNotNull prepend="and" property="endDate">
+        a.createdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+    </select>
+    
+    <!-- 分页:现金接收账单分页查询-->
+    <select id="Bill.SelectBillheadForCashReceive" parameterClass="Hashtable" resultMap="BillheadResultForCashReceive">
+      select * from(select rownum rn, t.* from (
+      select ib.basicname status,a.billheadid, a.totalstandardprice,a.totalgrouprprice ,a.totalcontractprice,a.totalfinalprice,a.duedate,
+      c.realname,c.ordernum,wmsys.wm_concat(b.testname) as testname,count(testname)as testcount,b.selfremark,b.remark
+      from billhead a
+      left join billdetail b  on(a.billheadid = b.billheadid)
+      left join orders c on(b.ordernum = c.ordernum)
+      left join initbasic ib on (ib.basictype='BILLHEADSTATUS' and a.status=ib.basicvalue)
+      where a.billtype='个检账单'
+
+      <isNotNull prepend="and" property="dictlabid">
+        a.dictlabid=#dictlabid#
+      </isNotNull>
+      <isNotNull prepend="and" property="status">
+        a.status=#status#
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        a.duedate <![CDATA[>=]]>to_date(#startDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="endDate">
+        a.duedate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+      group by c.ordernum,a.billheadid,a.totalstandardprice,a.totalgrouprprice,a.totalcontractprice,a.totalfinalprice
+      ,a.duedate,c.realname,b.selfremark,b.remark,a.begindate,a.enddate,a.dictcheckbillid,c.enterdate,ib.basicname
+      order by a.billheadid asc) t where rownum <![CDATA[<=]]>#pageEnd#
+      )where rn<![CDATA[>]]>=#pageStart#
+    </select>
+    
+    <!-- 分页:获取现金接收账单总记录数 -->
+    <select id="Bill.SelectBillheadForCashReceiveCount" parameterClass="Hashtable">
+      select count(a.billheadid) as pageCount from billhead a
+      where a.billtype='个检账单'
+
+      <isNotNull prepend="and" property="dictlabid">
+        a.dictlabid=#dictlabid#
+      </isNotNull>
+      <isNotNull prepend="and" property="status">
+        a.status=#status#
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        a.duedate <![CDATA[>=]]>to_date(#startDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="endDate">
+        a.duedate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+    </select>
+    
+    <!-- 根据编号查找记录用于导出 -->
+    <select id="Bill.SelectBillHeadListByids" parameterClass="string" resultMap="BillheadResultForCashReceive">
+      select a.status,a.billheadid, a.totalstandardprice,a.totalgrouprprice ,a.totalcontractprice,a.totalfinalprice,a.duedate,
+      c.realname,c.ordernum,wmsys.wm_concat(b.testname) as testname,count(testname)as testcount,b.selfremark,b.remark
+      from billhead a
+      left join billdetail b  on(a.billheadid = b.billheadid)
+      left join orders c on(b.ordernum = c.ordernum)
+      where a.billtype='个检账单' and a.billheadid in($value$)
+      group by c.ordernum,a.billheadid,a.totalstandardprice,a.totalgrouprprice,a.totalcontractprice,a.totalfinalprice
+      ,a.duedate,c.realname,b.selfremark,b.remark,a.begindate,a.enddate,a.dictcheckbillid,c.enterdate,a.status
+      order by a.billheadid asc
+    </select>
+    
+    <!-- 根据编号查找记录用于打印 -->
+    <select id="Bill.SelectBillHeadListForPrintByids" parameterClass="string" resultMap="BillheadListForPrint">
+		select c.ordernum,a.totalstandardprice ,a.totalfinalprice ,b.remark,c.realname,
+		wmsys.wm_concat(distinct(nvl(b.productname,testname))) as productname,c.enterdate as orderenterdate,a.billheadid,d.username
+		from billhead a
+		left join billdetail b  on(a.billheadid = b.billheadid)
+		left join orders c on(b.ordernum = c.ordernum)
+		left join dictuser d on(d.dictuserId=a.billby)
+		where a.billtype='个检账单' and a.billheadid in($value$)
+		group by c.ordernum,a.totalstandardprice,a.totalfinalprice,b.remark,c.realname,c.enterdate,a.billheadid,d.username
+		order by a.billheadid asc
+	</select>
+    
+    <!-- 获得现金接收账单价格统计信息 -->
+    <select id="Bill.SelectBillheadForCashReceivePriceStatistics" parameterClass="Hashtable" resultMap="BillheadPriceStatistics">
+      select a.billheadid,a.totalgrouprprice ,a.totalfinalprice,a.totalcontractprice,a.totalstandardprice from billhead a
+      where a.billtype='个检账单'
+
+      <isNotNull prepend="and" property="dictlabid">
+        a.dictlabid=#dictlabid#
+      </isNotNull>
+      <isNotNull prepend="and" property="status">
+        a.status=#status#
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        a.duedate <![CDATA[>=]]>to_date(#startDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="endDate">
+        a.duedate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+    </select>
+   
+    <!--新增 -->
+    <insert id="Bill.InsertBillhead" parameterClass="Billhead">
+      INSERT INTO BILLHEAD
+      (BILLHEADID,DICTLABID,INVOICENO,STATUS,REMARK,CREATEDATE,BILLBY,DUEDATE,RECEIPNO,DICTCUSTOMERID,CUSTOMERTYPE,BILLTYPE,DICTCHECKBILLID,TOTALFINALPRICE,TOTALCONTRACTPRICE,TOTALGROUPRPRICE,TOTALSTANDARDPRICE,BEGINDATE,ENDDATE)
+      VALUES(#Billheadid#,#Dictlabid#,#Invoiceno#,#Status#,#Remark#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Billby#,#Duedate:DateTime:1/1/0001 12:00:00 AM#,#Receipno#,#Dictcustomerid#,#Customertype#,#Billtype#,#Dictcheckbillid#,#Totalfinalprice#,#Totalcontractprice#,#Totalgrouprprice#,#Totalstandardprice#,#Begindate#,#Enddate#)
+    </insert>
+    
+    <!--修改 -->
+    <update id="Bill.UpdateBillhead" parameterClass="Billhead">
+      UPDATE BILLHEAD
+      SET BILLHEADID=#Billheadid#,DICTLABID=#Dictlabid#,INVOICENO=#Invoiceno#,STATUS=#Status#,REMARK=#Remark#,CREATEDATE=#Createdate#,BILLBY=#Billby#,DUEDATE=#Duedate#,RECEIPNO=#Receipno#,DICTCUSTOMERID=#Dictcustomerid#,CUSTOMERTYPE=#Customertype#,BILLTYPE=#Billtype#,DICTCHECKBILLID=#Dictcheckbillid#,TOTALSENDOURPRICE=#Totalsendourprice#,TOTALFINALPRICE=#Totalfinalprice#,TOTALCONTRACTPRICE=#Totalcontractprice#,TOTALGROUPRPRICE=#Totalgrouprprice#,TOTALSTANDARDPRICE=#Totalstandardprice#
+      WHERE BILLHEADID = #Billheadid#
+    </update>
+    
+    <!-- 根据billheadid修改汇总价格 -->
+    <update id="Bill.UpdateBillheadTotalPrice" parameterClass="Hashtable">
+      UPDATE BILLHEAD
+      SET TOTALFINALPRICE=#Totalfinalprice#,TOTALCONTRACTPRICE=#Totalcontractprice#,TOTALGROUPRPRICE=#Totalgrouprprice#,TOTALSTANDARDPRICE=#Totalstandardprice#
+      WHERE BILLHEADID = #Billheadid#
+    </update>
+    
+    <!-- 修改实收汇总价 -->
+    <update id="Bill.UpdateBillheadTotalFinalprice" parameterClass="Hashtable">
+		update billhead a set a.totalfinalprice=(select sum(b.finalprice) from billdetail b where b.billheadid=#billheadid#) where a.billheadid=#billheadid#
+	</update>
+
+    <!-- 根据billheadid修改状态 -->
+    <update id="Bill.UpdateBillheadStatus" parameterClass="Hashtable">
+      update  billhead set status=#status#,duedate=#duedate# where billheadid=#billheadid#
+    </update>
+
+    <!-- 退款 zhouy -->
+    <update id="Bill.UpdateBillheadRefundment" parameterClass="Hashtable">
+      update  billhead set status=#status# where billheadid in (#billheadid#)
+    </update>
+    
+    <delete id="Bill.DeleteBillhead" parameterClass="string">
+      DELETE FROM BILLHEAD
+      WHERE BILLHEADID = #value#
+    </delete>
+  </statements>
+</sqlMap>

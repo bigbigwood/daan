@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictruleformular" type="daan.domain.Dictruleformular,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictruleformularResult" class="daan.domain.Dictruleformular">
+      <result property="Dictruleformularid" column="DICTRULEFORMULARID"/>
+      <result property="Dictdiagnosisid" column="DICTDIAGNOSISID"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Formular" column="FORMULAR"/>
+      <result property="Formulardesc" column="FORMULARDESC"/>
+      <result property="Remark" column="REMARK"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Agelow" column="AGELOW"/>
+      <result property="Agehight" column="AGEHIGHT"/>
+      <result property="Ageunit" column="AGEUNIT"/>
+      <result property="Caculatedagelow" column="CACULATEDAGELOW"/>
+      <result property="Caculatedagehigh" column="CACULATEDAGEHIGH"/>
+      <result property="Sex" column="SEX"/>
+      <result property="Ismarry" column="ISMARRY"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Formularname" column="FORMULARNAME"/>
+      <result property="Formulartests" column="FORMULARTESTS"/>
+      <result property="Sourcecode" column="SOURCECODE"/>
+      <result property="Dictrulecode" column="DICTRULECODE"/>
+      <result property="Dictlabid" column="DICTLABID"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="Dict.SelectDictruleformularByCode" parameterClass="Hashtable" resultMap="DictruleformularResult">
+      SELECT DICTRULEFORMULARID AS Dictruleformularid,DICTDIAGNOSISID AS Dictdiagnosisid,DICTLABDEPTID AS Dictlabdeptid,FORMULAR AS Formular,FORMULARDESC AS Formulardesc,REMARK AS Remark,CREATEDATE AS Createdate,AGELOW AS Agelow,AGEHIGHT AS Agehight,AGEUNIT AS Ageunit,CACULATEDAGELOW AS Caculatedagelow,CACULATEDAGEHIGH AS Caculatedagehigh,SEX AS Sex,ISMARRY AS Ismarry,DISPLAYORDER AS Displayorder,FORMULARNAME AS Formularname,FORMULARTESTS AS Formulartests,SOURCECODE AS Sourcecode,DICTRULECODE AS Dictrulecode,DICTLABID AS Dictlabid
+      FROM DICTRULEFORMULAR where 1 = 1
+      <isNotEmpty prepend="and" property="Dictrulecode">
+        Dictrulecode = #Dictrulecode#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Dictruleformularid" >
+        Dictruleformularid  != #Dictruleformularid#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Dictlabid" >
+        Dictlabid  = #Dictlabid#
+      </isNotEmpty>
+      order by displayorder
+    </select>
+
+
+    <select id="Dict.SelectDictruleformular" parameterClass="string" resultMap="DictruleformularResult">
+      SELECT DICTRULEFORMULARID AS Dictruleformularid,DICTDIAGNOSISID AS Dictdiagnosisid,DICTLABDEPTID AS Dictlabdeptid,FORMULAR AS Formular,FORMULARDESC AS Formulardesc,REMARK AS Remark,CREATEDATE AS Createdate,AGELOW AS Agelow,AGEHIGHT AS Agehight,AGEUNIT AS Ageunit,CACULATEDAGELOW AS Caculatedagelow,CACULATEDAGEHIGH AS Caculatedagehigh,SEX AS Sex,ISMARRY AS Ismarry,DISPLAYORDER AS Displayorder,FORMULARNAME AS Formularname,FORMULARTESTS AS Formulartests,SOURCECODE AS Sourcecode,DICTRULECODE AS Dictrulecode,DICTLABID AS Dictlabid
+      FROM DICTRULEFORMULAR
+      order by displayorder
+    </select>
+
+    <select id="Dict.SelectDictruleformularById" parameterClass="string" resultMap="DictruleformularResult">
+      SELECT DICTRULEFORMULARID AS Dictruleformularid,DICTDIAGNOSISID AS Dictdiagnosisid,DICTLABDEPTID AS Dictlabdeptid,FORMULAR AS Formular,FORMULARDESC AS Formulardesc,REMARK AS Remark,CREATEDATE AS Createdate,AGELOW AS Agelow,AGEHIGHT AS Agehight,AGEUNIT AS Ageunit,CACULATEDAGELOW AS Caculatedagelow,CACULATEDAGEHIGH AS Caculatedagehigh,SEX AS Sex,ISMARRY AS Ismarry,DISPLAYORDER AS Displayorder,FORMULARNAME AS Formularname,FORMULARTESTS AS Formulartests,SOURCECODE AS Sourcecode,DICTRULECODE AS Dictrulecode,DICTLABID AS Dictlabid
+      FROM DICTRULEFORMULAR where  Dictruleformularid=#value#
+      order by displayorder
+    </select>
+    
+    <select id="Dict.SelectDictruleformularByrule" parameterClass="Hashtable" resultMap="DictruleformularResult">
+      SELECT DICTRULEFORMULARID AS Dictruleformularid,DICTDIAGNOSISID AS Dictdiagnosisid,DICTLABDEPTID AS Dictlabdeptid,FORMULAR AS Formular,FORMULARDESC AS Formulardesc,REMARK AS Remark,CREATEDATE AS Createdate,AGELOW AS Agelow,AGEHIGHT AS Agehight,AGEUNIT AS Ageunit,CACULATEDAGELOW AS Caculatedagelow,CACULATEDAGEHIGH AS Caculatedagehigh,SEX AS Sex,ISMARRY AS Ismarry,DISPLAYORDER AS Displayorder,FORMULARNAME AS Formularname,FORMULARTESTS AS Formulartests,SOURCECODE AS Sourcecode,DICTRULECODE AS Dictrulecode,DICTLABID AS Dictlabid
+      FROM DICTRULEFORMULAR where  Formular=$Formular$ and Formularname=$Formularname$
+      order by displayorder
+    </select>
+    <!--规则公式分页查询-->
+    <select id="Dict.GetDictruleformularPageLst" parameterClass="Hashtable" resultMap="DictruleformularResult">
+      SELECT * from
+      (SELECT ROWNUM RN, t.* FROM  (select DICTRULEFORMULARID,DICTDIAGNOSISID,DICTLABDEPTID,FORMULAR,FORMULARDESC,REMARK,CREATEDATE,AGELOW,AGEHIGHT,AGEUNIT,CACULATEDAGELOW,CACULATEDAGEHIGH,SEX,ISMARRY,DISPLAYORDER,FORMULARNAME,FORMULARTESTS,SOURCECODE,DICTRULECODE,DICTLABID
+      from DICTRULEFORMULAR d
+      where DICTLABID=$Dictlabid$
+      <isNotEmpty prepend="and" property="Dictlabdeptid">
+        Dictlabdeptid=$Dictlabdeptid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Formularname like '%$strKey$%' or DICTRULECODE like '%$strKey$%')
+      </isNotEmpty>
+      order by d.Displayorder) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--规则公式分页查询总数-->
+    <select id="Dict.GetDictruleformularPageLstCount" parameterClass="Hashtable" resultMap="DictruleformularResult">
+      SELECT Count(*) from DICTRULEFORMULAR d
+      where DICTLABID=$Dictlabid$
+      <isNotEmpty prepend="and" property="Dictlabdeptid">
+        Dictlabdeptid=$Dictlabdeptid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Formularname like '%$strKey$%' or DICTRULECODE like '%$strKey$%')
+      </isNotEmpty>
+    </select>
+
+    <insert id="Dict.InsertDictruleformular" parameterClass="Dictruleformular">
+      INSERT INTO DICTRULEFORMULAR
+      (DICTRULEFORMULARID,DICTDIAGNOSISID,DICTLABDEPTID,FORMULAR,FORMULARDESC,REMARK,CREATEDATE,AGELOW,AGEHIGHT,AGEUNIT,CACULATEDAGELOW,CACULATEDAGEHIGH,SEX,ISMARRY,DISPLAYORDER,FORMULARNAME,FORMULARTESTS,SOURCECODE,DICTRULECODE,DICTLABID)
+      VALUES(#Dictruleformularid#,#Dictdiagnosisid#,#Dictlabdeptid#,#Formular#,#Formulardesc#,#Remark#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Agelow#,#Agehight#,#Ageunit#,#Caculatedagelow#,#Caculatedagehigh#,#Sex#,#Ismarry#,#Displayorder#,#Formularname#,#Formulartests#,#Sourcecode#,#Dictrulecode#,#Dictlabid#)
+    </insert>
+    <update id="Dict.UpdateDictruleformular" parameterClass="Dictruleformular">
+      UPDATE DICTRULEFORMULAR
+      SET DICTRULEFORMULARID=#Dictruleformularid#,DICTDIAGNOSISID=#Dictdiagnosisid#,DICTLABDEPTID=#Dictlabdeptid#,FORMULAR=#Formular#,FORMULARDESC=#Formulardesc#,REMARK=#Remark#,CREATEDATE=#Createdate#,AGELOW=#Agelow#,AGEHIGHT=#Agehight#,AGEUNIT=#Ageunit#,CACULATEDAGELOW=#Caculatedagelow#,CACULATEDAGEHIGH=#Caculatedagehigh#,SEX=#Sex#,ISMARRY=#Ismarry#,DISPLAYORDER=#Displayorder#,FORMULARNAME=#Formularname#,FORMULARTESTS=#Formulartests#,SOURCECODE=#Sourcecode#,DICTRULECODE=#Dictrulecode#,DICTLABID=#Dictlabid#
+      WHERE DICTRULEFORMULARID = #Dictruleformularid#
+    </update>
+    <delete id="Dict.DeleteDictruleformular" parameterClass="string">
+      DELETE FROM DICTRULEFORMULAR
+      WHERE DICTRULEFORMULARID = #value#
+    </delete>
+  </statements>
+</sqlMap>

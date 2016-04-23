@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Ordergrouptest" type="daan.domain.Ordergrouptest,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrdergrouptestResult" class="daan.domain.Ordergrouptest">
+      <result property="Ordergrouptestid" column="ORDERGROUPTESTID" type="single" dbType="Real"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Barcode" column="BARCODE" type="string" dbType="varchar"/>
+      <result property="Dictproductid" column="DICTPRODUCTID" type="single" dbType="Real"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID" type="single" dbType="Real"/>
+      <result property="Engname" column="ENGNAME" type="string" dbType="varchar"/>
+      <result property="Testname" column="TESTNAME" type="string" dbType="varchar"/>
+      <result property="Testcode" column="TESTCODE" type="string" dbType="varchar"/>
+      <result property="Status" column="STATUS" type="string" dbType="varchar"/>
+      <result property="Transed" column="TRANSED" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" type="single" dbType="Real"/>
+      <result property="Billed" column="BILLED" type="string" dbType="varchar"/>
+      <result property="Standardprice" column="STANDARDPRICE" type="single" dbType="Real"/>
+      <result property="Groupprice" column="GROUPPRICE" type="single" dbType="Real"/>
+      <result property="Contractprice" column="CONTRACTPRICE" type="single" dbType="Real"/>
+      <result property="Sendoutprice" column="SENDOUTPRICE" type="single" dbType="Real"/>
+      <result property="Finalprice" column="FINALPRICE" type="single" dbType="Real"/>
+      <!--<result property="Issendouttest" column="ISSENDOUTTEST" type="string" dbType="varchar"/>-->
+      <result property="Sendoutcustomerid" column="SENDOUTCUSTOMERID" type="single" dbType="Real"/>
+      <result property="Sendbilled" column="SENDBILLED" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Displayorder" column="DISPLAYORDER" type="single" dbType="Real"/>
+      <result property="Isadd" column="ISADD" type="string" dbType="string"/>
+      <result property="Adduserid" column="ADDUSERID" type="single" dbType="Real"/>
+      <result property="Operationremark" column="OPERATIONREMARK" type="string" dbType="varchar"/>
+      <result property="Productname" column="PRODUCTNAME" type="string" dbType="varchar"/>
+      <result property="Isactive"    column="ISACTIVE"    type="string" dbType="varchar"/>
+
+    </resultMap>
+
+    <resultMap id="SelectOrdergrouptestResultMap" class="daan.domain.Ordergrouptest">
+      <result property="Ordergrouptestid" column="ORDERGROUPTESTID"/>
+      <result property="Ordernum" column="ORDERNUM"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Testname" column="TESTNAME"/>
+      <result property="Standardprice" column="STANDARDPRICE" />
+      <result property="Groupprice" column="GROUPPRICE" />
+      <result property="Contractprice" column="CONTRACTPRICE" />
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Createdate" column="createdate" />
+      <result property="Dictproductid" column="dictproductid" />
+      <result property="Productname" column="productname" />
+      <result property="Sendoutcustomerid" column="sendoutcustomerid" />
+      
+    </resultMap>
+
+    <resultMap id="SelectOrdergrouptestRegister" class="daan.domain.OrderRegister">
+      <result property="Productid" column="PRODUCTID" />
+      <result property="Productname" column="PRODUCTNAME" />
+      <result property="Id" column="ID" />
+      <result property="Code" column="CODE" />
+      <result property="Name" column="NAME" />
+      <result property="Type" column="TYPE" />
+      <result property="Isadd" column="ISADD" />
+      <result property="Adduserid" column="ADDUSERID" />
+      <result property="Addusername" column="ADDUSERNAME" />
+      <result property="Isactive" column="ISACTIVE" />
+      <result property="Billed" column="BILLED" />
+      <result property="Sendbilled" column="SENDBILLED" />
+      <result property="Sendoutcustomerid" column="SENDOUTCUSTOMERID" />
+      <result property="Sencustomername" column="SENCUSTOMERNAME" />
+      <result property="Tubegroup" column="TUBEGROUP" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Status" column="STATUS" />
+      <result property="Orderstatus" column="ORDERSTATUS" />
+      <result property="Uniqueid" column="UNIQUEID" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <select id="Order.SelectOrdergrouptest" parameterClass="string" resultClass="Ordergrouptest">
+      SELECT ORDERGROUPTESTID AS Ordergrouptestid,ORDERNUM AS Ordernum,BARCODE AS Barcode,DICTPRODUCTID AS Dictproductid,DICTTESTITEMID AS Dicttestitemid,ENGNAME AS Engname,TESTNAME AS Testname,TESTCODE AS Testcode,STATUS AS Status,TRANSED AS Transed,DICTLABDEPTID AS Dictlabdeptid,BILLED AS Billed,STANDARDPRICE AS Standardprice,GROUPPRICE AS Groupprice,CONTRACTPRICE AS Contractprice,SENDOUTPRICE AS Sendoutprice,FINALPRICE AS Finalprice,SENDOUTCUSTOMERID AS Sendoutcustomerid,SENDBILLED AS Sendbilled,CREATEDATE AS Createdate,DISPLAYORDER AS Displayorder,Isadd AS ISADD,Adduserid AS ADDUSERID,Isactive AS ISACTIVE
+      FROM ORDERGROUPTEST
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERGROUPTESTID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+
+    <!--查询数据 用于打印指引单 zhouy-->
+    <select id="Order.SelectOrdergrouptestByPrintDirect" parameterClass="string">
+      select og.testname,nvl(dl.labdeptname,'') as labdeptname,ib2.basicname as labdepttype,og.operationremark,dc.customername,o.section,og.ordernum,o.createdate,o.realname,ib.basicname as sex,
+      o.age,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,dm.addres,dm.idnumber,o.enterby,nvl(lab.labname,'') as titleName,nvl(dm.mobile||'/'||dm.phone,'未提供') as phone,
+      sysdate printdate
+      from ordergrouptest og
+      left join orders o on og.ordernum=o.ordernum
+      left join dictlab lab on o.dictlabid=lab.dictlabid
+      left join dictmember dm on o.dictmemberid=dm.dictmemberid
+      left join dictcustomer dc on (o.DICTCUSTOMERID=dc.dictcustomerid and dc.customertype=0)
+      left join initbasic ib on (o.sex=ib.basicvalue and ib.basictype='SEX')
+      left join dictlabdept dl on og.dictlabdeptid=dl.dictlabdeptid
+      left join initbasic ib2 on (dl.labdepttype=ib2.basicvalue and ib2.basictype='LABDEPTTYPE')
+      left join dicttestitem dti on og.dicttestitemid=dti.dicttestitemid and dti.isonlyforbill=0
+      where og.ordernum in ($value$) order by o.ordernum desc
+    </select>
+    <!--修改取订单数据-->
+    <select id="Order.SelectOrdergrouptestByReister" parameterClass="string" resultMap="SelectOrdergrouptestRegister">
+      select og.dictproductid as Productid,og.productname as Productname,
+      og.dicttestitemid as Id,og.testcode as Code,og.testname as Name,dti.
+      dti.testtype as Type,
+      dti.uniqueid as Uniqueid,
+      og.isactive as Isactive,
+      nvl(og.Isadd,'0') Isadd,og.Adduserid as AdduserID,nvl(du.username,' ') as Addusername,
+      nvl(og.billed,'0') as Billed,nvl(og.sendbilled,'0') as Sendbilled,nvl(og.sendoutcustomerid,'-1') as Sendoutcustomerid,
+      dtic.customername as Sencustomername,ob.barcode as Barcode,ob.tubegroup as Tubegroup,ob.status as Status,o.status as Orderstatus
+      from ordergrouptest og
+      left join  dictuser du on og.adduserid=du.dictuserid
+      left join  dicttestitem dti on og.dicttestitemid=dti.dicttestitemid
+      left join  dictcustomer dtic on og.sendoutcustomerid=dtic.dictcustomerid
+      left join  orderbarcode ob  on (og.barcode=ob.barcode and og.ordernum=ob.ordernum)
+      left join  orders o on og.ordernum=o.ordernum
+      where og.ordernum=$value$
+    </select>
+
+    <!--根据体检流水号查询项目信息  -->
+    <select id="Order.SelectOrdergrouptestInfo" parameterClass="Hashtable" resultMap="SelectOrdergrouptestResultMap">
+      select a.ordergrouptestid,a.ordernum,a.dicttestitemid,a.testname,a.standardprice,a.groupprice,a.contractprice,a.contractprice as finalprice,a.createdate,
+      a.dictproductid, nvl(a.productname,a.testname) as productname,a.sendoutcustomerid
+      from ordergrouptest a
+      where a.ordernum=#ordernum# and a.billed = 0
+      <isNotNull prepend="and" property="ids">
+        a.ordergrouptestid in ($ids$)
+      </isNotNull>
+    </select>
+    <!--查询体检单位的体检项目，团检  -->
+    <select id="Order.GetMainTestItem" parameterClass="Hashtable">
+      select distinct b.testname from ordergrouptest b
+      join orders a on b.ordernum=a.ordernum
+      where  a.dictcustomerid =$dictcustomerid$ and a.iscancel=0
+      and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+    </select>
+    <!-- 查询账单价格 -->
+
+    <select id="Order.SelectOrdergrouptestPrice" parameterClass="Hashtable" resultMap="SelectOrdergrouptestResultMap">
+      select a.ordergrouptestid ,a.ordernum ,a.dicttestitemid,a.testname,a.standardprice,a.groupprice,a.contractprice,a.finalprice,b.enterdate as createdate,
+      a.dictproductid,nvl(a.productname,a.testname) as productname,a.sendoutcustomerid
+      from ordergrouptest a
+      join orders b on(a.ordernum = b.ordernum)
+      where b.iscancel ='0'
+
+      <isNotNull prepend="and" property="dictlabid">
+        b.dictlabid = #dictlabid#
+      </isNotNull>
+
+      <isNotNull prepend="and" property="beginDate">
+        b.enterdate <![CDATA[>=]]>to_date(#beginDate#,'yyyy-MM-dd')
+      </isNotNull>
+
+      <isNotNull prepend="and" property="endDate">
+        b.enterdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+
+      <isNotNull property="flag">
+        <isEqual  compareValue="sendout" property="flag">
+          <isNotNull property="customerid">
+            and a.sendoutcustomerid = #customerid#
+          </isNotNull>
+          and a.sendbilled = 0
+        </isEqual>
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          <isNotNull property="customerid">
+            and b.dictcustomerid  = #customerid#
+          </isNotNull>
+          and a.billed = 0
+        </isEqual>
+      </isNotNull>
+
+    </select>
+
+
+    <insert id="Order.InsertOrdergrouptest" parameterClass="Ordergrouptest">
+      INSERT INTO ORDERGROUPTEST
+      (ORDERGROUPTESTID,ORDERNUM,BARCODE,DICTPRODUCTID,DICTTESTITEMID,ENGNAME,TESTNAME,TESTCODE,DICTLABDEPTID,STANDARDPRICE,GROUPPRICE,CONTRACTPRICE,SENDOUTPRICE,FINALPRICE,SENDOUTCUSTOMERID,DISPLAYORDER,ISADD,ADDUSERID,OPERATIONREMARK,PRODUCTNAME,BILLED,SENDBILLED,ISACTIVE,CONTRACTSENDOUTPRICE)
+      VALUES(#Ordergrouptestid#,#Ordernum#,#Barcode#,#Dictproductid#,#Dicttestitemid#,#Engname#,#Testname#,#Testcode#,#Dictlabdeptid#,#Standardprice#,#Groupprice#,#Contractprice#,#Sendoutprice#,#Finalprice#,#Sendoutcustomerid#,#Displayorder#,#Isadd#,#Adduserid#,#Operationremark#,#Productname#,#Billed#,#Sendbilled#,#Isactive#,#contractsendoutprice#)
+    </insert>
+
+    <update id="Order.UpdateOrdergrouptest" parameterClass="Ordergrouptest">
+      UPDATE ORDERGROUPTEST
+      SET ORDERGROUPTESTID=#Ordergrouptestid#,ORDERNUM=#Ordernum#,BARCODE=#Barcode#,DICTPRODUCTID=#Dictproductid#,DICTTESTITEMID=#Dicttestitemid#,ENGNAME=#Engname#,TESTNAME=#Testname#,TESTCODE=#Testcode#,STATUS=#Status#,TRANSED=#Transed#,DICTLABDEPTID=#Dictlabdeptid#,BILLED=#Billed#,STANDARDPRICE=#Standardprice#,GROUPPRICE=#Groupprice#,CONTRACTPRICE=#Contractprice#,SENDOUTPRICE=#Sendoutprice#,FINALPRICE=#Finalprice#,SENDOUTCUSTOMERID=#Sendoutcustomerid#,SENDBILLED=#Sendbilled#,CREATEDATE=#Createdate#,DISPLAYORDER=#Displayorder#,ISADD=#Isadd#,ADDUSERID=#Adduserid#,ISACTIVE=#Isactive#
+      WHERE ORDERGROUPTESTID = #Ordergrouptestid#
+    </update>
+
+    <!-- 按体检流水号、BILLDETAILID、dicttestitemid更新ordergrouptest表sendbilled字段状态为已出账状态、更新外包价钱和实收价钱 -->
+    <update id="Order.UpdateOrdergrouptestPrice"  parameterClass="Hashtable">
+      update ordergrouptest a  set
+      <!-- 外包账单 -->
+      <isEqual  compareValue="sendout" property="flag">
+        a.sendbilled = 1 ,(a.sendoutprice,a.finalprice) =
+        (select b.finalprice,b.finalprice  from billdetail b where b.billdetailid = #billdetailid#)
+      </isEqual>
+      <!-- 非外包账单 -->
+      <isEqual  compareValue="nosendout" property="flag">
+        a.billed  = 1, (a.finalprice,a.contractprice) =(select  b.finalprice,b.contractprice from billdetail b  where b.billdetailid = #billdetailid#)
+      </isEqual>
+      where a.ordernum =#ordernum# and a.dicttestitemid = #dicttestitemid#
+    </update>
+
+      <!-- 根据体检流水号，dicttestitemid 跟新ordergrouptest表的实收价格 -->
+    <update id="Order.UpdateOrdergrouptestFinalPrice"  parameterClass="Hashtable">
+      update ordergrouptest a  set
+      <isNotNull property="state">
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="state">
+          a.Sendoutprice = #price#
+        </isEqual>
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="state">
+          a.finalprice = #price#
+        </isEqual>
+      </isNotNull>
+      <isNotNull property="flag">
+        a.finalprice = #price#
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="flag">
+          ,a.sendbilled = 1
+        </isEqual>
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          ,a.billed  = 1
+        </isEqual>
+      </isNotNull>
+      where a.ordernum =#ordernum# and a.dicttestitemid = #dicttestitemid#
+    </update>
+    <!-- 修改状态-->
+    <update id="Order.UpdateOrdergrouptestStatus"  parameterClass="Hashtable">
+      update ordergrouptest a  set
+      <!-- 外包账单 -->
+      <isEqual  compareValue="sendout" property="flag">
+        a.sendbilled = 0 where a.ordernum = #ordernum#  and a.dicttestitemid = #dicttestitemid#
+      </isEqual>
+      <!-- 非外包账单 -->
+      <isEqual  compareValue="nosendout" property="flag">
+        a.billed = 0 where a.ordernum = #ordernum#  and a.dicttestitemid = #dicttestitemid#
+      </isEqual>
+    </update>
+    <!--查询是否已出账单 用于作废 zhouy-->
+    <select id="Order.SelectOrdergrouptestBill" parameterClass="string" >
+      select wmsys.wm_concat(distinct og.ordernum)
+      from ordergrouptest og where og.billed=1
+      and og.ordernum in($value$)
+    </select>
+    
+    <delete id="Order.DeleteOrdergrouptest" parameterClass="string">
+      DELETE FROM ORDERGROUPTEST
+      WHERE ORDERGROUPTESTID = #value#
+    </delete>
+
+    <delete id="Order.DeleteOrdergrouptestByOrderNum" parameterClass="Hashtable">
+      DELETE FROM ORDERGROUPTEST
+      WHERE ORDERNUM = #ordernum#
+      <isNotEmpty prepend="and"  property="barcode">
+        barcode not in($barcode$)
+      </isNotEmpty>
+    </delete>
+    
+    <!--修改停止测试-->
+    <update id="Order.UpdateOrdergrouptestActive" parameterClass="Hashtable">
+      update ordergrouptest ogt set ogt.isactive=#isactive# where ogt.ordernum=#ordernum# and ogt.barcode=#barcode#
+    </update>
+  </statements>
+</sqlMap>

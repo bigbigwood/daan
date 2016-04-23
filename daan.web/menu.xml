@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tree>
+    <TreeNode Text="系统环境配置" SingleClickExpand="true">
+        <TreeNode Text="软件下载" NavigateUrl="SoftDown.htm">
+        </TreeNode>
+        <TreeNode Text="打印机配置" NavigateUrl="admin/Setting/LocalSettingInfo.aspx">
+        </TreeNode>
+    </TreeNode>
+    <TreeNode Text="基础资料" SingleClickExpand="true">
+        <TreeNode Text="系统字典" SingleClickExpand="true">
+            <TreeNode Text="基础字典明细维护" NavigateUrl="admin/dict/DictionaryItem.aspx">
+            </TreeNode>
+            <TreeNode Text="体检报告模板维护" NavigateUrl="admin/report/RepMenage.aspx" >
+            </TreeNode>
+            <TreeNode Text="短信模版维护" NavigateUrl="admin/dict/DictSmsModule.aspx" >
+            </TreeNode>
+        </TreeNode>
+        <TreeNode Text="项目管理" SingleClickExpand="true">
+            <TreeNode Text="检查项目维护" NavigateUrl="admin/dict/DictTestItems.aspx">
+            </TreeNode>
+            <TreeNode Text="检查组合维护" NavigateUrl="admin/dict/DictTestGroup.aspx">
+            </TreeNode>
+            <TreeNode Text="检查套餐维护" NavigateUrl="admin/dict/DictTestProduct.aspx">
+            </TreeNode>
+            <TreeNode Text="异常建议字典维护" NavigateUrl="admin/dict/DictDiagnosis.aspx">
+            </TreeNode>
+            <TreeNode Text="异常建议规则公式维护" NavigateUrl="admin/dict/DictRuleFormular.aspx">
+            </TreeNode>
+        </TreeNode>
+        <TreeNode Text="分点及权限管理" SingleClickExpand="true">
+            <TreeNode Text="科室维护" NavigateUrl="admin/dict/DictLabdeptInfo.aspx" ></TreeNode>
+            <TreeNode Text="体检单位维护" NavigateUrl="admin/dict/DictCustomerInfo.aspx" ></TreeNode>
+            <TreeNode Text="体检单位审核" NavigateUrl="admin/dict/DictCustomerInfoAudit.aspx" ></TreeNode>
+            <TreeNode Text="分点维护" NavigateUrl="admin/dict/DictLabInfo.aspx" ></TreeNode>
+            <TreeNode Text="分点检查项目维护" NavigateUrl="admin/dict/DictAndTestInfo.aspx" ></TreeNode>
+            <TreeNode Text="分点检查项目价格维护" NavigateUrl="admin/dict/DictAndTestPriceList.aspx" ></TreeNode>
+            <TreeNode Text="用户权限管理" NavigateUrl="admin/dict/DictUserInfoList.aspx" ></TreeNode>
+            <TreeNode Text="子公司维护" NavigateUrl="admin/dict/DictSubCompany.aspx" ></TreeNode>
+        </TreeNode>
+    </TreeNode>
+
+    <TreeNode Text="体检产品管理中心" SingleClickExpand="true">
+      <TreeNode Text="耗材初始化" NavigateUrl="admin/proceed/Hpvtesting.aspx">
+      </TreeNode>
+      <TreeNode Text="标本关联耗材" NavigateUrl="admin/proceed/HpvReceiving.aspx">
+      </TreeNode>
+      <TreeNode Text="耗材管理中心" NavigateUrl="admin/proceed/HpvManage.aspx">
+      </TreeNode>
+    </TreeNode>
+
+    <TreeNode Text="体检前处理" SingleClickExpand="true">
+      <TreeNode Text="体检登记" NavigateUrl="admin/proceed/ProRegister.aspx">
+      </TreeNode>
+      <TreeNode Text="体检集中管理" NavigateUrl="admin/proceed/ProCentralizedManagement.aspx">
+      </TreeNode>
+      <TreeNode Text="采样确认" NavigateUrl="admin/proceed/ProCollectBloodVerify.aspx">
+      </TreeNode>
+      <TreeNode Text="外勤接收" NavigateUrl="admin/proceed/ProOutWorkerAccept.aspx">
+      </TreeNode>
+      <TreeNode Text="数据接收" NavigateUrl="admin/proceed/ProDataReceive.aspx">
+      </TreeNode>
+      <TreeNode Text="检查结果录入" NavigateUrl="admin/analyse/AnaResult.aspx">
+      </TreeNode>
+      <TreeNode Text="条码补打" NavigateUrl="admin/proceed/ProBarcodePrint.aspx">
+      </TreeNode>
+      <TreeNode Text="短信中心" NavigateUrl="admin/proceed/sms.aspx">
+      </TreeNode>
+    </TreeNode>
+
+    <TreeNode Text="体检后管理" SingleClickExpand="true">
+      <TreeNode Text="总检" NavigateUrl="admin/analyse/AnaResultSum.aspx">
+      </TreeNode>
+      <TreeNode Text="医生总检查询" NavigateUrl="admin/analyse/FinishOrdersList.aspx">
+      </TreeNode>
+      <TreeNode Text="团检报告" NavigateUrl="admin/CompanyTest/CompanyReport.aspx">
+      </TreeNode>
+      <TreeNode Text="集中打印报告" NavigateUrl="admin/analyse/AnaFocusPrint.aspx">
+      </TreeNode>
+    </TreeNode>
+
+    <TreeNode Text="财务管理" SingleClickExpand="true">
+      <TreeNode Text="现金接收" NavigateUrl="admin/bill/BillCashReceive.aspx" >
+      </TreeNode>
+      <TreeNode Text="团检预出账" NavigateUrl="admin/bill/BillPrepareOut.aspx" >
+      </TreeNode>
+      <TreeNode Text="团检已出账" NavigateUrl="admin/bill/BillOut.aspx" >
+      </TreeNode>
+      <TreeNode Text="团检已接收" NavigateUrl="admin/bill/BillReceive.aspx" >
+      </TreeNode>
+      <TreeNode Text="产品类体检财务结算" NavigateUrl="admin/bill/BillProduct.aspx" >
+      </TreeNode>
+      <TreeNode Text="体检统计" NavigateUrl="admin/bill/FrmStat.aspx" >
+      </TreeNode>
+    </TreeNode>
+
+    <TreeNode Text="异常处理中心" SingleClickExpand="true">
+      <TreeNode Text="异常订单处理" NavigateUrl="admin/exceptional/Frmexceptional.aspx">
+      </TreeNode>
+      <TreeNode Text="LIS退单取消审核管理" NavigateUrl="admin/exceptional/FrmLisExceptional.aspx">
+      </TreeNode>
+      <TreeNode Text="PDF上传社区" NavigateUrl="admin/proceed/ProUploadPdfToSheQu.aspx">
+      </TreeNode>
+      <TreeNode Text="体检信息上传至LIS" NavigateUrl="admin/proceed/ProUploadToLIS.aspx">
+      </TreeNode>
+      <TreeNode Text="会员历史体检关联" NavigateUrl="admin/exceptional/FrmMemberPastOrders.aspx">
+      </TreeNode>
+    </TreeNode>
+
+    <TreeNode Text="查询统计" SingleClickExpand="true" >
+      <TreeNode Text="日志查询" NavigateUrl="admin/Log/LogInfo.aspx">
+      </TreeNode>
+      <TreeNode Text="TM交付管理信息报表" NavigateUrl="admin/Log/TMStat.aspx">
+      </TreeNode>
+    </TreeNode>
+    <TreeNode Text="常用菜单" SingleClickExpand="true" Expanded="true" Icon="Color">
+      <TreeNode Text="检查套餐维护" NavigateUrl="admin/dict/DictTestProduct.aspx" Icon="WrenchOrange">
+      </TreeNode>
+      <TreeNode Text="体检登记" NavigateUrl="admin/proceed/ProRegister.aspx" Icon="TagBlueAdd">
+      </TreeNode>
+      <TreeNode Text="新订单导入管理" NavigateUrl="admin/proceed/ProBulkImportManage.aspx" Icon="TagBlue">
+      </TreeNode>
+      <TreeNode Text="体检集中管理" NavigateUrl="admin/proceed/ProCentralizedManagement.aspx" Icon="TagBlue">
+      </TreeNode>
+      <TreeNode Text="采样确认" NavigateUrl="admin/proceed/ProCollectBloodVerify.aspx" Icon="TagGreen">
+      </TreeNode>
+      <TreeNode Text="外勤接收" NavigateUrl="admin/proceed/ProOutWorkerAccept.aspx" Icon="TagGreen">
+      </TreeNode>
+      <TreeNode Text="检查结果录入" NavigateUrl="admin/analyse/AnaResult.aspx" Icon="TagBlueEdit">
+      </TreeNode>
+      <TreeNode Text="总检" NavigateUrl="admin/analyse/AnaResultSum.aspx" Icon="FlagCh">
+      </TreeNode>
+      <TreeNode Text="集中打印报告" NavigateUrl="admin/analyse/AnaFocusPrint.aspx" Icon="Printer">
+      </TreeNode>
+        <!--<TreeNode Text="客户资料导出" NavigateUrl="admin/dict/DictCustomerInfoExport.aspx" Icon="PageExcel">
+        </TreeNode>
+        <TreeNode Text="易感基因订单导出" NavigateUrl="admin/proceed/ProSusManagement.aspx" Icon="PageExcel">
+        </TreeNode>-->
+    </TreeNode>
+</Tree>

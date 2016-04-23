@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" xmlns:tns="http://Routespecimen.commser.sea.red" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" targetNamespace="http://Routespecimen.commser.sea.red" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://Routespecimen.commser.sea.red">
+      <xsd:element name="routeSpecimen">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="in0" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="in1" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="in2" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="in3" nillable="true" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="in4" nillable="true" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="routeSpecimenResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="out" nillable="true" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="routeSpecimenRequest">
+    <wsdl:part name="parameters" element="tns:routeSpecimen" />
+  </wsdl:message>
+  <wsdl:message name="routeSpecimenResponse">
+    <wsdl:part name="parameters" element="tns:routeSpecimenResponse" />
+  </wsdl:message>
+  <wsdl:portType name="RouteSpecimenServicePortType">
+    <wsdl:operation name="routeSpecimen">
+      <wsdl:input name="routeSpecimenRequest" message="tns:routeSpecimenRequest" />
+      <wsdl:output name="routeSpecimenResponse" message="tns:routeSpecimenResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RouteSpecimenServiceHttpBinding" type="tns:RouteSpecimenServicePortType">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="routeSpecimen">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="routeSpecimenRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="routeSpecimenResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RouteSpecimenService">
+    <wsdl:port name="RouteSpecimenServiceHttpPort" binding="tns:RouteSpecimenServiceHttpBinding">
+      <wsdlsoap:address location="http://183.63.99.82:9999/Yunk/services/RouteSpecimenService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

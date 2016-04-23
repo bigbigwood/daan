@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+<alias>
+	<typeAlias alias="Dicthealthrecords"  type="daan.domain.Dicthealthrecords,daan.domain" />
+</alias>
+<resultMaps>
+		<resultMap id="DicthealthrecordsResult" class="daan.domain.Dicthealthrecords">
+      <result property="Dicthealthrecordsid" column="DICTHEALTHRECORDSID" type="single" dbType="Real"/>
+      <result property="Dictmemberid" column="DICTMEMBERID" type="single" dbType="Real"/>
+      <result property="Dictrecordtype" column="DICTRECORDTYPE" type="single" dbType="Real"/>
+      <result property="Dictrecordtext" column="DICTRECORDTEXT" type="string" dbType="varchar"/>
+    </resultMap>
+</resultMaps>
+<statements>
+	<select id="Dict.SelectDicthealthrecords" parameterClass="string">  SELECT DICTHEALTHRECORDSID AS Dicthealthrecordsid,DICTMEMBERID AS Dictmemberid,  DICTRECORDTYPE AS Dictrecordtype,DICTRECORDTEXT AS Dictrecordtext  ,b.basicname DictrecordtypeText  FROM DICTHEALTHRECORDS a  join initbasic b on (a.dictrecordtype=b.basicvalue and b.basictype='HEALTHRECORDTYPE')  <dynamic prepend="WHERE"><isParameterPresent>  DICTMEMBERID = #value#</isParameterPresent></dynamic>  order by a.dicthealthrecordsid</select><insert id="Dict.InsertDicthealthrecords" parameterClass="Dicthealthrecords">	INSERT INTO DICTHEALTHRECORDS (DICTHEALTHRECORDSID,DICTMEMBERID,DICTRECORDTYPE,DICTRECORDTEXT) 	VALUES(#Dicthealthrecordsid#,#Dictmemberid#,#Dictrecordtype#,#Dictrecordtext#)</insert><update id="Dict.UpdateDicthealthrecords" parameterClass="Dicthealthrecords">UPDATE DICTHEALTHRECORDS  SET DICTMEMBERID=#Dictmemberid#,DICTRECORDTYPE=#Dictrecordtype#,DICTRECORDTEXT=#Dictrecordtext#WHERE DICTHEALTHRECORDSID = #Dicthealthrecordsid#</update><delete id="Dict.DeleteDicthealthrecords" parameterClass="string">DELETE FROM DICTHEALTHRECORDSWHERE DICTHEALTHRECORDSID = #value#</delete>
+</statements>
+</sqlMap>

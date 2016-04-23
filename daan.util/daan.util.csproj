@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{125C1986-151A-469E-A85C-D266965B1F6E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>daan.util</RootNamespace>
+    <AssemblyName>daan.util</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\EXTERNAL-BIN\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\CmdUtil.cs" />
+    <Compile Include="Common\CNDate.cs" />
+    <Compile Include="Common\DateUtil.cs" />
+    <Compile Include="Common\FileUtil.cs" />
+    <Compile Include="Common\GeneralHelper.cs" />
+    <Compile Include="Common\GetSafeData.cs" />
+    <Compile Include="Common\HtmlInputFileControl.cs" />
+    <Compile Include="Common\ImageUtil.cs" />
+    <Compile Include="Common\Licence.cs" />
+    <Compile Include="Common\ListBuilder.cs" />
+    <Compile Include="Common\PageListUtil.cs" />
+    <Compile Include="Common\ReflectHelper.cs" />
+    <Compile Include="Common\Request.cs" />
+    <Compile Include="Common\ScriptHelper.cs" />
+    <Compile Include="Common\SerializeHelper.cs" />
+    <Compile Include="Common\SessionAdapter.cs" />
+    <Compile Include="Common\SmtpMail.cs" />
+    <Compile Include="Common\StringUtil.cs" />
+    <Compile Include="Common\TypeParse.cs" />
+    <Compile Include="Common\User.cs" />
+    <Compile Include="Common\ValidateImage.cs" />
+    <Compile Include="Common\ValidateUtils.cs" />
+    <Compile Include="Common\XMLHelper.cs" />
+    <Compile Include="Data\JetAccess.cs" />
+    <Compile Include="Data\OleDbHelper.cs" />
+    <Compile Include="Data\SqlHelper.cs" />
+    <Compile Include="Data\SqlHelper备用.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\CheckCard.cs" />
+    <Compile Include="Web\CommonFuncLibClient.cs" />
+    <Compile Include="Web\GZipHandler.cs" />
+    <Compile Include="Web\HtmlUtils.cs" />
+    <Compile Include="Web\JavaScriptMinifier.cs" />
+    <Compile Include="Web\JScript.cs" />
+    <Compile Include="Web\MySort.cs" />
+    <Compile Include="Web\PageUtil.cs" />
+    <Compile Include="Web\UBB.cs" />
+    <Compile Include="Web\WebUI.cs" />
+    <Compile Include="Web\WebUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="公共类库.doc" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSXML2">
+      <Guid>{F5078F18-C551-11D3-89B9-0000F81FE221}</Guid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

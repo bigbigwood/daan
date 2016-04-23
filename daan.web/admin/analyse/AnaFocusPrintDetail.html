@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>打印报告单</title>
+    <style type="text/css">
+        .star
+        {
+            padding-left: 42px;
+            padding-bottom: 5px;
+        }
+        .bot
+        {
+            padding-left: 84px;
+            padding-bottom: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        function Print() {
+            document.getElementById('divnoPrint').style.display = "none";
+            window.print();
+            document.getElementById('divnoPrint').style.display = "";
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="width: 910px;">
+        <div id="divLogo" style="float: left; padding-left: 15px">
+            <img src="/images/LOGOByJianCe.jpg" style="width: 102px; height: 145px;" alt="LOGO" />
+        </div>
+        <div id="MianTitle">
+            <div style="padding-top: 50px; font-size: 38px;">
+                <div style="text-align: center;">
+                    <b>广州达安临床检验中心</b></div>
+                <div style="text-align: center;">
+                    <b>标本迟发通知</b></div>
+            </div>
+        </div>
+        <br />
+        <div style="padding-left: 25px; padding-top: 10px; font-size: 20px;">
+            <div>
+                尊敬的“”：</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 贵司 2015-08-17 日所送患者 辛俊杰 条码号为：380021898000
+            的标本的下列项目因以下原因迟发。
+            <div class="bot">
+                项目：套餐名称
+            </div>
+            <div class="bot">
+                原因：建议抓取康源系统吃法的原因，如结果可疑待复查。
+            </div>
+            <br />
+            <div class="star">
+                预计发单日期：2015-08-20
+            </div>
+            <div class="star">
+                不便之处，敬请谅解。
+            </div>
+        </div>
+        <div style="padding-left: 625px; padding-top: 30px; font-size: 20px;">
+            广州达安临床检验中心
+            <br />
+            电话：400-830-3620
+            <br />
+            日期：<label>2015-08-18</label>
+        </div>
+        <div id="divnoPrint" style="text-align: center; padding-top: 20px;">
+            <input type="button" id="btnPrint" value="打   印" onclick="javascript:Print()" style="height: 25px;" />
+        </div>
+    </div>
+    </form>
+</body>
+</html>
+

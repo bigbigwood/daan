@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Billtrace"  type="daan.domain.Billtrace,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="BilltraceResult" class="daan.domain.Billtrace">
+      <result property="Billtraceid" column="BILLTRACEID" type="single" dbType="Real"/>
+      <result property="Billheadid" column="BILLHEADID" type="single" dbType="Real"/>
+      <result property="Barcode" column="BARCODE" type="string" dbType="varchar"/>
+      <result property="Dicttestitem" column="DICTTESTITEM" type="single" dbType="Real"/>
+      <result property="Originalprice" column="ORIGINALPRICE" type="single" dbType="Real"/>
+      <result property="Finalprice" column="FINALPRICE" type="single" dbType="Real"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+      <result property="Operateby" column="OPERATEBY" type="single" dbType="Real"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectBilltrace" parameterClass="string" resultMap="BilltraceResult">
+      SELECT BILLTRACEID AS Billtraceid,BILLHEADID AS Billheadid,BARCODE AS Barcode,DICTTESTITEM AS Dicttestitem,ORIGINALPRICE AS Originalprice,FINALPRICE AS Finalprice,REMARK AS Remark,OPERATEBY AS Operateby,CREATEDATE AS Createdate
+      FROM BILLTRACE
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          BILLTRACEID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="InsertBilltrace" parameterClass="Billtrace">
+      INSERT INTO BILLTRACE
+      (BILLTRACEID,BILLHEADID,BARCODE,DICTTESTITEM,ORIGINALPRICE,FINALPRICE,REMARK,OPERATEBY,CREATEDATE)
+      VALUES(#Billtraceid#,#Billheadid#,#Barcode#,#Dicttestitem#,#Originalprice#,#Finalprice#,#Remark#,#Operateby#,#Createdate:DateTime:1/1/0001 12:00:00 AM#)
+    </insert>
+    <update id="UpdateBilltrace" parameterClass="Billtrace">
+      UPDATE BILLTRACE
+      SET BILLTRACEID=#Billtraceid#,BILLHEADID=#Billheadid#,BARCODE=#Barcode#,DICTTESTITEM=#Dicttestitem#,ORIGINALPRICE=#Originalprice#,FINALPRICE=#Finalprice#,REMARK=#Remark#,OPERATEBY=#Operateby#,CREATEDATE=#Createdate#
+      WHERE BILLTRACEID = #Billtraceid#
+    </update>
+    <delete id="DeleteBilltrace" parameterClass="string">
+      DELETE FROM BILLTRACE
+      WHERE BILLTRACEID = #value#
+    </delete>
+  </statements>
+</sqlMap>

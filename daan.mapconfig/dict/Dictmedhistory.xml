@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictmedhistory" type="daan.domain.Dictmedhistory,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictmedhistoryResult" class="daan.domain.Dictmedhistory">
+      <result property="Dictmedhistoryid" column="DICTMEDHISTORYID" />
+      <result property="Dictmemberid" column="DICTMEMBERID"/>
+      <result property="Diseasename" column="DISEASENAME"/>
+      <result property="Diseasedate" column="DISEASEDATE" />
+      <result property="Istreat" column="ISTREAT" />
+      <result property="Istakemedicine" column="ISTAKEMEDICINE" />
+      <result property="Medname" column="MEDNAME" />
+      <result property="Createdate" column="CREATEDATE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictmedhistory" parameterClass="string" resultMap="DictmedhistoryResult">
+      SELECT DICTMEDHISTORYID AS Dictmedhistoryid,DICTMEMBERID AS Dictmemberid,DISEASENAME AS Diseasename,DISEASEDATE AS Diseasedate,decode(ISTREAT,'1','是','否') AS Istreat,decode(ISTAKEMEDICINE,'1','是','否') AS Istakemedicine,MEDNAME AS Medname,CREATEDATE AS Createdate
+      FROM DICTMEDHISTORY
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTMEMBERID = #value#
+        </isParameterPresent>
+      </dynamic>
+      ORDER BY DICTMEDHISTORYID desc
+    </select>
+    <insert id="Dict.InsertDictmedhistory" parameterClass="Dictmedhistory">
+      INSERT INTO DICTMEDHISTORY
+      (DICTMEDHISTORYID,DICTMEMBERID,DISEASENAME,DISEASEDATE,ISTREAT,ISTAKEMEDICINE,MEDNAME)
+      VALUES(#Dictmedhistoryid#,#Dictmemberid#,#Diseasename#,#Diseasedate#,#Istreat#,#Istakemedicine#,#Medname#)
+    </insert>
+    <update id="UpdateDictmedhistory" parameterClass="Dictmedhistory">
+      UPDATE DICTMEDHISTORY
+      SET DICTMEDHISTORYID=#Dictmedhistoryid#,DICTMEMBERID=#Dictmemberid#,DISEASENAME=#Diseasename#,DISEASEDATE=#Diseasedate#,ISTREAT=#Istreat#,ISTAKEMEDICINE=#Istakemedicine#,MEDNAME=#Medname#,CREATEDATE=#Createdate#
+      WHERE DICTMEDHISTORYID = #Dictmedhistoryid#
+    </update>
+    <delete id="Dict.DeleteDictmedhistory" parameterClass="string">
+      DELETE FROM DICTMEDHISTORY
+      WHERE DICTMEDHISTORYID = #value#
+    </delete>
+  </statements>
+</sqlMap>

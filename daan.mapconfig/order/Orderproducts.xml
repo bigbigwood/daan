@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderproducts" type="daan.domain.Orderproducts,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderproductsResult" class="daan.domain.Orderproducts">
+      <result property="Orderproductsid" column="ORDERPRODUCTSID" type="single" dbType="Real"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID" type="single" dbType="Real"/>
+      <result property="Engname" column="ENGNAME" type="string" dbType="varchar"/>
+      <result property="Testcode" column="TESTCODE" type="string" dbType="varchar"/>
+      <result property="Testname" column="TESTNAME" type="string" dbType="varchar"/>
+      <result property="Standardprice" column="STANDARDPRICE" type="single" dbType="Real"/>
+      <result property="Groupprice" column="GROUPPRICE" type="single" dbType="Real"/>
+      <result property="Finalprice" column="FINALPRICE" type="single" dbType="Real"/>
+      <result property="Contractprice" column="CONTRACTPRICE" type="single" dbType="Real"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Displayorder" column="DISPLAYORDER" type="single" dbType="Real"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectOrderproducts" parameterClass="string" resultClass="Orderproducts">
+      SELECT ORDERPRODUCTSID AS Orderproductsid,ORDERNUM AS Ordernum,DICTTESTITEMID AS Dicttestitemid,ENGNAME AS Engname,TESTCODE AS Testcode,TESTNAME AS Testname,STANDARDPRICE AS Standardprice,GROUPPRICE AS Groupprice,FINALPRICE AS Finalprice,CONTRACTPRICE AS Contractprice,CREATEDATE AS Createdate,DISPLAYORDER AS Displayorder
+      FROM ORDERPRODUCTS
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERPRODUCTSID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="Order.InsertOrderproducts" parameterClass="Orderproducts">
+      INSERT INTO ORDERPRODUCTS
+      (ORDERPRODUCTSID,ORDERNUM,DICTTESTITEMID,ENGNAME,TESTCODE,TESTNAME,STANDARDPRICE,GROUPPRICE,FINALPRICE,CONTRACTPRICE,DISPLAYORDER)
+      VALUES(#Orderproductsid#,#Ordernum#,#Dicttestitemid#,#Engname#,#Testcode#,#Testname#,#Standardprice#,#Groupprice#,#Finalprice#,#Contractprice#,#Displayorder#)
+    </insert>
+    <update id="UpdateOrderproducts" parameterClass="Orderproducts">
+      UPDATE ORDERPRODUCTS
+      SET ORDERPRODUCTSID=#Orderproductsid#,ORDERNUM=#Ordernum#,DICTTESTITEMID=#Dicttestitemid#,ENGNAME=#Engname#,TESTCODE=#Testcode#,TESTNAME=#Testname#,STANDARDPRICE=#Standardprice#,GROUPPRICE=#Groupprice#,FINALPRICE=#Finalprice#,CONTRACTPRICE=#Contractprice#,DISPLAYORDER=#Displayorder#
+      WHERE ORDERPRODUCTSID = #Orderproductsid#
+    </update>
+    <delete id="Order.DeleteOrderproductsByOrderNum" parameterClass="string">
+      DELETE FROM ORDERPRODUCTS
+      WHERE ORDERNUM = #value#
+    </delete>
+  </statements>
+</sqlMap>

@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7531988F-0B0C-4DD7-A9E5-6672E1659877}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>daan.ui.main</RootNamespace>
+    <AssemblyName>daan.ui.main</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>E:\接口发布\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://localhost:5930/Main.cs/</InstallUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>9776F596745C20D85E596410DB17F9F05ABFD180</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>daan.ui.main_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FastReport, Version=1.7.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EXTERNAL-BIN\FastReport.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\EXTERNAL-BIN\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EXTERNAL-BIN\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=1.2.4.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EXTERNAL-BIN\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Comm\DataToXml.cs" />
+    <Compile Include="Exit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Exit.Designer.cs">
+      <DependentUpon>Exit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAutoChuBu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAutoChuBu.Designer.cs">
+      <DependentUpon>FrmAutoChuBu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmException.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmException.Designer.cs">
+      <DependentUpon>FrmException.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmJsonFilesWatcher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmJsonFilesWatcher.Designer.cs">
+      <DependentUpon>FrmJsonFilesWatcher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSendOrdersToLis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSendOrdersToLis.Designer.cs">
+      <DependentUpon>FrmSendOrdersToLis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTestitems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTestitems.Designer.cs">
+      <DependentUpon>FrmTestitems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTMStat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTMStat.Designer.cs">
+      <DependentUpon>FrmTMStat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmUploadFileDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUploadFileDetail.Designer.cs">
+      <DependentUpon>FrmUploadFileDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmUploadShequ88.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUploadShequ88.Designer.cs">
+      <DependentUpon>FrmUploadShequ88.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\SendOrdersToLis\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="FrmXiaoJie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmXiaoJie.Designer.cs">
+      <DependentUpon>FrmXiaoJie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ServiceToAPP\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\ServiceByKangSource\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <None Include="Service References\ServiceToAPP\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceToAPP\configuration.svcinfo" />
+    <None Include="Service References\ServiceToAPP\configuration91.svcinfo" />
+    <EmbeddedResource Include="FrmAutoChuBu.resx">
+      <DependentUpon>FrmAutoChuBu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmJsonFilesWatcher.resx">
+      <DependentUpon>FrmJsonFilesWatcher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTestitems.resx">
+      <DependentUpon>FrmTestitems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTMStat.resx">
+      <DependentUpon>FrmTMStat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUploadFileDetail.resx">
+      <DependentUpon>FrmUploadFileDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmXiaoJie.resx">
+      <DependentUpon>FrmXiaoJie.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Service References\SendOrdersToLis\CenterService1.disco" />
+    <None Include="Service References\SendOrdersToLis\CenterService1.wsdl" />
+    <None Include="Service References\ServiceReference\PhysicalExaminationService1.disco" />
+    <None Include="Service References\ServiceReference\daan.ui.main.ServiceReference.InvokeResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\PhysicalExaminationService.disco" />
+    <None Include="Service References\SendOrdersToLis\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\SendOrdersToLis\configuration.svcinfo" />
+    <None Include="Service References\SendOrdersToLis\configuration91.svcinfo" />
+    <EmbeddedResource Include="Exit.resx">
+      <DependentUpon>Exit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmException.resx">
+      <DependentUpon>FrmException.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSendOrdersToLis.resx">
+      <DependentUpon>FrmSendOrdersToLis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUploadShequ88.resx">
+      <DependentUpon>FrmUploadShequ88.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Icon\267.ico" />
+    <Content Include="Icon\logo.ico" />
+    <Content Include="prop.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="daan.sqlserver.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Content Include="providers.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Service References\ServiceToAPP\RouteSpecimenService.wsdl" />
+    <None Include="Web References\ServiceByKangSource\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ServiceByKangSource\TestItemUniquecodeCompareService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SendOrdersToLis\" />
+    <WCFMetadataStorage Include="Service References\ServiceReference\" />
+    <WCFMetadataStorage Include="Service References\ServiceToAPP\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference\PhysicalExaminationService.wsdl" />
+    <None Include="Service References\ServiceReference\PhysicalExaminationService1.wsdl" />
+    <None Include="Service References\ServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\daan.domain\daan.domain.csproj">
+      <Project>{78EF06FB-5568-4DC8-986E-59B6C5685072}</Project>
+      <Name>daan.domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daan.mapconfig\daan.mapconfig.csproj">
+      <Project>{868796C3-AAFB-4184-9B27-B017BFAD5ED2}</Project>
+      <Name>daan.mapconfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daan.service.common\daan.service.common.csproj">
+      <Project>{F3D7D9F8-C395-41AB-AD66-78322D25F154}</Project>
+      <Name>daan.service.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daan.service\daan.service.csproj">
+      <Project>{FD4D6980-4244-4A9D-ABB8-50E1E9D35EE5}</Project>
+      <Name>daan.service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daan.util\daan.util.csproj">
+      <Project>{125C1986-151A-469E-A85C-D266965B1F6E}</Project>
+      <Name>daan.util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daan.web\daan.web.csproj">
+      <Project>{50BC9FAB-597F-48BB-A525-A496A9B78861}</Project>
+      <Name>daan.web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://192.168.2.66:8080/NIP/webservice/testItemUniquecodeCompareService%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ServiceByKangSource\</RelPath>
+      <UpdateFromURL>http://192.168.2.66:8080/NIP/webservice/testItemUniquecodeCompareService%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>daan_ui_main_ServiceByKangSource_TestItemUniquecodeCompareService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

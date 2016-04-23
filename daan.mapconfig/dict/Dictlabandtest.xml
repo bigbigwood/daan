@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictlabandtest" assembly="daan.domain" type="daan.domain.Dictlabandtest" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictlabandtestResult" class="Dictlabandtest">
+      <result property="Dictlabandtestid" column="DICTLABANDTESTID"/>
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Isactive" column="ISACTIVE"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Issendouttest" column="ISSENDOUTTEST"/>
+    </resultMap>
+
+    <resultMap id="DictlabandtestResultTo" class="Dictlabandtest">
+      <result property="Dictlabandtestid" column="DICTLABANDTESTID"/>
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>  
+      <result property="Testname" column="TESTNAME"/>
+      <result property="Labname" column="LABNAME" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Issendouttest" column="ISSENDOUTTEST"/>
+      <result property="Isactive" column="ISACTIVE"/>
+      <result property="Uniqueid" column="UNIQUEID"/>
+      <result property="Testtype" column="TESTTYPE"/>
+    
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+   <!--查询全部-->
+    <select id="Dict.SelectDictlabandtest" parameterClass="string" resultMap="DictlabandtestResult">
+      SELECT DICTLABANDTESTID AS Dictlabandtestid,DICTLABID AS Dictlabid,DICTTESTITEMID AS Dicttestitemid,ISACTIVE AS Isactive,CREATEDATE AS Createdate,ISSENDOUTTEST AS Issendouttest
+      FROM DICTLABANDTEST 
+    </select>
+    <!--根据ID查询单条信息-->
+    <select id="Dict.SelectDictlabandtestById" parameterClass="string" resultMap="DictlabandtestResult">
+      SELECT DICTLABANDTESTID AS Dictlabandtestid,DICTLABID AS Dictlabid,DICTTESTITEMID AS Dicttestitemid,ISACTIVE AS Isactive,CREATEDATE AS Createdate,ISSENDOUTTEST AS Issendouttest
+      FROM DICTLABANDTEST where Dictlabandtestid = '$Dictlabandtestid$'
+    </select>
+
+    <!--根据分点ID获取所有可用的检测项-->
+    <select id="Dict.SelectDictlabandtestByDictlabId" parameterClass="Hashtable"   resultMap="DictlabandtestResultTo">
+      SELECT Dictlabandtestid,Dictlabid,Dicttestitemid,Isactive,Createdate,Issendouttest,Testname,Labname,Uniqueid,Testtype  FROM
+      (SELECT a.Dictlabandtestid,a.Dictlabid,a.Dicttestitemid,a.Isactive,a.Createdate,a.Issendouttest, b.Labname , c.testname, c.Uniqueid,c.Testtype   FROM Dictlabandtest a inner join  Dictlab b on  a.Dictlabid = b.Dictlabid inner join  Dicttestitem c on a.Dicttestitemid = c.Dicttestitemid) where 1=1 and Isactive = 1
+      <isNotEmpty prepend="and" property="dictlabId">
+        Dictlabid like '%$dictlabId$%'
+      </isNotEmpty>
+    </select>
+    
+    <!--分页查询-->
+    <select id="Dict.GetDictlabandtestPageLst" parameterClass="Dictlabandtest" resultMap="DictlabandtestResultTo">
+      SELECT Dictlabandtestid,Dictlabid,Dicttestitemid,Isactive,Createdate,Issendouttest,Testname,Labname,Uniqueid,Testtype FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT a.Dictlabandtestid,a.Dictlabid,a.Dicttestitemid,a.Isactive,a.Createdate,a.Issendouttest, b.Labname , c.testname, c.Uniqueid,c.Testtype   FROM Dictlabandtest a inner join  Dictlab b on  a.Dictlabid = b.Dictlabid inner join  Dicttestitem c on a.Dicttestitemid = c.Dicttestitemid where 1=1
+      and a.Dictlabid = '$DictlabId$' and (c.testname like '%$strKey$%' or c.Uniqueid like '%$strKey$%') and  a.Isactive = '$IsActive$'
+      order by a.Dictlabandtestid desc ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--根据分点ID查询测试项目-->
+    <select id="Dict.GetDictlabandtestByDictlabId" parameterClass="Dictlabandtest" resultMap="DictlabandtestResultTo">
+      SELECT a.Dictlabandtestid ,a.Dictlabid,a.Dicttestitemid, b.Labname  , c.testname ,c.Uniqueid,c.Testtype  ,a.Isactive,a.Createdate,a.Issendouttest   FROM Dictlabandtest a inner join  Dictlab b on  a.Dictlabid = b.Dictlabid inner join  Dicttestitem c on a.Dicttestitemid = c.Dicttestitemid where 1=1
+      and a.Dictlabid = '$DictlabId$'
+      <isNotEmpty prepend="and" property="strKey">
+      c.testname like '%$strKey$%'
+    </isNotEmpty>
+      <isNotEmpty prepend="and" property="IsActive">
+        a.Isactive = '$IsActive$'
+      </isNotEmpty>
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictlabandtestPageLstCount" parameterClass="Hashtable"   >
+      select Count(*) FROM Dictlabandtest a inner join  Dictlab b on  a.Dictlabid = b.Dictlabid  inner join  Dicttestitem c on a.Dicttestitemid = c.Dicttestitemid where a.Dictlabid = '$DictlabId$'
+      <isNotEmpty prepend="and" property="strKey">
+        (c.testname like '%$strKey$%' or c.Uniqueid like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="IsActive">
+        a.Isactive = '$IsActive$'
+      </isNotEmpty>
+    </select>
+    <!--获取分点未选择的检测项-->
+    <select id="Dict.GetDicttestitemNotDictlabandtest" parameterClass="Hashtable"   >
+      select * from  dicttestitem a where a.dicttestitemid not in( select t.dicttestitemid  from dictlabandtest t where 1=1 
+    <isNotEmpty prepend="and" property="strKey">
+      t.dictlabid = '$strKey$')
+    </isNotEmpty>
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictlabandtestPageLstCountBywhere" parameterClass="Hashtable"   >
+      SELECT Count(1)  FROM Dictlabandtest a inner join  Dictlab b on  a.Dictlabid = b.Dictlabid  where a.Dictlabid = '$Dictlabid$' and  a.Dicttestitemid =  '$Dicttestitemid$' and  a.Dictlabandtestid != '$Dictlabandtestid$'
+    </select>
+    
+    <!--根据分点和项目查找是否外包-->
+    <!--<select id="Dict.SelectDictlabandtest" parameterClass="Hashtable" resultMap="DictlabandtestResult">
+      SELECT DICTLABANDTESTID AS Dictlabandtestid,DICTLABID AS Dictlabid,DICTTESTITEMID AS Dicttestitemid,ISACTIVE AS Isactive,CREATEDATE AS Createdate,ISSENDOUTTEST AS Issendouttest
+      FROM DICTLABANDTEST where DICTLABID=#Dictlabid# and DICTTESTITEMID=#Dicttestitemid#
+    </select>-->
+    
+    <!--批量插入分点测试项-->
+    <!--insert into dictlabandtest(dictlabid,dicttestitemid,isactive,createdate,issendouttest,dictlabandtestid)
+    select 42,dicttestitemid,'1',sysdate,'1', seq_dictlabandtest.nextval from dicttestitem a where a.dicttestitemid not in
+    (select t.dicttestitemid  from dictlabandtest t where 1=1 and  t.dictlabid = '42')-->
+    <insert id="Dict.batchInsertDictlabandtest" parameterClass="Hashtable">
+      insert into dictlabandtest(dictlabid,dicttestitemid,isactive,createdate,issendouttest,dictlabandtestid)
+      select #Dictlabid#,dicttestitemid,active,sysdate,'0', seq_dictlabandtest.nextval from dicttestitem a where a.testtype <![CDATA[  <]]> 3  and a.dicttestitemid not in
+      (select t.dicttestitemid  from dictlabandtest t where 1=1 and  t.dictlabid = #Dictlabid#)
+      <!--<selectKey resultClass="int" type="pre" >
+        select seq_dictlabandtest.nextval as id from dictlabandtest
+      </selectKey>-->
+    </insert>
+    <!--新增-->
+    <insert id="Dict.InsertDictlabandtest" parameterClass="Dictlabandtest">
+      INSERT INTO DICTLABANDTEST
+      (DICTLABANDTESTID,DICTLABID,DICTTESTITEMID,ISACTIVE,CREATEDATE,ISSENDOUTTEST)
+      VALUES(#Dictlabandtestid#,#Dictlabid#,#Dicttestitemid#,#Isactive#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Issendouttest#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictlabandtest" parameterClass="Dictlabandtest">
+      UPDATE DICTLABANDTEST
+      SET DICTLABID=#Dictlabid#,DICTTESTITEMID=#Dicttestitemid#,ISACTIVE=#Isactive#,CREATEDATE=#Createdate#,ISSENDOUTTEST=#Issendouttest#
+      WHERE Dictlabandtestid = $Dictlabandtestid$
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictlabandtest" parameterClass="string">
+      DELETE FROM DICTLABANDTEST
+      WHERE Dictlabandtestid in($value$)
+    </delete>
+  </statements>
+</sqlMap>

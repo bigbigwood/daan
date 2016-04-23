@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.shequ88.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.shequ88.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.shequ88.com/">
+      <s:element name="EditPhysicalExamination">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="invoker" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="data" type="tns:PEEntity" />
+            <s:element minOccurs="0" maxOccurs="1" name="authentic" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PEEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="Age" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="BarCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LDoctor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LOrganization" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ltime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Reports" type="tns:ArrayOfPEReportEntity" />
+          <s:element minOccurs="0" maxOccurs="1" name="STime" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ExtensionDataObject" />
+      <s:complexType name="ArrayOfPEReportEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PEReportEntity" nillable="true" type="tns:PEReportEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PEReportEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="ATime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Auditor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Files" type="tns:ArrayOfFileEntity" />
+          <s:element minOccurs="0" maxOccurs="1" name="ITime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Inspector" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Items" type="tns:ArrayOfPEItemEntity" />
+          <s:element minOccurs="0" maxOccurs="1" name="LRoom" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Opinion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Proposal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="STime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sstate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Stype" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfFileEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FileEntity" nillable="true" type="tns:FileEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FileEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="Content" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Extension" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPEItemEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PEItemEntity" nillable="true" type="tns:PEItemEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PEItemEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="ICode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Manner" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remind" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="EditPhysicalExaminationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EditPhysicalExaminationResult" type="tns:InvokeResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="InvokeResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Succeed" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="MCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EditPhysicalExaminationSoapIn">
+    <wsdl:part name="parameters" element="tns:EditPhysicalExamination" />
+  </wsdl:message>
+  <wsdl:message name="EditPhysicalExaminationSoapOut">
+    <wsdl:part name="parameters" element="tns:EditPhysicalExaminationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PhysicalExaminationServiceSoap">
+    <wsdl:operation name="EditPhysicalExamination">
+      <wsdl:input message="tns:EditPhysicalExaminationSoapIn" />
+      <wsdl:output message="tns:EditPhysicalExaminationSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PhysicalExaminationServiceSoap" type="tns:PhysicalExaminationServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EditPhysicalExamination">
+      <soap:operation soapAction="http://www.shequ88.com/EditPhysicalExamination" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhysicalExaminationServiceSoap12" type="tns:PhysicalExaminationServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EditPhysicalExamination">
+      <soap12:operation soapAction="http://www.shequ88.com/EditPhysicalExamination" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PhysicalExaminationService">
+    <wsdl:port name="PhysicalExaminationServiceSoap" binding="tns:PhysicalExaminationServiceSoap">
+      <soap:address location="http://api.shequ88.com/PhysicalExaminationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhysicalExaminationServiceSoap12" binding="tns:PhysicalExaminationServiceSoap12">
+      <soap12:address location="http://api.shequ88.com/PhysicalExaminationService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

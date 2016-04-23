@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictmember" type="daan.domain.Dictmember,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictmemberResult" class="daan.domain.Dictmember">
+      <result property="Dictmemberid" column="DICTMEMBERID" />
+      <result property="Logintime" column="LOGINTIME"/>
+      <result property="Active" column="ACTIVE" />
+      <result property="Islock" column="ISLOCK"/>
+      <result property="Levelsid" column="LEVELSID" />
+      <result property="Consumer" column="CONSUMER" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Avatar" column="AVATAR" />
+      <result property="Email" column="EMAIL" />
+      <result property="Scores" column="SCORES" />
+      <result property="Loginname" column="LOGINNAME" />
+      <result property="Password" column="PASSWORD" />
+      <result property="Nickname" column="NICKNAME" />
+      <result property="Loginnum" column="LOGINNUM"/>
+      <result property="Loginip" column="LOGINIP"/>
+      <result property="Loginkey" column="LOGINKEY"/>
+      <result property="Url" column="URL" />
+      <result property="Qq" column="QQ" />
+      <result property="Msn" column="MSN" />
+      <result property="Phone" column="PHONE" />
+      <result property="Mobile" column="MOBILE"/>
+      <result property="Zpcode" column="ZPCODE" />
+      <result property="Addres" column="ADDRES" />
+      <result property="Idnumber" column="IDNUMBER" />
+      <result property="Birthday" column="BIRTHDAY" />
+      <result property="Sex" column="SEX"  />
+      <result property="Realname" column="REALNAME" />
+    </resultMap>
+
+    <resultMap id="DictmemberResultEx" extends="DictmemberResult" class="daan.domain.Dictmember">
+      <result property="Age" column="AGE" />
+      <result property="Ismarried" column="ISMARRIED" />
+      <result property="Caculatedage" column="CACULATEDAGE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取省份-->
+    <select id="Dict.Province">
+      select p.dictprovinceid,p.provincename from dictprovince p
+    </select>
+    <!--获取市-->
+    <select id="Dict.City" parameterClass="string">
+      select c.dictcityid,c.cityname,c.dictprovinceid from dictcity c 
+      where c.dictprovinceid=#value#
+    </select>
+    <!--获取县/区-->
+    <select id="Dict.County" parameterClass="string">
+      select c.dictcountyid,c.countyname,c.dictcityid from dictcounty c 
+      where c.dictcityid=#value#
+    </select>
+    
+    <!--销售人员导出其会员列表-->
+    <select id="Dict.SelectCustomerInfosExportList" parameterClass="Hashtable">
+      select * from(
+      select rownum as rn,t.* from(
+      select dm.realname as Realname,decode(dm.sex,'F','女','M','男') as Sex,
+      dm.birthday as Birthday,dm.mobile as Mobile,dm.idnumber as Idnumber,
+      dm.addres as Address from dictcustomer dc
+      inner join orders o on dc.dictcustomerid=o.dictcustomerid
+      inner join dictmember dm on o.dictmemberid=dm.dictmemberid
+      where dc.dictsalemanid=#dictsalemanid#
+      <isNotEqual  prepend="and" property="Dictcustomerid" compareValue="-1">
+        dc.dictcustomerid=#Dictcustomerid#
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="Realname">
+        dm.realname=#Realname#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Idnumber">
+        dm.idnumber=#Idnumber#
+      </isNotEmpty>
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <select id="Dict.SelectCustomerInfosExportCount" parameterClass="Hashtable">
+      select count(1) from dictcustomer dc
+      inner join orders o on dc.dictcustomerid=o.dictcustomerid
+      inner join dictmember dm on o.dictmemberid=dm.dictmemberid
+      where dc.dictsalemanid=#dictsalemanid#
+      <isNotEqual  prepend="and" property="Dictcustomerid" compareValue="-1">
+        dc.dictcustomerid=#Dictcustomerid#
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="Realname">
+        dm.realname=#Realname#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Idnumber">
+        dm.idnumber=#Idnumber#
+      </isNotEmpty>
+    </select>
+    
+    <select id="Dict.SelectDictmember" parameterClass="Dictmember" resultMap="DictmemberResult">
+      SELECT DICTMEMBERID AS Dictmemberid,LOGINTIME AS Logintime,ACTIVE AS Active,ISLOCK AS Islock,LEVELSID AS Levelsid,CONSUMER AS Consumer,CREATEDATE AS Createdate,AVATAR AS Avatar,EMAIL AS Email,SCORES AS Scores,nvl(LOGINNAME,'') AS Loginname,PASSWORD AS Password,nvl(NICKNAME,'') AS Nickname,LOGINNUM AS Loginnum,LOGINIP AS Loginip,LOGINKEY AS Loginkey,URL AS Url,QQ AS Qq,MSN AS Msn,PHONE AS Phone,MOBILE AS Mobile,ZPCODE AS Zpcode,ADDRES AS Addres,IDNUMBER AS Idnumber,BIRTHDAY AS Birthday,SEX AS Sex,nvl(REALNAME,'') AS Realname
+      FROM DICTMEMBER where 1=1
+      <isNotNull prepend="and" property="Dictmemberid"><!--根据ID查找记录-->
+        Dictmemberid=#Dictmemberid#
+      </isNotNull>
+      <isNotNull prepend="and" property="Realname"><!--查找是否存在此名称会员-->
+        (REALNAME like '%$Realname$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="Idnumber"><!--上传订单 判断是否存在此会员-->
+        REALNAME =#Realname# and IDNUMBER=#Idnumber#
+      </isNotNull>
+    </select>
+    <insert id="Dict.InsertDictmember" parameterClass="Dictmember">
+      INSERT INTO DICTMEMBER
+      (DICTMEMBERID,ACTIVE,ISLOCK,LEVELSID,CONSUMER,CREATEDATE,AVATAR,EMAIL,SCORES,LOGINNAME,PASSWORD,NICKNAME,LOGINNUM,LOGINIP,LOGINKEY,URL,QQ,MSN,PHONE,MOBILE,ZPCODE,ADDRES,IDNUMBER,BIRTHDAY,SEX,REALNAME)
+      VALUES(#Dictmemberid#,#Active#,#Islock#,#Levelsid#,#Consumer#,sysdate,#Avatar#,#Email#,#Scores#,#Loginname#,#Password#,#Nickname#,#Loginnum#,#Loginip#,#Loginkey#,#Url#,#Qq#,#Msn#,#Phone#,#Mobile#,#Zpcode#,#Addres#,#Idnumber#,#Birthday#,#Sex#,#Realname#)
+    </insert>
+    <update id="Dict.UpdateDictmember" parameterClass="Dictmember">
+      UPDATE DICTMEMBER
+      SET EMAIL=#Email#,PHONE=#Phone#,MOBILE=#Mobile#,ADDRES=#Addres#,IDNUMBER=#Idnumber#,BIRTHDAY=#Birthday#,SEX=#Sex#,REALNAME=#Realname#
+      <isNotNull prepend="," property="Active">
+        ACTIVE=#Active#,NICKNAME=#Nickname#,QQ=#Qq#,MSN=#Msn#,URL=#Url#,ISLOCK=#Islock#
+      </isNotNull>
+      WHERE DICTMEMBERID = #Dictmemberid#
+    </update>
+    <delete id="DeleteDictmember" parameterClass="string">
+      DELETE FROM DICTMEMBER
+      WHERE DICTMEMBERID = #value#
+    </delete>
+    
+    <!--根椐订单号查询病人基本信息-->
+    <select id="Dict.SelectDictmemberByOrderNum" parameterClass="string" resultMap="DictmemberResultEx">
+      SELECT m1.DICTMEMBERID AS Dictmemberid,
+      LOGINTIME AS Logintime,
+      ACTIVE AS Active,
+      ISLOCK AS Islock,
+      LEVELSID AS Levelsid,
+      CONSUMER AS Consumer,
+      m1.CREATEDATE AS Createdate,
+      AVATAR AS Avatar,
+      EMAIL AS Email,
+      SCORES AS Scores,
+      nvl(LOGINNAME, '') AS Loginname,
+      PASSWORD AS Password,
+      nvl(NICKNAME, '') AS Nickname,
+      LOGINNUM AS Loginnum,
+      LOGINIP AS Loginip,
+      LOGINKEY AS Loginkey,
+      URL AS Url,
+      QQ AS Qq,
+      MSN AS Msn,
+      PHONE AS Phone,
+      MOBILE AS Mobile,
+      ZPCODE AS Zpcode,
+      ADDRES AS Addres,
+      IDNUMBER AS Idnumber,
+      BIRTHDAY AS Birthday,
+      m1.SEX AS Sex,
+      nvl(m1.REALNAME, '') AS Realname,
+      t2.age as Age,
+      t2.ismarried as Ismarried,
+      t2.Caculatedage as Caculatedage
+      FROM DICTMEMBER m1,orders t2
+      where m1.dictmemberid=t2.dictmemberid and t2.ordernum=#value#
+    </select>
+  </statements>
+</sqlMap>

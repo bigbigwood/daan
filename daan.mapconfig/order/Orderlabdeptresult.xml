@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderlabdeptresult" type="daan.domain.Orderlabdeptresult,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderlabdeptresultResult" class="daan.domain.Orderlabdeptresult">
+      <result property="Ordertlabdeptresultid" column="ORDERTLABDEPTRESULTID"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Labdeptresult" column="LABDEPTRESULT" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Status" column="STATUS" type="string" dbType="varchar"/>
+      <result property="Appraiseby" column="APPRAISEBY"/>
+      <result property="Appraisedate" column="APPRAISEDATE" type="DateTime" dbType="DateTime"/>
+    </resultMap>
+    <!--带科室名称-->
+    <resultMap id="OrderlabdeptresultResult2" class="daan.domain.Orderlabdeptresult">
+      <result property="Ordertlabdeptresultid" column="ORDERTLABDEPTRESULTID"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Labdeptresult" column="LABDEPTRESULT" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Status" column="STATUS" type="string" dbType="varchar"/>
+      <result property="Appraiseby" column="APPRAISEBY"/>
+      <result property="Appraisedate" column="APPRAISEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Labdeptname" column="LABDEPTNAME" />
+    </resultMap>
+    
+  </resultMaps>
+  <statements>
+
+    <!--根据订单号和科室查找是否有小结记录-->
+    <select id="Order.SelectOrderlabdeptresultLstByOrderNum" parameterClass="Hashtable" resultMap="OrderlabdeptresultResult2">
+      select Count(*) from orderlabdeptresult t2 where t2.ordernum='$ordernum$' and t2.dictlabdeptid= '$dictlabdeptid$'
+    </select>
+    <!--查询操作用户所属科室结果小结-->
+    <select id="Order.SelectOrderlabdeptresultLst" parameterClass="Hashtable" resultMap="OrderlabdeptresultResult2">
+      SELECT a.ORDERTLABDEPTRESULTID AS Ordertlabdeptresultid,a.ORDERNUM AS Ordernum,a.DICTLABDEPTID AS Dictlabdeptid,a.LABDEPTRESULT AS Labdeptresult,a.CREATEDATE AS Createdate,a.STATUS AS Status,a.APPRAISEBY AS Appraiseby,a.appraisedate AS Appraisedate,b.LABDEPTNAME as Labdeptname
+      FROM ORDERLABDEPTRESULT a,dictlabdept b  where b.dictlabdeptid=a.dictlabdeptid and a.ORDERNUM =#OrderNum#
+      and a.dictlabdeptid in (select d1.dictlabdeptid from DICTUSERANDLABDEPT d1 where d1.dictuserid=#UserId#)
+    </select>
+    <!--总检查询，根据订单号查询科室小结--> 
+    <select id="Order.DataForOrderlabdept" parameterClass="string">
+      select a.ordertlabdeptresultid,b.labdeptname,a.labdeptresult,d.username,a.appraisedate
+      from orderlabdeptresult a,dictlabdept b, dictuser d
+      where b.dictlabdeptid=a.dictlabdeptid and d.dictuserid=a.appraiseby
+      and a.ordernum=#value#
+    </select>
+    
+    <!--社区网站数据上传 根据ordernum查询科室小结内容-->
+    <!--<select id="Order.SelectOrderlabdeptresultByordernum" parameterClass="Hashtable"  resultMap="OrderlabdeptresultResult" >
+      select b.LABDEPTRESULT from orderlabdeptresult b where b.ordernum = $value$
+    </select>-->
+    <select id="Order.GetOrderlabdeptresultByordernum" parameterClass="Hashtable">
+      select b.LABDEPTRESULT from orderlabdeptresult b where b.ordernum = $value$
+    </select>
+    <!--插入科室小结-->
+    <insert id="Order.InsertOrderlabdeptresult" parameterClass="Orderlabdeptresult">
+      INSERT INTO ORDERLABDEPTRESULT
+      (ORDERTLABDEPTRESULTID,ORDERNUM,DICTLABDEPTID,LABDEPTRESULT,CREATEDATE,STATUS,APPRAISEBY,APPRAISEDATE)
+      VALUES(#Ordertlabdeptresultid#,#Ordernum#,#Dictlabdeptid#,#Labdeptresult#,#Createdate#,#Status#,#Appraiseby#,#Appraisedate#)
+    </insert>
+    <!--编辑科室小结-->
+    <update id="Order.UpdateOrderlabdeptresult" parameterClass="Orderlabdeptresult">
+      UPDATE ORDERLABDEPTRESULT
+      SET LABDEPTRESULT=#Labdeptresult#,STATUS=#Status#,APPRAISEBY=#Appraiseby#,APPRAISEDATE=#Appraisedate#
+      WHERE ORDERTLABDEPTRESULTID = #Ordertlabdeptresultid#
+    </update>
+    <!--删除科室小结-->
+    <delete id="Order.DeleteOrderlabdeptresult" parameterClass="string">
+      DELETE FROM ORDERLABDEPTRESULT
+      WHERE ORDERTLABDEPTRESULTID = #value#
+    </delete>
+    <!--按体检号删除科室小结-->
+    <delete id="Order.DeleteOrderlabdeptresultByOrderNum" parameterClass="string">
+      DELETE FROM ORDERLABDEPTRESULT
+      WHERE ORDERNUM = #value#
+    </delete>
+
+    <!--更新结果状态15已审核10已小结-->
+    <update id="Order.UpdateOrderlabdeptresultState" parameterClass="Hashtable">
+      UPDATE ORDERLABDEPTRESULT t1
+      SET t1.STATUS=#Status#
+      WHERE t1.ordernum=#OrderNum# and t1.dictlabdeptid in (select d1.dictlabdeptid from DICTUSERANDLABDEPT d1 where d1.dictuserid=#UserId#)
+    </update>
+    <!--更新结果状态15已审核10已小结-->
+    <update id="Order.UpdateOrderlabdeptresultStateAuto" parameterClass="Hashtable">
+      UPDATE ORDERLABDEPTRESULT t1   SET t1.STATUS=#Status#  WHERE t1.ordernum=#OrderNum#
+    </update>
+    <!--查询指定流水号所有项目是否审核完毕，如果审核完成则更改orders表状态为待总检-->
+    <select id="Order.SelectIsAudioByOrderNum" parameterClass="Hashtable" >
+      select * from ORDERLABDEPTRESULT t1 where t1.ordernum=$OrderNum$ and t1.status=$Status$
+    </select>
+    <!--查询指定流水号所有项目是否是检验项目，配合自动数据接收-->
+    <select id="Order.IsAllJianYan" parameterClass="string" >
+      select count(1) as counts from ordertest o,dictlabdept t where o.ordernum=#value# and o.dictlabdeptid=t.dictlabdeptid and t.labdepttype!='2'      
+    </select>
+    <!--查询指定流水号所有项目是有检验项目，如果没有则在数据接收时更改orders表状态为已接收,配合自动数据接收-->
+    <select id="Order.IsHaveJianYan" parameterClass="string" >
+      select count(1) as counts from ordertest o,dictlabdept t where o.ordernum=#value# and o.dictlabdeptid=t.dictlabdeptid and t.labdepttype='2'
+    </select>
+    <!--查询指定流水号的科室是否审核通过，配合自动数据接收-->
+    <select id="Order.SelectOrderlabdeptresultHaveAudio" parameterClass="Hashtable">
+      select count(1) as counts from orderlabdeptresult t2 where t2.ordernum='$ordernum$' and t2.dictlabdeptid= '$dictlabdeptid$' and  t2.status='15'
+    </select>
+    <!--按ID更改科室小结状态-->
+    <update id="Order.UpdateOrderlabdeptresultStateById" parameterClass="Hashtable">
+      UPDATE ORDERLABDEPTRESULT SET STATUS=#Status#
+      WHERE ORDERTLABDEPTRESULTID = #Ordertlabdeptresultid#
+    </update>
+
+    <!--查询待自动小结记录-->
+    <select id="Order.FrmXiaoJie.select">
+      select o.ordernum,o.dictlabid,o.realname from orders o where o.status=12
+      order by o.createdate
+    </select>
+    
+    
+  </statements>
+</sqlMap>

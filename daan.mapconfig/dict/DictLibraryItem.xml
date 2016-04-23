@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictlibraryitem" type="daan.domain.Dictlibraryitem,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictlibraryitemResult" class="daan.domain.Dictlibraryitem">
+      <result property="Dictlibraryitemid" column="DICTLIBRARYITEMID"/>
+      <result property="Dictlibraryid" column="DICTLIBRARYID"/>
+      <result property="Wubicode" column="WUBICODE" type="string" dbType="varchar"/>
+      <result property="Pinyincode" column="PINYINCODE" type="string" dbType="varchar"/>
+      <result property="Fastcode" column="FASTCODE" type="string" dbType="varchar"/>
+      <result property="Itemname" column="ITEMNAME" type="string" dbType="varchar"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+      <result property="Isactive" column="ISACTIVE" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE"/>
+    </resultMap>
+
+    <resultMap id="libraryitemAndLibraryResult" class="daan.domain.Dictlibraryitem">
+      <result property="Dictlibraryitemid" column="DICTLIBRARYITEMID"/>
+      <result property="Dictlibraryid" column="DICTLIBRARYID"/>
+      <result property="Wubicode" column="WUBICODE" type="string" dbType="varchar"/>
+      <result property="Pinyincode" column="PINYINCODE" type="string" dbType="varchar"/>
+      <result property="Fastcode" column="FASTCODE" type="string" dbType="varchar"/>
+      <result property="Itemname" column="ITEMNAME" type="string" dbType="varchar"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+      <result property="Isactive" column="ISACTIVE" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Librarycode" column="LIBRARYCODE"/>
+      <result property="Libraryname" column="LIBRARYNAME"/>        
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--查询-->
+    <select id="Dict.SelectDictlibraryitemLst" parameterClass="Dictlibraryitem" resultMap="libraryitemAndLibraryResult">
+      SELECT d1.DICTLIBRARYITEMID AS Dictlibraryitemid,d1.DICTLIBRARYID AS Dictlibraryid,d1.WUBICODE AS Wubicode,d1.PINYINCODE AS Pinyincode,d1.FASTCODE AS Fastcode,d1.ITEMNAME AS Itemname,d1.DISPLAYORDER AS Displayorder,d1.REMARK AS Remark,d1.ISACTIVE AS Isactive,d1.CREATEDATE AS Createdate,d2.LIBRARYCODE as Librarycode,d2.LIBRARYNAME as Libraryname
+      FROM DICTLIBRARYITEM d1 inner join DICTLIBRARY d2 on d1.Dictlibraryid = d2.Dictlibraryid
+      where d1.isactive=1 
+      <isNotNull prepend="and" property="Dictlibraryitemid">
+        Dictlibraryitemid=#Dictlibraryitemid#
+      </isNotNull>
+      <isNotNull prepend="and" property="Dictlibraryid">
+	    d1.DICTLIBRARYID =#Dictlibraryid#
+	  </isNotNull>
+      <isNotNull prepend="and" property="Wubicode">
+        Wubicode=#Wubicode#
+      </isNotNull>
+      <isNotNull prepend="and" property="Pinyincode">
+        Pinyincode=#Pinyincode#
+      </isNotNull>
+      <isNotNull prepend="and" property="Fastcode">
+        Fastcode=#Fastcode#
+      </isNotNull>
+      <isNotNull prepend="and" property="Itemname">
+        Itemname=#Itemname#
+      </isNotNull>
+    </select>
+
+    <!--分页查询-->
+    <select id="Dict.GetDictLibraryItemPageLst" parameterClass="Dictlibraryitem" resultMap="libraryitemAndLibraryResult">
+      SELECT DICTLIBRARYITEMID AS Dictlibraryitemid,DICTLIBRARYID AS Dictlibraryid,WUBICODE AS Wubicode,PINYINCODE AS Pinyincode,FASTCODE AS Fastcode,ITEMNAME AS Itemname,DISPLAYORDER AS Displayorder,REMARK AS Remark,ISACTIVE AS Isactive,CREATEDATE AS Createdate,LIBRARYCODE as Librarycode,LIBRARYNAME as Libraryname FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT d1.Dictlibraryitemid,d1.Dictlibraryid,d1.Wubicode,d1.Pinyincode,d1.Fastcode,d1.Itemname,d1.Displayorder,d1.Remark,d1.Isactive,d1.Createdate,d2.Librarycode,d2.Libraryname
+      FROM DICTLIBRARYITEM d1 inner join DICTLIBRARY d2 on d1.Dictlibraryid = d2.Dictlibraryid where 1=1
+      <isNotNull prepend="and" property="strKey">
+        d1.Pinyincode like '%$strKey$%' or d1.Fastcode like  '%$strKey$%' or d1.Itemname like  '%$strKey$%'
+      </isNotNull>
+      <isNotNull prepend="and" property="strDictlibraryid">
+        d1.Dictlibraryid =$strDictlibraryid$
+      </isNotNull>
+		order by CREATEDATE desc,Dictlibraryitemid desc) t
+		WHERE
+		ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictLibraryItemPageLstCount" parameterClass="Hashtable">
+      SELECT Count(1) as pageCount FROM DICTLIBRARYITEM d1 inner join DICTLIBRARY d2 on d1.Dictlibraryid = d2.Dictlibraryid where 1=1
+      <isNotNull prepend="and" property="strKey">
+        d1.Pinyincode like '%$strKey$%' or d1.Fastcode like  '%$strKey$%' or d1.Itemname like  '%$strKey$%'
+      </isNotNull>
+      <isNotNull prepend="and" property="strDictlibraryid">
+        d1.Dictlibraryid =$strDictlibraryid$
+      </isNotNull>
+    </select>
+    <!--插入-->
+    <insert id="Dict.InsertDictlibraryitem" parameterClass="Dictlibraryitem">
+      INSERT INTO DICTLIBRARYITEM
+      (DICTLIBRARYITEMID,DICTLIBRARYID,WUBICODE,PINYINCODE,FASTCODE,ITEMNAME,DISPLAYORDER,REMARK,ISACTIVE,CREATEDATE)
+      VALUES(#Dictlibraryitemid#,#Dictlibraryid#,#Wubicode#,#Pinyincode#,#Fastcode#,#Itemname#,#Displayorder#,#Remark#,#Isactive#,#Createdate:DateTime:1/1/0001 12:00:00 AM#)
+    </insert>
+    <!--更新-->
+    <update id="Dict.UpdateDictlibraryitem" parameterClass="Dictlibraryitem">
+      UPDATE DICTLIBRARYITEM
+      SET DICTLIBRARYID=#Dictlibraryid#,ITEMNAME=#Itemname#,DISPLAYORDER=#Displayorder#,REMARK=#Remark#,ISACTIVE=#Isactive#,CREATEDATE=#Createdate#
+      WHERE DICTLIBRARYITEMID = #Dictlibraryitemid#
+    </update><!--,WUBICODE=#Wubicode#,PINYINCODE=#Pinyincode#,FASTCODE=#Fastcode#-->
+    <!--删除 20120905 update by fhp 修改多选删除出错问题-->
+    <delete id="Dict.DeleteDictlibraryitem" parameterClass="string">
+      DELETE FROM DICTLIBRARYITEM
+      WHERE DICTLIBRARYITEMID in($value$)
+    </delete>
+    <!--根据dictlibrary中的CODE查询-->
+    <select id="Dict.SelectDictlibraryitemByCode" parameterClass="string" resultMap="DictlibraryitemResult" >
+      select * from dictlibraryitem where dictlibraryid =(select Dictlibraryid from dictlibrary where librarycode =#value# )
+      order by dictlibraryitemid asc
+    </select>
+  </statements>
+</sqlMap>
+

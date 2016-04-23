@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Customervaliddiagnosis"  type="daan.domain.Customervaliddiagnosis,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="CustomervaliddiagnosisResult" class="daan.domain.Customervaliddiagnosis">
+      <result property="Customervaliddiagnosisid" column="CUSTOMERVALIDDIAGNOSISID" type="single" dbType="Real"/>
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" type="single" dbType="Real"/>
+      <result property="Ordersyear" column="ORDERSYEAR" type="string" dbType="varchar"/>
+      <result property="Dictdiagnosisid" column="DICTDIAGNOSISID" type="single" dbType="Real"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectCustomervaliddiagnosis" parameterClass="string" resultMap="CustomervaliddiagnosisResult">
+      SELECT CUSTOMERVALIDDIAGNOSISID AS Customervaliddiagnosisid,DICTCUSTOMERID AS Dictcustomerid,ORDERSYEAR AS Ordersyear,DICTDIAGNOSISID AS Dictdiagnosisid,CREATEDATE AS Createdate
+      FROM CUSTOMERVALIDDIAGNOSIS
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          CUSTOMERVALIDDIAGNOSISID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!--团检客户有效诊断-->
+    <insert id="report.InsertCustomervaliddiagnosis" parameterClass="Customervaliddiagnosis">
+      INSERT INTO CUSTOMERVALIDDIAGNOSIS
+      (CUSTOMERVALIDDIAGNOSISID,DICTCUSTOMERID,ORDERSYEAR,DICTDIAGNOSISID)
+      VALUES(#Customervaliddiagnosisid#,#Dictcustomerid#,#Ordersyear#,#Dictdiagnosisid#)
+    </insert>
+    <update id="UpdateCustomervaliddiagnosis" parameterClass="Customervaliddiagnosis">
+      UPDATE CUSTOMERVALIDDIAGNOSIS
+      SET CUSTOMERVALIDDIAGNOSISID=#Customervaliddiagnosisid#,DICTCUSTOMERID=#Dictcustomerid#,ORDERSYEAR=#Ordersyear#,DICTDIAGNOSISID=#Dictdiagnosisid#,CREATEDATE=#Createdate#
+      WHERE CUSTOMERVALIDDIAGNOSISID = #Customervaliddiagnosisid#
+    </update>
+    <!--删除体检单位指定年度的诊断-->
+    <delete id="report.DeleteCustomervaliddiagnosis" parameterClass="Hashtable">
+      DELETE FROM  customervaliddiagnosis a where a.dictcustomerid=$dictcustomerid$ and a.ordersyear='$ordersyear$'
+    </delete>
+  </statements>
+</sqlMap>

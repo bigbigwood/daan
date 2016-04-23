@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns="http://ibatis.apache.org/mapping" >
+  <alias>
+    <typeAlias alias="Dictcustomer"  type="daan.domain.Dictcustomer,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictcustomerResult" class="daan.domain.Dictcustomer">
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Customercode" column="CUSTOMERCODE" type="string" dbType="varchar"/>
+      <result property="Fastcode" column="FASTCODE" type="string" dbType="varchar"/>
+      <result property="Customername" column="CUSTOMERNAME" type="string" dbType="varchar"/>
+      <result property="Customerengname" column="CUSTOMERENGNAME" type="string" dbType="varchar"/>
+      <result property="Engaddress" column="ENGADDRESS" type="string" dbType="varchar"/>
+      <result property="Displayorder" column="DISPLAYORDER" />
+      <result property="Address" column="ADDRESS" type="string" dbType="varchar"/>
+      <result property="Telephone" column="TELEPHONE" type="string" dbType="varchar"/>
+      <result property="Fax" column="FAX" type="string" dbType="varchar"/>
+      <result property="Postcode" column="POSTCODE" type="string" dbType="varchar"/>
+      <result property="Contactman" column="CONTACTMAN" type="string" dbType="varchar"/>
+      <result property="Contactphone" column="CONTACTPHONE" type="string" dbType="varchar"/>
+      <result property="Email" column="EMAIL" type="string" dbType="varchar"/>
+      <result property="Active" column="ACTIVE" type="string" dbType="varchar"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+      <result property="Status" column="STATUS" type="string" dbType="varchar"/>
+      <result property="Erpcode" column="ERPCODE" type="string" dbType="varchar"/>
+      <result property="Erpname" column="ERPNAME" type="string" dbType="varchar"/>
+      <result property="Documenttype" column="DOCUMENTTYPE" type="string" dbType="varchar"/>
+      <result property="Documentcode" column="DOCUMENTCODE" type="string" dbType="varchar"/>
+      <result property="Dictsalemanid" column="DICTSALEMANID"/>
+      <result property="Dictcheckbillid" column="DICTCHECKBILLID" />
+      <result property="Lastupdatedate" column="LASTUPDATEDATE"/>
+      <result property="Issms" column="ISSMS" />
+      <!--type="DateTime" dbType="DateTime"-->
+      <result property="Dictlabid" column="DICTLABID" />
+      <result property="Customertype" column="CUSTOMERTYPE" type="string" dbType="varchar"/>
+      <result property="Reporttitle" column="REPORTTITLE" type="string" dbType="varchar"/>
+      <result property="Customername2" column="CUSTOMERNAME2" type="string" dbType="varchar"/>
+      <result property="IsPublic" column="ISPUBLIC" />
+      <result property="YGSyncStatus" column="YGSYNCSTATUS" />
+      <result property="DZSyncStatus" column="DZSYNCSTATUS" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Select.CheckHasCustomer" parameterClass="String">
+      select DICTCUSTOMERID from dictcustomer c where c.Active ='1' and c.dictcustomerid=$value$
+    </select>
+    
+    
+    <select id="Dict.SelectDictcustomer" parameterClass="string"  resultMap="DictcustomerResult" >
+      SELECT DICTCUSTOMERID AS Dictcustomerid,CUSTOMERCODE AS Customercode,FASTCODE AS Fastcode,CUSTOMERNAME AS Customername,CUSTOMERENGNAME AS Customerengname,
+      ENGADDRESS AS Engaddress,DISPLAYORDER AS Displayorder,ADDRESS AS Address,TELEPHONE AS Telephone,FAX AS Fax,POSTCODE AS Postcode,CONTACTMAN AS Contactman,
+      CONTACTPHONE AS Contactphone,EMAIL AS Email,ACTIVE AS Active,REMARK AS Remark,STATUS AS Status,ERPCODE AS Erpcode,ERPNAME AS Erpname,
+      DOCUMENTTYPE AS Documenttype,DOCUMENTCODE AS Documentcode,DICTSALEMANID AS Dictsalemanid,DICTCHECKBILLID AS Dictcheckbillid,LASTUPDATEDATE AS Lastupdatedate,
+      DICTLABID AS Dictlabid,CUSTOMERTYPE AS Customertype,REPORTTITLE AS Reporttitle,ISSMS AS Issms,CUSTOMERNAME2 AS Customername2,ISPUBLIC as IsPublic,
+      YGSYNCSTATUS as YGSyncStatus,DZSYNCSTATUS as DZSyncStatus
+      FROM Dictcustomer where Active ='1'
+      <dynamic prepend="and">
+        <isParameterPresent>
+          Dictcustomerid like '%'||#value#||'%' or Customername like '%'||#value#||'%' or Customerengname like '%'||#value#||'%'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+
+    <select id="Dict.SelectCustomerByLabID" parameterClass="string" resultMap="DictcustomerResult">
+      SELECT DICTCUSTOMERID AS Dictcustomerid,CUSTOMERCODE AS Customercode,FASTCODE AS Fastcode,CUSTOMERNAME AS Customername,CUSTOMERENGNAME AS Customerengname,
+      ENGADDRESS AS Engaddress,DISPLAYORDER AS Displayorder,ADDRESS AS Address,TELEPHONE AS Telephone,FAX AS Fax,POSTCODE AS Postcode,CONTACTMAN AS Contactman,
+      CONTACTPHONE AS Contactphone,EMAIL AS Email,ACTIVE AS Active,REMARK AS Remark,STATUS AS Status,ERPCODE AS Erpcode,ERPNAME AS Erpname,
+      DOCUMENTTYPE AS Documenttype,DOCUMENTCODE AS Documentcode,DICTSALEMANID AS Dictsalemanid,DICTCHECKBILLID AS Dictcheckbillid,LASTUPDATEDATE AS Lastupdatedate,
+      DICTLABID AS Dictlabid,CUSTOMERTYPE AS Customertype,REPORTTITLE AS Reporttitle,ISSMS AS Issms,CUSTOMERNAME2 AS Customername2,ISPUBLIC as IsPublic,
+      YGSYNCSTATUS as YGSyncStatus,DZSYNCSTATUS as DZSyncStatus
+      FROM Dictcustomer where Active ='1'
+      <dynamic prepend="and">
+        <isParameterPresent>
+          (Active ='1' and Dictlabid in ($value$) and Customertype='0') or (Active ='1' and IsPublic='1')
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    
+    <select id="Dict.SelectDictcustomerByCode" parameterClass="Hashtable"  resultMap="DictcustomerResult" >
+      SELECT DICTCUSTOMERID AS Dictcustomerid,CUSTOMERCODE AS Customercode,FASTCODE AS Fastcode,CUSTOMERNAME AS Customername,CUSTOMERENGNAME AS Customerengname,
+      ENGADDRESS AS Engaddress,DISPLAYORDER AS Displayorder,ADDRESS AS Address,TELEPHONE AS Telephone,FAX AS Fax,POSTCODE AS Postcode,CONTACTMAN AS Contactman,
+      CONTACTPHONE AS Contactphone,EMAIL AS Email,ACTIVE AS Active,REMARK AS Remark,STATUS AS Status,ERPCODE AS Erpcode,ERPNAME AS Erpname,
+      DOCUMENTTYPE AS Documenttype,DOCUMENTCODE AS Documentcode,DICTSALEMANID AS Dictsalemanid,DICTCHECKBILLID AS Dictcheckbillid,LASTUPDATEDATE AS Lastupdatedate,
+      DICTLABID AS Dictlabid,CUSTOMERTYPE AS Customertype,REPORTTITLE AS Reporttitle,ISSMS AS Issms,CUSTOMERNAME2 AS Customername2,ISPUBLIC as IsPublic,YGSYNCSTATUS as YGSyncStatus,DZSYNCSTATUS as DZSyncStatus
+      FROM Dictcustomer where (Customercode = #value# or  Customername = #Customername#) and Dictcustomerid  != #Dictcustomerid#
+
+    </select>
+
+    <!--根据客户类型查找-->
+    <select id="Dict.SelectDictcustomerByType" parameterClass="string"  resultMap="DictcustomerResult" >
+      SELECT DICTCUSTOMERID AS Dictcustomerid,CUSTOMERCODE AS Customercode,FASTCODE AS Fastcode,CUSTOMERNAME AS Customername,CUSTOMERENGNAME AS Customerengname,
+      ENGADDRESS AS Engaddress,DISPLAYORDER AS Displayorder,ADDRESS AS Address,TELEPHONE AS Telephone,FAX AS Fax,POSTCODE AS Postcode,CONTACTMAN AS Contactman,
+      CONTACTPHONE AS Contactphone,EMAIL AS Email,ACTIVE AS Active,REMARK AS Remark,STATUS AS Status,ERPCODE AS Erpcode,ERPNAME AS Erpname,
+      DOCUMENTTYPE AS Documenttype,DOCUMENTCODE AS Documentcode,DICTSALEMANID AS Dictsalemanid,DICTCHECKBILLID AS Dictcheckbillid,LASTUPDATEDATE AS Lastupdatedate,
+      DICTLABID AS Dictlabid,CUSTOMERTYPE AS Customertype,REPORTTITLE AS Reporttitle,ISSMS AS Issms,CUSTOMERNAME2 AS Customername2,ISPUBLIC as IsPublic,YGSYNCSTATUS as YGSyncStatus,DZSYNCSTATUS as DZSyncStatus
+      FROM Dictcustomer where Active ='1'
+      <isNotNull prepend="and">
+        CUSTOMERTYPE=#value#
+      </isNotNull>
+    </select>
+
+    <!--根据客户类型及分点筛选单位-->
+    <select id="Dict.SelectDictcustomerByDictlabId" parameterClass="Hashtable"  resultMap="DictcustomerResult" >
+      SELECT DICTCUSTOMERID AS Dictcustomerid,CUSTOMERCODE AS Customercode,FASTCODE AS Fastcode,CUSTOMERNAME AS Customername,CUSTOMERENGNAME AS Customerengname,
+      ENGADDRESS AS Engaddress,DISPLAYORDER AS Displayorder,ADDRESS AS Address,TELEPHONE AS Telephone,FAX AS Fax,POSTCODE AS Postcode,CONTACTMAN AS Contactman,
+      CONTACTPHONE AS Contactphone,EMAIL AS Email,ACTIVE AS Active,REMARK AS Remark,STATUS AS Status,ERPCODE AS Erpcode,ERPNAME AS Erpname,
+      DOCUMENTTYPE AS Documenttype,DOCUMENTCODE AS Documentcode,DICTSALEMANID AS Dictsalemanid,DICTCHECKBILLID AS Dictcheckbillid,LASTUPDATEDATE AS Lastupdatedate,
+      DICTLABID AS Dictlabid,CUSTOMERTYPE AS Customertype,REPORTTITLE AS Reporttitle,ISSMS AS Issms,CUSTOMERNAME2 AS Customername2,ISPUBLIC as IsPublic,YGSYNCSTATUS as YGSyncStatus,DZSYNCSTATUS as DZSyncStatus
+      FROM Dictcustomer where Active ='1'
+      <isNotNull prepend="and">
+        CUSTOMERTYPE='$value$'
+      </isNotNull>
+      <isNotNull prepend="and">
+        DICTLABID in (select DICTLABID from dictlab t  where  t.dictlabid='$dictlabId$' )
+      </isNotNull>
+    </select>
+    
+    <!--分页查询-->
+    <select id="Dict.GetDictcustomerPageLst" parameterClass="Hashtable" resultMap="DictcustomerResult" >
+      SELECT Dictcustomerid,Customercode,Fastcode,Customername,Customerengname,Engaddress,Displayorder,Address,Telephone,Fax,Postcode,Contactman,Contactphone,Email, Active,Remark,Status,Erpcode,Erpname,Documenttype,Documentcode, Dictsalemanid,Dictcheckbillid,Lastupdatedate,Dictlabid, Customertype,Reporttitle,Issms,Customername2,IsPublic,YGSyncStatus,DZSyncStatus FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT Dictcustomerid,Customercode,Fastcode,Customername,Customerengname,Engaddress,Displayorder,Address,Telephone,Fax,Postcode,Contactman,Contactphone,Email, Active,Remark,Status,Erpcode,Erpname,Documenttype,Documentcode, Dictsalemanid,Dictcheckbillid,Lastupdatedate,Dictlabid, Customertype,Reporttitle,Issms,Customername2,IsPublic,YGSyncStatus,DZSyncStatus FROM Dictcustomer where 1=1
+      <isNotNull prepend="and" property="strKey">
+        (Customercode like '%$strKey$%' or Customername like  '%$strKey$%' or Customerengname like '%$strKey$%')
+      </isNotNull>
+      <isNotEmpty prepend="and" property="IsActive">
+        Active =  '$IsActive$'
+      </isNotEmpty>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        Dictlabid =  $Dictlabid$
+      </isNotEqual>
+      order by Dictcustomerid desc ,Displayorder desc) t
+      WHERE
+      ROWNUM <![CDATA[<=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[>=]]> $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictcustomerPageLstCount" parameterClass="Hashtable"    resultMap="DictcustomerResult"  >
+      SELECT Count(*) FROM Dictcustomer where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        (Customercode like '%$strKey$%' or Customername like  '%$strKey$%' or Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="IsActive">
+        Active =  '$IsActive$'
+      </isNotEmpty>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        Dictlabid =  $Dictlabid$
+      </isNotEqual>
+    </select>
+    <!--体检单位审核列表-->
+    <select id="Dict.GetDictcustomerInfoAuditList" parameterClass="Hashtable">
+      select * from(
+      select rownum as rn,t.* from(
+      SELECT c.Dictcustomerid,c.Customercode,c.Fastcode,c.Customername,c.Customerengname,c.Engaddress,c.Displayorder,c.Address,c.Telephone,c.Fax,c.Postcode,c.Contactman,c.Contactphone,
+      c.Email, c.Active,c.Remark,c.Status,c.Erpcode,c.Erpname,c.Documenttype,c.Documentcode,c. Dictsalemanid,c.Dictcheckbillid,c.Lastupdatedate,c.Dictlabid, c.Customertype,c.Reporttitle,
+      c.Issms,c.Customername2,c.IsPublic,user1.username saleman,user2.username checkbillnam,decode(c.active,'0','未审核','1','已审核') audittext,l.labname
+      from dictcustomer c ,dictuser user1,dictuser user2,dictlab l
+      where c.dictsalemanid=user1.dictuserid
+      and c.dictcheckbillid=user2.dictuserid
+      and c.dictlabid=l.dictlabid
+      <isNotEmpty prepend="and" property="strKey">
+        (c.Customercode like '%$strKey$%' or c.Customername like  '%$strKey$%' or c.Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual prepend="and" property="IsActive" compareValue="-1">
+        c.Active =  '$IsActive$'
+      </isNotEqual>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        (c.Dictlabid =  $Dictlabid$ or c.IsPublic='1')
+      </isNotEqual>
+      order by c.dictcustomerid desc,c.displayorder desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <select id="Dict.GetDictcustomerInfoAuditListCount" parameterClass="Hashtable">
+      SELECT Count(1) FROM Dictcustomer where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        (Customercode like '%$strKey$%' or Customername like  '%$strKey$%' or Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual prepend="and" property="IsActive" compareValue="-1">
+        Active =  '$IsActive$'
+      </isNotEqual>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        (Dictlabid =  $Dictlabid$ or IsPublic='1')
+      </isNotEqual>
+    </select>
+    <!--单位审核界面导出列表-->
+    <select id="Dict.GetDictcustomerInfoExportList" parameterClass="Hashtable">
+      SELECT c.Dictcustomerid,c.Customercode,c.Fastcode,c.Customername,c.Customerengname,c.Engaddress,c.Displayorder,c.Address,c.Telephone,c.Fax,c.Postcode,c.Contactman,c.Contactphone,
+      c.Email, c.Active,c.Remark,c.Status,c.Erpcode,c.Erpname,c.Documenttype,c.Documentcode,c. Dictsalemanid,c.Dictcheckbillid,c.Lastupdatedate,c.Dictlabid, c.Customertype,c.Reporttitle,
+      c.Issms,c.Customername2,c.IsPublic,user1.username saleman,user2.username checkbillnam,decode(c.active,'0','未审核','1','已审核') audittext,l.labname
+      from dictcustomer c ,dictuser user1,dictuser user2,dictlab l
+      where c.dictsalemanid=user1.dictuserid
+      and c.dictcheckbillid=user2.dictuserid
+      and c.dictlabid=l.dictlabid
+      <isNotEmpty prepend="and" property="strKey">
+        (c.Customercode like '%$strKey$%' or c.Customername like  '%$strKey$%' or c.Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual prepend="and" property="IsActive" compareValue="-1">
+        c.Active =  '$IsActive$'
+      </isNotEqual>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        (c.Dictlabid =  $Dictlabid$ or c.IsPublic='1')
+      </isNotEqual>
+      order by c.dictcustomerid desc,c.displayorder desc
+    </select>
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictcustomerInfo" parameterClass="Double" resultMap="DictcustomerResult">
+      SELECT Dictcustomerid,Customercode,Fastcode,Customername,Customerengname,Engaddress,Displayorder,Address,Telephone,Fax,Postcode,Contactman,Contactphone,
+      Email, Active,Remark,Status,Erpcode,Erpname,Documenttype,Documentcode, Dictsalemanid,Dictcheckbillid,Lastupdatedate,Dictlabid, Customertype,Reporttitle,
+      Issms,Customername2,IsPublic,YGSyncStatus,DZSyncStatus FROM Dictcustomer where  Dictcustomerid=#value#
+    </select>
+    <!--查询未同步单位信息的单位列表-->
+    <select id="Dict.GetNotSynchronizedInfoList" parameterClass="Hashtable">
+      select dictcustomerid,c.customercode,c.customername,c.address,c.telephone,c.contactman from Dictcustomer c where Active ='1'
+      <isEqual prepend="and" property="sysType" compareValue="1">
+        (YGSyncStatus='0' or YGSyncStatus='2' or YGSyncStatus is null)
+      </isEqual>
+      <isEqual prepend="and" property="sysType" compareValue="2">
+        (DZSyncStatus='0' or DZSyncStatus='2' or DZSyncStatus is null)
+      </isEqual>
+    </select>
+    <!--修改单位信息同步状态-->
+    <update id="Dict.UpdateSyncStatus" parameterClass="Hashtable">
+      UPDATE Dictcustomer SET
+      <isEqual prepend="" property="sysType" compareValue="1">
+        YGSyncStatus=#status#
+      </isEqual>
+      <isEqual prepend="" property="sysType" compareValue="2">
+        DZSyncStatus=#status#
+      </isEqual>
+      where Dictcustomerid in ($dictcustomerid$)
+    </update>
+    <!--新增-->
+    <insert id="Dict.InsertDictcustomer" parameterClass="Dictcustomer">
+      INSERT INTO Dictcustomer
+      (Dictcustomerid,Customercode,Fastcode,Customername,Customerengname,Engaddress,Displayorder,Address,Telephone,Fax,Postcode,Contactman,Contactphone,Email,Active,Remark,Status,Erpcode,Erpname,Documenttype,Documentcode,Dictsalemanid,Dictcheckbillid,Lastupdatedate,Dictlabid,Customertype,Reporttitle,Issms,Customername2,IsPublic,YGSyncStatus,DZSyncStatus)
+      VALUES(#Dictcustomerid#,#Customercode#,#Fastcode#,#Customername#,#Customerengname#,#Engaddress#,#Displayorder#,#Address#,#Telephone#,#Fax#,#Postcode#,#Contactman#,#Contactphone#,#Email#,#Active#,#Remark#,#Status#,#Erpcode#,#Erpname#,#Documenttype#,#Documentcode#,#Dictsalemanid#,#Dictcheckbillid#,#Lastupdatedate:DateTime:1/1/0001 12:00:00 AM#,#Dictlabid#,#Customertype#,#Reporttitle#,#Issms#,#Customername2#,#IsPublic#,#YGSyncStatus#,#DZSyncStatus#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictcustomer" parameterClass="Dictcustomer">
+      UPDATE Dictcustomer
+      SET Dictcustomerid=#Dictcustomerid#,Customercode=#Customercode#,Fastcode=#Fastcode#,Customername=#Customername#,Customerengname=#Customerengname#,Engaddress=#Engaddress#,Displayorder=#Displayorder#,
+      Address=#Address#,Telephone=#Telephone#,Fax=#Fax#,Postcode=#Postcode#,Contactman=#Contactman#,Contactphone=#Contactphone#,Email=#Email#,Active=#Active#,Remark=#Remark#,Status=#Status#,Erpcode=#Erpcode#,
+      Erpname=#Erpname#,Documenttype=#Documenttype#,Documentcode=#Documentcode#,Dictsalemanid=#Dictsalemanid#,Dictcheckbillid=#Dictcheckbillid#,Lastupdatedate=#Lastupdatedate#,Dictlabid=#Dictlabid#,
+      Customertype=#Customertype#,Reporttitle=#Reporttitle#,Issms=#Issms#,Customername2=#Customername2#,IsPublic=#IsPublic#,YGSyncStatus=#YGSyncStatus#,DZSyncStatus=#DZSyncStatus#
+      WHERE Dictcustomerid = #Dictcustomerid#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictcustomer" parameterClass="string">
+      DELETE FROM Dictcustomer WHERE Dictcustomerid in($value$)
+    </delete>
+    <!--审核-->
+    <update id="Dict.AuditCustomerInfo" parameterClass="Hashtable">
+      update Dictcustomer set Active=#active#,Lastupdatedate=#lastupdatetime# where Dictcustomerid in ($dictcustomerid$)
+    </update>
+  </statements>
+</sqlMap>

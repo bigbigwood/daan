@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+<alias>
+	<typeAlias alias="Dictfastcomment"  type="daan.domain.Dictfastcomment,daan.domain" />
+</alias>
+<resultMaps>
+		<resultMap id="DictfastcommentResult" class="daan.domain.Dictfastcomment">
+      <result property="Dictfastcommentid" column="DICTFASTCOMMENTID"  />
+      <result property="Modulename" column="MODULENAME" type="string" dbType="varchar"/>
+      <result property="Fastcode" column="FASTCODE" type="string" dbType="varchar"/>
+      <result property="Commentdesc" column="COMMENTDESC" type="string" dbType="varchar"/>
+      <result property="Keymask" column="KEYMASK" type="string" dbType="varchar"/>
+      <result property="Hotkey" column="HOTKEY" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+    </resultMap>
+</resultMaps>
+<statements>
+	<!--查询-->
+<select id="Dict.SelectDictfastcomment" parameterClass="string" resultMap="DictfastcommentResult">
+SELECT DICTFASTCOMMENTID AS Dictfastcommentid,MODULENAME AS Modulename,FASTCODE AS Fastcode,COMMENTDESC AS Commentdesc,KEYMASK AS Keymask,HOTKEY AS Hotkey,DICTLABDEPTID AS Dictlabdeptid
+FROM DICTFASTCOMMENT
+</select>
+  <!--分页查询-->
+  <select id="Dict.GetDictfastcommentPageLst" parameterClass="Hashtable" resultMap="DictfastcommentResult">
+    SELECT Dictfastcommentid,Modulename,Fastcode,Commentdesc,Keymask,Hotkey,Dictlabdeptid FROM
+
+    (SELECT ROWNUM RN, t.* FROM (SELECT Dictfastcommentid,Modulename,Fastcode,Commentdesc,Keymask,Hotkey,Dictlabdeptid  FROM DICTFASTCOMMENT where 1=1
+    <isNotNull prepend="and" property="strKey">
+      Modulename like '%$strKey$%' or Fastcode like  '%$strKey$%'
+    </isNotNull>
+    order by Dictfastcommentid desc ) t
+    WHERE
+    ROWNUM <![CDATA[  <=]]>$pageEnd$
+    )
+    WHERE RN <![CDATA[> ]]>= $pageStart$
+  </select>
+  <!--获取总项数-->
+  <select id="Dict.GetDictfastcommentPageLstCount" parameterClass="Hashtable">
+    SELECT Count(*) FROM Dictfastcomment where 1=1
+    <isNotEmpty prepend="and" property="strKey">
+      Modulename like '%$strKey$%' or Fastcode like  '%$strKey$%'
+    </isNotEmpty>
+  </select>
+
+  <!--按ID查询详细信息-->
+  <select id="Dict.GetDictfastcommentInfo" parameterClass="Dictfastcomment" resultMap="DictfastcommentResult">
+    SELECT Dictfastcommentid,Modulename,Fastcode,Commentdesc,Keymask,Hotkey,Dictlabdeptid  FROM DICTFASTCOMMENT WHERE Dictfastcommentid=#Dictfastcommentid#
+  </select>
+  
+  <!--新增-->
+<insert id="Dict.InsertDictfastcomment" parameterClass="Dictfastcomment">
+  INSERT INTO DICTFASTCOMMENT
+  (Dictfastcommentid,Modulename,Fastcode,Commentdesc,Keymask,Hotkey,Dictlabdeptid )
+  VALUES(#Dictfastcommentid#,#Modulename#,#Fastcode#,#Commentdesc#,#Keymask#,#Hotkey#,#Dictlabdeptid#)
+</insert>
+  <!--修改-->
+<update id="Dict.UpdateDictfastcomment" parameterClass="Dictfastcomment">
+  UPDATE DICTFASTCOMMENT
+  SET Modulename=#Modulename#,Fastcode=#Fastcode#,Commentdesc=#Commentdesc#,Keymask=#Keymask#,Hotkey=#Hotkey#,Dictlabdeptid=#Dictlabdeptid#
+  WHERE Dictfastcommentid = #Dictfastcommentid#
+</update>
+  <!--删除-->
+<delete id="Dict.DeleteDictfastcomment" parameterClass="string">
+  DELETE FROM DICTFASTCOMMENT
+  WHERE Dictfastcommentid in($value$)
+</delete>
+</statements>
+</sqlMap>

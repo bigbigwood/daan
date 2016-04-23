@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderserviceinfo" type="daan.domain.Orderserviceinfo,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderserviceinfoResult" class="daan.domain.Orderserviceinfo">
+      <result property="Orderserviceinfoid" column="ORDERSERVICEINFOID" type="string" dbType="varchar"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Dictuserid" column="DICTUSERID" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Servicecontent" column="SERVICECONTENT" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <!--根据体检号得到客户追踪信息-->
+    <select id="Order.GetOrderserviceinfos" parameterClass="string">
+      select  a.orderserviceinfoid,b.USERNAME,a.createdate,a.servicecontent,a.ORDERNUM  from orderserviceinfo a
+      left join dictuser b on a.dictuserid=b.dictuserid where a.ORDERNUM = '$value$' order by a.createdate asc
+    </select>
+    
+    <select id="SelectOrderserviceinfo" parameterClass="string" resultClass="Orderserviceinfo">
+      SELECT ORDERSERVICEINFOID AS Orderserviceinfoid,ORDERNUM AS Ordernum,DICTUSERID AS Dictuserid,CREATEDATE AS Createdate,SERVICECONTENT AS Servicecontent
+      FROM ORDERSERVICEINFO
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERSERVICEINFOID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!--新增一条客户追踪记录-->
+    <insert id="Order.InsertOrderserviceinfo" parameterClass="Orderserviceinfo">
+      INSERT INTO ORDERSERVICEINFO
+      (ORDERSERVICEINFOID,ORDERNUM,DICTUSERID,CREATEDATE,SERVICECONTENT)
+      VALUES(SEQ_ORDERSERVICEINFO.NEXTVAL,#Ordernum#,#Dictuserid#,sysdate,#Servicecontent#)
+    </insert>
+    <update id="UpdateOrderserviceinfo" parameterClass="Orderserviceinfo">
+      UPDATE ORDERSERVICEINFO
+      SET ORDERSERVICEINFOID=#Orderserviceinfoid#,ORDERNUM=#Ordernum#,DICTUSERID=#Dictuserid#,CREATEDATE=#Createdate#,SERVICECONTENT=#Servicecontent#
+      WHERE ORDERSERVICEINFOID = #Orderserviceinfoid#
+    </update>
+    <delete id="DeleteOrderserviceinfo" parameterClass="string">
+      DELETE FROM ORDERSERVICEINFO
+      WHERE ORDERSERVICEINFOID = #value#
+    </delete>
+  </statements>
+</sqlMap>

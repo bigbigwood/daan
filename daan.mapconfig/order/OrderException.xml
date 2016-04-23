@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderexception"  type="daan.domain.Orderexception,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderExceptionResult" class="Orderexception">
+      <result property="Orderexceptionid" column="ORDEREXCEPTIONID" />
+      <result property="Exceptiontype" column="EXCEPTIONTYPE" />
+      <result property="Subbarcode" column="SUBBARCODE" />
+      <result property="Applydate" column="APPLYDATE" />
+      <result property="Remark" column="REMARK" />
+      <result property="Approvedate" column="APPROVEDATE" />      
+      <result property="Status" column="STATUS" />
+      <result property="CreateDate" column="CREATEDATE" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Disposeby" column="DISPOSEBY" />
+      <result property="Disposedate" column="DISPOSEDATE" />
+      <result property="Suggestion" column="SUGGESTION" />
+      <result property="Disposestate" column="DISPOSESTATE" />
+      <result property="Applyby" column="APPLYBY" />
+      <result property="Approveby" column="APPROVEBY" />
+      <result property="Labcode" column="LABCODE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--查询异常详细内容-->
+    <select id="Order.SelectOrderExceptionInfo" parameterClass="string" resultMap="OrderExceptionResult">
+      select * FROM orderexception where  Orderexceptionid=#value#      
+    </select>
+    
+    <!--查询异常总记录数-->
+    <select id="Order.SelectOrderExceptionCount" parameterClass="Hashtable">
+      select Count(1) as pageCount
+      FROM orderexception o
+      INNER join orderbarcode o1 on o.barcode=o1.barcode
+      where 1=1
+      <isNotEmpty  prepend="and" property="OrderNum" >
+        o1.ordernum=$OrderNum$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="BarCode">
+        o.barcode=$BarCode$
+      </isNotEmpty>
+      <isEmpty prepend=" " property="OrderNum">
+        <isEmpty prepend=" " property="BarCode">
+          <isNotEqual  prepend="and" property="Disposestate" compareValue="-1">
+            o.Disposestate=$Disposestate$
+          </isNotEqual>
+          <isNotNull prepend="and" property="endDate">
+            o.createdate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+          </isNotNull>
+          <isNotNull prepend="and" property="startDate">
+            o.createdate >= to_date('$startDate$','yyyy-MM-dd')
+          </isNotNull>
+        </isEmpty>
+      </isEmpty>
+    </select>
+    <!--查询异常列表信息-->
+    <select id="Order.SelectOrderExceptionLst" parameterClass="Hashtable">
+      SELECT ordernum,
+      realname,
+      ORDEREXCEPTIONID,
+      decode(EXCEPTIONTYPE,
+      'CANCEL',
+      '退单',
+      'CANCELAUDITPOST',
+      '取消审核') as EXCEPTIONTYPE,
+      SUBBARCODE,
+      APPLYDATE,
+      REMARK,
+      APPROVEDATE,
+      STATUS,
+      CREATEDATE,
+      BARCODE,
+      DISPOSEBY,
+      DISPOSEDATE,
+      SUGGESTION,
+      decode(DISPOSESTATE,
+      '0',
+      '未处理',
+      '1',
+      '已处理') as DISPOSESTATE,
+      DISPOSESTATE,
+      APPLYBY,
+      APPROVEBY,
+      LABCODE
+      FROM
+      (SELECT ROWNUM RN, t.* FROM (
+      select o1.ordernum,o3.realname,o.*
+      FROM orderexception o
+      INNER join orderbarcode o1 on o.barcode=o1.barcode
+      INNER JOIN orders o3 ON o1.ordernum=o3.ordernum      
+      where 1=1
+      <isNotEmpty  prepend="and" property="OrderNum" >
+        o1.ordernum=$OrderNum$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="BarCode">
+        o.barcode=$BarCode$
+      </isNotEmpty>
+      <isEmpty prepend=" " property="OrderNum">
+        <isEmpty prepend=" " property="BarCode">
+          <isNotEqual  prepend="and" property="Disposestate" compareValue="-1">
+            o.Disposestate=$Disposestate$
+          </isNotEqual>
+          <isNotNull prepend="and" property="endDate">
+            o.createdate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+          </isNotNull>
+          <isNotNull prepend="and" property="startDate">
+            o.createdate >= to_date('$startDate$','yyyy-MM-dd')
+          </isNotNull>
+        </isEmpty>
+      </isEmpty>
+      order by Orderexceptionid desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--查询最后一次更新时间-->
+    <select id="Order.SelectOrderExceptionLastDate" parameterClass="string">
+      select createdate from (select to_char(e.createdate,'yyyy-MM-dd') as createdate from orderexception e where e.labcode=#value#   order by e.createdate desc ) t  where rownum=1
+    </select>
+    <!--新增-->
+    <insert id="Order.InsertOrderException" parameterClass="Orderexception">
+      insert into ORDEREXCEPTION(ORDEREXCEPTIONID,EXCEPTIONTYPE,SUBBARCODE,APPLYDATE,REMARK,APPROVEDATE,STATUS,CREATEDATE,BARCODE,APPLYBY,APPROVEBY,DISPOSEBY,DISPOSEDATE,SUGGESTION,DISPOSESTATE,LABCODE) values
+      (#Orderexceptionid#,#Exceptiontype#,#Subbarcode#,#Applydate#,#Remark#,#Approvedate#,#Status#,#CreateDate#,#Barcode#,#Applyby#,#Approveby#,#Disposeby#,#Disposedate#,#Suggestion#,#Disposestate#,#Labcode#)
+    </insert>
+    <!--更新-->
+    <update id="Order.UpdateOrderException" parameterClass="Hashtable">
+      update ORDEREXCEPTION set DISPOSEBY=#Disposeby#,DISPOSEDATE=#Disposedate#,SUGGESTION=#Suggestion#,DISPOSESTATE='1' where ORDEREXCEPTIONID=#Orderexceptionid#
+    </update>
+  </statements>
+</sqlMap>
+

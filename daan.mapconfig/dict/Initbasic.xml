@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Initbasic" type="daan.domain.Initbasic,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="InitbasicResult" class="daan.domain.Initbasic">
+      <result property="Basicid" column="BASICID" />
+      <result property="Basictype" column="BASICTYPE" type="string" dbType="varchar"/>
+      <result property="Basicvalue" column="BASICVALUE" type="string" dbType="varchar"/>
+      <result property="Basicname" column="BASICNAME" type="string" dbType="varchar"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+      <result property="Fastcode" column="FASTCODE" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    
+    <select id="Dict.GetInitbasicInfoByType" parameterClass="Hashtable" >
+      SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
+      <isNotEmpty prepend="and" parameterClass="strKey" >
+        Basictype like '%$strKey$%'
+      </isNotEmpty>
+    </select>
+
+    <!--按基本资料类型查询-->
+    <select id="Dict.GetInitbasicLst" parameterClass="string" ResultMap="InitbasicResult" >
+      SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
+      <isNotEmpty prepend="and" parameterClass="string">
+        Basictype=#value#
+      </isNotEmpty>
+      order by Basicvalue
+    </select>
+    
+    <select id="Dict.GetInitbasicInfoByTypeAndByValue" parameterClass="Hashtable" >
+      SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
+      <isNotEmpty prepend="and" parameterClass="strKey">
+        Basictype like '%LABDEPTTYPE%' and Basicvalue like  '%$strKey$%'
+      </isNotEmpty>
+    </select>
+    
+    <insert id="Dict.InsertInitbasic" parameterClass="Initbasic">
+      INSERT INTO Initbasic
+      (Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode)
+      VALUES(#Basicid#,#Basictype#,#Basicvalue#,#Basicname#,#Remark#,#Fastcode#)
+    </insert>
+    <update id="Dict.UpdateInitbasic" parameterClass="Initbasic">
+      UPDATE Initbasic
+      SET Basicid=#Basicid#,Basicid=#Basictype#,Basicid=#Basicvalue#,Basicid=#Basicname#,Basicid=#Remark#,Basicid=#Fastcode#
+      WHERE Basicid = #Basicid#
+    </update>
+    <delete id="Dict.DeleteInitbasic" parameterClass="string">
+      DELETE FROM Initbasic
+      WHERE Basicid = #value#
+    </delete>
+  </statements>
+</sqlMap>

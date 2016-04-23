@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="DictSmsModule" type="daan.domain.DictSmsModule,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictSmsModuleResult" class="daan.domain.DictSmsModule">
+      <result property="DictSmsModuleid" column="DICTSMSMODULEID" />
+      <result property="SmsTitle" column="SMSTITLE"/>
+      <result property="SmsContent" column="SMSCONTENT"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="Dict.GetDictSmsModuleLst" parameterClass="string" resultMap="DictSmsModuleResult">
+      SELECT DICTSMSMODULEID AS DictSmsModuleid,SMSTITLE AS SmsTitle,SMSCONTENT AS SmsContent
+      FROM DICTSMSMODULE      
+    </select>
+    
+    <select id="Dict.GetDictscoresInfo" parameterClass="string" resultMap="DictSmsModuleResult">
+      SELECT DICTSMSMODULEID AS DictSmsModuleid,SMSTITLE AS SmsTitle,SMSCONTENT AS SmsContent
+      FROM DICTSMSMODULE
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTSMSMODULEID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="Dict.InsertDictSmsModule" parameterClass="DictSmsModule">
+      INSERT INTO DICTSMSMODULE
+      (DICTSMSMODULEID,SMSTITLE,SMSCONTENT)
+      VALUES(#DictSmsModuleid#,#SmsTitle#,#SmsContent#)
+    </insert>
+    <update id="Dict.UpdateDictSmsModule" parameterClass="DictSmsModule">
+      UPDATE DICTSMSMODULE
+      SET SMSTITLE=#SmsTitle#,SMSCONTENT=#SmsContent#
+      WHERE DICTSMSMODULEID = #DictSmsModuleid#
+    </update>
+    <delete id="Dict.DeleteDictSmsModule" parameterClass="string">
+      DELETE FROM DICTSMSMODULE
+      WHERE DICTSMSMODULEID = #DictSmsModuleid#
+    </delete>
+  </statements>
+</sqlMap>

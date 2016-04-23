@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Ordernexttest"  type="daan.domain.Ordernexttest,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrdernexttestResult" class="daan.domain.Ordernexttest">
+      <result property="Ordernexttestid" column="ORDERNEXTTESTID"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Engname" column="ENGNAME" type="string" dbType="varchar"/>
+      <result property="Testcode" column="TESTCODE" type="string" dbType="varchar"/>
+      <result property="Testname" column="TESTNAME" type="string" dbType="varchar"/>
+      <result property="Isneededorder" column="ISNEEDEDORDER" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+<!--根据订单号查询推荐项目-->
+    <select id="Order.SelectOrdernexttest" parameterClass="string" >
+      select a.ordernexttestid,a.testname,a.rerundate,a.dicttestitemid,a.rerunenddate from ordernexttest a where a.isneededorder='0' and a.ordernum =#value#     
+    </select>
+    <!--根据订单号和dicttestitemid查询推荐项目是否存在-->
+    <select id="Order.CountForOrdernexttest" parameterClass="Hashtable">
+      select count(1) from ordernexttest a where a.dicttestitemid=$dicttestitemid$ and a.ordernum='$ordernum$' and a. isneededorder='0'
+    </select>
+    <!--新加一个推荐项目-->
+    <insert id="Order.InsertOrdernexttest" parameterClass="Ordernexttest">
+      INSERT INTO ORDERNEXTTEST
+      (ORDERNEXTTESTID,ORDERNUM,DICTTESTITEMID,ENGNAME,TESTCODE,TESTNAME,rerundate,RERUNENDDATE)
+      VALUES(#Ordernexttestid#,#Ordernum#,#Dicttestitemid#,#Engname#,#Testcode#,#Testname#,#Rerundate#,#Rerunenddate#)
+    </insert>
+    <update id="UpdateOrdernexttest" parameterClass="Ordernexttest">
+      UPDATE ORDERNEXTTEST
+      SET ORDERNEXTTESTID=#Ordernexttestid#,ORDERNUM=#Ordernum#,DICTTESTITEMID=#Dicttestitemid#,ENGNAME=#Engname#,TESTCODE=#Testcode#,TESTNAME=#Testname#,ISNEEDEDORDER=#Isneededorder#,CREATEDATE=#Createdate#
+      WHERE ORDERNEXTTESTID = #Ordernexttestid#
+    </update>
+    <!--删除一个推荐项目-->
+    <delete id="Order.DeleteOrdernexttest" parameterClass="string">
+      DELETE FROM ORDERNEXTTEST
+      WHERE ORDERNEXTTESTID = #value#
+    </delete>
+    
+    <!--添加每次体检必填项目-->
+    <insert id="Order.InsertOrdernexttestMustExam" parameterClass="string">
+      insert into ordernexttest(ordernexttestid,ordernum,dicttestitemid,engname,testcode,testname,isneededorder)
+      select seq_ordernexttest.nextval, #value#,t.dicttestitemid,t.engname,t.testcode,t.testname,1
+      from dicttestitem t, dictproductdetail d
+      where t.dicttestitemid = d.testgroupid and d.productid in (select t.dicttestitemid from dicttestitem t where t.isneededorder = 1)
+    </insert>
+  </statements>
+</sqlMap>

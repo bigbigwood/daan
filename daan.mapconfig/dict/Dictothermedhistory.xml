@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictothermedhistory" type="daan.domain.Dictothermedhistory,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictothermedhistoryResult" class="daan.domain.Dictothermedhistory">
+      <result property="Dictothermedhistoryid" column="DICTOTHERMEDHISTORYID" />
+      <result property="Dictmemberid" column="DICTMEMBERID" />
+      <result property="Remark" column="REMARK" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictothermedhistory" parameterClass="string" resultMap="DictothermedhistoryResult">
+      SELECT DICTOTHERMEDHISTORYID AS Dictothermedhistoryid,DICTMEMBERID AS Dictmemberid,REMARK AS Remark
+      FROM DICTOTHERMEDHISTORY
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTMEMBERID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <select id="Dict.SelectPastOrdersNoPages" parameterClass="string">
+      select o.ordernum,dm.realname,dm.mobile,dc.customername ,o.createdate,o.remarks
+      from orders o
+      left join dictmember dm on o.dictmemberid=dm.dictmemberid
+      left join dictcustomer dc on o.dictcustomerid=dc.dictcustomerid
+      where dm.dictmemberid=#value# and o.iscancel='0'
+    </select>
+    <select id="Dict.SelectPastOrders" parameterClass="HashTable">
+      select * from
+      (select ROWNUM RN, t.* FROM
+      (select o.ordernum,dm.realname,dm.mobile,dc.customername ,o.createdate
+      from orders o
+      left join dictmember dm on o.dictmemberid=dm.dictmemberid
+      left join dictcustomer dc on o.dictcustomerid=dc.dictcustomerid
+      where dm.dictmemberid=#mid#
+      )t
+      WHERE ROWNUM <![CDATA[<=]]>$pageend$
+      ) WHERE RN <![CDATA[>]]>= $pagestart$
+    </select>
+    <select id="Dict.SelectPastOrdersCount" parameterClass="string">
+      select
+      count(1) as total
+      from orders o
+      left join dictmember dm on o.dictmemberid=dm.dictmemberid
+      left join dictcustomer dc on o.dictcustomerid=dc.dictcustomerid
+      where dm.dictmemberid=#value#
+    </select>
+    <insert id="Dict.InsertDictothermedhistory" parameterClass="Dictothermedhistory">
+      INSERT INTO DICTOTHERMEDHISTORY
+      (DICTOTHERMEDHISTORYID,DICTMEMBERID,REMARK)
+      VALUES(#Dictothermedhistoryid#,#Dictmemberid#,#Remark#)
+    </insert>
+    <update id="Dict.UpdateDictothermedhistory" parameterClass="Dictothermedhistory">
+      UPDATE DICTOTHERMEDHISTORY
+      SET REMARK=#Remark# WHERE DICTOTHERMEDHISTORYID = #Dictothermedhistoryid#
+    </update>
+    <delete id="DeleteDictothermedhistory" parameterClass="string">
+      DELETE FROM DICTOTHERMEDHISTORY
+      WHERE DICTOTHERMEDHISTORYID = #value#
+    </delete>
+  </statements>
+</sqlMap>

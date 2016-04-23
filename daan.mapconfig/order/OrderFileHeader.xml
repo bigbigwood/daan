@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderfileheader" type="daan.domain.Orderfileheader,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderfileheaderResult" class="daan.domain.Orderfileheader">
+      <result property="Orderfileheaderid" column="ORDERFILEHEADERID" />
+      <result property="Dictlabid" column="DICTLABID" />
+      <result property="Dictcustormer" column="DICTCUSTORMER"/>
+      <result property="Enterby" column="ENTERBY" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Filename" column="FILENAME" />
+      <result property="Status" column="STATUS" />
+      <result property="Province" column="PROVINCE" />
+      <result property="City" column="CITY" />
+      <result property="County" column="COUNTY" />
+      <result property="IsUnifiedpost" column="ISUNIFIEDPOST" />
+      <result property="PostAddress" column="POSTADDRESS" />
+      <result property="Recipient" column="RECIPIENT" />
+      <result property="ContactNumber" column="CONTACTNUMBER" />
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+
+    <!--分页查询-->
+    <select id="Order.GetBulkImportManagePageLst" parameterClass="Hashtable">
+      select d.Orderfileheaderid,d.Dictlabid,d.Dictcustormer,d.Enterby,d.Createdate,d.Filename,d.Status,decode(d.status,'0','未扫描','1','已扫描','2','扫描失败') statustext,us.username from orderfileheader d
+      left join  dictuser us on d.enterby=us.dictuserid
+      where
+      d.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+      and d.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+      <isNotEqual  prepend="and" property="Dictlabid" compareValue="-1">
+        d.DICTLABID=$Dictlabid$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="Dictcustormer" compareValue="-1">
+        d.DICTCUSTORMER=$Dictcustormer$
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="strKey">
+        ( d.Filename like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.createdate desc
+    </select>
+    <!--分页查询总数-->
+    <select id="Order.GetBulkImportManagePageLstCount" parameterClass="Hashtable" resultMap="OrderfileheaderResult">
+      SELECT Count(*) from orderfileheader d
+      where 1=1
+      <isNotEmpty prepend="and" property="Dictlabid">
+        DICTLABID=$Dictlabid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Testtype">
+        DICTCUSTORMER=$Dictcustormer$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Filename like  '%$strKey$%')
+      </isNotEmpty>
+      <isNotNull prepend="and" property="DateEnd">
+        d.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="DateStart">
+        d.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+      </isNotNull>
+    </select>
+
+    <!--添加导入订单文件名称-->
+    <insert id="Order.InsertOrderfileheader" parameterClass="Orderfileheader">
+      INSERT INTO ORDERFILEHEADER
+      (ORDERFILEHEADERID,DICTLABID,DICTCUSTORMER,ENTERBY,CREATEDATE,FILENAME,STATUS,PROVINCE,CITY,COUNTY,ISUNIFIEDPOST,POSTADDRESS,RECIPIENT,CONTACTNUMBER)
+      VALUES(#Orderfileheaderid#,#Dictlabid#,#Dictcustormer#,#Enterby#,#Createdate#,#Filename#,#Status#,#Province#,#City#,#County#,#IsUnifiedpost#,#PostAddress#,#Recipient#,#ContactNumber#)
+    </insert>
+
+    <!--查询待上传文件记录-->
+    <select id="Order.FrmUploadFileName.select">
+      select o.orderfileheaderid,o.dictlabid,o.dictcustormer,o.enterby,o.createdate,o.filename,o.province,o.city,o.county,
+      nvl(o.isunifiedpost,'0')isunifiedpost, o.postaddress, o.recipient, o.contactnumber from orderfileheader o where o.status=0
+      order by o.createdate
+    </select>
+    <update id="Order.UpdateOrderfileheader" parameterClass="Hashtable">
+      UPDATE orderfileheader SET STATUS=#Status# WHERE ORDERFILEHEADERID = #Orderfileheaderid#
+    </update>
+
+  </statements>
+</sqlMap>

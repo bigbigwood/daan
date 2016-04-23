@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="TableID"  type="daan.domain.TableID, daan.domain" />
+  </alias>
+
+  <resultMaps>
+
+
+
+  </resultMaps>
+
+
+
+  <!-- ==========================================
+        MAPPED STATEMENTS 
+    ============================================= 
+    -->
+  <statements>
+    <!-- 得到当前服务器时间 -->
+    <select id="Common.GetServerTime" parameterClass="string" resultClass="DateTime">
+      select   sysdate   from   dual
+    </select> 
+
+    <!--获取最大ID号-->
+    <select id="Common.GetID" parameterClass="string" resultClass="int">
+      SELECT idvalue from dictMaxID where tablename=#value#
+      
+    </select>
+
+    <!-- 获取当前用户所有数据库表名-->
+    <select id="Common.GetUserTable">
+      SELECT * FROM USER_TABLES
+
+    </select>
+    
+    <!--获Oracle序列-->
+    <select id="Common.GetSeqID" parameterClass="string" resultClass="int">     
+      SELECT $vaule$.NEXTVAL FROM DUAL
+    </select>
+
+    <update id="Common.UpdateID" parameterClass="daan.domain.TableID">
+      update dictMaxID
+      set idValue = #NextId# where tablename = #Name# and idValue=#NextId# - 1
+
+    </update>
+
+    <select id="dictReportTemplate.getLst">
+      select * from dictReportTemplate
+
+    </select>
+
+    <select id="Common.SelectIdentity" parameterClass="string" resultClass="int">
+      select @@Identity as idvalue from $value$
+    </select>
+
+    <select id="Common.Select" parameterClass="string" >
+      <![CDATA[   $sql$   ]]>
+    </select>
+
+    <!--获取版本信息-->
+    <select id="initSysSettingForVersion" parameterClass="string">
+      select top 1 * from initSysSetting
+    </select>
+    
+    <insert id="Common.Insert" parameterClass="string" >
+      <![CDATA[   $sql$   ]]>
+    </insert>
+
+    <update id="Common.Update" parameterClass="string" >
+      <![CDATA[   $sql$   ]]>
+    </update>
+
+    <!--写登录日志-->
+    <insert id="login.InsertLoginlog" parameterClass="System.Collections.IDictionary">
+      insert into loginlog(loginlogid, dictuserid, mac, ip,logindate)
+      values(#loginlogid# , #dictuserid#, #mac#, #ip#, getdate())
+    </insert>
+    
+  </statements>
+
+</sqlMap>

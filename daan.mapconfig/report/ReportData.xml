@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="ReportData" type="daan.domain.report.ReportData,daan.domain" />
+  </alias>
+  <!--<resultMaps>
+    <resultMap id="DictreporttemplateResult" class="daan.domain.Dictreporttemplate">
+      <result property="Dictreporttemplateid" column="DICTREPORTTEMPLATEID" />
+      <result property="Templatename" column="TEMPLATENAME" type="string" dbType="varchar"/>
+      <result property="Templatecode" column="TEMPLATECODE" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Papersize" column="PAPERSIZE" type="string" dbType="varchar"/>
+      <result property="Singleappraise" column="SINGLEAPPRAISE" type="string" dbType="varchar"/>
+      <result property="Reporttype" column="REPORTTYPE"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>-->
+
+
+  <!-- select replace(ib.basicname,'科室','项目') as testtype,nvl(b.dictgroupname,'单项') as dictgroupname,b.testname,b.testresult,
+      (case when b.lastresult is null then ''
+      when ((REPLACE(REPLACE(b.testresult,'>',''),'<![CDATA[<]]>','')-REPLACE(REPLACE(b.lastresult,'>',''),'<![CDATA[<]]>',''))>0 and b.lastresult is not null) then  '↑'
+      when ((REPLACE(REPLACE(b.testresult,'>',''),'<![CDATA[<]]>','')-REPLACE(REPLACE(b.lastresult,'>',''),'<![CDATA[<]]>',''))<![CDATA[<]]>0 and b.lastresult is not null) then  '↓' else  '-' end) as hlflag,
+      b.textshow,b.unit
+      from ordertest b
+      join orders a  on (a.ordernum = b.ordernum)
+      left join ordergrouptest og on (b.ordernum=og.ordernum and (b.dictgroupid=og.dicttestitemid or og.dicttestitemid=b.dicttestitemid))
+      inner join dicttestitem dti on og.dicttestitemid=dti.dicttestitemid and dti.isonlyforbill=0
+      left join dictlabdept dlb on dti.dictlabdeptid=dlb.dictlabdeptid
+      left join initbasic ib on (dlb.labdepttype=ib.basicvalue and ib.basictype='LABDEPTTYPE')
+      where b.ordernum =$value$ and og.isactive=1
+      order by ib.basicname,b.dictgroupname
+  */-->
+
+
+
+
+
+  <statements>
+
+    <!--取得报告标题-->
+    <select id="report.GetTitleByCustomer" parameterClass="string" >
+      select d.reporttitle as titleName from dictcustomer d,orders t where d.dictcustomerid =t.dictcustomerid and t.ordernum= '$value$'
+    </select>
+    <!--取得报告标题-->
+    <select id="report.GetTitleByDictlab" parameterClass="string" >
+      select b.labname as titleName from dictlab b ,orders t where b.dictlabid = t.dictlabid  and t.ordernum='$value$'
+    </select>
+
+      <!--取得常规报告头信息-->
+    <select id="report.GetDataTitle" parameterClass="string" >
+      <!--select a.realname,decode(a.sex,'M','男','F','女','未知') sex,a.age,a.ordernum,a.enterdate,a.dictmemberid,nvl(d.customername2,d.customername) customername,d.reporttitle,lab.labdescription,to_char(a.finishdate,'yyyy-MM-dd') as finishdate from
+      orders a  left join dictcustomer d on (a.dictcustomerid = d.dictcustomerid) left join dictlab lab
+      on a.dictlabid=lab.dictlabid
+      where a.ordernum = $value$-->
+      select b.barcode, a.realname,decode(a.sex,'M','男','F','女','未知') sex,a.age,a.ordernum,a.enterdate,a.dictmemberid,nvl(d.customername2,d.customername) customername,d.reporttitle,lab.labdescription,to_char(a.finishdate,'yyyy-MM-dd') as finishdate from
+      orders a
+      left join dictcustomer d on (a.dictcustomerid = d.dictcustomerid)
+      left join dictlab lab on a.dictlabid=lab.dictlabid
+      left join orderbarcode b on a.ordernum=b.ordernum
+      where a.ordernum ='$value$' and rownum<![CDATA[<]]>2
+    </select>   
+    <!--本次结果-->
+    <select id="report.GetDataImportantSigns" parameterClass="string" >
+      select replace(ib.basicname,'科室','项目') as testtype,nvl(b.dictgroupname,'单项') as dictgroupname,b.testname,b.testresult,
+      decode(b.hlflag,'H','↑','L','↓','*','*','') hlflag, b.textshow,b.unit
+      from ordertest b
+      join orders a  on (a.ordernum = b.ordernum)
+      left join ordergrouptest og on (b.ordernum=og.ordernum and (b.dictgroupid=og.dicttestitemid or og.dicttestitemid=b.dicttestitemid))
+      inner join dicttestitem dti on og.dicttestitemid=dti.dicttestitemid and dti.isonlyforbill=0
+      left join dictlabdept dlb on dti.dictlabdeptid=dlb.dictlabdeptid
+      left join initbasic ib on (dlb.labdepttype=ib.basicvalue and ib.basictype='LABDEPTTYPE')
+      where b.ordernum ='$value$' and og.isactive='1'
+      order by decode(b.dictgroupname,null,999999,nvl(dti.displayorder,999998)),nvl(b.dictgroupname,'单项'),b.displayorder
+    </select>
+    <!--获取C14、C13检测结果-->
+    <select id="report.GetC14TestResult" parameterClass="string">
+      select tt.testname,decode(o.dictreporttemplateid,'61','[14C]-UBT','81','[13C]-UBT') testmethod,decode(tt.isexception,'1','*','') hlflag,tt.unit,tt.textshow,tt.testresult
+      from ordertest tt,orders o where tt.ordernum=o.ordernum and tt.ordernum='$value$'
+    </select>
+    <!--历史对比表头日期，取值规则：1，状态大于等于25，即完成总检的。2，无取消iscancel=0。3，完成总检日期小于当前查询报告的-->
+    <select id="report.GetDataExamComparedHead" parameterClass="string" >
+      select ordernum,finishdate from(
+      select
+      ordernum,to_char(nvl(t1.createdate,finishdate),'yyyy-MM-dd') as finishdate
+      from orders t1,dictmember t2
+      where iscancel='0'
+      and status>='25'
+      and t1.dictmemberid=t2.dictmemberid
+      and t2.dictmemberid=(select dictmemberid from orders where ordernum='$value$')
+      and finishdate<![CDATA[<=]]>(select finishdate from orders where ordernum='$value$')
+      order by finishdate desc
+      )t where rownum<![CDATA[<=]]>5
+    </select>
+    <!--取得常规报告下历次体检对比内容-->
+    <select id="report.GetDataExamCompared" parameterClass="Hashtable" >
+      select tbdanxiang.testname,nvl(tbgroup.testname,'单项') dictgroupname,g.* from dicttestitem tbdanxiang
+      inner join
+      (
+      select t.dicttestitemid,t.dictgroupid,max(result1) FIVETESTRESULT,max(result2) FOURTESTRESULT,max(result3) THREETESTRESULT,max(result4) TWOTESTRESULT,max(result5) ONETESTRESULT,'$date1$' FIVETESTDATE,'$date2$' FOURTESTDATE,'$date3$' THREETESTDATE,'$date4$' TWOTESTDATE,'$date5$' ONETESTDATE    from
+      (
+      select ot1.dicttestitemid,ot1.dictgroupid,(ot1.testresult||decode(ot1.hlflag,'H','(↑)','L','(↓)','*','(*)','')) result1, null result2,null result3, null result4, null result5
+      from  ordertest ot1 where ot1.ordernum='$ordernum1$' and ot1.isactive='1'
+
+      union
+      select ot2.dicttestitemid,ot2.dictgroupid,null result1, (ot2.testresult||decode(ot2.hlflag,'H','(↑)','L','(↓)','*','(*)','')) result2,null result3, null result4, null result5
+      from ordertest ot2 where ot2.ordernum='$ordernum2$' and ot2.isactive='1'
+
+      union
+      select ot3.dicttestitemid,ot3.dictgroupid,null result1, null result2,(ot3.testresult||decode(ot3.hlflag,'H','(↑)','L','(↓)','*','(*)','')) result3, null result4, null result5
+      from ordertest ot3 where ot3.ordernum='$ordernum3$' and ot3.isactive='1'
+
+      union
+      select ot4.dicttestitemid,ot4.dictgroupid,null result1, null result2,null result3, (ot4.testresult||decode(ot4.hlflag,'H','(↑)','L','(↓)','*','(*)','')) result4, null result5
+      from ordertest ot4 where ot4.ordernum='$ordernum4$' and ot4.isactive='1'
+
+      union
+      select ot5.dicttestitemid,ot5.dictgroupid,null result1, null result2,null result3, null result4, (ot5.testresult||decode(ot5.hlflag,'H','(↑)','L','(↓)','*','(*)','')) result5
+      from ordertest ot5 where ot5.ordernum='$ordernum5$' and ot5.isactive='1'
+      )t
+      group by t.dicttestitemid,t.dictgroupid
+      having max(result1) is not null
+      )g
+      on  tbdanxiang.dicttestitemid=g.dicttestitemid
+      left join dicttestitem tbgroup on tbgroup.dicttestitemid=g.dictgroupid
+      order by decode(tbgroup.dicttestitemid,null,999999,nvl(tbgroup.displayorder,999998)),nvl(tbgroup.testname,'单项'),tbdanxiang.displayorder
+    </select>
+    <!--解读与建议-->
+    <select id="report.GetDataDiseaseGuide" parameterClass="string" >
+      select a.diagnosisname,a.diseasedescription,a.diseasecause,a.suggestion from orderdiagnosis a
+      where a.ordernum = '$value$' order by a.displayorder asc
+    </select>
+    <!--取得常规报告下次体检特别推荐的项目内容-->
+    <select id="report.GetDataRecommendExam" parameterClass="string" >
+        SELECT a.testname,to_char(a.rerundate,'yyyy-MM-dd') as rerundate,to_char(a.Rerunenddate,'yyyy-MM-dd') as Rerunenddate from ordernexttest a where a.isneededorder = '0' and a.ordernum ='$value$'
+    </select>
+    <!--取得常规报告每次体检必须检查的项目内容-->
+    <select id="report.GetDataMustExam" parameterClass="string" >
+      SELECT a.testname from ordernexttest a where a.isneededorder = '1' and a.ordernum ='$value$'
+    </select>
+   
+    
+    
+    
+    <!--取得HPV报告下报告头内容-->
+    <select id="report.GetDataHPVTitle" parameterClass="string" >
+      select b.barcode,a.realname,decode(a.sex,'M','男','F','女','未知') sex,a.age,
+      b.collectdate, b.receivedate,i.basicname as status
+      ,(select du.username  from dictuser du where du.dictuserid= b.receiveby)as receiveby,
+      b.releasedate,
+      b.releasebyname as releaseby,
+      b.authorizedate,
+      b.authorizebyname as authorizeby,
+      b.hashcode,
+      b.signaturebyname as signatureby,
+      d.itemname,c.customername
+      from orderbarcode b join orders a on(a.ordernum = b.ordernum)
+      join dictlibraryitem d on (b.specimentypeid = d.dictlibraryitemid)
+      join dictcustomer c on (c.dictcustomerid=a.dictcustomerid)
+      join initbasic i on (i.basictype='ORDERBARCODESTATUS' and i.basicvalue =b.status )
+      where b.ordernum  ='$value$'
+    </select>
+    <!--取得HPV报告结果内容-->
+    <select id="report.GetDataHPVResult" parameterClass="string" >
+      select a.testname,a.testmethod,decode(a.hlflag,'H','↑','L','↓',a.hlflag) hlflag,a.testresult,a.unit,a.textshow from ordertest a where a.ordernum = '$value$'
+    </select>
+    <!--取得HPV报告风险分析与建议内容,从诊断表获取-->
+    <select id="report.GetDataHPVSuggestion" parameterClass="string" >
+      select (m.diseasecause||CHR(10)||m.suggestion) as resultsuggestion from orderdiagnosis  m where  m.ordernum = '$value$'
+    </select>
+    <!--取得HPV报告风险分析与建议检验项目-->
+    <select id="report.GetDataHPVSuggestionTestResult" parameterClass="string" >
+      select a.testname||' :      '||a.testresult as testresult from ordertest a where  a.ordernum =  '$value$'
+    </select>
+    
+  </statements>
+</sqlMap>
+

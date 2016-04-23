@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictcustomertestdiscount" type="daan.domain.Dictcustomertestdiscount,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictcustomertestdiscountResult" class="daan.domain.Dictcustomertestdiscount">
+      <result property="Dictcustomerdiscountid" column="DICTCUSTOMERDISCOUNTID" />
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Begindate" column="BEGINDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Enddate" column="ENDDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Updateby" column="UPDATEBY" />
+      <result property="Updatedate" column="UPDATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+    </resultMap>
+    <resultMap id="DictcustomertestdiscountResultTo" class="daan.domain.Dictcustomertestdiscount">
+      <result property="Dictcustomerdiscountid" column="DICTCUSTOMERDISCOUNTID" />
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Begindate" column="BEGINDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Enddate" column="ENDDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Updateby" column="UPDATEBY" />
+      <result property="Updatedate" column="UPDATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Customername" column="CUSTOMERNAME" type="string" dbType="varchar"/>
+      <result property="Testname" column="TESTNAME"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictcustomertestdiscount" parameterClass="string" resultMap="DictcustomertestdiscountResult">
+      SELECT DICTCUSTOMERDISCOUNTID AS Dictcustomerdiscountid,DICTCUSTOMERID AS Dictcustomerid,DICTTESTITEMID AS Dicttestitemid,FINALPRICE AS Finalprice,BEGINDATE AS Begindate,ENDDATE AS Enddate,UPDATEBY AS Updateby,UPDATEDATE AS Updatedate,CREATEDATE AS Createdate
+      FROM DICTCUSTOMERTESTDISCOUNT
+    </select>
+    <!--分页查询-->
+    <select id="Dict.GetDictcustomerdiscounPageLst" parameterClass="Hashtable" resultMap="DictcustomertestdiscountResultTo" >
+      SELECT Dictcustomerdiscountid,Dictcustomerid,Dicttestitemid,Finalprice,Begindate,Enddate,Updateby,Updatedate,Createdate,Customername,Testname FROM
+
+      (SELECT ROWNUM RN, t.* FROM (select d1.Dictcustomerdiscountid,d1.Dictcustomerid,d1.dicttestitemid,d1.Begindate,d1.Enddate,d1.Updateby,d1.Updatedate,d1.finalprice,d1.Createdate
+      ,d2.Customername ,d3.Testname from Dictcustomertestdiscount  d1 inner join Dictcustomer d2 on d1.dictcustomerid = d2.dictcustomerid inner join
+      Dicttestitem d3 on d1.dicttestitemid = d3.dicttestitemid
+      where 1=1 and d1.Dictcustomerid = '$Dictcustomerid$'
+      <isNotNull prepend="and" property="strKey">
+        Begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEmpty prepend="and" property="endDate" >
+        Enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+      order by d1.Dictcustomerdiscountid  desc ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!---按时间查询（判断有没有已经存在的时间段报价）-->
+    <select id="Dict.GetDictcustomerdiscounByTime" parameterClass="Hashtable"    resultMap="DictcustomertestdiscountResult"  >
+      SELECT * FROM Dictcustomertestdiscount  where 1=1  and Dictcustomerid = '$Dictcustomerid$'
+      <isNotEmpty prepend="and">
+        Enddate <![CDATA[>=]]> to_date('$begdate$','yyyy-MM-dd') and begindate <![CDATA[<=]]> to_date('$Enddate$','yyyy-MM-dd') and Dicttestitemid = '$itemsId$'  and  Dictcustomerdiscountid != '$Dictcustomerdiscountid$'
+      </isNotEmpty>
+    </select>
+
+    <select id="Dict.GetDictcustomerdiscounByTimeTo" parameterClass="Hashtable"    resultMap="DictcustomertestdiscountResult"  >
+      SELECT  * FROM Dictcustomertestdiscount  where 1=1 and  Dictcustomerid = '$Dictcustomerid$'
+      <isNotEmpty prepend="and">
+        Enddate <![CDATA[>=]]> to_date('$begdate$','yyyy-MM-dd') and begindate <![CDATA[<=]]> to_date('$Enddate$','yyyy-MM-dd') and Dicttestitemid = '$itemsId$'
+      </isNotEmpty>
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictcustomerdiscounPageLstCount" parameterClass="Hashtable"    resultMap="DictcustomertestdiscountResultTo"  >
+      SELECT Count(1) FROM Dictcustomertestdiscount a inner join Dictcustomer b on a.dictcustomerid = b.dictcustomerid inner join
+      Dicttestitem c on a.dicttestitemid = c.dicttestitemid where 1=1 and a.Dictcustomerid = '$Dictcustomerid$'
+      <isNotEmpty prepend="and" property="strKey" >
+        a.Begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endDate" >
+        a.Enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+    </select>
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictcustomerdiscounInfo" parameterClass="string" resultMap="DictcustomertestdiscountResult">
+      SELECT Dictcustomerdiscountid,Dictcustomerid,Dicttestitemid,Finalprice,Begindate,Enddate,Updateby,Updatedate,Createdate  FROM Dictcustomertestdiscount where  Dictcustomerdiscountid=#value#
+    </select>
+    <!--新增-->
+    <insert id="Dict.InsertDictcustomertestdiscount" parameterClass="Dictcustomertestdiscount">
+      INSERT INTO DICTCUSTOMERTESTDISCOUNT
+      (Dictcustomerdiscountid,Dictcustomerid,Dicttestitemid,Finalprice,Begindate,Enddate,Updateby,Updatedate,Createdate)
+      VALUES(#Dictcustomerdiscountid#,#Dictcustomerid#,#Dicttestitemid#,#Finalprice#,#Begindate:DateTime:1/1/0001 12:00:00 AM#,#Enddate:DateTime:1/1/0001 12:00:00 AM#,#Updateby#,#Updatedate:DateTime:1/1/0001 12:00:00 AM#,#Createdate:DateTime:1/1/0001 12:00:00 AM#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictcustomertestdiscount" parameterClass="Dictcustomertestdiscount">
+      UPDATE DICTCUSTOMERTESTDISCOUNT
+      SET Dictcustomerdiscountid=#Dictcustomerdiscountid#,Dictcustomerid=#Dictcustomerid#,Dicttestitemid=#Dicttestitemid#,Finalprice=#Finalprice#,Begindate=#Begindate#,Enddate=#Enddate#,Updateby=#Updateby#,Updatedate=#Updatedate#,Createdate=#Createdate#
+      WHERE Dictcustomerdiscountid = #Dictcustomerdiscountid#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictcustomertestdiscount" parameterClass="string">
+      DELETE FROM DICTCUSTOMERTESTDISCOUNT
+      WHERE Dictcustomerdiscountid in ($value$)
+    </delete>
+  </statements>
+</sqlMap>

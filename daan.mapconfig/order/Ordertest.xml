@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Ordertest" type="daan.domain.Ordertest,daan.domain" />
+  </alias>
+  <resultMaps>
+
+    <!--查上一次结果 zhouy-->
+    <resultMap id="DicttestLastResult" class="daan.domain.Ordertest">
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <!--完成时间-->
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Testresult" column="TESTRESULT"/>
+    </resultMap>
+    <!--end 查上一次结果-->
+
+    <resultMap id="OrdertestResult" class="daan.domain.Ordertest">
+      <result property="Ordertestid" column="ORDERTESTID"/>
+      <result property="Ordernum" column="ORDERNUM"/>
+      <result property="Barcode" column="BARCODE"/>
+      <result property="Testmethod" column="TESTMETHOD"/>
+      <result property="Dictproductsid" column="DICTPRODUCTSID"/>
+      <result property="Dictgroupid" column="DICTGROUPID"/>
+      <result property="Dictgroupname" column="DICTGROUPNAME"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Engname" column="ENGNAME"/>
+      <result property="Englongname" column="ENGLONGNAME"/>
+      <result property="Testcode" column="TESTCODE"/>
+      <result property="Testname" column="TESTNAME"/>
+      <result property="Parentid" column="PARENTID"/>
+      <result property="Inputtemplateitemid" column="INPUTTEMPLATEITEMID"/>
+      <result property="Treelevel" column="TREELEVEL"/>
+      <result property="Hlflag" column="HLFLAG"/>
+      <result property="Lastdate" column="LASTDATE"/>
+      <result property="Lastresult" column="LASTRESULT"/>
+      <result property="Testresult" column="TESTRESULT"/>
+      <result property="Unit" column="UNIT"/>
+      <result property="Textshow" column="TEXTSHOW"/>
+      <result property="Report" column="REPORT"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Testresulttype" column="TESTRESULTTYPE"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Reflow" column="REFLOW"/>
+      <result property="Refhigh" column="REFHIGH"/>
+      <result property="Status" column="STATUS"/>
+      <result property="Isimportant" column="ISIMPORTANT"/>
+      <result property="Dictlocusid" column="DICTLOCUSID"/>
+      <result property="Testalias" column="TESTALIAS"/>
+      <result property="Averagerisk" column="AVERAGERISK"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Isexception" column="ISEXCEPTION"/>
+      <result property="Hlhint" column="HLHINT"/>
+      <result property="Isactive" column="ISACTIVE" />
+      <result property="TransCount" column="TRANSCOUNT" />
+      <result property="TransDate" column="TRANSDATE" />
+    </resultMap>
+
+    <resultMap id="OrderLabdeptresult" class="daan.domain.Ordertest">
+      <result property="Ordertestid" column="ORDERTESTID"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Ordernum" column="ORDERNUM"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Testname" column="TESTNAME"/>
+      <result property="Testresult" column="TESTRESULT"/>
+      <result property="Isexception" column="ISEXCEPTION"/>
+      <result property="Lastresult" column="LASTRESULT"/>
+      <result property="Lastdate" column="LASTDATE"/>
+      <result property="Textshow" column="TEXTSHOW"/>
+      <result property="Hlhint" column="HLHINT"/>
+      <result property="Unit" column="UNIT"/>
+      <result property="Hlflag" column="HLFLAG"/>
+      <result property="Labdeptname" column="LABDEPTNAME"/>
+      <result property="labdepttype" column="LABDEPTTYPE"/>
+    </resultMap>
+
+
+    <resultMap id="OrderTestResultBack" class="daan.domain.Ordertest">
+      <result property="Uniqueid" column="UNIQUEID"/>
+      <result property="Testmethod" column="TESTMETHOD"/>
+      <result property="Hlflag" column="HLFLAG"/>
+      <result property="Testresult" column="TESTRESULT"/>
+      <result property="Unit" column="UNIT"/>
+      <result property="Textshow" column="TEXTSHOW"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--取未停止测试中的科室-->
+    <select id="Order.GetOrdertestByOrdernumGroupBy" parameterClass="Hashtable" resultMap="OrdertestResult" >
+      select t.dictlabdeptid from ordertest  t where t.ordernum= '$OrderNum$'  and t.isactive='1' group by t.dictlabdeptid
+    </select>
+
+    <!--发送社区网站体检报告  根据ordernum查找检验项目 zhangwei-->
+    <select id="Order.GetOrdertestByOrdernum" parameterClass="Hashtable" resultMap="OrderTestResultBack" >
+      select b.uniqueid as ICode,a.testmethod as Manner,
+      a.hlflag as remind,a.testresult as Value,a.unit,a.textshow as RefValue,'' as Remark
+      from ordertest a left join dicttestitem b on(a.dicttestitemid = b.dicttestitemid)
+      where a.ordernum = '$value$'
+    </select>
+    <!--查询详细信息-->
+    <select id="Order.SelectOrdertest" parameterClass="string" resultMap="OrdertestResult">
+      SELECT ORDERTESTID AS Ordertestid,ORDERNUM AS Ordernum,BARCODE AS Barcode,TESTMETHOD AS Testmethod,DICTPRODUCTSID AS Dictproductsid,
+      DICTGROUPID AS Dictgroupid,DICTGROUPNAME AS Dictgroupname,DICTTESTITEMID AS Dicttestitemid,ENGNAME AS Engname,ENGLONGNAME AS Englongname,
+      TESTCODE AS Testcode,TESTNAME AS Testname,PARENTID AS Parentid,INPUTTEMPLATEITEMID AS Inputtemplateitemid,TREELEVEL AS Treelevel,
+      HLFLAG AS Hlflag,LASTDATE AS Lastdate,LASTRESULT AS Lastresult,TESTRESULT AS Testresult,UNIT AS Unit,TEXTSHOW AS Textshow,REPORT AS Report,
+      DISPLAYORDER AS Displayorder,TESTRESULTTYPE AS Testresulttype,DICTLABDEPTID AS Dictlabdeptid,REFLOW AS Reflow,REFHIGH AS Refhigh,STATUS AS Status,
+      ISIMPORTANT AS Isimportant,DICTLOCUSID AS Dictlocusid,TESTALIAS AS Testalias,AVERAGERISK AS Averagerisk,CREATEDATE AS Createdate,
+      ISEXCEPTION AS Isexception,HLHINT as Hlhint,ISACTIVE as Isactive,TRANSCOUNT as TransCount,TRANSDATE as TransDate 
+      FROM ORDERTEST
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERTESTID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!--已体检而未完成情况，团检报告-->
+    <select id="Order.GetdtGroupAnFinish" parameterClass="Hashtable" >
+      select a.realname name,a.ordernum,decode(a.sex, 'M', '男', 'F', '女', '未知') sex,substr(a.age, 0, instr(a.age, '岁')) age,wmsys.wm_concat (b.testname)unFinishTest
+      from ordertest  b
+      join orders a on b.ordernum=a.ordernum
+      where b.isactive='0' and bb.status>'24' and a.dictcustomerid =$dictcustomerid$ and a.iscancel='0'
+      and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      group by a.ordernum ,a.realname,a.ordernum,a.sex,a.age
+    </select>
+    
+    <!--查上一次结果   上次时间为订单 [完成时间] zhouy-->
+    <select id="Order.SelectOrdertestLastResultList" parameterClass="int" resultMap="DicttestLastResult">
+      select dicttestitemid,createdate,testresult from (
+      select ot.dicttestitemid, o.finishdate as createdate,ot.testresult,row_number() over(partition by ot.dicttestitemid order by o.finishdate desc) rn
+      from orders o
+      left join ordertest ot on o.ordernum=ot.ordernum
+      where o.dictmemberid=#value# and o.status>='25' and o.iscancel='0' and ot.isactive='1' <!--完成总检,未作废，未停止测试-->
+      )
+      where rn <![CDATA[<]]> 2
+    </select>
+    <!--end 查上一次结果 zhouy-->
+    
+    <!--查看订单号相对应科室的检查结果-->
+    <select id="order.DataForOrderLabdeptresult" parameterClass="Hashtable">
+      select nvl(b.dictgroupname,'--单项--') as dictgroupname,b.ordernum,b.barcode,b.testname,
+      b.lastdate, b.lastresult,b.testresult,
+      b.textshow,decode(b.isexception,'1','异常','正常')isexception,nvl(b.hlhint,'正常') as hlhint
+      ,decode(b.hlflag,'H','↑','L','↓',b.hlflag) hlflag,nvl(b.TransCount,0) TransCount,b.TransDate
+      from ORDERTEST b,DICTTESTITEM dt
+      where  b.dicttestitemid = dt.dicttestitemid and dt.isonlyforbill = '0' and b.ordernum='$ordernum$' and b.isactive='1'
+      <isNotNull prepend="and"  property="dictlabdeptid">
+        b.dictlabdeptid=#dictlabdeptid#
+      </isNotNull>  
+      order by b.dictgroupname
+    </select>
+    <!--团检，重要指标检查结果查询,单项-->
+    <select id="order.DataForImporttantTestItem" parameterClass="Hashtable">
+      select aa.testname,aa.dicttestitemid
+      from ordertest aa
+      join orders bb on bb.ordernum=aa.ordernum
+      where bb.status>'24' and bb.dictcustomerid=$dictcustomerid$ and aa.isimportant='1' and length(aa.dictgroupname)=0
+      and bb.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and bb.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and bb.iscancel='0'
+      group by aa.testname,aa.dicttestitemid
+    </select>
+    <!--团检，重要指标检查结果查询，双项-->
+    <select id="order.DataForImporttantTestItemTwo" parameterClass="Hashtable">
+      select aa.DICTGROUPID,aa.DICTGROUPNAME
+      from ordertest aa
+      join orders bb on bb.ordernum=aa.ordernum
+      where bb.status>'24' and bb.dictcustomerid=$dictcustomerid$ and aa.isimportant='1' and length(aa.dictgroupname)>0
+      and bb.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and bb.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and bb.iscancel='0'
+      group by aa.DICTGROUPID,aa.DICTGROUPNAME
+    </select>
+    <!--团检，重要指标检查结果详细单一查询，单项-->
+    <select id="order.DataForOneImporttantTestItem" parameterClass="Hashtable">
+      with   vw as (select aa.displayorder,aa.hlhint,aa.dicttestitemid from  ordertest aa
+      join orders bb on bb.ordernum=aa.ordernum
+      where  bb.dictcustomerid=$dictcustomerid$ and bb.status>'24'
+      and bb.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd') and bb.iscancel='0'
+      and bb.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd'))
+
+      select aaa.hlhint,aaa.cc numCount,(to_char(trunc(aaa.cc*100/aaa.gg,2),'FM90.09')||'%')numPercent,aaa.gg sumcount   from
+      (select vw.hlhint,count(1)cc,(select count(1) from vw)gg  from vw where vw.dicttestitemid=$dictgroupid$
+      group by vw.hlhint
+      ) aaa order by aaa.hlhint
+    </select>
+    <!--团检，重要指标检查结果详细单一查询，双项-->
+    <select id="order.DataForTwoImporttantTestItem" parameterClass="Hashtable">
+      with   vw as (select aa.displayorder,aa.hlhint,aa.DICTGROUPID,aa.TESTNAME from  ordertest aa
+      join orders bb on bb.ordernum=aa.ordernum
+      where  bb.dictcustomerid=$dictcustomerid$ and bb.status>'24'
+      and bb.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd') and bb.iscancel='0'
+      and bb.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd'))
+
+      select aaa.hlhint resultType,aaa.TESTNAME testType,aaa.cc  numCount,(to_char(trunc(aaa.cc*100/aaa.gg,2),'FM90.09')||'%')numPercent,aaa.gg sumcount   from
+      (select vw.hlhint,count(1)cc,(select count(1) from vw)gg,vw.TESTNAME  from vw where vw.DICTGROUPID=$dictgroupid$
+      group by vw.hlhint,vw.TESTNAME
+      ) aaa order by aaa.hlhint,aaa.TESTNAME
+    </select>
+    <insert id="Order.InsertOrdertest" parameterClass="Ordertest">
+      INSERT INTO ORDERTEST
+      (ORDERTESTID,ORDERNUM,BARCODE,DICTPRODUCTSID,DICTGROUPID,DICTGROUPNAME,DICTTESTITEMID,ENGNAME,ENGLONGNAME,TESTCODE,TESTNAME,LASTDATE,LASTRESULT,TESTRESULT,UNIT,TEXTSHOW,REPORT,DISPLAYORDER,TESTRESULTTYPE,DICTLABDEPTID,REFLOW,REFHIGH,DICTLOCUSID,TESTALIAS,AVERAGERISK,CREATEDATE,ISACTIVE,TRANSCOUNT,TRANSDATE)
+      VALUES(#Ordertestid#,#Ordernum#,#Barcode#,#Dictproductsid#,#Dictgroupid#,#Dictgroupname#,#Dicttestitemid#,#Engname#,#Englongname#,#Testcode#,#Testname#,#Lastdate#,#Lastresult#,#Testresult#,#Unit#,#Textshow#,#Report#,#Displayorder#,#Testresulttype#,#Dictlabdeptid#,#Reflow#,#Refhigh#,#Dictlocusid#,#Testalias#,#Averagerisk#,sysdate,#Isactive#,#TransCount#,#TransDate#)
+    </insert>
+    <!--编辑-->
+    <update id="Order.UpdateOrdertest" parameterClass="Ordertest">
+      UPDATE ORDERTEST
+      SET ORDERNUM=#Ordernum#,BARCODE=#Barcode#,TESTMETHOD=#Testmethod#,DICTPRODUCTSID=#Dictproductsid#,DICTGROUPID=#Dictgroupid#,DICTGROUPNAME=#Dictgroupname#,DICTTESTITEMID=#Dicttestitemid#,ENGNAME=#Engname#,ENGLONGNAME=#Englongname#,TESTCODE=#Testcode#,TESTNAME=#Testname#,PARENTID=#Parentid#,INPUTTEMPLATEITEMID=#Inputtemplateitemid#,TREELEVEL=#Treelevel#,HLFLAG=#Hlflag#,LASTDATE=#Lastdate#,LASTRESULT=#Lastresult#,TESTRESULT=#Testresult#,UNIT=#Unit#,TEXTSHOW=#Textshow#,REPORT=#Report#,DISPLAYORDER=#Displayorder#,DICTLABDEPTID=#Dictlabdeptid#,TESTRESULTTYPE=#Testresulttype#,REFLOW=#Reflow#,REFHIGH=#Refhigh#,STATUS=#Status#,ISIMPORTANT=#Isimportant#,DICTLOCUSID=#Dictlocusid#,TESTALIAS=#Testalias#,AVERAGERISK=#Averagerisk#,ISEXCEPTION=#Isexception#, HLHINT=#Hlhint#,ISACTIVE=#Isactive#
+      ,TRANSCOUNT=#TransCount#,TRANSDATE=#TransDate# 
+      WHERE ORDERTESTID = $Ordertestid$
+    </update>
+    <!--检查结果录入编辑add by lee-->
+    <update id="Order.UpdateOrdertestResult" parameterClass="Ordertest">
+      UPDATE ORDERTEST
+      SET TESTRESULT=#Testresult#,ISEXCEPTION=#Isexception#, HLHINT=#Hlhint# WHERE ORDERTESTID = $Ordertestid$
+    </update>
+    <delete id="Order.DeleteOrdertestByOrderNum" parameterClass="Hashtable">
+      DELETE FROM ORDERTEST
+      WHERE ORDERNUM = '$ordernum$'
+      <isNotEmpty prepend="and"  property="barcode">
+        barcode not in($barcode$)
+      </isNotEmpty>
+    </delete>
+
+
+    <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>体检录入>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+    <!-- 获取待录入检查人员总数 -->
+    <select id="order.GetOrderMemberPageLstCount" parameterClass="Hashtable">
+      select count(1) as pageCount
+      from orders t1, dictmember m1, dictlab lab1,initbasic ib1,initbasic ib2,dictcustomer d1
+      where t1.dictmemberid = m1.dictmemberid
+      and t1.dictlabid = lab1.dictlabid
+      and (t1.sex=ib1.basicvalue and ib1.basictype='SEX')
+      and (t1.status=ib2.basicvalue and ib2.basictype='ORDERSTATUS')
+      and (t1.dictcustomerid=d1.dictcustomerid)
+      and t1.iscancel='0'
+      <isNotNull prepend="and" property="nState">
+        t1.status in($nState$)
+      </isNotNull>
+      <isNotNull prepend="and" property="nDictlabid">
+        t1.dictlabid in ($nDictlabid$)
+      </isNotNull>
+      <isNotNull prepend="and" property="strKey">
+        (t1.ordernum='$strKey$' or m1.realname like '%$strKey$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        t1.enterdate<![CDATA[>=]]>to_date(substr('$startDate$',1,10),'yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="endDate">
+        t1.enterdate<![CDATA[<]]>(to_date(substr('$endDate$',1,10),'yyyy-MM-dd')+1)
+      </isNotNull>
+    </select>
+
+    <!-- 获取待录入检查人员分页列表 -->
+    <select id="order.GetOrderMemberPageLst" parameterClass="Hashtable">
+      select
+      tt.ordernum     as Ordernum,
+      tt.sex          as Sex,
+      tt.status       as Status,
+      tt.age          as Age,
+      tt.caculatedage as Caculatedage,
+      tt.SexName   as SexName,
+      tt.StatusName as StatusName,
+      tt.realname     as Realname,
+      tt.dictmemberid as Dictmemberid,
+      tt.idnumber as Idnumber,
+      tt.customername as Customername,
+      tt.labname    as Labname,
+      tt.ismarried as Ismarried
+      FROM
+      (SELECT ROWNUM RN, t.* FROM(
+      select t1.ordernum, t1.sex,t1.status,t1.age,t1.caculatedage,t1.ismarried,ib1.basicname as SexName,ib2.basicname as StatusName,m1.realname,m1.dictmemberid,m1.idnumber,d1.customername,lab1.labname
+      from orders t1, dictmember m1, dictlab lab1,initbasic ib1,initbasic ib2,dictcustomer d1
+      where t1.dictmemberid = m1.dictmemberid
+      and t1.dictlabid = lab1.dictlabid
+      and (t1.sex=ib1.basicvalue and ib1.basictype='SEX')
+      and (t1.status=ib2.basicvalue and ib2.basictype='ORDERSTATUS')
+      and (t1.dictcustomerid=d1.dictcustomerid)
+      and t1.iscancel='0'
+      <isNotNull prepend="and" property="nState">
+        t1.status in($nState$)
+      </isNotNull>
+      <isNotNull prepend="and" property="nDictlabid">
+        t1.dictlabid  in ($nDictlabid$)
+      </isNotNull>
+      <isNotNull prepend="and" property="strKey">
+        (t1.ordernum='$strKey$' or m1.realname like '%$strKey$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        t1.enterdate<![CDATA[>=]]>to_date(substr('$startDate$',1,10),'yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="endDate">
+        t1.enterdate<![CDATA[<]]>(to_date(substr('$endDate$',1,10),'yyyy-MM-dd')+1)
+      </isNotNull>
+
+      order by t1.ordernum desc) t
+      WHERE
+      ROWNUM <![CDATA[<=]]>$pageEnd$
+      ) tt
+      WHERE RN <![CDATA[>=]]>$pageStart$
+
+    </select>
+
+    <!--权限内的科室检查项目结果列表-->
+    <select id="order.GetOrderLabdeptresultList" parameterClass="Hashtable" resultMap="OrderLabdeptresult">
+      select
+      t1.ORDERTESTID as Ordertestid,
+      t1.DICTTESTITEMID as Dicttestitemid,
+      t1.ORDERNUM as Ordernum,
+      t1.DICTLABDEPTID as Dictlabdeptid,
+      t1.TESTNAME as Testname,
+      t1.HLFLAG  as Hlflag,
+      t1.TESTRESULT as Testresult,
+      t1.ISEXCEPTION as Isexception,
+      t1.LASTRESULT as Lastresult,
+      t1.LASTDATE as Lastdate,
+      t1.TEXTSHOW as Textshow,
+      t1.HLHINT as Hlhint,
+      t1.UNIT as Unit,
+      dl.LABDEPTNAME as Labdeptname,
+      dl.labdepttype as LabdeptType
+      from ordertest t1,dictlabdept dl,DICTTESTITEM dt
+      where t1.dictlabdeptid=dl.dictlabdeptid and t1.Dicttestitemid = dt.dicttestitemid  and dt.isonlyforbill = '0' and t1.isactive='1' and t1.ordernum='$OrderNum$'
+      and t1.DICTLABDEPTID in(select t1.DICTLABDEPTID from DICTUSERANDLABDEPT t1 where t1.DICTUSERID=$UserId$)
+      order by Dictlabdeptid asc,t1.DISPLAYORDER asc
+    </select>
+
+    <!--按体检编号取全部检查结果-->
+    <select id="order.GetAllOrderLabdeptresultList" parameterClass="string" resultMap="OrderLabdeptresult">
+      <!--select
+      t1.ORDERTESTID as Ordertestid,
+      t1.DICTTESTITEMID as Dicttestitemid,
+      t1.ORDERNUM as Ordernum,
+      t1.DICTLABDEPTID as Dictlabdeptid,
+      t1.TESTNAME as Testname,
+      t1.HLFLAG  as Hlflag,
+      t1.TESTRESULT as Testresult,
+      t1.ISEXCEPTION as Isexception,
+      t1.LASTRESULT as Lastresult,
+      t1.LASTDATE as Lastdate,
+      t1.TEXTSHOW as Textshow,
+      t1.HLHINT as Hlhint,
+      t1.UNIT as Unit,
+      dl.LABDEPTNAME as Labdeptname,
+      dl.labdepttype,
+      dl.labdepttype
+      from ordertest t1,dictlabdept dl,DICTTESTITEM dt
+      where t1.dictlabdeptid=dl.dictlabdeptid 
+      and t1.Dicttestitemid = dt.dicttestitemid  
+      and dt.isonlyforbill = 0 and t1.isactive='1' and t1.ordernum=#value#
+      order by Dictlabdeptid asc,t1.DISPLAYORDER asc-->
+
+      select
+      t1.ORDERTESTID as Ordertestid,
+      t1.DICTTESTITEMID as Dicttestitemid,
+      t1.ORDERNUM as Ordernum,
+      t1.DICTLABDEPTID as Dictlabdeptid,
+      t1.TESTNAME as Testname,
+      t1.HLFLAG  as Hlflag,
+      t1.TESTRESULT as Testresult,
+      t1.ISEXCEPTION as Isexception,
+      t1.LASTRESULT as Lastresult,
+      t1.LASTDATE as Lastdate,
+      t1.TEXTSHOW as Textshow,
+      t1.HLHINT as Hlhint,
+      t1.UNIT as Unit,
+      dl.LABDEPTNAME as Labdeptname,
+      dl.labdepttype,
+      dl.labdepttype
+      from ordertest t1
+      inner join dictlabdept dl on t1.dictlabdeptid=dl.dictlabdeptid
+      left join ordergrouptest  og on (t1.ordernum=og.ordernum and (t1.dictgroupid=og.dicttestitemid or og.dicttestitemid=t1.dicttestitemid))
+      inner join dicttestitem dti on og.dicttestitemid=dti.dicttestitemid and dti.isonlyforbill='0'
+      inner join DICTTESTITEM dt on t1.Dicttestitemid = dt.dicttestitemid
+
+      and dt.isonlyforbill = '0' and t1.isactive='1' and t1.ordernum=#value#
+      order by dti.displayorder,t1.displayorder
+    </select>
+
+    <!--[自动小结]检查结果是否为空-->
+    <select id="order.GetCountNullOrderTestResult" parameterClass="string">
+      select count(1) counts from ordertest t1,DICTTESTITEM dt where t1.Dicttestitemid = dt.dicttestitemid and dt.isonlyforbill = '0' and t1.isactive='1' and t1.ordernum='$value$'
+
+    </select>
+
+    <!-- 接收数据：按条码号更新ordertest表 yhl-->
+    <update id="Order.UpdateOrdertestByBarcode" parameterClass="Hashtable">
+      UPDATE ORDERTEST SET HLFLAG =#HLFLAG#,UNIT=#UNIT#,TESTRESULT=#TESTRESULT#,HLHINT=#HLHINT#,REFLOW=#REFLOW#,REFHIGH=#REFHIGH#,ISEXCEPTION=#ISEXCEPTION#,TEXTSHOW=#TEXTSHOW# WHERE BARCODE=#BARCODE# and ORDERNUM=#ORDERNUM# AND  DICTTESTITEMID = (SELECT A.DICTTESTITEMID FROM DICTTESTITEM A WHERE A.UNIQUEID = #UNIQUEID#)
+    </update>
+
+    <!-- 按条码号查询ORDERTEST表的所有检验记录是否取到结果 yhl -->
+    <select id="Order.SelectTestResultByOrdernum" parameterClass="string">
+      select count(o.barcode)  as pageCount
+      from ordertest o, dictlabdept d, dicttestitem t1
+      where o.dictlabdeptid = d.dictlabdeptid
+      and o.dicttestitemid = t1.dicttestitemid
+      and t1.isonlyforbill = '0'
+      and d.labdepttype = '2'
+      and o.Isactive = '1'
+      and o.testresult is null
+      and o.ordernum = '$value$'
+    </select>
+
+    <!-- 按条码号查询ORDERTEST表的所有物理检验有结果lee -->
+    <select id="Order.SelectWLResultByOrdernum" parameterClass="string">
+      select count(1)  as counts
+      from ordertest o, dictlabdept d, dicttestitem t1
+      where o.dictlabdeptid = d.dictlabdeptid
+      and o.dicttestitemid = t1.dicttestitemid
+      and t1.isonlyforbill = '0'
+      and d.labdepttype != '2'
+      and o.Isactive = '1'
+      and o.testresult is null
+      and o.ordernum = '$value$'
+    </select>
+    
+    <!--修改停止测试-->
+    <update id="Order.UpdateOrdertestActive" parameterClass="Hashtable">
+      update ordertest ot set ot.isactive=#isactive# where ot.ordernum='$ordernum$' and ot.barcode ='$barcode$'
+    </update>
+  </statements>
+</sqlMap>

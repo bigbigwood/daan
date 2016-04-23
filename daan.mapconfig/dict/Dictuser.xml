@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictuser" type="daan.domain.Dictuser,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictuserResult" class="daan.domain.Dictuser">
+      <result property="Dictuserid" column="DICTUSERID" />
+      <result property="Usercode" column="USERCODE" type="string" dbType="varchar"/>
+      <result property="Password" column="PASSWORD" type="string" dbType="varchar"/>
+      <result property="Username" column="USERNAME" type="string" dbType="varchar"/>
+      <result property="Active" column="ACTIVE" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+      <result property="Dictlabid" column="DICTLABID" />
+      
+
+    </resultMap>
+    <resultMap id="DictuserResultjoinlabid" class="daan.domain.Dictuser">
+      <result property="Dictuserid" column="DICTUSERID" />
+      <result property="Usercode" column="USERCODE" type="string" dbType="varchar"/>
+      <result property="Password" column="PASSWORD" type="string" dbType="varchar"/>
+      <result property="Username" column="USERNAME" type="string" dbType="varchar"/>
+      <result property="Active" column="ACTIVE" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+      <result property="Joinlabid" column="JOINLABID" />
+      <result property="Joindeptid" column="JOINDEPTID" />
+      <result property="Dictlabid" column="DICTLABID" />
+    </resultMap>
+
+
+    <resultMap id="DictuserResultTo" class="daan.domain.Dictuser">
+      <result property="Dictuserid" column="DICTUSERID" />
+      <result property="Usercode" column="USERCODE" type="string" dbType="varchar"/>
+      <result property="Password" column="PASSWORD" type="string" dbType="varchar"/>
+      <result property="Username" column="USERNAME" type="string" dbType="varchar"/>
+      <result property="Active" column="ACTIVE" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+      <result property="Dictlabid" column="DICTLABID" />
+      <result property="Labname" column="LABNAME" type="string" dbType="varchar"/>
+      <result property="Labdeptname" column="LABDEPTNAME" />
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--查询-->
+    <select id="Dict.SelectDictuser" parameterClass="string" resultMap="DictuserResult">
+      SELECT DICTUSERID AS Dictuserid,USERCODE AS Usercode,PASSWORD AS Password,USERNAME AS Username,ACTIVE AS Active,DICTLABDEPTID AS Dictlabdeptid,DICTLABID AS Dictlabid
+      FROM DICTUSER
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          Usercode  like '%'||#value#||'%' or Username  like '%'||#value#||'%'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!--分页查询-->
+    <select id="Dict.GetDictuserPageLst" parameterClass="Hashtable" resultMap="DictuserResult">
+      SELECT * FROM   <!--SELECT a.Dictuserid,a.Usercode,a.Password,a.Username,a.Active,a.Dictlabdeptid,a.Dictlabid, b.labname,c.labdeptname FROM Dictuser a   inner join Dictlab b on a.dictlabid = b.dictlabid inner join-->
+      <!--Dictlabdept c on a.dictlabdeptid = c.dictlabdeptid-->
+      (SELECT ROWNUM RN, t.* FROM (SELECT Dictuserid,Usercode,Password,Username,Active,Dictlabdeptid,Dictlabid FROM Dictuser where 1= 1
+      <isNotNull prepend="and" property="strKey">
+        Username like '%$strKey$%' or Usercode like  '%$strKey$%'
+      </isNotNull>
+      order by Dictuserid  desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictuserPageLstCount" parameterClass="Hashtable"  resultMap="DictuserResult"  >
+      <!--SELECT a.Dictuserid,a.Usercode,a.Password,a.Username,a.Active,a.Dictlabdeptid,a.Dictlabid, b.labname,c.labdeptname FROM Dictuser a   inner join Dictlab b on a.dictlabid = b.dictlabid inner join
+      Dictlabdept c on a.dictlabdeptid = c.dictlabdeptid where 1= 1-->
+      SELECT Count(1) FROM Dictuser where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        Username like '%$strKey$%' or Usercode like  '%$strKey$%'
+      </isNotEmpty>
+    </select>
+
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictuserInfo" parameterClass="Dictuser" resultMap="DictuserResult">
+      SELECT Dictuserid,Usercode,Password,Username,Active,Dictlabdeptid,Dictlabid  FROM Dictuser WHERE Dictuserid=#Dictuserid#
+    </select>
+    <!--按Usercode查询详细信息-->
+    <select id="Dict.GetDictuserInfoByCode" parameterClass="Dictuser" resultMap="DictuserResultjoinlabid">
+      SELECT u.Dictuserid,u.Usercode,u.Password,u.Username,u.Active,u.dictlabdeptid, u.Dictlabid, (u.Dictlabid||','|| nvl(lab.labstr,0)) as Joinlabid, u.dictlabdeptid ,(u.dictlabdeptid ||','|| nvl(labdep.labstrdep,0)) as Joindeptid
+      FROM Dictuser u
+      LEFT JOIN (select wm_concat(dictlabid) as labstr,a.dictuserid  from DICTUSERANDLAB a  group by a.dictuserid) lab on u.dictuserid =lab.dictuserid
+      left join (select  wm_concat(DICTLABDEPTID) as labstrdep,t.dictuserid  from DICTUSERANDLABDEPT t  group by t.dictuserid) labdep on u.dictuserid = labdep.dictuserid
+      WHERE Usercode=#Usercode#
+    </select>
+
+    <!--新增-->
+    <insert id="Dict.InsertDictuser" parameterClass="Dictuser">
+      INSERT INTO DICTUSER
+      (DICTUSERID,USERCODE,PASSWORD,USERNAME,ACTIVE,DICTLABDEPTID,DICTLABID)
+      VALUES(#Dictuserid#,#Usercode#,#Password#,#Username#,#Active#,#Dictlabdeptid#,#Dictlabid#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictuser" parameterClass="Dictuser">
+      UPDATE DICTUSER
+      SET DICTUSERID=#Dictuserid#,USERCODE=#Usercode#,PASSWORD=#Password#,USERNAME=#Username#,ACTIVE=#Active#,DICTLABDEPTID=#Dictlabdeptid#,DICTLABID=#Dictlabid#
+      WHERE Usercode = #Usercode#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictuser" parameterClass="string">
+      DELETE FROM DICTUSER
+      WHERE DICTUSERID = #value#
+    </delete>
+  </statements>
+</sqlMap>

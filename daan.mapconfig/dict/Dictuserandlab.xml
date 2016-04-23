@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictuserandlab" type="daan.domain.Dictuserandlab,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictuserandlabResult" class="daan.domain.Dictuserandlab">
+      <result property="Dictuserandlabid" column="DICTUSERANDLABID" />
+      <result property="Dictuserid" column="DICTUSERID" /> 
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Displayorder" column="DISPLAYORDER"  />
+     </resultMap>
+
+    <resultMap id="DictuserandlabResultTo" class="daan.domain.Dictuserandlab">
+      <result property="Dictuserandlabid" column="DICTUSERANDLABID" />
+      <result property="Dictuserid" column="DICTUSERID" />
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Displayorder" column="DISPLAYORDER"  />
+      <result property="Labname" column="LABNAME" type="string" dbType="varchar"/>
+      <result property="Username" column="USERNAME" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictuserandlab" parameterClass="string" resultClass="Dictuserandlab">
+      SELECT DICTUSERANDLABID AS Dictuserandlabid  DICTUSERID AS Dictuserid,DICTLABID AS Dictlabid,CREATEDATE AS Createdate , DISPLAYORDER AS Displayorder
+      FROM Dictuserandlab
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          Dictuserandlabid = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!--分页查询-->
+    <select id="Dict.GetDictuserandlabPageLst" parameterClass="Hashtable" resultMap="DictuserandlabResultTo">
+      SELECT Dictuserandlabid,Dictuserid,Dictlabid,Createdate,Displayorder,Labname,Username FROM
+      (SELECT ROWNUM RN, t.* FROM (select a.Dictuserandlabid, a.dictuserid, a.dictlabid, a.createdate ,a.displayorder ,b.Labname,c.Username from dictuserandlab  a  inner join DICTLAB b on a.dictlabid = b.dictlabid  inner join Dictuser c on a.Dictuserid = c.Dictuserid where 1=1  and   a.Dictuserid =  $Userid$
+      order by a.displayorder , a.createdate desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictuserandlabPageLstCount" parameterClass="Hashtable"  resultMap="DictuserandlabResultTo"  >
+      SELECT Count(1) from dictuserandlab  a  inner join DICTLAB b on a.dictlabid = b.dictlabid inner join Dictuser c on a.Dictuserid = c.Dictuserid where 1=1 and   a.Dictuserid  = $Userid$
+      <!--<isNotEmpty prepend="and" property="strKey">
+        Dictuserandlabid like '%$strKey$%'
+      </isNotEmpty>-->
+    </select>
+
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictuserandlabInfo" parameterClass="Dictuserandlab" resultMap="DictuserandlabResult">
+      SELECT Dictuserandlabid, Dictuserid,Dictlabid,Createdate,Displayorder  FROM Dictuserandlab WHERE Dictuserandlabid=#Dictuserandlabid#
+    </select>
+    <!--新增-->
+    <insert id="Dict.InsertDictuserandlab" parameterClass="Dictuserandlab">
+      INSERT INTO Dictuserandlab
+      (Dictuserandlabid,Dictuserid,Dictlabid,Createdate,Displayorder)
+      VALUES(#Dictuserandlabid#,#Dictuserid#,#Dictlabid#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Displayorder#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictuserandlab" parameterClass="Dictuserandlab">
+      UPDATE Dictuserandlab
+      SET    Dictuserid=#Dictuserid#, Dictlabid=#Dictlabid#, Createdate=#Createdate#, Displayorder=#Displayorder#
+      WHERE Dictuserandlabid =#Dictuserandlabid#
+    </update>
+   
+    <!--删除-->
+    <delete id="Dict.DeleteDictuserandlab" parameterClass="string">
+      DELETE FROM Dictuserandlab
+      WHERE Dictuserandlabid  in ($value$)
+    </delete>
+
+    <delete id="Dict.DeleteDictuserandlabByUserId"  parameterClass="Dictuserandlab">
+      DELETE FROM Dictuserandlab
+      WHERE Dictuserid = $value$
+    </delete>
+  </statements>
+</sqlMap>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictlab" type="daan.domain.Dictlab,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictlabResult" class="daan.domain.Dictlab">
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Labname" column="LABNAME" type="string" dbType="varchar"/>
+      <result property="Labdescription" column="LABDESCRIPTION" type="string" dbType="varchar"/>
+      <result property="Addres" column="ADDRES" type="string" dbType="varchar"/>
+      <result property="Phone" column="PHONE" type="string" dbType="varchar"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Zpcode" column="ZPCODE" type="string" dbType="varchar"/>
+      <result property="Contactman" column="CONTACTMAN" type="string" dbType="varchar"/>
+      <result property="City" column="CITY" type="string" dbType="varchar"/>
+      <result property="Labimage" column="LABIMAGE" type="string" dbType="varchar"/>
+      <result property="Fax" column="FAX" type="string" dbType="varchar"/>
+      <result property="Esitename" column="ESITENAME" type="string" dbType="varchar"/>
+      <result property="Website" column="WEBSITE" type="string" dbType="varchar"/>
+      <result property="Labcode" column="LABCODE" type="string" dbType="varchar"/>
+      <result property="IsActive" column="ISACTIVE" type="char" dbType="char"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--查询-->
+    <select id="Dict.SelectDictlab" parameterClass="string" resultMap="DictlabResult">
+      SELECT DICTLABID AS Dictlabid,LABNAME AS Labname,LABDESCRIPTION AS Labdescription,ADDRES AS Addres,PHONE AS Phone,DISPLAYORDER AS Displayorder,ZPCODE AS Zpcode,CONTACTMAN AS Contactman,CITY AS City,LABIMAGE AS Labimage,FAX AS Fax,ESITENAME AS Esitename,WEBSITE AS Website,LABCODE AS Labcode,ISACTIVE as IsActive
+      FROM DICTLAB
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          Labname like '%'||#value#||'%' or Addres like '%'||#value#||'%' or Labdescription like '%'||#value#||'%'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!--分页查询-->
+    <select id="Dict.GetDictlabPageLst" parameterClass="Hashtable" resultMap="DictlabResult">
+      SELECT * FROM
+
+      (SELECT ROWNUM RN, t.* FROM (SELECT Dictlabid,Labname,Labdescription,Addres,Phone,Displayorder,Zpcode,Contactman,City,Labimage,Fax,Esitename,Website,Labcode,IsActive  FROM DICTLAB where 1=1
+      <isNotNull prepend="and" property="strKey">
+        Labname like '%$strKey$%' or Addres like  '%$strKey$%' or Labdescription like '%'||#value#||'%'
+      </isNotNull>
+      order by Dictlabid desc,Displayorder desc ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictlabPageLstCount" parameterClass="Hashtable"   >
+      SELECT Count(*) FROM DICTLAB where 1=1
+     <isNotEmpty prepend="and" property="strKey">
+       Labname like '%$strKey$%' or Addres like  '%$strKey$%'
+     </isNotEmpty>
+    </select>
+
+    <!--分页查询 用户已选分点-->
+    <select id="Dict.GetDictlabPageLstUser" parameterClass="Hashtable" resultMap="DictlabResult">
+      SELECT Dictlabid,Labname,Labdescription,Addres,Phone,Displayorder,Zpcode,Contactman,City,Labimage,Fax,Esitename,Website,Labcode,IsActive FROM
+
+      (SELECT ROWNUM RN, t.* FROM (SELECT Dictlabid,Labname,Labdescription,Addres,Phone,Displayorder,Zpcode,Contactman,City,Labimage,Fax,Esitename,Website,Labcode,IsActive  FROM DICTLAB where 1=1 and Dictlabid not in ( select Dictlabid from DICTUSERANDLAB where Dictuserid = $Userid$ )
+      <isNotNull prepend="and" property="strKey">
+        Labname like '%$strKey$%' or Addres like  '%$strKey$%'
+      </isNotNull>
+      order by Displayorder ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数 用户已选分点 -->
+    <select id="Dict.GetDictlabPageLstCountUser" parameterClass="Hashtable"   >
+      SELECT Count(*) FROM DICTLAB where 1=1 and Dictlabid not in ( select Dictlabid from DICTUSERANDLAB where Dictuserid = $Userid$)
+      <isNotEmpty prepend="and" property="strKey">
+        Labname like '%$strKey$%' or Addres like  '%$strKey$%'
+      </isNotEmpty>
+    </select>
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictlabInfo" parameterClass="Dictlab" resultMap="DictlabResult">
+      SELECT Dictlabid,Labname,Labdescription,Addres,Phone,Displayorder,Zpcode,Contactman,City,Labimage,Fax,Esitename,Website,Labcode,IsActive  FROM DICTLAB WHERE Dictlabid=#Dictlabid#
+    </select>
+    <!--新增-->
+    <insert id="Dict.InsertDictlab" parameterClass="Dictlab">
+      INSERT INTO DICTLAB
+      (Dictlabid,Labname,Labdescription,Addres,Phone,Displayorder,Zpcode,Contactman,City,Labimage,Fax,Esitename,Website,Labcode)
+      VALUES(#Dictlabid#,#Labname#,#Labdescription#,#Addres#,#Phone#,#Displayorder#,#Zpcode#,#Contactman#,#City#,#Labimage#,#Fax#,#Esitename#,#Website#,#Labcode#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictlab" parameterClass="Dictlab">
+      UPDATE DICTLAB
+      SET Labname=#Labname#,Labdescription=#Labdescription#,Addres=#Addres#,Phone=#Phone#,Displayorder=#Displayorder#,Zpcode=#Zpcode#,Contactman=#Contactman#,City=#City#,Labimage=#Labimage#,FAX=#Fax#,ESITENAME=#Esitename#,WEBSITE=#Website#,LABCODE=#Labcode#
+      WHERE Dictlabid = #Dictlabid#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictlab" parameterClass="string">
+      DELETE FROM DICTLAB
+      WHERE Dictlabid in($value$)
+    </delete>
+  </statements>
+</sqlMap>

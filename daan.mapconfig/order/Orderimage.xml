@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderimage" type="daan.domain.Orderimage,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderimageResult" class="daan.domain.Orderimage">
+      <result property="Orderimageid" column="ORDERIMAGEID" type="single" dbType="Real"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Filename" column="FILENAME" type="string" dbType="varchar"/>
+      <result property="Dicttestid" column="DICTTESTID" type="single" dbType="Real"/>
+      <result property="Displayorder" column="DISPLAYORDER" type="single" dbType="Real"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" type="single" dbType="Real"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectOrderimage" parameterClass="string" resultClass="Orderimage">
+      SELECT ORDERIMAGEID AS Orderimageid,ORDERNUM AS Ordernum,FILENAME AS Filename,DICTTESTID AS Dicttestid,DISPLAYORDER AS Displayorder,CREATEDATE AS Createdate,DICTLABDEPTID AS Dictlabdeptid
+      FROM ORDERIMAGE
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERIMAGEID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="InsertOrderimage" parameterClass="Orderimage">
+      INSERT INTO ORDERIMAGE
+      (ORDERIMAGEID,ORDERNUM,FILENAME,DICTTESTID,DISPLAYORDER,CREATEDATE,DICTLABDEPTID)
+      VALUES(#Orderimageid#,#Ordernum#,#Filename#,#Dicttestid#,#Displayorder#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Dictlabdeptid#)
+    </insert>
+    <update id="UpdateOrderimage" parameterClass="Orderimage">
+      UPDATE ORDERIMAGE
+      SET ORDERIMAGEID=#Orderimageid#,ORDERNUM=#Ordernum#,FILENAME=#Filename#,DICTTESTID=#Dicttestid#,DISPLAYORDER=#Displayorder#,CREATEDATE=#Createdate#,DICTLABDEPTID=#Dictlabdeptid#
+      WHERE ORDERIMAGEID = #Orderimageid#
+    </update>
+    <delete id="DeleteOrderimage" parameterClass="string">
+      DELETE FROM ORDERIMAGE
+      WHERE ORDERIMAGEID = #value#
+    </delete>
+  </statements>
+</sqlMap>

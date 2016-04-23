@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderfiledetail" type="daan.domain.Orderfiledetail,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderfiledetailResult" class="daan.domain.Orderfiledetail">
+      <result property="Orderfiledetailid" column="ORDERFILEDETAILID" />
+      <result property="Orderfileheaderid" column="ORDERFILEHEADERID" />
+      <result property="Barcode" column="barcode"/>
+      <result property="Status" column="STATUS" />
+      <result property="Reason" column="REASON" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Realname" column="REALNAME" />
+      <result property="Mobile" column="MOBILE" />
+      <result property="Idnumber" column="IDNUMBER" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <!--分页查询-->
+    <select id="Order.GetgdBulkImportDetailItemPageLst" parameterClass="Hashtable">
+      SELECT * from
+      (SELECT ROWNUM RN,t.* FROM  (select ofd.orderfileheaderid,ofd.orderfiledetailid,ofd.barcode,decode(ofd.status,'1','上传成功','上传失败') as status ,
+      ofd.reason,ofd.createdate,tt.dictlabid,tt.dictcustormer,tt.enterby,tt.labname,tt.customername,tt.username,
+      ofd.realname,ofd.mobile,ofd.idnumber 
+      from orderfiledetail ofd
+      left join (select ofh.orderfileheaderid,ofh.dictlabid,ofh.dictcustormer,ofh.enterby,lab.labname,cus.customername,us.username
+      from  orderfileheader  ofh
+      left join  dictlab lab on ofh.dictlabid=lab.dictlabid
+      left join  dictcustomer cus on  ofh.dictcustormer=cus.dictcustomerid
+      left join  dictuser us on ofh.enterby=us.dictuserid)tt on ofd.orderfileheaderid=tt.orderfileheaderid
+      where  1=1 and tt.Orderfileheaderid=$Orderfileheaderid$
+      order by ofd.createdate desc)t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--分页查询总数-->
+    <select id="Order.GetgdBulkImportDetailItemPageLstCount" parameterClass="Hashtable">
+      SELECT Count(*) FROM orderfiledetail d
+      where  1=1 and d.Orderfileheaderid=$Orderfileheaderid$
+      order by d.createdate desc
+    </select>
+
+    <!--添加订单文件详情-->
+    <insert id="Order.InsertOrderfiledetail" parameterClass="Orderfiledetail">
+      INSERT INTO ORDERFILEDETAIL
+      (ORDERFILEDETAILID,ORDERFILEHEADERID,BARCODE,STATUS,REASON,CREATEDATE,REALNAME,MOBILE,IDNUMBER)
+      VALUES(#Orderfiledetailid#,#Orderfileheaderid#,#Barcode#,#Status#,#Reason#,#Createdate#,#Realname#,#Mobile#,#Idnumber#)
+    </insert>
+
+    <!--查询待上传文件记录-->
+
+  </statements>
+</sqlMap>

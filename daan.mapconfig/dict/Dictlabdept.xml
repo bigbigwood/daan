@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictlabdept"  type="daan.domain.Dictlabdept,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictlabdeptResult" class="daan.domain.Dictlabdept">
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+      <result property="Labdeptname" column="LABDEPTNAME" />
+      <result property="Labdepttype" column="LABDEPTTYPE" />
+      <result property="Createdate" column="CREATEDATE" />
+    </resultMap>
+
+    <resultMap id="DictlabdeptResultTo" class="daan.domain.Dictlabdept">
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+      <result property="Labdeptname" column="LABDEPTNAME" />
+      <result property="Labdepttype" column="LABDEPTTYPE" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Basicname" column="BASICNAME" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--分页查询-->
+    <select id="Dict.GetDictlabdeptPageLst" parameterClass="Hashtable"  resultMap="DictlabdeptResultTo">
+      SELECT Dictlabdeptid,Labdeptname,Labdepttype,Createdate,Basicname FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT d1.Dictlabdeptid,d1.Labdeptname,d1.Labdepttype,d1.Createdate,d2.Basicname FROM Dictlabdept d1
+      inner join Initbasic d2 on d1.Labdepttype = d2.Basicvalue  where 1=1 and d2.basictype = 'LABDEPTTYPE'
+      <isNotNull prepend="and" property="strKey">
+        d1.Labdeptname like '%$strKey$%' 
+      </isNotNull>
+      order by d1.Dictlabdeptid desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictlabdeptPageLstCount" parameterClass="Hashtable" resultMap="DictlabdeptResultTo"  >
+      SELECT Count(*) FROM Dictlabdept d1
+      inner join Initbasic d2 on d1.Labdepttype = d2.Basicvalue  where 1=1 and d2.basictype = 'LABDEPTTYPE'
+      <isNotEmpty prepend="and" property="strKey">
+        Labdeptname like '%$strKey$%'
+      </isNotEmpty>
+    </select>
+    <!--分页查询 用户已选物理组-->
+    <select id="Dict.GetDictlabdeptPageLstUser" parameterClass="Hashtable"  resultMap="DictlabdeptResultTo">
+      SELECT Dictlabdeptid,Labdeptname,Labdepttype,Createdate,Basicname FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT d1.Dictlabdeptid,d1.Labdeptname,d1.Labdepttype,d1.Createdate,d2.Basicname FROM Dictlabdept d1
+      inner join Initbasic d2 on d1.Labdepttype = d2.Basicvalue  where 1=1 and d2.basictype = 'LABDEPTTYPE' and d1.Dictlabdeptid not in (select Dictlabdeptid from dictuserandlabdept  where   Dictuserid = '$Userid$' )
+
+      order by d1.Dictlabdeptid desc ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数 用户已选物理组-->
+    <select id="Dict.GetDictlabdeptPageLstCountUser" parameterClass="Hashtable" resultMap="DictlabdeptResult"  >
+      SELECT Count(*) FROM Dictlabdept where 1=1  and Dictlabdeptid not in (select Dictlabdeptid from dictuserandlabdept  where   Dictuserid = '$Userid$' )
+      <isNotEmpty prepend="and" property="strKey">
+        Labdeptname like '%$strKey$%'
+      </isNotEmpty>
+    </select>
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictlabdeptInfo" parameterClass="Dictlabdept" resultMap="DictlabdeptResult">
+      SELECT Dictlabdeptid,Labdeptname,Labdepttype,Createdate  FROM Dictlabdept WHERE Dictlabdeptid=#Dictlabdeptid#
+    </select>
+   
+    <select id="Dict.SelectDictlabdept" parameterClass="string" resultMap="DictlabdeptResult">
+      SELECT DICTLABDEPTID AS Dictlabdeptid,LABDEPTNAME AS Labdeptname,LABDEPTTYPE AS Labdepttype,CREATEDATE AS Createdate
+      FROM Dictlabdept 
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          Dictlabdeptid = '#value#'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="Dict.InsertDictlabdept" parameterClass="Dictlabdept">
+      INSERT INTO Dictlabdept
+      (Dictlabdeptid,Labdeptname,Labdepttype,Createdate)
+      VALUES(#Dictlabdeptid#,#Labdeptname#,#Labdepttype#,#Createdate:DateTime:1/1/0001 12:00:00 AM#)
+    </insert>
+    <update id="Dict.UpdateDictlabdept" parameterClass="Dictlabdept">
+      UPDATE Dictlabdept
+      SET Labdeptname=#Labdeptname#,Labdepttype=#Labdepttype#,Createdate=#Createdate#
+      WHERE Dictlabdeptid = #Dictlabdeptid#
+    </update>
+    <delete id="Dict.DeleteDictlabdept" parameterClass="string">
+      DELETE FROM Dictlabdept
+      WHERE Dictlabdeptid in($value$)
+    </delete>
+  </statements>
+</sqlMap>

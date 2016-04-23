@@ -1,0 +1,1539 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orders" type="daan.domain.Orders,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrdersResult" class="daan.domain.Orders">
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Remarks" column="REMARKS" />
+      <result property="Dictmemberid" column="DICTMEMBERID"/>
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Realname" column="REALNAME" />
+      <result property="Sex" column="SEX" />
+      <result property="Caculatedage" column="CACULATEDAGE" />
+      <result property="Age" column="AGE"/>
+      <result property="Iscancel" column="ISCANCEL" />
+      <result property="Cancelby" column="CANCELBY" />
+      <result property="Enterdate" column="ENTERDATE" />
+      <result property="Enterby" column="ENTERBY"/>
+      <result property="Dictreporttemplateid" column="DICTREPORTTEMPLATEID" />
+      <result property="Canaledate" column="CANALEDATE" />
+      <result property="Lastupdatedate" column="LASTUPDATEDATE" />
+      <result property="Reviewdate" column="REVIEWDATE" />
+      <result property="Ordertestlst" column="ORDERTESTLST" />
+      <result property="Ordertype" column="ORDERTYPE" />
+      <result property="Dictlabid" column="DICTLABID" />
+      <result property="Rerundate" column="RERUNDATE" />
+      <result property="Reviewstate" column="REVIEWSTATE" />
+      <result property="Authorizedbyid" column="AUTHORIZEDBYID" />
+      <result property="Authorizeddate" column="AUTHORIZEDDATE" />
+      <result property="Finishbyid" column="FINISHBYID" />
+      <result property="Finishdate" column="FINISHDATE" />
+      <result property="Pdfstatus" column="PDFSTATUS" />
+      <result property="Filename" column="FILENAME" />
+      <result property="Status" column="STATUS" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Transed" column="TRANSED" />
+      <result property="Ordersource" column="ORDERSOURCE" />
+      <result property="Section" column="SECTION" />
+      <result property="Ismarried" column="ISMARRIED" />
+      <result property="SamplingDate" column="SAMPLINGDATE"/>
+      <result property="Province" column="PROVINCE" />
+      <result property="City" column="CITY" />
+      <result property="County" column="COUNTY" />
+      <result property="PostAddress" column="POSTADDRESS" />
+      <result property="Recipient" column="RECIPIENT" />
+      <result property="ContactNumber" column="CONTACTNUMBER" />
+      <result property="IsAutoFirstCheck" column="ISAUTOFIRSTCHECK" />
+      <result property="ReportStatus" column="REPORTSTATUS" />
+      <result property="ReportExceptionReason" column="REPORTEXCEPTIONREASON" />
+      <result property="ExpReportDate" column="EXPREPORTDATE" />
+      <!--<result property="Area" column="AREA" />-->
+    </resultMap>
+
+    <resultMap id="Ordersingle" class="daan.domain.Orders">
+      <result property="Ordernum" column="ORDERNUM"/>
+      <result property="Realname" column="REALNAME" />
+      <result property="Sex" column="SEX" />
+      <result property="Reviewdate" column="REVIEWDATE" />
+      <result property="Age" column="AGE" />
+      <result property="Enterdate" column="ENTERDATE" />
+      <result property="Customername" column="customername" />
+      <result property="Dictcustomerid" column="dictcustomerid"></result>
+      <result property="Dictreporttemplateid" column="DICTREPORTTEMPLATEID" />
+      <result property="Dictlabid"  column="dictlabid"></result>
+    </resultMap>
+
+    <resultMap id="OrdersUsers" class="daan.domain.Orders">
+      <result property="Ordernum" column="ORDERNUM"/>
+      <result property="Realname" column="REALNAME" />
+      <result property="Sex" column="SEX" />
+      <result property="Mobile" column="MOBILE" />
+      <result property="Status" column="STATUS" />
+      <result property="Sms" column="SMS" />
+    </resultMap>
+
+  </resultMaps>
+  <parameterMaps>
+    <parameterMap id="paramMap" class="Hashtable">
+      <parameter property="returnValue" column="PS_RETURNVALUE" direction="Output" />
+    </parameterMap>
+  </parameterMaps>
+
+  <statements>
+    <!--逾期未检人员信息查询 -->
+    <select id="Order.GetOverdueOrders" parameterClass="Hashtable" >
+      select * from(
+      select rownum as rn,t.* from(
+      select o.ordernum,o.realname, lab.labname as labname,o.samplingdate,b.basicname,
+      o.enterdate,o.enterby,o.ordertestlst,c.customername
+      from orders o
+      left join dictlab lab on o.dictlabid=lab.dictlabid
+      left join dictcustomer c on o.dictcustomerid=c.dictcustomerid
+      left join initbasic b on (o.status=b.basicvalue and b.basictype='ORDERSTATUS')
+      where o.status<![CDATA[<]]>'15' and o.iscancel='0'
+      and o.enterdate>=(select sysdate - interval '30' day from dual)
+      and o.enterdate<![CDATA[<=]]>(select sysdate-interval '5' day from dual)
+      order by o.ordernum desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <select id="Order.GetOverdueOrdersCount">
+      select
+      count(1) as count
+      from orders o
+      where o.status<![CDATA[<]]>'15' and o.iscancel='0'
+      and o.enterdate>=(select sysdate - interval '30' day from dual)
+      and o.enterdate<![CDATA[<=]]>(select sysdate-interval '5' day from dual)
+    </select>
+    <!--根据姓名性别查询历史体检记录-->
+    <select id="Order.GetMemberPastOrders" parameterClass="Hashtable">
+      select a.ordernum,a.dictmemberid,a.realname,a.sex,decode(a.sex,'M','男','F','女','未知') as sexText,
+      b.customername,a.createdate ,a.remarks,
+      c.mobile,c.idnumber,d.basicname as status,a.age,a.enterby,c.addres,
+      a.ismarried,decode(a.ismarried,'0','未婚','1','已婚','未知') as ismarriedText
+      from orders a
+      left join dictcustomer b on a.dictcustomerid=b.dictcustomerid
+      left join dictmember c on a.dictmemberid=c.dictmemberid
+      left join INITBASIC d on (d.basictype='ORDERSTATUS' and d.basicvalue=a.status)
+      where a.realname=#realname# and a.sex=#sex# and a.iscancel='0'
+      order by createdate desc
+    </select>
+    <update id="Order.UpdateOrdersMemberInfoByName" parameterClass="Hashtable">
+      update orders set
+      dictmemberid=#dictmemberid#
+      where ordernum in ($ordernums$)
+    </update>
+    
+    <!--易感基因订单导出数据查询-->
+    <select id="Order.GetSusManagementOrders" parameterClass="Hashtable" >
+      select * from(
+      select rownum as rn,t.* from
+      (select
+      o.ordernum,og.barcode,initsex.basicname as sex,o.realname,dm.birthday,dm.mobile,dm.idnumber,
+      og.testcode,og.testname,dc.customername,dm.addres,o.provincename,o.cityname,o.countyname
+      from orders o
+      join ordergrouptest og on o.ordernum=og.ordernum
+      join dictcustomer dc on o.dictcustomerid=dc.dictcustomerid
+      join dictmember dm on o.dictmemberid=dm.dictmemberid
+      join initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      where 1=1
+      <isNotEqual  prepend="and" property="labid" compareValue="-1">
+        o.dictlabid in ($labid$)
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="ordernum">
+        o.ordernum like '%$ordernum$%'
+      </isNotEmpty>
+      <isEmpty  prepend=" " property="ordernum">
+        <isNotEmpty prepend="and" property="realname">
+          o.realname like '%$realname$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="status">
+          o.status=$status$
+        </isNotNull>
+        <isNotNull prepend="and" property="customerid">
+          o.dictcustomerid=$customerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateStart">
+          o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="sex">
+          o.sex='$sex$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iscancel">
+          o.iscancel='$iscancel$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iolis">
+          o.iolis='$iolis$'
+        </isNotNull>
+      </isEmpty>
+      order by o.ordernum desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <select id="Order.GetSusmanagementOrdersCount" parameterClass="Hashtable">
+      select count(1) as total
+      from orders o
+      join ordergrouptest og on o.ordernum=og.ordernum
+      where 1=1
+      <isNotEqual  prepend="and" property="labid" compareValue="-1">
+        o.dictlabid in ($labid$)
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="ordernum">
+        o.ordernum like '%$ordernum$%'
+      </isNotEmpty>
+      <isEmpty  prepend=" " property="ordernum">
+        <isNotEmpty prepend="and" property="realname">
+          o.realname like '%$realname$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="status">
+          o.status=$status$
+        </isNotNull>
+        <isNotNull prepend="and" property="customerid">
+          o.dictcustomerid=$customerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateStart">
+          o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="sex">
+          o.sex='$sex$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iscancel">
+          o.iscancel='$iscancel$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iolis">
+          o.iolis='$iolis$'
+        </isNotNull>
+      </isEmpty>
+    </select>
+    
+    <!--查询体检集中管理数据 zhouy-->
+    <select id="Order.GetManagementOrders" parameterClass="Hashtable" >
+      select * from(
+      select rownum as rn,t.* from
+      (select distinct o.dictmemberid,decode(o.iscancel,'1','已作废','未作废') as cancel,o.dictlabid,o.ordersource,o.ordernum,o.realname,o.age,
+      o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,initsex.basicname as sex,
+      nvl(lab.labname,'') as labname, decode(length(o.section),0,cus.customername,null,cus.customername,cus.customername||'.'||o.section) as customername,
+      initsta.basicname as status,o.status as statusvalue,o.iolis,o.iopacs,o.samplingdate,o.cancelreason,o.postaddress,o.recipient,o.contactnumber 
+      from orders o
+      left join  dictlab lab on o.dictlabid=lab.dictlabid
+      left join  initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  dictcustomer cus on (cus.customertype='0' and o.dictcustomerid=cus.dictcustomerid)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      left join  orderbarcode b on o.ordernum=b.ordernum
+      where  1=1
+      <isNotEqual  prepend="and" property="labid" compareValue="-1">
+        o.dictlabid in ($labid$)
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="ordernum">
+        (o.ordernum like '%$ordernum$%' or b.barcode like '%$ordernum$%')
+      </isNotEmpty>
+      <isEmpty  prepend=" " property="ordernum">
+        <isNotEmpty prepend="and" property="realname">
+          o.realname like '%$realname$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="status">
+          o.status='$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="customerid">
+          o.dictcustomerid=$customerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateStart">
+          o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="sex">
+          o.sex='$sex$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iscancel">
+          o.iscancel='$iscancel$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iolis">
+          o.iolis='$iolis$'
+        </isNotNull>
+      </isEmpty>
+
+      order by o.ordernum desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+
+    <!--查询体检集中管理数据总条数 zhouy-->
+    <select id="Order.GetManagementOrdersCount" parameterClass="Hashtable">
+      select count(1) from (select distinct o.ordernum from orders o
+      left join  dictlab lab on o.dictlabid=lab.dictlabid
+      left join  initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  dictcustomer cus on (cus.customertype='0' and o.dictcustomerid=cus.dictcustomerid)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      left join  orderbarcode b on o.ordernum=b.ordernum
+      where 0=0
+      <isNotEqual  prepend="and" property="labid" compareValue="-1">
+        o.dictlabid in ($labid$)
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="ordernum">
+        (o.ordernum like '%$ordernum$%' or b.barcode like '%$ordernum$%')
+      </isNotEmpty>
+      <isEmpty prepend=" " property="ordernum">
+        <isNotEmpty prepend="and" property="realname">
+          o.realname like '%$realname$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="status">
+          o.status='$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="customerid">
+          o.dictcustomerid=$customerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateStart">
+          o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="sex">
+          o.sex='$sex$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iscancel">
+          o.iscancel='$iscancel$'
+        </isNotNull>
+        <isNotNull prepend="and" property="iolis">
+          o.iolis='$iolis$'
+        </isNotNull>
+      </isEmpty>
+      )
+    </select>
+
+
+
+    <!--查询修改单位名称的相关数据 zyf-->
+    <select id="Order.GetManagementOrdersByDictmemberid" parameterClass="Hashtable" >
+      select * from(
+      select rownum as rn,t.* from
+      (select o.dictmemberid,decode(o.iscancel,'1','已作废','未作废') as cancel,o.dictlabid,o.ordersource,o.ordernum,o.realname,
+      o.age,o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,
+      initsex.basicname as sex,nvl(lab.labname,'') as labname,cus.customername,o.section,
+      initsta.basicname as status,o.status as statusvalue,o.iolis,o.iopacs,o.postaddress,o.recipient,o.contactnumber 
+      from orders o 
+      left join  dictlab lab on o.dictlabid=lab.dictlabid
+      left join  initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  dictcustomer cus on (cus.customertype='0' and o.dictcustomerid=cus.dictcustomerid)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      where  1=1
+      <isNotEmpty prepend="and" property="ordernum">
+        o.ordernum in ($ordernum$)
+      </isNotEmpty>
+      order by o.ordernum desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+
+    <!--查询修改单位名称的相关数据总条数 zyf-->
+    <select id="Order.GetManagementOrdersByDictmemberidCount" parameterClass="Hashtable">
+      select count(1) from orders o
+      left join  dictlab lab on o.dictlabid=lab.dictlabid
+      left join  initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  dictcustomer cus on (cus.customertype='0' and o.dictcustomerid=cus.dictcustomerid)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      where 0=0
+      <isNotEmpty prepend="and" property="ordernum">
+        o.ordernum in ($ordernum$)
+      </isNotEmpty>
+    </select>
+
+    <!-- 数据接收:全选时获取符合条件的所有ordernum -->
+    <select id="Order.SelectOrdernumString" parameterClass="Hashtable" >
+      select wmsys.wm_concat(ordernum) from orders o
+      where  1=1
+      <isNotNull prepend="and" property="iscancel">
+        o.iscancel='$iscancel$'
+      </isNotNull>
+      <isNotEqual  prepend="and" property="labid" compareValue="-1">
+        o.dictlabid=$labid$
+      </isNotEqual>
+      <isNotNull prepend="and" property="memberid">
+        o.dictmemberid=$memberid$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="realname">
+        o.realname like '%$realname$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="ordernum">
+        o.ordernum like '%$ordernum$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="status">
+        o.status='$status$'
+      </isNotNull>
+      <isNotNull prepend="and" property="customerid">
+        o.dictcustomerid=$customerid$
+      </isNotNull>
+      <isNotNull prepend="and" property="DateEnd">
+        o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="DateStart">
+        o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="sex">
+        o.sex=$sex$
+      </isNotNull>
+    </select>
+
+    <!--客户追踪处理查询,获取一共有多少条符合条件的数据-->
+    <select id="Order.CountForAnaCustomTraceHandle" parameterClass="Hashtable">
+      select  count(1) from orders a where to_number(a.status)>24 and a.iscancel=0
+      <isNotNull prepend="and" property="StartDate">
+        a.Reviewdate<![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        a.Reviewdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="dropDictLab">
+        a.dictlabid=$dropDictLab$
+      </isNotNull>
+      <isNotNull prepend="and" property="reviewstate">
+        a.reviewstate='$reviewstate$'
+      </isNotNull>
+    </select>
+
+    <!--客户追踪处理查询-->
+    <select id="Order.DataForAnaCustomTraceHandle" parameterClass="Hashtable">
+      select * from(select ROWNUM RN, a.ordernum,a.ENTERDATE,a.realname,c.labname,b.phone,g.basicname,
+      decode(a.reviewstate, '0', '跟进中', '1', '跟进完成') cnreviewstate,a.reviewstate,a.Rerundate from orders a
+      left join dictmember b on b.dictmemberid = a.dictmemberid
+      left join dictlab c on c.dictlabid=a.dictlabid
+      left join initbasic g on (g.basictype = 'ORDERSTATUS' and g.basicvalue = a.status)
+      where to_number(a.status)>24 and a.iscancel=0
+      <isNotNull prepend="and" property="StartDate">
+        a.Reviewdate<![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        a.Reviewdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="dropDictLab">
+        a.dictlabid=$dropDictLab$
+      </isNotNull>
+      <isNotNull prepend="and" property="reviewstate">
+        a.reviewstate='$reviewstate$'
+      </isNotNull>
+      and ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--总检查询,分页查询-->
+    <select id="Order.DataForFinalCheck" parameterClass="Hashtable">
+      select * from(
+      select rownum as rn,t.* from(
+      select decode(a.iolis,0,'未接收',1,'部分接收',2,'接收完成',3,'接收失败','') as iolis,
+      gi.basicname sex,a.AGE,a.ismarried,a.REALNAME,a.ordernum,g.basicname,a.status,
+      a.DICTMEMBERID,to_char(a.REVIEWDATE,'yyyy-MM-dd')REVIEWDATE,m.mobile,t.customername
+      ,decode(a.dictreporttemplateid,'3','B','1','A','2','A','C') as dictreporttemplateid,to_char(a.lastupdatedate,'yyyy-MM-dd HH24:mi:ss') lastupdatedate
+      ,u1.username name1,u2.username name2,(select max(v.visittime) from ordervisit v where v.ordernum=a.ordernum ) visittime
+      from orders a
+      left join dictlab c on c.dictlabid=a.dictlabid
+      left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
+      left join initbasic g on (g.basicvalue = a.status and  g.basictype = 'ORDERSTATUS')
+      left join initbasic gi on (gi.basicvalue = a.SEX and  gi.basictype='SEX')
+      left join dictmember m  on  a.dictmemberid=m.dictmemberid
+      left join dictcustomer t  on  t.dictcustomerid=a.dictcustomerid
+      left join dictuser u1 on a.authorizedbyid=u1.dictuserid
+      left join dictuser u2 on a.finishbyid=u2.dictuserid
+      where a.iscancel='0'
+      and a.enterdate<![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      <isNotEmpty prepend="and" property="strKey">
+        (a.realname like '$strKey$%' or a.ordernum like '$strKey$%' or a.ordertestlst like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual  prepend="and" property="dropDictLab" compareValue="-1">
+        a.dictlabid =$dropDictLab$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="dictcustomerid" compareValue="-1">
+        a.dictcustomerid =$dictcustomerid$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="status" compareValue="-1">
+        a.status='$status$'
+      </isNotEqual>
+      <!--初步总检-->
+      <isEqual prepend="" property="status" compareValue="20">
+        <!--有输入初步总检医生则只过滤该初步总检医生的相关数据-->
+        <isNotEmpty prepend="and" property="strDoctor">
+          u1.username='$strDoctor$'
+        </isNotEmpty>
+        <!--未输入则过滤掉当前登录医生做的初步总检的数据-->
+        <isEmpty prepend="and" property="strDoctor">
+          u1.username <![CDATA[<>]]>'$strLoginUser$'
+        </isEmpty>
+      </isEqual>
+      <isEqual prepend="" property="status" compareValue="25">
+        <isNotEmpty prepend="and" property="strDoctor">
+          u2.username='$strDoctor$'
+        </isNotEmpty>
+        <isEmpty prepend="and" property="strDoctor">
+          u2.username <![CDATA[<>]]>'$strLoginUser$'
+        </isEmpty>
+      </isEqual>
+      <isNotEqual  prepend="and"   property="iolis" compareValue="-1">
+        a.iolis='$iolis$'
+      </isNotEqual>
+      <isNotEmpty prepend="" property="sortKey">
+        order by $sortKey$
+      </isNotEmpty>
+      )t
+      where ROWNUM <![CDATA[<=]]>$pageEnd$
+      ) tt
+      WHERE tt.rn <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--总检查询,页数查询-->
+    <select id="Order.CountForFinalCheck" parameterClass="Hashtable">
+      select count(1) total from orders a
+      left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
+      left join dictlab c on c.dictlabid=a.dictlabid
+      left join dictuser u1 on a.authorizedbyid=u1.dictuserid
+      left join dictuser u2 on a.finishbyid=u2.dictuserid
+      where  a.iscancel='0'
+      and a.enterdate<![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      <isNotEmpty prepend="and" property="strKey">
+        (a.realname like '$strKey$%' or a.ordernum like '$strKey$%' or a.ordertestlst like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual  prepend="and"   property="dropDictLab" compareValue="-1">
+        a.dictlabid =$dropDictLab$
+      </isNotEqual>
+      <isNotEqual  prepend="and"   property="dictcustomerid" compareValue="-1">
+        a.dictcustomerid =$dictcustomerid$
+      </isNotEqual>
+      <isNotEqual  prepend="and"   property="status" compareValue="-1">
+        a.status='$status$'
+      </isNotEqual>
+      <!--初步总检-->
+      <isEqual prepend="" property="status" compareValue="20">
+        <!--有输入初步总检医生则只过滤该初步总检医生的相关数据-->
+        <isNotEmpty prepend="and" property="strDoctor">
+          u1.username='$strDoctor$'
+        </isNotEmpty>
+        <!--未输入则过滤掉当前登录医生做的初步总检的数据-->
+        <isEmpty prepend="and" property="strDoctor">
+          u1.username <![CDATA[<>]]>'$strLoginUser$'
+        </isEmpty>
+      </isEqual>
+      <isEqual prepend="" property="status" compareValue="25">
+        <isNotEmpty prepend="and" property="strDoctor">
+          u2.username='$strDoctor$'
+        </isNotEmpty>
+        <isEmpty prepend="and" property="strDoctor">
+          u2.username <![CDATA[<>]]>'$strLoginUser$'
+        </isEmpty>
+      </isEqual>
+      <isNotEqual  prepend="and"   property="iolis" compareValue="-1">
+        a.iolis='$iolis$'
+      </isNotEqual>
+    </select>
+    <!--生成PDF工具调用-->
+    <select id="Order.DataForReport" parameterClass="Hashtable">
+      select distinct a.ordernum,a.realname,b.customername,ib.basicname as statusname,ib2.basicname as sex,a.age,a.createdate,l.labname,
+      a.ordertestlst,a.status,m.idnumber,a.section,a.samplingdate,a.postaddress,a.recipient,a.contactnumber,nvl(m.mobile,m.phone) mobile
+      from orders a
+      left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
+      left join dictmember m on m.dictmemberid=a.dictmemberid
+      left join initbasic ib on (a.status=ib.basicvalue and ib.basictype='ORDERSTATUS')
+      left join initbasic ib2 on (a.sex=ib2.basicvalue and ib2.basictype='SEX')
+      left join orderbarcode c on a.ordernum=c.ordernum
+      left join dictlab l on a.dictlabid=l.dictlabid
+      where a.iscancel='0' and a.status>='25'
+      <isNotNull prepend="and" property="StartDate">
+        a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="labid">
+        a.dictlabid  in ($labid$)
+      </isNotNull>
+      <isNotNull prepend="and" property="dictcustomerid">
+        b.dictcustomerid= $dictcustomerid$
+      </isNotNull>
+      <isNotNull prepend="and" property="reporttype">
+        a.dictreporttemplateid=$reporttype$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="Section">
+        (a.section=#Section# or a.ordernum='$Section$')
+      </isNotEmpty>
+      <isNotNull prepend="and" property="printed">
+        a.status='25'
+      </isNotNull>
+      <isNotNull prepend="and" property="xianchang">
+        a.ordertestlst not like '%现场报告%'
+      </isNotNull>
+      order by customername,a.section,statusname
+    </select>
+    <!--体检报告单查询打印,分页查询-->
+    <select id="Order.DataForFocusPrintPageLst" parameterClass="Hashtable">
+      select * from
+      (select rownum as rn,t.* from
+      (select distinct a.ordernum,a.realname,b.customername,ib.basicname as statusname,ib2.basicname as sex,a.age,a.createdate,a.dictreporttemplateid,
+      a.ordertestlst,a.status,m.idnumber,a.section,a.samplingdate,a.postaddress,a.recipient,a.contactnumber,nvl(m.mobile,m.phone) mobile
+      from orders a
+      left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
+      left join dictmember m on m.dictmemberid=a.dictmemberid
+      left join initbasic ib on (a.status=ib.basicvalue and ib.basictype='ORDERSTATUS')
+      left join initbasic ib2 on (a.sex=ib2.basicvalue and ib2.basictype='SEX')
+      left join orderbarcode c on a.ordernum=c.ordernum
+      where a.iscancel='0'
+      <isNotEmpty prepend="and" property="ordernum">
+        (a.ordernum='$ordernum$' or c.barcode='$ordernum$')
+      </isNotEmpty>
+      <isEmpty prepend="" property="ordernum">
+        <isNotNull prepend="and" property="StartDate">
+          a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="EndDate">
+          a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateBegin">
+          (a.samplingdate <![CDATA[>=]]>to_date('$SDateBegin$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateEnd">
+          (a.samplingdate <![CDATA[<]]>to_date('$SDateEnd$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotEmpty prepend="and" property="name">
+          (a.realname like '%$name$%' or a.ordertestlst like '%$name$%' or a.section like '%$name$%')
+        </isNotEmpty>
+        <isNotNull prepend="and" property="dictcustomerid">
+          b.dictcustomerid= $dictcustomerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="status">
+          a.status= '$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="reportstatus">
+          <!--报告状态正常-->
+          <isEqual prepend="" property="reportstatus" compareValue="0">
+            not exists(select ord.barcode from  orderexceptionreport ord where ord.barcode = C.Barcode)
+          </isEqual>
+          <!--报告状态异常（迟发、退单）-->
+          <isNotEqual prepend="" property="reportstatus" compareValue="0">
+            c.barcode in(select ord.barcode from  orderexceptionreport ord where ord.barcode = C.Barcode and ord.exceptiontype=#reportstatus#)
+          </isNotEqual>
+        </isNotNull>
+        <isNotNull prepend="and" property="dictlabid">
+          a.dictlabid  in ($dictlabid$)
+        </isNotNull>
+      </isEmpty>
+      order by a.ordernum desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <!--体检报告单查询打印总数-->
+    <select id="Order.DataForFocusPrintPageTotal" parameterClass="Hashtable">
+      select count(1) as total from( select distinct a.ordernum from orders a
+      left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
+      left join orderbarcode c on a.ordernum=c.ordernum
+      where a.iscancel='0'
+      <isNotEmpty prepend="and" property="ordernum">
+        (a.ordernum='$ordernum$' or c.barcode='$ordernum$')
+      </isNotEmpty>
+      <isEmpty prepend="" property="ordernum">
+        <isNotNull prepend="and" property="StartDate">
+          a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="EndDate">
+          a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateBegin">
+          (a.samplingdate <![CDATA[>=]]>to_date('$SDateBegin$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateEnd">
+          (a.samplingdate <![CDATA[<]]>to_date('$SDateEnd$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotEmpty prepend="and" property="name">
+          (a.realname like '%$name$%' or a.ordertestlst like '%$name$%'  or a.section like '%$name$%')
+        </isNotEmpty>
+        <isNotNull prepend="and" property="dictcustomerid">
+          b.dictcustomerid= $dictcustomerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="reportstatus">
+          <!--报告状态正常-->
+          <isEqual prepend="" property="reportstatus" compareValue="0">
+            not exists(select ord.barcode from  orderexceptionreport ord where ord.barcode = C.Barcode)
+          </isEqual>
+          <!--报告状态异常（迟发、退单）-->
+          <isNotEqual prepend="" property="reportstatus" compareValue="0">
+            c.barcode in(select ord.barcode from  orderexceptionreport ord where ord.barcode = C.Barcode and ord.exceptiontype=#reportstatus#)
+          </isNotEqual>
+        </isNotNull>
+        <isNotNull prepend="and" property="status">
+          a.status= '$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="dictlabid">
+          a.dictlabid  in ($dictlabid$)
+        </isNotNull>
+      </isEmpty>
+      )
+    </select>
+
+    <!--【集中打印报告】导出数据-->
+    <select id="Order.DataForFocusPrintExport" parameterClass="Hashtable">
+      select
+      rownum 序号,ib.basicname 状态,a.ordernum 体检号,a.realname 姓名,ib2.basicname 性别,a.age 年龄,to_char(a.createdate,'yyyy-mm-dd') 日期,
+      a.ordertestlst 项目,b.customername 单位名称,a.section 部门,to_char(a.samplingdate,'yyyy-mm-dd') 采样日期,a.postaddress 邮寄地址,
+      a.recipient 收件人,a.contactnumber 联系电话
+      from orders a
+      left join initbasic ib on (a.status=ib.basicvalue and ib.basictype='ORDERSTATUS')
+      left join initbasic ib2 on (a.sex=ib2.basicvalue and ib2.basictype='SEX')
+      left join dictcustomer b on(a.dictcustomerid=b.dictcustomerid)
+      left join orderbarcode c on a.ordernum=c.ordernum
+      where a.iscancel='0'
+      <isNotEmpty prepend="and" property="ordernum">
+        a.ordernum='$ordernum$'
+      </isNotEmpty>
+      <isEmpty prepend="" property="ordernum">
+        <isNotNull prepend="and" property="StartDate">
+          a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="EndDate">
+          a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateBegin">
+          (a.samplingdate <![CDATA[>=]]>to_date('$SDateBegin$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateEnd">
+          (a.samplingdate <![CDATA[<]]>to_date('$SDateEnd$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotEmpty prepend="and" property="name">
+          (a.realname like '%$name$%' or a.ordertestlst like '%$name$%'  or a.section like '%$name$%')
+        </isNotEmpty>
+        <isNotNull prepend="and" property="dictcustomerid">
+          b.dictcustomerid= $dictcustomerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="reportstatus">
+          <!--报告状态正常-->
+          <isEqual prepend="" property="reportstatus" compareValue="0">
+            not exists(select ord.barcode from  orderexceptionreport ord where ord.barcode = C.Barcode)
+          </isEqual>
+          <!--报告状态异常（迟发、退单）-->
+          <isNotEqual prepend="" property="reportstatus" compareValue="0">
+            c.barcode in(select ord.barcode from  orderexceptionreport ord where ord.barcode = C.Barcode and ord.exceptiontype=#reportstatus#)
+          </isNotEqual>
+        </isNotNull>
+        <isNotNull prepend="and" property="status">
+          a.status= '$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="dictlabid">
+          a.dictlabid  in ($dictlabid$)
+        </isNotNull>
+      </isEmpty>
+    </select>
+    <!--查询订单异常报告记录-->
+    <select id="Order.GetOrderExceptionReport" parameterClass="Hashtable">
+      select count(1) from orderexceptionreport a
+      where a.exceptiontype=#reportstatus# and a.barcode in (select ob.barcode from orderbarcode ob where ob.ordernum='$ordernum$')
+    </select>
+    <!--查询订单异常报告订单信息-->
+    <select id="Order.GetOrderExceptionInfo" parameterClass="String">
+      select distinct l.labname,c.customername,o.realname,to_char(nvl(o.samplingdate,o.createdate),'yyyy-mm-dd')samplingdate,o.ordertestlst from orders o
+      left join dictlab l on o.dictlabid=l.dictlabid
+      left join dictcustomer c on o.dictcustomerid=c.dictcustomerid
+      left join orderbarcode b on o.ordernum=b.ordernum
+      where o.ordernum='$value$'
+    </select>
+
+    <select id="Order.GetOrderException" parameterClass="Hashtable">
+      select barcode,wmsys.wm_concat(to_char(exceptionreason))exceptionreason,max(expreportdate)expreportdate from (
+
+      select barcode,testcode,exceptionreason,expreportdate from orderexceptionreport a
+      where a.exceptiontype=#reportstatus# and a.barcode in (select ob.barcode from orderbarcode ob where ob.ordernum=#ordernum#)
+
+      ) t group by t.barcode
+    </select>
+    <!-- 查询返回单个实体 -->
+    <select id="Order.SelectOrders" parameterClass="String" resultMap="Ordersingle">
+      select  o.ordernum,
+      o.realname,
+      c.basicname as  sex,
+      o.age,
+      o.dictreporttemplateid,
+      o.enterdate,
+      o.reviewdate,
+      o.dictcustomerid,
+      b.customername,
+      o.dictlabid
+      from ORDERS o left join dictcustomer b
+      on o.dictcustomerid = b.dictcustomerid
+      left join initbasic c on o.sex = c.basicvalue and c.basictype ='SEX'
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = '$value$'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <!-- 体检日期，团检报告 -->
+    <select id="Order.GetEnterdate" parameterClass="Hashtable">
+      select min(a.enterdate) from orders a where a.dictcustomerid =$dictcustomerid$ and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and a.iscancel=0
+    </select>
+    <!-- 已预约未体检人员，团检报告 -->
+    <select id="Order.GetDonotJoinTest" parameterClass="Hashtable">
+      select a.ordernum "number",a.realname "name",decode(a.sex,'M','男','F','女','未知')sex,substr(a.age,0,instr(a.age,'岁')-1) age
+      from orders a where a.dictcustomerid =$dictcustomerid$ and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and a.iscancel=0
+    </select>
+    <!-- 平均年龄，团检报告 -->
+    <select id="Order.GetAvgAge" parameterClass="Hashtable">
+      select  trunc(avg(substr(a.age,0,instr(a.age,'岁')-1)),2) from orders a where a.dictcustomerid =$dictcustomerid$ and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+    </select>
+    <!-- 平均年龄以上人数，团检报告 -->
+    <select id="Order.GetAvgAgeHight" parameterClass="Hashtable">
+      select  count(1) from orders a where a.dictcustomerid =$dictcustomerid$ and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and substr(a.age,0,instr(a.age,'岁')-1)<![CDATA[>=]]>$AvgAge$ and a.iscancel=0
+    </select>
+    <!-- 平均年龄以下人数，团检报告 -->
+    <select id="Order.GetAvgAgeLow" parameterClass="Hashtable">
+      select  count(1) from orders a where a.dictcustomerid =$dictcustomerid$ and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and substr(a.age,0,instr(a.age,'岁')-1)<![CDATA[<]]>$AvgAge$ and a.iscancel=0
+    </select>
+    <!-- 报告标题，团检报告 -->
+    <select id="Order.GetdtTitle" parameterClass="Hashtable">
+      select   b.labname   from orders a join dictlab b on b.dictlabid=a.dictlabid where a.dictcustomerid=$dictcustomerid$
+      and rownum=1 and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and a.iscancel=0
+    </select>
+    <!-- 参检人员年龄及性别，团检报告 -->
+    <select id="Order.GetAgeRegion" parameterClass="Hashtable">
+      with vw as (select trunc(substr(a.age,0,instr(a.age,'岁')-1) / 10) ageregion, a.sex from orders a
+      where  a.dictcustomerid =$dictcustomerid$ and a.iscancel=0 and
+      a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd'))
+      (select to_char(vw.ageregion) as ageregion, decode(vw.sex,'M','男','F','女','未知') sex, count(1) numcount from vw
+      where  vw.ageregion<![CDATA[>]]> 1 and vw.ageregion<![CDATA[<]]> 8 group by vw.ageregion, vw.sex)
+      union
+      (select '1' ageregion, decode(vw.sex,'M','男','F','女','未知') sex, count(1) numcount from vw
+      where vw.ageregion<![CDATA[<]]>2 group by  vw.sex
+      )
+      union
+      (select '8' ageregion, decode(vw.sex,'M','男','F','女','未知') sex, count(1) numcount from vw
+      where vw.ageregion>7 group by  vw.sex
+      )
+    </select>
+    <!-- 男女实际人数，团检报告 -->
+    <select id="Order.GetFMRitol" parameterClass="Hashtable">
+      with vw as (select a.sex,a.status from orders a where a.sex in ('M','F') and a.dictcustomerid =$dictcustomerid$
+      and a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd') and a.iscancel=0
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd'))
+
+      select sex,numpeople,(trunc(ActualPeopleM*100/(ActualPeopleM+ActualPeopleF) ,2)||'%') opercentM,
+      (trunc(ActualPeopleF*100/(ActualPeopleM+ActualPeopleF) ,2)||'%') opercentF,(ActualPeopleM+ActualPeopleF) ActualPeople,
+      PlanPeople,(trunc(((ActualPeopleM+ActualPeopleF)*100/PlanPeople),2)||'%')  APRatio
+      from (
+      select t.sex,count(vw.sex) numpeople,(select count(1) from  vw)PlanPeople,
+      (select count(1) from vw where to_number(vw.status)>24 and vw.sex='M')ActualPeopleM,
+      (select count(1) from vw where to_number(vw.status)>24 and vw.sex='F')ActualPeopleF
+      from  vw
+      right join (select 'M'  sex from dual union select 'F' sex from dual)t on t.sex=vw.sex
+      group by t.sex
+      )
+    </select>
+    <!--添加订单记录 zhouy ,AREA  ,#Area#-->
+    <insert id="Order.InsertOrders" parameterClass="Orders">
+      INSERT INTO ORDERS
+      (ORDERNUM,REMARKS,DICTMEMBERID,DICTCUSTOMERID,REALNAME,SEX,CACULATEDAGE,AGE,CANCELBY,ENTERDATE,ENTERBY,DICTREPORTTEMPLATEID,LASTUPDATEDATE,ORDERTESTLST,ORDERTYPE,DICTLABID,AUTHORIZEDBYID,FINISHBYID,FILENAME,TRANSED,ORDERSOURCE,SECTION,ISMARRIED,STATUS,SAMPLINGDATE,PROVINCE,CITY,COUNTY,POSTADDRESS,RECIPIENT,CONTACTNUMBER,ISAUTOFIRSTCHECK,REPORTSTATUS,REPORTEXCEPTIONREASON,EXPREPORTDATE)
+      VALUES(#Ordernum#,#Remarks#,#Dictmemberid#,#Dictcustomerid#,#Realname#,#Sex#,#Caculatedage#,#Age#,#Cancelby#,sysdate,#Enterby#,#Dictreporttemplateid#,sysdate,#Ordertestlst#,#Ordertype#,#Dictlabid#,#Authorizedbyid#,#Finishbyid#,#Filename#,#Transed#,#Ordersource#,#Section#,#Ismarried#,#Status#,#SamplingDate#,#Province#,#City#,#County#,#PostAddress#,#Recipient#,#ContactNumber#,#IsAutoFirstCheck#,#ReportStatus#,#ReportExceptionReason#,#ExpReportDate#)
+    </insert>
+
+    <!--查询订单详细信息 zhouy-->
+    <select id="Order.SelectOrdersByOrdernum" parameterClass="string" resultMap="OrdersResult">
+      select * from orders o where o.ordernum= '$value$'
+    </select>
+
+
+    <!--发送社区网站体检结果  查找已总检 zhangwei-->
+    <select id="Order.SelectOrdersByStatus" parameterClass="string" resultMap="OrdersResult">
+      select a.ordernum as barcode,a.age,b.customername as  LOrganization,
+      '' as LRoom,'' as LDoctor,'' as Stime ,'' as Ltime,a.ordernum as OrderNo,
+      a.remarks as remark ,c.realname,c.idnumber,c.mobile,a.ordertestlst as ProductName,
+      nvl(b.issms,0) as ISSMS
+      from orders a
+      left join dictcustomer b on(a.dictcustomerid = b.dictcustomerid) 
+      left join dictmember c on (a.dictmemberid = c.dictmemberid)
+      where rownum <![CDATA[<=]]> 100 and to_number(a.status) <![CDATA[>=]]>'25' and   nvl(a.transed,0) = '0'
+      order by a.createdate
+    </select>
+    <!--发送社区网站体检报告  根据ordernum查找体检报告 zhangwei-->
+    <select id="Order.SelectOrdersResultByOrdernum" parameterClass="Hashtable">
+      select '' as Stype ,'' as Ssate,'' as Inspector,'' as itime, b.username as Auditor,
+      a.authorizeddate as ATime,'' as SpecialInfo,'' as Opinion,'' as Proposal
+      from orders a
+      left join dictuser b on(a.authorizedbyid = b.dictuserid)
+      where a.ordernum ='$value$'
+    </select>
+
+    <!--查询订单 上传到LIS ylp-->
+    <select id="Order.SelectOrdersToLis" parameterClass="string">
+      select * from (
+      select c.barcode as RequestCode ,c.collectdate as SamplingDate, o.realname as PatientName,'440100112' as Username,
+      o.sex as sex,o.age as age,
+      o.caculatedage as CaculateAge,m.mobile as PatientTel
+      ,wmsys.wm_concat(t.uniqueid) as NaturalItem,wmsys.wm_concat(t.testcode) as HospItemCode
+      from (select * from orders where dictlabid=$value$ and iscancel='0') o
+      inner join (select  rownum rn, k.ordernum,k.barcode,k.collectdate from orderbarcode k where nvl(k.transed,0)='0' and k.status = '15') c on c.ordernum=o.ordernum
+      left join dictmember m on o.dictmemberid=m.dictmemberid
+      left join ordergrouptest g on g.barcode=c.barcode
+      left join dicttestitem t on t.dicttestitemid=g.dicttestitemid
+      join dictlabdept aa on(t.dictlabdeptid = aa.dictlabdeptid and aa.labdepttype = '2')
+      group by c.barcode,c.collectdate,m.mobile, o.realname,o.sex,o.caculatedage,o.age
+      ) where rownum<![CDATA[<]]>11
+    </select>
+
+
+    <!--增加预约复查时间-->
+    <update id="Order.EditRerundate" parameterClass="Hashtable">
+      UPDATE ORDERS SET RERUNDATE=TO_DATE('$Rerundate$', 'YYYY-MM-DD') WHERE ORDERNUM = '$Ordernum$'
+    </update>
+    <!--订单号完成跟进-->
+    <update id="Order.EditReviewstate" parameterClass="string">
+      UPDATE ORDERS SET REVIEWSTATE='1' WHERE ORDERNUM = '$value$'
+    </update>
+    <!--订单号状态修改-->
+    <update id="Order.EditStatus" parameterClass="Hashtable">
+      UPDATE ORDERS SET STATUS=#Status#,Lastupdatedate=(select sysdate from dual) WHERE ORDERNUM = '$OrderNum$'
+    </update>
+
+    <!--订单号状态修改-->
+    <update id="Order.EditStatusByOldStatus" parameterClass="Hashtable">
+      UPDATE ORDERS SET STATUS=$status$
+      <!-- 社区上传标志 0未上传 1已上传 -->
+      <isNotNull property="TRANSED">
+        , TRANSED = $TRANSED$
+      </isNotNull>
+      <!--初步总检-->
+      <isEqual  compareValue="15" property="oldstatus">
+        <isEqual  compareValue="20" property="status">
+          ,authorizeddate=sysdate,authorizedbyid=#authorizedbyid#
+        </isEqual>
+      </isEqual>
+      <!-- 完成总检 -->
+      <isEqual  compareValue="25" property="status">
+        ,finishdate=sysdate,finishbyid=#finishbyid#
+      </isEqual>
+      <!-- 取消完成总检 -->
+      <isEqual  compareValue="25" property="oldstatus">
+        <isEqual  compareValue="20" property="status">
+          ,finishdate=null,finishbyid=null
+        </isEqual>
+      </isEqual>
+      <!--退回重做-->
+      <isEqual compareValue="15" property="oldstatus">
+        <isEqual compareValue="10" property="status">
+          ,finishdate=null,finishbyid=null,authorizeddate=null,authorizedbyid=null,isautofirstcheck='0' 
+        </isEqual>
+      </isEqual>
+      WHERE  ordernum in ($ordernum$)
+      <isEqual  compareValue="5" property="oldstatus">
+      <isEqual  compareValue="10" property="status">
+        and STATUS='5'
+      </isEqual>
+      </isEqual>
+    </update>
+    
+    <!--批量修改订单单位-->
+    <update id="Order.UpdateCustomer" parameterClass="Hashtable">
+      update orders o set o.dictmemberid=$customerid$ where o.ordernum in ($ordernum$)
+    </update>
+    
+    <!--订单号TRANSED状态修改-->
+    <update id="Order.TRANSED" parameterClass="Hashtable">
+      UPDATE ORDERS SET TRANSED = #TRANSED# WHERE ORDERNUM = '$ordernum$'
+    </update>
+
+    <!--作废体检记录 zhouy-->
+    <update id="Order.Cancellation" parameterClass="Hashtable">
+      UPDATE ORDERS SET CANCELBY=#cancelby#,ISCANCEL='1',CANALEDATE=sysdate,CANCELREASON=#reason# WHERE ORDERNUM in ($ordernum$)
+    </update>
+    
+    <!--修改体检单位 -->
+    <update id="Order.DictmemberidByOrderNum" parameterClass="Hashtable">
+      update orders o set o.dictlabid=#dictlabid#, o.dictcustomerid=#dictcustomerid#,Transed='0' 
+      <isNotNull prepend=", " property="section">
+        o.section=#section#
+      </isNotNull>
+      <isNotNull prepend=", " property="ck">
+        <isEqual compareValue="1" property="ck">
+          POSTADDRESS=#address#,RECIPIENT=#recname#,CONTACTNUMBER=#telphone#
+        </isEqual>
+      </isNotNull>
+      where o.ordernum in ($ordernum$)
+    </update>
+    
+    <!--取消作废体检记录 fenghp-->
+    <update id="Order.Valid" parameterClass="Hashtable">
+      UPDATE ORDERS SET CANCELBY=#cancelby#,ISCANCEL='0',CANALEDATE=sysdate WHERE ORDERNUM in ($ordernum$)
+    </update>
+
+    <!--获取体检流水号zhouy -->
+    <procedure id="Order.MakeOrderNum" parameterMap="paramMap">
+      Next_OrderNum
+    </procedure>
+    <!--end获取体检流水号 -->
+
+    <!--社区网站上传根据订单号修改是否上传状态-->
+    <update id="Order.EditTransed" parameterClass="Hashtable">
+      UPDATE ORDERS SET Transed= #Transed# WHERE ORDERNUM = '$ordernum$'
+    </update>
+    <!--,AREA=#Area#-->
+    <update id="Order.UpdateOrders" parameterClass="Orders">
+      UPDATE ORDERS
+      SET REMARKS=#Remarks#,DICTMEMBERID=#Dictmemberid#,DICTCUSTOMERID=#Dictcustomerid#,REALNAME=#Realname#,SEX=#Sex#,
+      CACULATEDAGE=#Caculatedage#,AGE=#Age#,DICTREPORTTEMPLATEID=#Dictreporttemplateid#,LASTUPDATEDATE=#Lastupdatedate#,
+      ORDERTESTLST=#Ordertestlst#,DICTLABID=#Dictlabid#,ORDERSOURCE=#Ordersource#,ISMARRIED=#Ismarried#,SECTION=#Section#,
+      PROVINCE=#Province#,CITY=#City#,COUNTY=#County#,POSTADDRESS=#PostAddress#,RECIPIENT=#Recipient#,CONTACTNUMBER=#ContactNumber#,SAMPLINGDATE=#SamplingDate#,
+      ISAUTOFIRSTCHECK=#IsAutoFirstCheck#,REPORTSTATUS=#ReportStatus#,REPORTEXCEPTIONREASON=#ReportExceptionReason#,EXPREPORTDATE=#ExpReportDate#
+      WHERE ORDERNUM = #Ordernum#
+    </update>
+
+    <!--更新ORDERS表IOLIS状态 yhl-->
+    <update id="Order.UpdateOrderIOLIS" parameterClass="Hashtable">
+      UPDATE ORDERS SET IOLIS=$iolis$ WHERE ORDERNUM in($ordernum$)
+    </update>
+
+    <delete id="DeleteOrders" parameterClass="string">
+      DELETE FROM ORDERS WHERE ORDERNUM = #value#
+    </delete>
+    <!--查询订单上传到社区的状态 fhp-->
+    <select id="Order.UploadToSheQuCount" parameterClass="Hashtable">
+      select count(1) from orders where 1=1
+      <isNotNull prepend="and" property="StartDate">
+        enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="dropDictLab">
+        dictlabid=$dropDictLab$
+      </isNotNull>
+      <isNotNull prepend="and" property="tbStrKey">
+        (ordernum like '$tbStrKey$%' or  realname like '$tbStrKey$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="DropTransed">
+        (TranSed=$DropTransed$)
+      </isNotNull>
+      <isNull prepend="and" property="DropSure">
+        STATUS<![CDATA[>=]]>'25'
+      </isNull>
+      <isNotNull prepend="and" property="Dictcustomerid">
+        Dictcustomerid=$Dictcustomerid$
+      </isNotNull>
+    </select>
+    <select id="Order.UploadToSheQu"  parameterClass="Hashtable">
+      select * From(
+      select rownum as rn,t.* From(
+      select ordernum,realName,decode(sex,'M','男','F','女','未知') sex,transed,enterby,to_char(enterdate, 'yyyy-MM-dd hh24:mi:ss')enterdate,remarks
+      from orders where 1=1
+      <isNotNull prepend="and" property="StartDate">
+        enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="dropDictLab">
+        dictlabid=$dropDictLab$
+      </isNotNull>
+      <isNotNull prepend="and" property="tbStrKey">
+        (ordernum like '$tbStrKey$%' or  realname like '$tbStrKey$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="DropTransed">
+        (TranSed=$DropTransed$)
+      </isNotNull>
+      <isNull prepend="and" property="DropSure">
+        STATUS<![CDATA[>=]]>'25'
+      </isNull>
+      <isNotNull prepend="and" property="Dictcustomerid">
+        Dictcustomerid=$Dictcustomerid$
+      </isNotNull>
+      )t where rownum  <![CDATA[<=]]> $PageEnd$
+      )tt where tt.rn>=$PageStart$
+    </select>
+    <!--根据订单号修改是否上传状态 fhp-->
+    <update id="Order.EditSelectTransed" parameterClass="Hashtable">
+      UPDATE ORDERS SET Transed= $Transed$ WHERE ORDERNUM in ($OrderNum$)
+    </update>
+
+
+    <!--短信中心 要发送的短信人员-->
+    <select id="Order.WaitSendSmsUsers" parameterClass="Hashtable">
+      select * From(
+      select rownum as rn,t.* From(
+      select t1.ordernum,t1.realname,m1.mobile,m1.sex,initsta.basicname as status,t1.sms from orders t1,dictmember m1,initbasic initsta
+      where t1.dictmemberid=m1.dictmemberid and t1.iscancel=0 and (initsta.basictype='ORDERSTATUS' and t1.status=initsta.basicvalue)
+      <isNotNull prepend="and" property="labid">
+        t1.dictlabid=$labid$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="ordernum">
+        (t1.ordernum like '%$ordernum$%' or t1.realname like '%$ordernum$%' or m1.mobile like '%$ordernum$%')
+      </isNotEmpty>
+      <isEmpty  prepend=" " property="ordernum">
+        <isNotEqual prepend="and" property="status" compareValue="-1">
+          t1.status=$status$
+        </isNotEqual>
+        <isNotEqual prepend="and" property="customerid" compareValue="-1">
+          t1.dictcustomerid=$customerid$
+        </isNotEqual>
+        <isNotNull prepend="and" property="DateStart">
+          t1.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          t1.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+      </isEmpty>
+      order by t1.ordernum desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+
+    <!--短信中心 要发送的短信人员 数目 -->
+    <select id="Order.WaitSendSmsUsersCount" parameterClass="Hashtable">
+      select Count(1) from orders t1,dictmember m1,initbasic initsta
+      where t1.dictmemberid=m1.dictmemberid and t1.iscancel=0 and (initsta.basictype='ORDERSTATUS' and t1.status=initsta.basicvalue)
+      <isNotNull prepend="and" property="labid">
+        t1.dictlabid=$labid$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="ordernum">
+        (t1.ordernum like '%$ordernum$%' or t1.realname like '%$ordernum$%' or m1.mobile like '%$ordernum$%')
+      </isNotEmpty>
+      <isEmpty  prepend=" " property="ordernum">
+        <isNotEqual prepend="and" property="status" compareValue="-1">
+          t1.status=$status$
+        </isNotEqual>
+        <isNotEqual prepend="and" property="customerid" compareValue="-1">
+          t1.dictcustomerid=$customerid$
+        </isNotEqual>
+        <isNotNull prepend="and" property="DateStart">
+          t1.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          t1.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+      </isEmpty>
+      order by t1.ordernum desc
+    </select>
+
+    <!--短信中心 要导出的短信人员-->
+    <select id="Order.WaitExcelUsers" parameterClass="Hashtable"  resultMap="OrdersUsers">
+      select t1.ordernum,t1.realname,m1.mobile,m1.sex,t1.status,t1.sms,m1.addres from orders t1,dictmember m1
+      where t1.dictmemberid=m1.dictmemberid and t1.iscancel=0
+      <isNotNull prepend="and" property="labid">
+        t1.dictlabid=$labid$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="ordernum">
+        (t1.ordernum like '%$ordernum$%' or t1.realname like '%$ordernum$%' or m1.mobile like '%$ordernum$%')
+      </isNotEmpty>
+      <isEmpty  prepend=" " property="ordernum">
+        <isNotNull prepend="and" property="keys">
+          (t1.sms not like '%$keys$%' or t1.sms is null)
+        </isNotNull>
+        <isNotEqual prepend="and" property="status" compareValue="-1">
+          t1.status=$status$
+        </isNotEqual>
+        <isNotEqual prepend="and" property="customerid" compareValue="-1">
+          t1.dictcustomerid=$customerid$
+        </isNotEqual>
+        <isNotNull prepend="and" property="DateStart">
+          t1.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="DateEnd">
+          t1.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotNull>
+      </isEmpty>
+      order by t1.ordernum desc
+    </select>
+    <!--短信发送成功后保存发送的内容标题-->
+    <update id="Order.UpdateOrdersSms" parameterClass="Hashtable">
+      UPDATE ORDERS SET Sms='$SmsTitle$' WHERE ORDERNUM in ($OrderNum$)
+    </update>
+
+    <update id="Order.UpdateOrdersRemarks" parameterClass="Hashtable">
+      update orders set remarks=#remarks# where ordernum='$ordernum$'
+    </update>
+
+    <select id="Order.GetRemarksByordernum" parameterClass="string">
+      select o.remarks from orders o where o.ordernum='$value$'
+    </select>
+    
+    <!--获取需要自动取结果的订单号-->
+    <select id="Order.SelectGetResultOrderNum" parameterClass="Double" >
+      select ordernum from(
+      select distinct o.ordernum,o.createdate from orders o,orderbarcode b
+      where
+      o.ordernum=b.ordernum and
+      o.iscancel='0'        and
+      o.iolis<![CDATA[<]]>2 and
+      o.dictlabid=#value#   and
+      b.transed='1'         and
+      o.createdate <![CDATA[<]]>(sysdate-1) and
+      o.createdate >=(sysdate-60)
+      order by o.createdate)
+    </select>
+
+    <!--广州康源系统直接填入结果，对状态太条码已打印，接收完成的数据进行更改-->
+    <select id="Order.SelectGetResultOrderNumFromWebLis" parameterClass="Double" >
+      select distinct o.ordernum from orders o,orderbarcode b
+      where
+      o.status=12         and
+      o.ordernum=b.ordernum and
+      o.iscancel='0'        and
+      o.iolis=2             and
+      o.dictlabid=#value#   and
+      b.transed='1'         and
+      o.createdate <![CDATA[<]]>sysdate and
+      o.createdate >=(sysdate-60)
+    </select>
+
+    <!--更改订单上传社区状态值  lsp-->
+    <update id="Order.UpdateTransed" parameterClass="String">
+      UPDATE ORDERS SET transed =0 WHERE ORDERNUM=$value$
+    </update>
+    <!--查询待删除订单信息  lsp-->
+    <select id="Order.SelectOrderDelete" parameterClass="Hashtable">
+      select o.dictmemberid,decode(o.iscancel,'1','已作废','未作废') as iscancel,o.dictlabid,o.ordersource,
+      o.ordernum,o.realname,o.age,o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,
+      initsex.basicname as sex,nvl(lab.labname,'') as labname,
+      decode(length(o.section),0,cus.customername,null,cus.customername,cus.customername||'.'||o.section) as customername,
+      initsta.basicname as status,o.status as statusvalue,o.iolis,o.iopacs,ob.barcode
+      from orders o
+      left join  dictlab lab on o.dictlabid=lab.dictlabid
+      left join  initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  dictcustomer cus on (cus.customertype='0' and o.dictcustomerid=cus.dictcustomerid)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      left join orderbarcode ob on o.ordernum=ob.ordernum
+      where  o.ordernum in (select ordernum from orderbarcode a where a.barcode='$ordernum$')
+      union all
+      select o.dictmemberid,decode(o.iscancel,'1','已作废','未作废') as iscancel,o.dictlabid,o.ordersource,
+      o.ordernum,o.realname,o.age,o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,
+      initsex.basicname as sex,nvl(lab.labname,'') as labname,
+      decode(length(o.section),0,cus.customername,null,cus.customername,cus.customername||'.'||o.section) as customername,
+      initsta.basicname as status,o.status as statusvalue,o.iolis,o.iopacs,ob.barcode
+      from orders o
+      left join  dictlab lab on o.dictlabid=lab.dictlabid
+      left join  initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  dictcustomer cus on (cus.customertype='0' and o.dictcustomerid=cus.dictcustomerid)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      left join orderbarcode ob on o.ordernum=ob.ordernum
+      where  o.ordernum ='$ordernum$'
+    </select>
+    <!--删除订单相关操作  lsp-->
+    <delete id="Order.DeleteOrdertest" parameterClass="Hashtable">
+      delete from ordertest where ordernum='$ordernum$'
+    </delete>
+    <delete id="Order.DeleteOrderGroupTest" parameterClass="Hashtable">
+      delete from ordergrouptest where ordernum='$ordernum$'
+    </delete>
+    <delete id="Order.DeleteOrderproducts" parameterClass="Hashtable">
+      delete from orderproducts where ordernum='$ordernum$'
+    </delete>
+    <delete id="Order.DeleteOrderbarcode" parameterClass="Hashtable">
+      delete  from orderbarcode where ordernum='$ordernum$'
+    </delete>
+    <delete id="Order.DeleteOrderresultcomment" parameterClass="Hashtable">
+      delete from orderresultcomment where ordernum='$ordernum$'
+    </delete>
+    <delete id="Order.DeleteOrderVisit" parameterClass="Hashtable">
+      delete from ordervisit where ordernum='$ordernum$'
+    </delete>
+    <delete id="Order.DeleteOrders" parameterClass="Hashtable">
+      delete from orders where ordernum='$ordernum$'
+    </delete>
+    
+    <!--总检医生查询订单【初步总检】  lsp-->
+    <select id="Order.GetAuthorizedOrdersList" parameterClass="Hashtable">
+      select * From(
+      select rownum as rn,t.* From(
+      select 
+      o.ordernum,o.realname,o.age,initsex.basicname as sex,initsta.basicname as status,o.createdate,o.authorizeddate,o.finishdate,d.customername,
+      decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,o.remarks,u.username as authorizedByname,uu.username as finishByname
+      from orders o
+      left join dictcustomer d on o.dictcustomerid=d.dictcustomerid
+      left join initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join  initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      left join dictuser u on (o.authorizedbyid=u.dictuserid)
+      left join dictuser uu on (o.finishbyid=uu.dictuserid)
+      where 1=1 
+      <isNotEmpty prepend="and" property="uname">
+        (u.username like '%$uname$%')
+      </isNotEmpty>
+      <isEmpty prepend="and" property="uname">
+        o.authorizedbyid=$userid$
+      </isEmpty>
+      <isNotEmpty prepend="and" property="dateStart">
+          o.authorizeddate>= to_date('$dateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="dateEnd">
+          o.authorizeddate <![CDATA[<]]>to_date('$dateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+      order by o.finishdate desc
+      )t where rownum  <![CDATA[<=]]> $pageend$
+      )tt where tt.rn>=$pagestart$
+    </select>
+    <select id="Order.GetAuthorizedOrdersListCount" parameterClass="Hashtable">
+      select count(1) from orders o
+      left join dictuser u on (o.authorizedbyid=u.dictuserid)
+      where 1=1 
+      <isNotEmpty prepend="and" property="uname">
+        (u.username like '%$uname$%')
+      </isNotEmpty>
+      <isEmpty prepend="and" property="uname">
+        o.authorizedbyid=$userid$
+      </isEmpty>
+      <isNotEmpty prepend="and" property="dateStart">
+        o.authorizeddate>= to_date('$dateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="dateEnd">
+        o.authorizeddate <![CDATA[<]]>to_date('$dateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+    </select>
+    <!--总检医生查询订单【完成总检】  lsp-->
+    <select id="Order.GetFinishOrdersList" parameterClass="Hashtable">
+      select * From(
+      select rownum as rn,t.* From(
+      select
+      o.ordernum,o.realname,o.age,initsex.basicname as sex,initsta.basicname as status,o.createdate,o.authorizeddate,o.finishdate,d.customername,
+      decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,o.remarks,uu.username as authorizedByname,u.username as finishByname
+      from orders o
+      left join dictcustomer d on o.dictcustomerid=d.dictcustomerid
+      left join initbasic initsex on (initsex.basictype='SEX' and o.sex=initsex.basicvalue)
+      left join initbasic initsta on (initsta.basictype='ORDERSTATUS' and o.status=initsta.basicvalue)
+      left join dictuser uu on (o.authorizedbyid=uu.dictuserid)
+      left join dictuser u on (o.finishbyid=u.dictuserid)
+      where 1=1 
+      <isNotEmpty prepend="and" property="uname">
+        (u.username like '%$uname$%')
+      </isNotEmpty>
+      <isEmpty prepend="and" property="uname">
+        o.finishbyid=$userid$
+      </isEmpty>
+      <isNotEmpty prepend="and" property="dateStart">
+        o.finishdate>= to_date('$dateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="dateEnd">
+        o.finishdate <![CDATA[<]]>to_date('$dateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+      order by o.finishdate desc
+      )t where rownum  <![CDATA[<=]]> $pageend$
+      )tt where tt.rn>=$pagestart$
+    </select>
+    <select id="Order.GetFinishOrdersListCount" parameterClass="Hashtable">
+      select count(1) from orders o 
+      left join dictuser u on (o.finishbyid=u.dictuserid) 
+      where 1=1 
+      <isNotEmpty prepend="and" property="uname">
+        (u.username like '%$uname$%')
+      </isNotEmpty>
+      <isEmpty prepend="and" property="uname">
+        o.finishbyid=$userid$
+      </isEmpty>
+      <isNotEmpty prepend="and" property="dateStart">
+        o.finishdate>= to_date('$dateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="dateEnd">
+        o.finishdate <![CDATA[<]]>to_date('$dateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+    </select>
+    <!--根据条码号查询订单详细信息[对接医护平台]-->
+    <select id="Order.GetOrderInfoByBarcode" parameterClass="String">
+      select distinct o.ordernum, b.barcode, o.realname ,d.mobile,d.idnumber, o.status ,ba.basicname  ,o.iscancel,o.cancelreason
+      from orders o,orderbarcode b,dictmember d,initbasic ba where o.ordernum=b.ordernum and o.dictmemberid=d.dictmemberid
+      and (ba.basictype='ORDERSTATUS' and ba.basicvalue=o.status)
+      and b.barcode='$value$' and o.enterby='大众平台'
+    </select>
+
+    <!--查询TM订单列表-->
+    <select id="Order.QueryTMStatList" parameterClass="Hashtable">
+      select * From(
+      select rownum as rn,t.* From(
+      select ordercode,dictlabid, labname,dictcustomerid,customername,Section,ordertestlst,createdate,samplingdate,count(1) ordercount,
+      0 as importCount,'' as importTime,0 as resultCount,'' as resultTime,0 as authorizedCount,'' as authorizedTime,
+      0 as finishedCount, '' as finishedTime,0 as printCount,'' as printTime
+      from
+      (
+      select distinct substr(a.ordernum,0,8) ordercode, a.ordernum,a.ordertestlst ,
+      a.Section , c.customername ,d.labname ,to_char(a.createdate,'yyyy-MM-dd') createdate,
+      a.remarks,to_char(a.samplingdate,'yyyy-mm-dd') samplingdate,a.dictlabid,a.dictcustomerid
+      from orders a,dictcustomer c,dictlab d
+      where a.dictcustomerid=c.dictcustomerid
+      and a.dictlabid=d.dictlabid
+      and a.iscancel='0'
+      and a.dictlabid in ($labid$)
+      <isNotEqual prepend="and" property="dictcustomerid" compareValue="-1">
+        a.dictcustomerid=$dictcustomerid$
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="DateStart">
+        a.createdate>= to_date('$DateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="DateEnd">
+        a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Section">
+        (a.Section like '%$Section$%' or a.remarks like '%$Section$%')
+      </isNotEmpty>
+      )
+      www
+      group by www.Section,www.dictlabid,www.labname,www.dictcustomerid,www.customername,www.ordertestlst,www.createdate,www.samplingdate,www.ordercode
+      order by www.ordercode,www.labname,www.Section
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <select id="Order.QueryTMStatListCount" parameterClass="Hashtable">
+      select count(1) from
+      (
+      select  ordercode,dictlabid,dictcustomerid,Section,ordertestlst,createdate,samplingdate,count(1) ordercount
+      from
+      (
+      select distinct substr(a.ordernum,0,8) ordercode, a.ordernum,
+      a.ordertestlst ,a.Section ,to_char(a.createdate,'yyyy-MM-dd') createdate,
+      a.remarks,to_char(a.samplingdate,'yyyy-mm-dd') samplingdate,a.dictlabid,a.dictcustomerid
+      from orders a
+      where a.iscancel='0'
+      and a.dictlabid in ($labid$)
+      <isNotEqual prepend="and" property="dictcustomerid" compareValue="-1">
+        a.dictcustomerid=$dictcustomerid$
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="DateStart">
+        a.createdate>= to_date('$DateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="DateEnd">
+        a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Section">
+        (a.Section like '%$Section$%' or a.remarks like '%$Section$%')
+      </isNotEmpty>
+      )
+      www
+      group by www.Section,www.dictlabid,www.dictcustomerid,www.ordertestlst,www.createdate,www.samplingdate,www.ordercode
+      )
+    </select>
+    <!--查询操作记录-->
+    <select id="Order.QueryOperationLog" parameterClass="Hashtable">
+      select substr(o.ordernum,0,8) ordercode,o.dictcustomerid,o.dictlabid,o.section,o.ordertestlst,op.modulename,op.content,
+      op.createdate logdate ,to_char(o.samplingdate,'yyyy-mm-dd') samplingdate,to_char(o.createdate,'yyyy-MM-dd') createdate
+      from orders o,operationlog op
+      where o.iscancel='0'
+      and op.ordernum=o.ordernum
+      and op.modulename in ('单位批量上传','检查结果录入','总检','报告单集中打印')
+      and o.dictlabid in ($labid$)
+      <isNotEqual prepend="and" property="dictcustomerid" compareValue="-1">
+          o.dictcustomerid=$dictcustomerid$
+        </isNotEqual>
+        <isNotEmpty prepend="and" property="DateStart">
+          o.createdate>= to_date('$DateStart$','yyyy-MM-dd')
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="DateEnd">
+          o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="Section">
+          (o.Section like '%$Section$%' or o.remarks like '%$Section$%')
+        </isNotEmpty>
+    </select>
+    <!--导出数据查询-->
+    <select id="Order.QueryTMStatExportList" parameterClass="Hashtable">
+      select ordercode,dictlabid, labname,dictcustomerid,customername,Section,ordertestlst,createdate,samplingdate,count(1) ordercount,
+      0 as importCount,'' as importTime,0 as resultCount,'' as resultTime,0 as authorizedCount,'' as authorizedTime,
+      0 as finishedCount, '' as finishedTime,0 as printCount,'' as printTime,0 as tmstatresultid,0 as searchid
+      from
+      (
+      select distinct substr(a.ordernum,0,8) ordercode, a.ordernum,
+      a.ordertestlst ,a.Section , c.customername ,d.labname ,to_char(a.createdate,'yyyy-MM-dd') createdate,
+      a.remarks,to_char(a.samplingdate,'yyyy-mm-dd') samplingdate,a.dictlabid,a.dictcustomerid
+      from orders a,dictcustomer c,dictlab d
+      where a.dictcustomerid=c.dictcustomerid
+      and a.dictlabid=d.dictlabid
+      and a.iscancel='0'
+      and a.dictlabid in ($labid$)
+      <isNotEqual prepend="and" property="dictcustomerid" compareValue="-1">
+        a.dictcustomerid=$dictcustomerid$
+      </isNotEqual>
+      <isNotEmpty prepend="and" property="DateStart">
+        a.createdate>= to_date('$DateStart$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="DateEnd">
+        a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Section">
+        (a.Section like '%$Section$%' or a.remarks like '%$Section$%')
+      </isNotEmpty>
+      )
+      www
+      group by www.Section,www.dictlabid,www.labname,www.dictcustomerid,www.customername,
+      www.ordertestlst,www.createdate,www.samplingdate,www.ordercode
+      order by www.ordercode,www.labname,www.Section
+    </select>
+
+    <!--回访记录   Begin-->
+    <!--添加回访记录-->
+    <insert id="Order.InsertVisit" parameterClass="Hashtable">
+      insert into ordervisit
+      (visitid, ordernum, visitor, visitcontext, visittime)
+      values
+      (#visitid#, #ordernum#, #visitor#, #visitcontext#, to_date(#visittime#,'YYYY-MM-DD HH24:MI:SS'))
+    </insert>
+    <!--修改回访记录-->
+    <update id="Order.UpdateVisit" parameterClass="Hashtable">
+      update ordervisit
+      set
+      visitcontext = #visitcontext#
+      where visitid = #visitid#
+    </update>
+    <!--查询回访记录列表-->
+    <select id="Order.GetVisitList" parameterClass="Hashtable">
+      select '' as rn, visitid, ordernum, visitor, visitcontext, visittime from ordervisit where 1=1
+      <isNotNull prepend="and" property="ordernum">
+        ordernum=#ordernum#
+      </isNotNull>
+      <isNotNull prepend="and" property="visitid">
+        visitid=$visitid$
+      </isNotNull>
+      order by visitid desc
+    </select>
+    <!--删除回访记录-->
+    <delete id="Order.DeleteVisit" parameterClass="Double">
+      delete from ordervisit where visitid=#value#
+    </delete>
+    <!--回访记录  End-->
+    
+    <!--自动初步总检 BEGIN-->
+    <!--查询符合自动初步总检条件的订单列表-->
+    <select id="Order.GetAutoChuBuList">
+      select * from (
+      select o.ordernum,r.resultcomment,t.reporttype
+      from orders o
+      left join orderresultcomment r on o.ordernum=r.ordernum
+      left join dictreporttemplate t on o.dictreporttemplateid=t.dictreporttemplateid
+      where o.status='15' and o.iscancel='0'
+      and t.reporttype in (15,40)
+      and o.isautofirstcheck='0' and o.iolis='2'
+      order by o.ordernum
+      ) t where rownum<![CDATA[<]]>11
+    </select>
+    <!--检查订单检测结果是否有异常-->
+    <select id="Order.CheciTestResultIsException" parameterClass="String">
+      select count(1) cnt from ordertest t where t.ordernum='$value$' and t.isactive='1' and t.isexception='1'
+    </select>
+    <!--设置订单已自动初步总检扫描状态-->
+    <update id="Order.SetAutoFirstCheck" parameterClass="Hashtable" >
+      update orders o set o.isautofirstcheck='$status$' where o.ordernum='$ordernum$'
+    </update>
+    <!--随机获取正常结果描述评价-->
+    <select id="Order.GetRandResultComment" parameterClass="Double">
+      SELECT * FROM RESULTCOMMENTTEMP WHERE TEMPID=#value#
+    </select>
+    <!--自动初步总检 END-->
+
+    <insert id="Order.InsertOrderExceptionReport" parameterClass="Hashtable">
+      insert into orderexceptionreport
+      (barcode, testcode, exceptiontype, exceptionreason, expreportdate, createdate, status)
+      values
+      (#BARCODE#, #TESTCODE#, #EXCEPTIONTYPE#, #EXCEPTIONREASON#,to_date(#EXPREPORTDATE#,'YYYY-MM-DD'),to_date(#CREATEDATE#,'YYYY-MM-DD HH24:MI:SS'),#STATUS#)
+    </insert>
+  </statements>
+</sqlMap>

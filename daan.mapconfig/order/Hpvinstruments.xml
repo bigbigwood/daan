@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns="http://ibatis.apache.org/mapping" >
+  <alias>
+    <typeAlias alias="Hpvinstruments"  type="daan.domain.Hpvinstruments,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="HpvinstrumentsResult" class="Hpvinstruments">
+      <result property="Hpvinstrumentsid" column="HPVINSTRUMENTSID" />
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+      <result property="Instrumentsbarcode" column="INSTRUMENTSBARCODE" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Instcreatedate" column="INSTCREATEDATE" />
+      <result property="Barcodecreatedate" column="BARCODECREATEDATE" />
+      <result property="Instenterby" column="INSTENTERBY" />
+      <result property="Barcodeenterby" column="BARCODEENTERBY" />
+      <result property="Remark" column="REMARK" />
+      <result property="Isactive" column="ISACTIVE" />
+    </resultMap>
+    <resultMap id="HpvinstrumentsResultBack" class="Hpvinstruments">
+      <result property="Hpvinstrumentsid" column="HPVINSTRUMENTSID" />
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+      <result property="Instrumentsbarcode" column="INSTRUMENTSBARCODE" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Testname" column="TESTNAME" />
+      <result property="Labdeptname" column="LABDEPTNAME" />
+      <result property="Price" column="PRICE" />
+    </resultMap>
+
+    <resultMap id="HpvinstrumentsResultEx" extends="HpvinstrumentsResult" class="daan.domain.Hpvinstruments">
+      <result property="Testname" column="TESTNAME" />
+      <result property="Customername" column="CUSTOMERNAME"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <!--根据条件精确查找-->
+    <select id="Order.SelectHpvinstrumentsByWhere" parameterClass="Hashtable" resultMap="HpvinstrumentsResultEx">
+      SELECT
+      h.hpvinstrumentsid,
+      h.dictcustomerid,
+      h.dicttestitemid,
+      h.instrumentsbarcode,
+      h.barcode,
+      h.instcreatedate,
+      h.barcodecreatedate,
+      h.instenterby,
+      h.barcodeenterby,
+      h.remark,
+      h.isactive,
+      d.customername,
+      d2.testname
+      FROM
+      hpvinstruments h,dictcustomer d,dicttestitem d2
+      WHERE
+      h.dictcustomerid=d.dictcustomerid AND h.dicttestitemid=d2.dicttestitemid
+      <isNotNull prepend="and" property="strKey">
+        h.Hpvinstrumentsid = #strKey#
+      </isNotNull>
+      <isNotNull prepend="and" property="Instrumentsbarcode">
+        h.Instrumentsbarcode = #Instrumentsbarcode#
+      </isNotNull>
+      <isNotNull prepend="and" property="Barcode">
+        h.Barcode = #Barcode#
+      </isNotNull>
+    </select>
+
+    <!--根据条件模糊查找-->
+    <select id="Order.SelectHpvinstrumentsByWhereNew" parameterClass="Hashtable" resultMap="HpvinstrumentsResultEx">
+      SELECT
+      hpvinstrumentsid,
+      dictcustomerid,
+      dicttestitemid,
+      instrumentsbarcode,
+      barcode,
+      instcreatedate,
+      barcodecreatedate,
+      instenterby,
+      barcodeenterby,
+      remark,
+      isactive,
+      customername,
+      testname
+      from
+      (SELECT ROWNUM RN, t.* FROM (SELECT h.hpvinstrumentsid,h.dictcustomerid,h.dicttestitemid,h.instrumentsbarcode,
+      h.barcode,h.instcreatedate,h.barcodecreatedate,h.instenterby,h.barcodeenterby,h.remark,h.isactive,d.customername,d2.testname
+      FROM
+      hpvinstruments h,dictcustomer d,dicttestitem d2
+      WHERE
+      h.dictcustomerid=d.dictcustomerid AND h.dicttestitemid=d2.dicttestitemid
+      <isNotNull prepend="and" property="Dicttestitemid">
+        h.dicttestitemid = $Dicttestitemid$
+      </isNotNull>
+      <isNotNull prepend="and" property="Dictcustomerid">
+        h.dictcustomerid = $Dictcustomerid$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="Instrumentsbarcode">
+        h.instrumentsbarcode like  '%$Instrumentsbarcode$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Barcode">
+        h.Barcode like '%$Barcode$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="End">
+        h.instcreatedate <![CDATA[<]]>to_date('$End$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="Start">
+        h.instcreatedate >= to_date('$Start$','yyyy-MM-dd')
+      </isNotNull>
+      order by h.hpvinstrumentsid desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--获得按条件查询的记录数-->
+    <select id="Order.SelectHpvinstrumentsCount" parameterClass="Hashtable" >
+      SELECT count(1) as counts FROM hpvinstruments h,dictcustomer d,dicttestitem d2 where h.dictcustomerid=d.dictcustomerid AND h.dicttestitemid=d2.dicttestitemid
+      <isNotNull prepend="and" property="Dicttestitemid">
+        h.dicttestitemid = $Dicttestitemid$
+      </isNotNull>
+      <isNotNull prepend="and" property="Dictcustomerid">
+        h.dictcustomerid = $Dictcustomerid$
+      </isNotNull>
+      <isNotEmpty prepend="and" property="Instrumentsbarcode">
+        h.instrumentsbarcode like  '%$Instrumentsbarcode$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Barcode">
+        h.Barcode like '%$Barcode$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="End">
+        h.instcreatedate <![CDATA[<]]>to_date('$End$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="Start">
+        h.instcreatedate >= to_date('$Start$','yyyy-MM-dd')
+      </isNotNull>
+    </select>
+
+    <!--根据ID获得对象-->
+    <select id="Order.GetHpvinstruments" parameterClass="string"  resultMap="HpvinstrumentsResult">
+      SELECT HPVINSTRUMENTSID AS Hpvinstrumentsid,DICTCUSTOMERID AS Dictcustomerid,DICTTESTITEMID AS Dicttestitemid,INSTRUMENTSBARCODE AS Instrumentsbarcode,BARCODE AS Barcode,INSTCREATEDATE AS Instcreatedate,BARCODECREATEDATE AS Barcodecreatedate,INSTENTERBY AS Instenterby,BARCODEENTERBY AS Barcodeenterby,REMARK AS Remark,ISACTIVE AS Isactive FROM  HPVINSTRUMENTS where   Hpvinstrumentsid = #value#
+    </select>
+    <insert id="Order.InsertHpvinstruments" parameterClass="Hpvinstruments">
+      INSERT INTO HPVINSTRUMENTS
+      (HPVINSTRUMENTSID,DICTCUSTOMERID,DICTTESTITEMID,INSTRUMENTSBARCODE,BARCODE,INSTCREATEDATE,BARCODECREATEDATE,INSTENTERBY,BARCODEENTERBY,REMARK,ISACTIVE)
+      VALUES(#Hpvinstrumentsid#,#Dictcustomerid#,#Dicttestitemid#,#Instrumentsbarcode#,#Barcode#,#Instcreatedate:DateTime:1/1/0001 12:00:00 AM#,#Barcodecreatedate:DateTime:1/1/0001 12:00:00 AM#,#Instenterby#,#Barcodeenterby#,#Remark#,#Isactive#)
+    </insert>
+    <update id="Order.UpdateHpvinstruments" parameterClass="Hpvinstruments">
+      UPDATE HPVINSTRUMENTS
+      SET DICTCUSTOMERID=#Dictcustomerid#,DICTTESTITEMID=#Dicttestitemid#,INSTRUMENTSBARCODE=#Instrumentsbarcode#,BARCODE=#Barcode#,BARCODECREATEDATE=#Barcodecreatedate#,INSTENTERBY=#Instenterby#,BARCODEENTERBY=#Barcodeenterby#,REMARK=#Remark#,ISACTIVE=#Isactive#
+      WHERE HPVINSTRUMENTSID = #Hpvinstrumentsid#
+    </update>
+    <delete id="Order.DeleteHpvinstruments" parameterClass="string">
+      DELETE FROM HPVINSTRUMENTS
+      WHERE HPVINSTRUMENTSID = #value#
+    </delete>
+  </statements>
+</sqlMap>

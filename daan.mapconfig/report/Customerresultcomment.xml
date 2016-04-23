@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Customerresultcomment"  type="daan.domain.Customerresultcomment,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="CustomerresultcommentResult" class="daan.domain.Customerresultcomment">
+      <result property="Customerresultcommentid" column="CUSTOMERRESULTCOMMENTID"/>
+      <result property="Dictcustomerid" column="DICTCUSTOMERID" />
+      <result property="Ordersyear" column="ORDERSYEAR" />
+      <result property="Resultcomment" column="RESULTCOMMENT"/>
+      <result property="Commentdate" column="COMMENTDATE" />
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Laststartdate" column="LASTSTARTDATE"/>
+      <result property="Lastenddate" column="LASTENDDATE" />
+      <result property="Thisstartdate" column="THISSTARTDATE" />
+      <result property="Thisenddate" column="THISENDDATE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--报告日期，团检-->
+    <select id="report.GetreportDate" parameterClass="Customerresultcomment" resultMap="CustomerresultcommentResult">
+      select * from customerresultcomment a 
+      where <!--a.ordersyear='$ordersyear$'and-->
+       a.dictcustomerid =#dictcustomerid#
+      and Laststartdate=#Laststartdate# and Lastenddate=#Lastenddate#
+      and Thisstartdate=#Thisstartdate# and Thisenddate=#Thisenddate#
+      and rownum=1 order by a.createdate desc
+    </select>
+    <!--添加客户结果评价，团检-->
+    <insert id="report.InsertCustomerresultcomment" parameterClass="Customerresultcomment">
+      INSERT INTO CUSTOMERRESULTCOMMENT
+      (CUSTOMERRESULTCOMMENTID,DICTCUSTOMERID,ORDERSYEAR,RESULTCOMMENT,COMMENTDATE,LASTSTARTDATE,LASTENDDATE,THISSTARTDATE,THISENDDATE)
+      VALUES(seq_customerresultcomment.nextval,#Dictcustomerid#,#Ordersyear#,#Resultcomment#,sysdate,#Laststartdate#,#Lastenddate#,#Thisstartdate#,#Thisenddate#)
+    </insert>
+
+    <select id="report.SelectCustomerresultcomment" parameterClass="Customerresultcomment" resultMap="CustomerresultcommentResult">
+      SELECT Customerresultcommentid AS CUSTOMERRESULTCOMMENTID,Dictcustomerid AS DICTCUSTOMERID,Ordersyear AS ORDERSYEAR,Resultcomment as RESULTCOMMENT,Commentdate as COMMENTDATE,Createdate as CREATEDATE,CREATEDATE AS Createdate, Laststartdate as LASTSTARTDATE,Lastenddate as LASTENDDATE,Thisstartdate as THISSTARTDATE,Thisenddate as THISENDDATE
+      FROM CUSTOMERRESULTCOMMENT where 1=1
+      <isNotNull prepend="and" property="Dictcustomerid">
+        <!--根据单位ID查找记录-->
+        Dictcustomerid=#Dictcustomerid#
+      </isNotNull>
+      <isNotNull prepend="and" property="Customerresultcommentid">
+        <!--根据ID查找记录-->
+        Customerresultcommentid=#Customerresultcommentid#
+      </isNotNull>
+      order by ordersyear
+    </select>
+    <!--查询是否存在此诊断评价记录-->
+    <select id="report.SelectCustomerresultcommentExist" parameterClass="Customerresultcomment">
+      SELECT count(1) FROM CUSTOMERRESULTCOMMENT
+      where  Dictcustomerid=#Dictcustomerid#
+      and Laststartdate=#Laststartdate# and Lastenddate=#Lastenddate#
+      and Thisstartdate=#Thisstartdate# and Thisenddate=#Thisenddate#
+    </select>
+    <!--查询此单位诊断评价次数-->
+    <select id="report.SelectCustomerresultcommentYearCount" parameterClass="Hashtable">
+      SELECT count(1)+1 FROM CUSTOMERRESULTCOMMENT
+      where  Dictcustomerid=#custid# and ORDERSYEAR like '$yearstr$%'
+    </select>
+    <!--修改评价-->
+    <update id="report.updateCustomerresultcomment" parameterClass="Customerresultcomment">
+      update CUSTOMERRESULTCOMMENT set Resultcomment=#Resultcomment#,Commentdate=sysdate
+      where  Dictcustomerid=#Dictcustomerid#
+      and Laststartdate=#Laststartdate# and Lastenddate=#Lastenddate#
+      and Thisstartdate=#Thisstartdate# and Thisenddate=#Thisenddate#
+    </update>
+    <update id="UpdateCustomerresultcomment" parameterClass="Customerresultcomment">
+      UPDATE CUSTOMERRESULTCOMMENT
+      SET CUSTOMERRESULTCOMMENTID=#Customerresultcommentid#,DICTCUSTOMERID=#Dictcustomerid#,ORDERSYEAR=#Ordersyear#,RESULTCOMMENT=#Resultcomment#,COMMENTDATE=#Commentdate#,CREATEDATE=#Createdate#
+      WHERE CUSTOMERRESULTCOMMENTID = #Customerresultcommentid#
+    </update>
+    <delete id="DeleteCustomerresultcomment" parameterClass="string">
+      DELETE FROM CUSTOMERRESULTCOMMENT
+      WHERE CUSTOMERRESULTCOMMENTID = #value#
+    </delete>
+  </statements>
+</sqlMap>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderbarcode" type="daan.domain.Orderbarcode,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderbarcodeResult" class="daan.domain.Orderbarcode">
+      <result property="Orderbarcodeid" column="ORDERBARCODEID" />
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Specimentypeid" column="SPECIMENTYPEID"/>
+      <result property="Pathologytypename" column="PATHOLOGYTYPENAME"/>
+      <result property="Pathologyno" column="PATHOLOGYNO" />
+      <result property="Pathologyaddress" column="PATHOLOGYADDRESS" />
+      <result property="Hashcode" column="HASHCODE" />
+      <result property="Status" column="STATUS"/>
+      <result property="Collectdate" column="COLLECTDATE" />
+      <result property="Collectby" column="COLLECTBY"/>
+      <result property="Tubegroup" column="TUBEGROUP"/>
+      <result property="Receiveby" column="RECEIVEBY"/>
+      <result property="Receivedate" column="RECEIVEDATE"/>
+      <result property="Releaseby" column="RELEASEBY" />
+      <result property="Releasedate" column="RELEASEDATE" />
+      <result property="Authorizedate" column="AUTHORIZEDATE" />
+      <result property="Authorizeby" column="AUTHORIZEBY" />
+      <result property="Signaturedate" column="SIGNATUREDATE"/>
+      <result property="Signatureby" column="SIGNATUREBY" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Testnames" column="TESTNAMES"/>
+    </resultMap>
+    <resultMap id="OrderbarcodeResultByRegister" class="daan.domain.Orderbarcode">
+      <result property="Tubegroup" column="TUBEGROUP"/>
+      <result property="Barcode" column="BARCODE" />
+      <result property="Status" column="STATUS"/>
+      <result property="Collectdate" column="COLLECTDATE" />
+      <result property="Collectby" column="COLLECTBY"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <!--查询采血状态的数据-->
+    <select id="Order.DataForCollectBlood" parameterClass="Hashtable">
+      select a.ordernum,a.barcode, to_char(a.collectdate, 'yyyy-MM-dd hh24:mi:ss')collectdate,c.username,b.realname,a.orderbarcodeid,d.itemname,a.status,a.testnames,g.labdeptname
+      from orderbarcode a inner join orders b on b.ordernum = a.ordernum
+      left join dictlibraryitem d on d.dictlibraryitemid = a.specimentypeid
+      left join dictuser c on c.dictuserid = a.collectby
+      inner join (select e.dictlabdeptid,e.labdeptname from dictlabdept e  join initbasic f on f.basicvalue = e.labdepttype where f.basicname = '检验科室' and f.basictype = 'LABDEPTTYPE') g
+      on g.dictlabdeptid = a.dictlabdeptid where to_number(b.STATUS)=10 and b.iscancel=0
+      <isNotNull prepend="and" property="StartDate">
+        b.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        b.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="dropDictLab">
+        b.dictlabid in ($dropDictLab$)
+      </isNotNull>
+      <isNotNull prepend="and" property="dropCustomer">
+        b.dictcustomerid = '$dropCustomer$'
+      </isNotNull>
+      <isNotNull prepend="and" property="tbStrKey">
+        (b.ordernum like '$tbStrKey$%' or  b.realname like '$tbStrKey$%' or a.barcode  like '$tbStrKey$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="DropSure">
+        a.STATUS=$DropSure$
+      </isNotNull>
+      <!--15为已接收-->
+      <isNull prepend="and" property="DropSure">
+        a.STATUS!=15
+      </isNull>
+		<!--筛选掉体检集中管理已经停止测试的组合 fhp-->
+      <!--and (select Count(*) from ordergrouptest ogt where ogt.ordernum=a.ordernum and ogt.barcode=a.barcode and ogt.isactive=1)>0-->
+	</select>
+
+    <!--查询数据 用于打印条码 zhouy-->
+    <select id="Order.SelectOrderbarcodeByPrint" parameterClass="Hashtable">
+      select ob.ordernum,ob.barcode,ob.testnames,o.realname,ib.basicname as sex,o.age,dla.labdeptname,
+      to_char(ob.collectdate,'yyyy-MM-dd HH24:mm') collectdate,dli.libraryname,'' as count,otnumber.labelnumber
+      from orderbarcode ob
+      left join orders o on ob.ordernum=o.ordernum
+      left join dictlabdept dla on ob.dictlabdeptid=dla.dictlabdeptid
+      left join initbasic ib on (o.sex=ib.basicvalue and ib.basictype='SEX')
+      left join dictlibrary dli on (ob.specimentypeid=dli.dictlibraryid)
+      left join (
+      select ot.barcode,dti.isonlyforbill,nvl(max(dti.labelnumber),1) labelnumber from ordertest ot
+      left join dicttestitem dti on ot.dicttestitemid=dti.dicttestitemid
+      where 1=1
+      <isNotNull prepend="and" property="ordernum">
+        ot.ordernum in ($ordernum$)
+      </isNotNull>
+      <isNotNull prepend="and" property="orderbarcode">
+        ot.barcode in ($orderbarcode$)
+      </isNotNull>
+      group by ot.barcode,dti.isonlyforbill
+      ) otnumber on ob.barcode=otnumber.barcode
+      where otnumber.isonlyforbill=0
+      <isNotNull prepend="and" property="ordernum">
+        ob.ordernum in ($ordernum$)
+      </isNotNull>
+      <isNotNull prepend="and" property="orderbarcode">
+        ob.barcode in ($orderbarcode$)
+      </isNotNull>
+      order by o.ordernum desc,ob.barcode asc
+    </select>
+
+    <!-- 根据ordernum 查询条码拼接成的字符串用于体检系统数据接收 yhl-->
+    <select id="Order.SelectOrderbarcodeString" parameterClass="string">
+      select wmsys.wm_concat(barcode) from orderbarcode where ordernum in($value$)
+    </select>
+
+    <!-- 补打条码 列表查询 zhouy -->
+    <select id="Order.SelectOrderbarcodePrintList" parameterClass="Hashtable" >
+      select ob.barcode ,ob.ordernum,o.realname,ib2.basicname as statusname,ib.basicname as sex,o.age,
+      o.enterby ,ob.createdate,ob.testnames,o.remarks,decode(o.iscancel,'0','正常检测','已作废') iscancel
+      from orderbarcode ob
+      left join orders o on ob.ordernum=o.ordernum
+      left join initbasic ib on o.sex=ib.basicvalue and ib.basictype='SEX'
+      left join initbasic ib2 on o.status=ib2.basicvalue and ib2.basictype='ORDERSTATUS'
+      where 1=1
+      <isNotEmpty prepend="and" property="ordernum">
+        ob.ordernum='$ordernum$'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="ordebarcode">
+        ob.barcode='$ordebarcode$'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="name">
+        o.realname like '%$name$%'
+      </isNotEmpty>
+    </select>
+
+    <!--查询标本接收状态的数据-->
+    <select id="Order.SpecimenAccept" parameterClass="Hashtable">
+      select a.barcode,a.ordernum, to_char(a.RECEIVEDATE, 'yyyy-MM-dd hh24:mi:ss')RECEIVEDATE,c.username,b.realname,a.orderbarcodeid,d.itemname,a.status,a.testnames,g.labdeptname
+      from orderbarcode a  join orders b on b.ordernum = a.ordernum
+      left  join dictuser c on c.dictuserid = a.RECEIVEBY
+      join dictlibraryitem d on d.dictlibraryitemid = a.specimentypeid
+      join (select e.dictlabdeptid,e.labdeptname from dictlabdept e  join initbasic f on f.basicvalue = e.labdepttype where  f.basictype = 'LABDEPTTYPE') g
+      on g.dictlabdeptid = a.dictlabdeptid where to_number(b.STATUS)=10 and b.iscancel=0
+      <isNotNull prepend="and" property="StartDate">
+        b.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        b.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="dropDictLab">
+        b.dictlabid in ($dropDictLab$)
+      </isNotNull>
+      <isNotNull prepend="and" property="tbStrKey">
+        (b.ordernum like '$tbStrKey$%' or  b.realname like '$tbStrKey$%' or a.barcode  like '$tbStrKey$%')
+      </isNotNull>
+      <isNotNull prepend="and" property="DropSure">
+        a.STATUS=$DropSure$
+      </isNotNull>
+      <!--5为未采血-->
+      <isNull prepend="and" property="DropSure">
+        a.STATUS!=5
+      </isNull>
+    </select>
+    <!--查询是否存在Barcode条码的记录 zhangwei-->
+    <select id="Order.SelectOrderbarcode" parameterClass="Hashtable" resultMap="OrderbarcodeResult">
+      SELECT * FROM ORDERBARCODE where 1 = 1 
+      <isNotNull prepend="and" property="ordebarcode">
+        Barcode = #ordebarcode#
+      </isNotNull>
+      <isNotNull prepend="and" property="status">
+        status = #status#
+      </isNotNull>
+    </select>
+    <!--修改订单查询条码信息-->
+    <select id="Order.SelectOrderbarcodeByOrderNum" parameterClass="string" resultMap="OrderbarcodeResultByRegister">
+      SELECT TUBEGROUP as Tubegroup,BARCODE AS Barcode,STATUS AS Status,COLLECTDATE AS Collectdate,COLLECTBY AS Collectby
+      FROM ORDERBARCODE
+      where ORDERNUM =#value# and status<![CDATA[<]]>15
+    </select>
+    <insert id="Order.InsertOrderbarcode" parameterClass="Orderbarcode">
+      INSERT INTO ORDERBARCODE
+      (ORDERBARCODEID,ORDERNUM,BARCODE,SPECIMENTYPEID,PATHOLOGYTYPENAME,PATHOLOGYNO,PATHOLOGYADDRESS,HASHCODE,STATUS,COLLECTDATE,COLLECTBY,TUBEGROUP,RECEIVEBY,RECEIVEDATE,RELEASEBY,RELEASEDATE,AUTHORIZEDATE,AUTHORIZEBY,SIGNATUREDATE,SIGNATUREBY,CREATEDATE,DICTLABDEPTID,TESTNAMES)
+      VALUES(#Orderbarcodeid#,#Ordernum#,#Barcode#,#Specimentypeid#,#Pathologytypename#,#Pathologyno#,#Pathologyaddress#,#Hashcode#,#Status#,#Collectdate#,#Collectby#,#Tubegroup#,#Receiveby#,#Receivedate#,#Releaseby#,#Releasedate#,#Authorizedate#,#Authorizeby#,#Signaturedate#,#Signatureby#,sysdate,#Dictlabdeptid#,#Testnames#)
+    </insert>
+    <select id="Order.SelectOrderbarcodeByCollected" parameterClass="string" >
+      select  wm_concat(distinct ob.ordernum) from orderbarcode ob
+      where  ob.status>=10 and ob.ordernum in ($value$)
+    </select>
+
+    <update id="UpdateOrderbarcode" parameterClass="Orderbarcode">
+      UPDATE ORDERBARCODE
+      SET ORDERBARCODEID=#Orderbarcodeid#,ORDERNUM=#Ordernum#,BARCODE=#Barcode#,SPECIMENTYPEID=#Specimentypeid#,PATHOLOGYTYPENAME=#Pathologytypename#,PATHOLOGYNO=#Pathologyno#,PATHOLOGYADDRESS=#Pathologyaddress#,HASHCODE=#Hashcode#,STATUS=#Status#,COLLECTDATE=#Collectdate#,COLLECTBY=#Collectby#,RECEIVEBY=#Receiveby#,RECEIVEDATE=#Receivedate#,RELEASEBY=#Releaseby#,RELEASEDATE=#Releasedate#,AUTHORIZEDATE=#Authorizedate#,AUTHORIZEBY=#Authorizeby#,SIGNATUREDATE=#Signaturedate#,SIGNATUREBY=#Signatureby#,CREATEDATE=#Createdate#,DICTLABDEPTID=#Dictlabdeptid#,TESTNAMES=#Testnames#
+      WHERE ORDERBARCODEID = #Orderbarcodeid#
+    </update>
+    <!--更新数据为已采血状态-->
+    <update id="Order.EnSureCollectBlood" parameterClass="Hashtable">
+      UPDATE ORDERBARCODE
+      SET status='10',
+      COLLECTDATE=sysdate,COLLECTBY=$UserName$
+      WHERE ORDERBARCODEID in ($OrdersBarcodeIds$) and status=5
+    </update>
+    <!--将相对应的条码确认为已接收状态-->
+    <update id="Order.EnsureAccept" parameterClass="Hashtable">
+      UPDATE ORDERBARCODE
+      SET status='15',
+      RECEIVEDATE=sysdate,RECEIVEBY=$UserName$
+      WHERE ORDERBARCODEID in ($OrdersBarcodeIds$) and status=10
+    </update>
+
+    <!--上传Lis成功后 更新状态  ylp-->
+    <update id="Order.UpdateTransedToLis" parameterClass="string">
+      UPDATE ORDERBARCODE
+      SET transed=1
+      WHERE barcode = #value#
+    </update>
+    <!--上传Lis失败后 更新状态  ylp-->
+    <update id="Order.UpdateTransedToLisFail" parameterClass="string">
+      UPDATE ORDERBARCODE
+      SET transed=2
+      WHERE barcode = #value#
+    </update>
+
+    <!-- 数据接收后修改orderbarcode 表的初审人、审核人、签字人等信息 -->
+    <update id="Order.UpdateOrderbarcodeInfo" parameterClass="Hashtable">
+      UPDATE ORDERBARCODE set RELEASEBYNAME=#RELEASEBYNAME#
+      <isNotNull  property="RELEASEDATE">
+        ,RELEASEDATE=to_date(#RELEASEDATE#,'YYYY-MM-DD HH24:MI:SS')
+      </isNotNull>
+      ,AUTHORIZEBYNAME=#AUTHORIZEBYNAME#
+      <isNotNull  property="AUTHORIZEDATE">
+        ,AUTHORIZEDATE=to_date(#AUTHORIZEDATE#,'YYYY-MM-DD HH24:MI:SS')
+      </isNotNull>
+      ,SIGNATUREBYNAME=#SIGNATUREBYNAME#
+      <isNotNull  property="SIGNATUREDATE">
+        ,SIGNATUREDATE=to_date(#SIGNATUREDATE#,'YYYY-MM-DD HH24:MI:SS')
+      </isNotNull>
+      ,HASHCODE=#HASHCODE# where BARCODE=#BARCODE#
+    </update>
+    <delete id="Order.DeleteOrderbarcodeByOrderNum" parameterClass="Hashtable">
+      DELETE FROM ORDERBARCODE
+      WHERE ORDERNUM = #ordernum#
+      <isNotEmpty prepend="and"  property="barcode">
+        barcode not in($barcode$)
+      </isNotEmpty>    
+  </delete>
+	<!--查询上传到LIS的状态 fhp-->
+	<select id="Order.UploadToLIS" parameterClass="Hashtable">
+		select a.ordernum,a.barcode,b.realName,decode(b.sex,'M','男','F','女') sex,a.transed
+		from orderbarcode a left join orders b on a.ordernum=b.ordernum  where 1=1
+		<isNotNull prepend="and" property="dropDictLab">
+			b.dictlabid=$dropDictLab$
+		</isNotNull>
+		<isNotNull prepend="and" property="tbStrKey">
+			(a.ordernum like '$tbStrKey$%' or a.barcode like '$tbStrKey$%' or  b.realname like '$tbStrKey$%')
+		</isNotNull>
+		<isNotNull prepend="and" property="DropTransed">
+			a.TranSed=$DropTransed$
+		</isNotNull>
+		<isNotNull prepend="and" property="RowNum">
+			rownum <![CDATA[<=]]> $RowNum$
+		</isNotNull>
+		<isNull prepend="and" property="DropSure">
+		a.STATUS=15
+	</isNull>
+	</select>
+	<!--根据体检流水号修改是否上传状态 fhp-->
+	<update id="Order.UpdateSelectedTransedToLIS" parameterClass="Hashtable">
+		UPDATE orderbarcode SET Transed= $Transed$ WHERE ORDERNUM in ($OrderNum$)
+	</update>
+
+    <select id="Order.CheckBarcode" parameterClass="string">
+      select count(barcode) from orderbarcode  where barcode=#value#
+    </select>
+
+    <select id="Barcode.CheckBarcode" parameterClass="string">
+      select o.ordernum,o.iolis,o.enterby,b.transed from orderbarcode b,orders o where b.ordernum=o.ordernum
+      and b.barcode='$value$'
+    </select>
+  </statements>
+</sqlMap>

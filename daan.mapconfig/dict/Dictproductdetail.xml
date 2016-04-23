@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictproductdetail" type="daan.domain.Dictproductdetail,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictproductdetailResult" class="daan.domain.Dictproductdetail">
+      <result property="Productid" column="PRODUCTID"/>
+      <result property="Testgroupid" column="TESTGROUPID" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Issendouttest" column="ISSENDOUTTEST" />
+      <result property="Sendoutcustomerid" column="SENDOUTCUSTOMERID"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictproductdetail"  resultMap="DictproductdetailResult">
+      SELECT PRODUCTID AS Productid,TESTGROUPID AS Testgroupid,CREATEDATE AS Createdate,FINALPRICE AS Finalprice,Issendouttest as ISSENDOUTTEST,Sendoutcustomerid as SENDOUTCUSTOMERID 
+      FROM DICTPRODUCTDETAIL
+    </select>
+    <select id="Dict.SelectDictproductdetailByProductID"  parameterClass="Double"  resultMap="DictproductdetailResult">
+      SELECT PRODUCTID AS Productid,TESTGROUPID AS Testgroupid,CREATEDATE AS Createdate,FINALPRICE AS Finalprice,Issendouttest as ISSENDOUTTEST,Sendoutcustomerid as SENDOUTCUSTOMERID
+      FROM DICTPRODUCTDETAIL where Productid=#value#
+    </select>
+    <insert id="Dict.InsertDictproductdetail" parameterClass="Dictproductdetail">
+      INSERT INTO DICTPRODUCTDETAIL
+      (PRODUCTID,TESTGROUPID,CREATEDATE,FINALPRICE,ISSENDOUTTEST,SENDOUTCUSTOMERID)
+      VALUES(#Productid#,#Testgroupid#,#Createdate#,#Finalprice#,#Issendouttest#,#Sendoutcustomerid#)
+    </insert>
+    <update id="UpdateDictproductdetail" parameterClass="Dictproductdetail">
+      UPDATE DICTPRODUCTDETAIL
+      SET PRODUCTID=#Productid#,TESTGROUPID=#Testgroupid#,CREATEDATE=#Createdate#,FINALPRICE=#Finalprice#,ISSENDOUTTEST=#Issendouttest#,SENDOUTCUSTOMERID=#Sendoutcustomerid#
+    </update>
+    <delete id="DeleteDictproductdetail" parameterClass="string">
+      DELETE FROM DICTPRODUCTDETAIL
+    </delete>
+    <!--删除套餐下的项目-->
+    <delete id="Dict.DeleteDictproductdetail" parameterClass="string">
+      DELETE FROM DICTPRODUCTDETAIL where PRODUCTID=#value#
+    </delete>
+  </statements>
+</sqlMap>

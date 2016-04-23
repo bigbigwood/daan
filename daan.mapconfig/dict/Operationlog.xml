@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Operationlog"  type="daan.domain.Operationlog,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OperationlogResult" class="daan.domain.Operationlog">
+      <result property="Operationid" column="OPERATIONID" />
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Modulename" column="MODULENAME"/>
+      <result property="Operatername" column="OPERATERNAME" />
+      <result property="Operaterid" column="OPERATERID" />
+      <result property="Content" column="CONTENT"/>
+      <result property="Operationtype" column="OPERATIONTYPE" />
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Remark" column="REMARK"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectOperationlog" parameterClass="string" resultMap="OperationlogResult">
+      SELECT OPERATIONID AS Operationid,ORDERNUM AS Ordernum,BARCODE AS Barcode,MODULENAME AS Modulename,OPERATERNAME AS Operatername,OPERATERID AS Operaterid,CONTENT AS Content,OPERATIONTYPE AS Operationtype,CREATEDATE AS Createdate,REMARK AS Remark
+      FROM OPERATIONLOG
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          OPERATIONID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+
+    <!--根据体检订单号查询日志记录-->
+    <select id="dict.SelectOperationlogByOrdernum" parameterClass="Hashtable" resultMap="OperationlogResult">
+      select * from (select rownum rn, t.* from ( SELECT OPERATIONID AS operationid,ORDERNUM AS ordernum,BARCODE AS barcode,MODULENAME AS modulename,OPERATERNAME AS operatername,OPERATERID AS operaterid,CONTENT AS content,OPERATIONTYPE AS operationtype,CREATEDATE AS createdate,REMARK AS remark
+      FROM OPERATIONLOG
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+			ORDERNUM = #ordernum#  order by CREATEDATE asc
+		</isParameterPresent>
+      </dynamic>
+      ) t where rownum <![CDATA[<=]]>#pageEnd#
+      )where rn<![CDATA[>]]>=#pageStart#
+    </select>
+
+    <select id="dict.SelectOperationlogCountByOrdernum" parameterClass="string">
+      select count(operationid) from OPERATIONLOG
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = #ordernum#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    
+    <insert id="dict.InsertOperationlog" parameterClass="Operationlog">
+      INSERT INTO OPERATIONLOG
+      (OPERATIONID,ORDERNUM,BARCODE,MODULENAME,OPERATERNAME,OPERATERID,CONTENT,OPERATIONTYPE,CREATEDATE,REMARK)
+      VALUES(#Operationid#,#Ordernum#,#Barcode#,#Modulename#,#Operatername#,#Operaterid#,#Content#,#Operationtype#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Remark#)
+    </insert>
+    <update id="UpdateOperationlog" parameterClass="Operationlog">
+      UPDATE OPERATIONLOG
+      SET OPERATIONID=#Operationid#,ORDERNUM=#Ordernum#,BARCODE=#Barcode#,MODULENAME=#Modulename#,OPERATERNAME=#Operatername#,OPERATERID=#Operaterid#,CONTENT=#Content#,OPERATIONTYPE=#Operationtype#,CREATEDATE=#Createdate#,REMARK=#Remark#
+      WHERE OPERATIONID = #Operationid#
+    </update>
+    <delete id="DeleteOperationlog" parameterClass="string">
+      DELETE FROM OPERATIONLOG
+      WHERE OPERATIONID = #value#
+    </delete>
+  </statements>
+</sqlMap>

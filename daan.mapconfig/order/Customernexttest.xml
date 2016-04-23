@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Customernexttest"  type="daan.domain.Customernexttest,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="CustomernexttestResult" class="daan.domain.Customernexttest">
+      <result property="Customernexttestid" column="customernexttestid"/>
+      <result property="Dictcustomerid" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Engname" column="ENGNAME" type="string" dbType="varchar"/>
+      <result property="Testcode" column="TESTCODE" type="string" dbType="varchar"/>
+      <result property="Testname" column="TESTNAME" type="string" dbType="varchar"/>
+      <result property="Isneededorder" column="ISNEEDEDORDER" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+<!--根据订单号查询推荐项目-->
+    <select id="Order.SelectCustomernexttest" parameterClass="Hashtable" >
+      select a.customernexttestid,a.testname,a.rerundate from CUSTOMERNEXTTEST a
+      where  a.Dictcustomerid =$Dictcustomerid$ and a.ORDERSYEAR='$ordersyear$'
+    </select>
+    <!--根据订单号和dicttestitemid查询推荐项目是否存在-->
+    <select id="Order.CountForCustomernexttest" parameterClass="Hashtable">
+      select count(1) from CUSTOMERNEXTTEST a where a.dicttestitemid=$dicttestitemid$ and a.Dictcustomerid=$Dictcustomerid$
+    </select>
+    <!--新加一个推荐项目-->
+    <insert id="Order.InsertCustomernexttest" parameterClass="Customernexttest">
+      INSERT INTO customernexttest
+      (customernexttestid,Dictcustomerid,DICTTESTITEMID,ENGNAME,TESTCODE,TESTNAME,rerundate,ordersyear)
+      VALUES(#Customernexttestid#,#Dictcustomerid#,#Dicttestitemid#,#Engname#,#Testcode#,#Testname#,#Rerundate#,#Orderyear#)
+    </insert>
+   
+    <!--删除一个推荐项目-->
+    <delete id="Order.DeleteCustomernexttest" parameterClass="string">
+      DELETE FROM CUSTOMERNEXTTEST
+      WHERE customernexttestid = #value#
+    </delete>
+  </statements>
+</sqlMap>

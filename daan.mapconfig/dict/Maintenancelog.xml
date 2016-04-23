@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Maintenancelog" type="daan.domain.Maintenancelog,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="MaintenancelogResult" class="daan.domain.Maintenancelog">
+      <result property="Maintenancelogid" column="MAINTENANCELOGID"/>
+      <result property="Tablename" column="TABLENAME" type="string" dbType="varchar"/>
+      <result property="Recordid" column="RECORDID"/>
+      <result property="Code" column="CODE" type="string" dbType="varchar"/>
+      <result property="Columnname" column="COLUMNNAME" type="string" dbType="varchar"/>
+      <result property="Operationtype" column="OPERATIONTYPE" type="string" dbType="varchar"/>
+      <result property="Operation" column="OPERATION" type="string" dbType="varchar"/>
+      <result property="Operateby" column="OPERATEBY"/>
+      <result property="Operatedate" column="OPERATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Itemname" column="ITEMNAME" type="string" dbType="varchar"/>
+    </resultMap>
+
+    <resultMap id="MaintenancelogResultTo" class="daan.domain.Maintenancelog">
+      <result property="Maintenancelogid" column="MAINTENANCELOGID"/>
+      <result property="Tablename" column="TABLENAME" type="string" dbType="varchar"/>
+      <result property="BackTablename" column="BACKTABLENAME" type="string" dbType="varchar"/>
+      <result property="Recordid" column="RECORDID"/>
+      <result property="Code" column="CODE" type="string" dbType="varchar"/>
+      <result property="Columnname" column="COLUMNNAME" type="string" dbType="varchar"/>
+      <result property="Operationtype" column="OPERATIONTYPE" type="string" dbType="varchar"/>
+      <result property="Operation" column="OPERATION" type="string" dbType="varchar"/>
+      <result property="Operateby" column="OPERATEBY"/>
+      <result property="Operatedate" column="OPERATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Itemname" column="ITEMNAME" type="string" dbType="varchar"/>
+      <result property="Username" column="USERNAME" type="string" dbType="varchar"/>
+      
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+
+    <select id="SelectMaintenancelog" parameterClass="string" resultClass="Maintenancelog">
+      SELECT MAINTENANCELOGID AS Maintenancelogid,TABLENAME AS Tablename,RECORDID AS Recordid,CODE AS Code,COLUMNNAME AS Columnname,OPERATIONTYPE AS Operationtype,OPERATION AS Operation,OPERATEBY AS Operateby,OPERATEDATE AS Operatedate,ITEMNAME AS Itemname
+      FROM MAINTENANCELOG
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          MAINTENANCELOG = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+
+    <!--分页查询-->
+    <select id="Dict.GetMaintenancelogPageLst" parameterClass="Hashtable" resultMap="MaintenancelogResultTo">
+      SELECT Maintenancelogid,Tablename,BackTablename,Recordid,Code,Columnname,Operationtype,Operation,Operateby,Operatedate,Itemname,Username FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT a.Maintenancelogid,a.Tablename,a.Tablename as BackTablename,a.Recordid,a.Code,a.Columnname,a.Operationtype,a.Operation,a.Operateby,a.Operatedate,a.Itemname,b.Username FROM Maintenancelog a   inner join Dictuser b on a.Operateby = b.Dictuserid
+      where 1= 1
+      <isNotNull prepend="and" property="strKey">
+        lower(a.Tablename) =  lower('$strKey$')
+      </isNotNull>
+      <isNotNull prepend="and" property="code">
+        a.operation like '%$code$%'
+      </isNotNull>
+      <isNotNull prepend="and" property="BeginDate">
+        a.Operatedate <![CDATA[>=]]> to_date('$BeginDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="EndDate">
+        a.Operatedate  <![CDATA[<=]]> to_date('$EndDate$','yyyy-MM-dd')
+      </isNotNull>
+      order by a.Operatedate desc ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetMaintenancelogPageLstCount" parameterClass="Hashtable"  resultMap="MaintenancelogResultTo"  >
+      SELECT Count(1) FROM Maintenancelog a   inner join Dictuser b on a.Operateby = b.Dictuserid
+      where 1= 1
+      <isNotNull prepend="and" property="strKey">
+        lower(a.Tablename) = lower('$strKey$')
+      </isNotNull>
+      <isNotNull prepend="and" property="code">
+          a.operation like '%$code$%'
+      </isNotNull>
+    <isNotNull prepend="and" property="BeginDate">
+      a.Operatedate <![CDATA[>=]]> to_date('$BeginDate$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="EndDate">
+      a.Operatedate  <![CDATA[<=]]> to_date('$EndDate$','yyyy-MM-dd')
+    </isNotNull>
+    </select>
+    
+    
+    <insert id="dict.InsertMaintenancelog" parameterClass="Maintenancelog">
+      INSERT INTO MAINTENANCELOG
+      (MAINTENANCELOGID,TABLENAME,RECORDID,CODE,COLUMNNAME,OPERATIONTYPE,OPERATION,OPERATEBY,OPERATEDATE,ITEMNAME)
+      VALUES(#Maintenancelogid#,#Tablename#,#Recordid#,#Code#,#Columnname#,#Operationtype#,#Operation#,#Operateby#,#Operatedate:DateTime:1/1/0001 12:00:00 AM#,#Itemname#)
+    </insert>
+    <update id="UpdateMaintenancelog" parameterClass="Maintenancelog">
+      UPDATE MAINTENANCELOG
+      SET TABLENAME=#Tablename#,RECORDID=#Recordid#,CODE=#Code#,COLUMNNAME=#Columnname#,OPERATIONTYPE=#Operationtype#,OPERATION=#Operation#,OPERATEBY=#Operateby#,OPERATEDATE=#Operatedate#,ITEMNAME=#Itemname#
+      WHERE MAINTENANCELOGID = #Maintenancelogid#
+    </update>
+    <delete id="DeleteMaintenancelog" parameterClass="string">
+      DELETE FROM MAINTENANCELOG
+      WHERE MAINTENANCELOGID = #value#
+    </delete>
+  </statements>
+</sqlMap>

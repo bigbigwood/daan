@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://daan.meibu.com:8083/PhysicalExaminationService.asmx?wsdl" docRef="http://daan.meibu.com:8083/PhysicalExaminationService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://daan.meibu.com:8083/PhysicalExaminationService.asmx" xmlns:q1="http://www.shequ88.com/" binding="q1:PhysicalExaminationServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://daan.meibu.com:8083/PhysicalExaminationService.asmx" xmlns:q2="http://www.shequ88.com/" binding="q2:PhysicalExaminationServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.ui.LisToshequ" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns="http://ibatis.apache.org/mapping" >
+  
+  <statements> 
+    <!--获取体检信息-->
+    <select id="Common.GetPEEntity" >
+      select a.patientname,a.idnum,a.patientphone,a.sqflag,a.barcode,a.age,a.customername as LOrganization,a.locationname as LRoom,
+      a.doctorname as LDoctor,a.collectdate as Stime ,a.takedate as Ltime,a.remark as Remark,a.customerid ,
+      Fn_MergeTestRowForWeb(a.barcode) as ProductName, '' as LResult
+      from specimenhead a where a.barcode in (
+      select sh.barcode
+      from specimenheaddetail sh,specimenhead
+      a  where a.barcode = sh.barcode and a.SQFLAG = '1' 
+      and rownum <![CDATA[  <]]> 100
+      group by sh.barcode
+      having min(sh.status)=130 ) and rownum <![CDATA[  <=]]> 20
+    </select>
+
+    <!--获取体检报告-->
+    <select id="Common.GetPEReportEntity" parameterClass="Hashtable" >
+      select a.reportoption,a.specimenreportid,a.specimentype AS Stype, A.specimenstatus as Sstate,a.releasebynames as Inspector,a.releasedate as ITime,
+      a.authorizedbynames as Auditor,a.authorizedate as ATime,b.remark as SpecialInfo
+      ,    case when a.reportremark2 is not null then
+      case when a.reportremark is not null then
+      a.reportremark||chr(13)||a.reportremark2 else a.reportremark2 end
+      else a.reportremark end
+      as Opinion,'' as Proposal ,'' as Remark  from specimenreport a
+      left join specimenhead b on(a.barcode = b.barcode ) where a.active='1'
+      <isNotEmpty prepend="and" property="strKey">
+        a.barcode = '$strKey$' 
+      </isNotEmpty>
+    </select>
+
+    <!--如果reportoption = 0 （常规报告）用下面SQL-->
+    <select id="Common.GetPEItemEntityOne" parameterClass="Hashtable" >
+      select b.uniqueid as ICode,c.testmethod AS Manner,case when a.hlflag is null then 'N' else a.hlflag end as Remind,
+      a.result as Value,a.unit,case  when a.textshow is null then a.reflow||'-'||a.refhigh||a.remark else a.textshow end as RefValue,
+      a.resultcomment as Remark
+      from specimenresult a
+      left join dicttestitem b on(a.dicttestitemid = b.dicttestitemid)
+      left join specimentest c on(a.subbarcode = c.subbarcode and a.dicttestitemid = c.dicttestitemid)
+      join specimenreportdetail d on(d.subbarcode = a.subbarcode and d.dicttestitemid = a.dicttestitemid)
+      where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        d.specimenreportid = '$strKey$'
+      </isNotEmpty>
+    </select>
+
+    <!--如果reportoption = 1 （病理报告）用下面SQL-->
+    <select id="Common.GetPEItemEntityTwo" parameterClass="Hashtable" >
+      select b.uniqueid as ICode,'' as Manner, 'N' as Remind,
+      a.result as Value,'' as unit,'' as RefValue,
+      '' as Remark
+      from pathologyresult a
+      left join dictinputtemplateitem b on(a.dictinputtemplateitemid = b.dictinputtemplateitemid)
+      where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        a.subbarcode = '$strKey$'
+      </isNotEmpty>
+      and a.result is not null
+    </select>
+
+
+    <!--如果reportoption = 2 （常规报告）用下面SQL-->
+    <select id="Common.GetPEItemEntityThree" parameterClass="Hashtable" >
+      select b.uniqueid as ICode,c.testmethod AS Manner, 'N'  as Remind,
+      a.result as Value,'' as unit,'' as RefValue,
+      a.resultcomment as Remark
+      from micresult a
+      left join dicttestitem b on(a.dicttestitemid = b.dicttestitemid)
+      left join specimentest c on(a.subbarcode = c.subbarcode and a.dicttestitemid = c.dicttestitemid)
+      join specimenreportdetail d on(d.subbarcode = a.subbarcode and d.dicttestitemid = a.dicttestitemid)
+      where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        d.specimenreportid = '$strKey$'
+      </isNotEmpty>
+    </select>
+
+    <!--如果取得图片名称用下面SQL-->
+    <select id="Common.GetFilename" parameterClass="Hashtable" >
+      SELECT  a.filename from pathologypicture a  
+      where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        a.subbarcode  = '$strKey$'
+      </isNotEmpty>
+    </select>
+
+    <!--上传成功把specimenhead表SQFLAG状态修改成2,如果失败状态修改成3-->
+    <update id="Common.UpdateSqflag" parameterClass="Hashtable" >
+      update specimenhead a  set  a.sqflag = #sqflag#  where  a.barcode = #barcode#
+    </update>
+
+  </statements>
+</sqlMap>

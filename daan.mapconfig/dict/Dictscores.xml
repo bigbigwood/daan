@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictscores" type="daan.domain.Dictscores,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictscoresResult" class="daan.domain.Dictscores">
+      <result property="Dictscoresid" column="DICTSCORESID" type="single" dbType="Real"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" type="single" dbType="Real"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID" type="single" dbType="Real"/>
+      <result property="Resulttype" column="RESULTTYPE" type="string" dbType="varchar"/>
+      <result property="Scores" column="SCORES" type="single" dbType="Real"/>
+      <result property="Displayorder" column="DISPLAYORDER" type="single" dbType="Real"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectDictscores" parameterClass="string" resultClass="Dictscores">
+      SELECT DICTSCORESID AS Dictscoresid,DICTLABDEPTID AS Dictlabdeptid,DICTTESTITEMID AS Dicttestitemid,RESULTTYPE AS Resulttype,SCORES AS Scores,DISPLAYORDER AS Displayorder
+      FROM DICTSCORES
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTSCORESID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="InsertDictscores" parameterClass="Dictscores">
+      INSERT INTO DICTSCORES
+      (DICTSCORESID,DICTLABDEPTID,DICTTESTITEMID,RESULTTYPE,SCORES,DISPLAYORDER)
+      VALUES(#Dictscoresid#,#Dictlabdeptid#,#Dicttestitemid#,#Resulttype#,#Scores#,#Displayorder#)
+    </insert>
+    <update id="UpdateDictscores" parameterClass="Dictscores">
+      UPDATE DICTSCORES
+      SET DICTSCORESID=#Dictscoresid#,DICTLABDEPTID=#Dictlabdeptid#,DICTTESTITEMID=#Dicttestitemid#,RESULTTYPE=#Resulttype#,SCORES=#Scores#,DISPLAYORDER=#Displayorder#
+      WHERE DICTSCORESID = #Dictscoresid#
+    </update>
+    <delete id="DeleteDictscores" parameterClass="string">
+      DELETE FROM DICTSCORES
+      WHERE DICTSCORESID = #value#
+    </delete>
+  </statements>
+</sqlMap>

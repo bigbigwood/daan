@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictdiagnosis" type="daan.domain.Dictdiagnosis,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictdiagnosisResult" class="daan.domain.Dictdiagnosis">
+      <result property="Dictdiagnosisid" column="DICTDIAGNOSISID"/>
+      <result property="Diagnosisname" column="DIAGNOSISNAME"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Isdisease" column="ISDISEASE"/>
+      <result property="Diagnosistype" column="DIAGNOSISTYPE"/>
+      <result property="Diseasedescription" column="DISEASEDESCRIPTION"/>
+      <result property="Diseasecause" column="DISEASECAUSE"/>
+      <result property="Suggestion" column="SUGGESTION"/>
+      <result property="Engdiseasedescription" column="ENGDISEASEDESCRIPTION"/>
+      <result property="Engdiseasecause" column="ENGDISEASECAUSE"/>
+      <result property="Engsuggestion" column="ENGSUGGESTION"/>
+      <result property="Diagnosiscode" column="DIAGNOSISCODE"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="Dict.SelectDictdiagnosisByCode" parameterClass="Hashtable" resultMap="DictdiagnosisResult">
+      select  * from DICTDIAGNOSIS  where 1 = 1
+      <isNotEmpty prepend="and" property="Diagnosiscode" >
+        Diagnosiscode = #Diagnosiscode#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Dictdiagnosisid">
+        Dictdiagnosisid  != #Dictdiagnosisid#
+      </isNotEmpty>
+    </select>
+    
+    
+    
+    <select id="Dict.SelectDictdiagnosis" parameterClass="string" resultMap="DictdiagnosisResult">
+      SELECT DICTDIAGNOSISID AS Dictdiagnosisid,DIAGNOSISNAME AS Diagnosisname,CREATEDATE AS Createdate,
+      DISPLAYORDER AS Displayorder,ISDISEASE AS Isdisease,DIAGNOSISTYPE AS Diagnosistype,
+      DISEASEDESCRIPTION AS Diseasedescription,DISEASECAUSE AS Diseasecause,SUGGESTION AS Suggestion,
+      ENGDISEASEDESCRIPTION AS Engdiseasedescription,ENGDISEASECAUSE AS Engdiseasecause,
+      ENGSUGGESTION AS Engsuggestion,DIAGNOSISCODE AS Diagnosiscode,DICTLABDEPTID AS Dictlabdeptid
+      FROM DICTDIAGNOSIS
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTDIAGNOSISID = #value#
+        </isParameterPresent>
+      </dynamic>
+      order by Displayorder
+    </select>
+
+    <!--诊断建议字典分页查询-->
+    <select id="Dict.GetDictdiagnosisPageLst" parameterClass="Hashtable" resultMap="DictdiagnosisResult">
+      SELECT DICTDIAGNOSISID,DIAGNOSISNAME,CREATEDATE,DISPLAYORDER,ISDISEASE,DIAGNOSISTYPE,DISEASEDESCRIPTION,DISEASECAUSE,
+      SUGGESTION,ENGDISEASEDESCRIPTION,ENGDISEASECAUSE,ENGSUGGESTION,DIAGNOSISCODE,DICTLABDEPTID
+      from DICTDIAGNOSIS where rowid in
+      (select rid from(SELECT  rownum rn,rid
+      FROM (select rowid rid,DICTDIAGNOSISID
+      from DICTDIAGNOSIS where 1=1 
+      <isNotEmpty prepend="and" property="strKey">
+      ( Diagnosisname like '%$strKey$%')
+      </isNotEmpty>
+      order by displayorder) t
+      WHERE ROWNUM <![CDATA[<=]]>$pageEnd$) where rn<![CDATA[>=]]>$pageStart$) order by createdate desc
+		<!--SELECT * from
+      (SELECT ROWNUM RN, t.* FROM  (select DICTDIAGNOSISID,DIAGNOSISNAME,CREATEDATE,DISPLAYORDER,ISDISEASE,DIAGNOSISTYPE,DISEASEDESCRIPTION,DISEASECAUSE,
+      SUGGESTION,ENGDISEASEDESCRIPTION,ENGDISEASECAUSE,ENGSUGGESTION,DIAGNOSISCODE,DICTLABDEPTID
+      from DICTDIAGNOSIS d
+      where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        ( Diagnosisname like '%$strKey$%')
+      </isNotEmpty>
+      order by d.Displayorder desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$-->
+    </select>
+
+    <!--诊断建议字典分页查询总数-->
+    <select id="Dict.GetDictdiagnosisPageLstCount" parameterClass="Hashtable" resultMap="DictdiagnosisResult">
+      SELECT Count(*) from DICTDIAGNOSIS d
+      where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        (Diagnosisname like '%$strKey$%' )
+      </isNotEmpty>
+    </select>
+    
+    <!--新增-->
+    <insert id="Dict.InsertDictdiagnosis" parameterClass="Dictdiagnosis">
+      INSERT INTO DICTDIAGNOSIS
+      (DICTDIAGNOSISID,DIAGNOSISNAME,CREATEDATE,DISPLAYORDER,ISDISEASE,DIAGNOSISTYPE,DISEASEDESCRIPTION,DISEASECAUSE,
+      SUGGESTION,ENGDISEASEDESCRIPTION,ENGDISEASECAUSE,ENGSUGGESTION,DIAGNOSISCODE,DICTLABDEPTID)
+      VALUES(#Dictdiagnosisid#,#Diagnosisname#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Displayorder#,
+      #Isdisease#,#Diagnosistype#,#Diseasedescription#,#Diseasecause#,#Suggestion#,#Engdiseasedescription#,
+      #Engdiseasecause#,#Engsuggestion#,#Diagnosiscode#,#Dictlabdeptid#)
+    </insert>
+    <update id="Dict.UpdateDictdiagnosis" parameterClass="Dictdiagnosis">
+      UPDATE DICTDIAGNOSIS
+      SET DICTDIAGNOSISID=#Dictdiagnosisid#,DIAGNOSISNAME=#Diagnosisname#,CREATEDATE=#Createdate#,
+      DISPLAYORDER=#Displayorder#,ISDISEASE=#Isdisease#,DIAGNOSISTYPE=#Diagnosistype#,
+      DISEASEDESCRIPTION=#Diseasedescription#,DISEASECAUSE=#Diseasecause#,SUGGESTION=#Suggestion#,
+      ENGDISEASEDESCRIPTION=#Engdiseasedescription#,ENGDISEASECAUSE=#Engdiseasecause#,ENGSUGGESTION=#Engsuggestion#,DIAGNOSISCODE=#Diagnosiscode#
+      ,DICTLABDEPTID=#Dictlabdeptid#
+      WHERE DICTDIAGNOSISID = #Dictdiagnosisid#
+    </update>
+    <delete id="Dict.DeleteDictdiagnosis" parameterClass="string">
+      DELETE FROM DICTDIAGNOSIS
+      WHERE DICTDIAGNOSISID = #value#
+    </delete>
+
+    <!--按异常建议名字模糊查询-->
+    <select id="Dict.SelectDictdiagnosisByName" parameterClass="Hashtable" resultMap="DictdiagnosisResult">
+      SELECT DICTDIAGNOSISID AS Dictdiagnosisid,DIAGNOSISNAME AS Diagnosisname,CREATEDATE AS Createdate,
+      DISPLAYORDER AS Displayorder,ISDISEASE AS Isdisease,DIAGNOSISTYPE AS Diagnosistype,
+      DISEASEDESCRIPTION AS Diseasedescription,DISEASECAUSE AS Diseasecause,SUGGESTION AS Suggestion,
+      ENGDISEASEDESCRIPTION AS Engdiseasedescription,ENGDISEASECAUSE AS Engdiseasecause,
+      ENGSUGGESTION AS Engsuggestion,DIAGNOSISCODE AS Diagnosiscode,DICTLABDEPTID AS Dictlabdeptid
+      FROM DICTDIAGNOSIS where  DIAGNOSISNAME like '%$strKey$%' and DICTDIAGNOSISID!=$Dictdiagnosisid$
+      order by displayorder
+    </select>
+  </statements>
+</sqlMap>

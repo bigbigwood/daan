@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://webservice.nip.daanhealth.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="TestItemUniquecodeCompareService" targetNamespace="http://webservice.nip.daanhealth.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://webservice.nip.daanhealth.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="findUniquecodeCompare" type="tns:findUniquecodeCompare" />
+      <xs:element name="findUniquecodeCompareResponse" type="tns:findUniquecodeCompareResponse" />
+      <xs:complexType name="findUniquecodeCompare">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="findUniquecodeCompareResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="findUniquecodeCompareResponse">
+    <wsdl:part name="parameters" element="tns:findUniquecodeCompareResponse" />
+  </wsdl:message>
+  <wsdl:message name="findUniquecodeCompare">
+    <wsdl:part name="parameters" element="tns:findUniquecodeCompare" />
+  </wsdl:message>
+  <wsdl:portType name="TestItemUniquecodeCompareService">
+    <wsdl:operation name="findUniquecodeCompare">
+      <wsdl:input name="findUniquecodeCompare" message="tns:findUniquecodeCompare" />
+      <wsdl:output name="findUniquecodeCompareResponse" message="tns:findUniquecodeCompareResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TestItemUniquecodeCompareServiceSoapBinding" type="tns:TestItemUniquecodeCompareService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="findUniquecodeCompare">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="findUniquecodeCompare">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="findUniquecodeCompareResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TestItemUniquecodeCompareService">
+    <wsdl:port name="TestItemUniquecodeCompareServiceImplPort" binding="tns:TestItemUniquecodeCompareServiceSoapBinding">
+      <soap:address location="http://192.168.2.66:8080/NIP/webservice/testItemUniquecodeCompareService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderresultcomment" type="daan.domain.Orderresultcomment,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderresultcommentResult" class="daan.domain.Orderresultcomment">
+      <result property="Orderresultcommentid" column="ORDERRESULTCOMMENTID" />
+      <result property="Ordernum" column="ORDERNUM" type="string" />
+      <result property="Engresultcomment" column="ENGRESULTCOMMENT" />
+      <result property="Engresultsuggestion" column="ENGRESULTSUGGESTION" />
+      <result property="Resultcomment" column="RESULTCOMMENT"/>
+      <result property="Resultsuggestion" column="RESULTSUGGESTION"/>
+      <result property="Createdate" column="CREATEDATE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Order.SelectOrderresultcomment" parameterClass="string" resultMap="OrderresultcommentResult">
+      SELECT ORDERRESULTCOMMENTID AS Orderresultcommentid,ORDERNUM AS Ordernum,ENGRESULTCOMMENT AS Engresultcomment,ENGRESULTSUGGESTION AS Engresultsuggestion,RESULTCOMMENT AS Resultcomment,RESULTSUGGESTION AS Resultsuggestion,CREATEDATE AS Createdate
+      FROM ORDERRESULTCOMMENT
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <select id="Order.SelectOrderresultcommentDs" parameterClass="string">
+      SELECT ORDERRESULTCOMMENTID AS Orderresultcommentid,ORDERNUM AS Ordernum,ENGRESULTCOMMENT AS Engresultcomment,ENGRESULTSUGGESTION AS Engresultsuggestion,RESULTCOMMENT AS Resultcomment,RESULTSUGGESTION AS Resultsuggestion,CREATEDATE AS Createdate
+      FROM ORDERRESULTCOMMENT
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="Order.InsertOrderresultcomment" parameterClass="Orderresultcomment">
+      INSERT INTO ORDERRESULTCOMMENT
+      (ORDERRESULTCOMMENTID,ORDERNUM,ENGRESULTCOMMENT,ENGRESULTSUGGESTION,RESULTCOMMENT,RESULTSUGGESTION)
+      VALUES(#Orderresultcommentid#,#Ordernum#,#Engresultcomment#,#Engresultsuggestion#,#Resultcomment#,#Resultsuggestion#)
+    </insert>
+    <update id="Order.UpdateOrderresultcomment" parameterClass="Orderresultcomment">
+      UPDATE ORDERRESULTCOMMENT
+      SET ENGRESULTCOMMENT=#Engresultcomment#,ENGRESULTSUGGESTION=#Engresultsuggestion#,RESULTCOMMENT=#Resultcomment#,RESULTSUGGESTION=#Resultsuggestion#
+      WHERE ORDERNUM = #Ordernum#
+    </update>
+    <delete id="DeleteOrderresultcomment" parameterClass="string">
+      DELETE FROM ORDERRESULTCOMMENT
+      WHERE ORDERRESULTCOMMENTID = #value#
+    </delete>
+  </statements>
+</sqlMap>

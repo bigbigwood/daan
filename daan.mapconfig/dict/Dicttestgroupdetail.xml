@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dicttestgroupdetail" type="daan.domain.Dicttestgroupdetail,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DicttestgroupdetailResult" class="daan.domain.Dicttestgroupdetail">
+      <result property="Testgroupid" column="TESTGROUPID" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDicttestgroupdetail" parameterClass="string" resultMap="DicttestgroupdetailResult">
+      SELECT TESTGROUPID AS Testgroupid,CREATEDATE AS Createdate,DICTTESTITEMID AS Dicttestitemid
+      FROM DICTTESTGROUPDETAIL
+    </select>
+    <select id="Dict.SetlectDicttestgroupdetailByGroupID" parameterClass="string" resultMap="DicttestgroupdetailResult">
+      SELECT TESTGROUPID AS Testgroupid,CREATEDATE AS Createdate,DICTTESTITEMID AS Dicttestitemid
+      FROM DICTTESTGROUPDETAIL WHERE TESTGROUPID=#value#
+    </select>
+    <insert id="Dict.InsertDicttestgroupdetail" parameterClass="Dicttestgroupdetail">
+      INSERT INTO DICTTESTGROUPDETAIL
+      (TESTGROUPID,CREATEDATE,DICTTESTITEMID)
+      VALUES(#Testgroupid#,#Createdate#,#Dicttestitemid#)
+    </insert>
+    <update id="UpdateDicttestgroupdetail" parameterClass="Dicttestgroupdetail">
+      UPDATE DICTTESTGROUPDETAIL
+      SET TESTGROUPID=#Testgroupid#,CREATEDATE=#Createdate#,DICTTESTITEMID=#Dicttestitemid#
+    </update>
+    <delete id="DeleteDicttestgroupdetail" parameterClass="string">
+      DELETE FROM DICTTESTGROUPDETAIL
+    </delete>
+    <!--删除组合下的项目-->
+    <delete id="Dict.DeleteDicttestgroupdetail" parameterClass="string">
+      DELETE FROM DICTTESTGROUPDETAIL where TESTGROUPID=$value$
+    </delete>
+  </statements>
+</sqlMap>

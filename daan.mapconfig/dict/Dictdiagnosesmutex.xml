@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictdiagnosesmutex" type="daan.domain.Dictdiagnosesmutex,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictdiagnosesmutexResult" class="daan.domain.Dictdiagnosesmutex">
+      <result property="Dictdiagnosesmutexid" column="DICTDIAGNOSESMUTEXID"/>
+      <result property="Dictdiagnosisid" column="DICTDIAGNOSISID"/>
+      <result property="Dictmutexdiagnosisid" column="DICTMUTEXDIAGNOSISID"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Diagnosisname" column="DIAGNOSISNAME"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    
+    <select id="Dict.SelectDictdiagnosesmutex" parameterClass="string" resultMap="DictdiagnosesmutexResult">
+      select  t1.DICTDIAGNOSESMUTEXID,t1.DICTDIAGNOSISID,t1.DICTMUTEXDIAGNOSISID,t1.CREATEDATE,t2.DIAGNOSISNAME from Dictdiagnosesmutex t1,Dictdiagnosis t2 where
+      t1.DICTMUTEXDIAGNOSISID=t2.DICTDIAGNOSISID
+      <isNotNull prepend="and" parameterClass="string">
+        t1.DICTDIAGNOSISID=#value#
+      </isNotNull>     
+    </select>    
+    <!--新增-->
+    <insert id="Dict.InsertDictdiagnosesmutex" parameterClass="Dictdiagnosesmutex">
+      INSERT INTO Dictdiagnosesmutex
+      (DICTDIAGNOSESMUTEXID,DICTDIAGNOSISID,DICTMUTEXDIAGNOSISID,CREATEDATE)
+      VALUES(#Dictdiagnosesmutexid#,#Dictdiagnosisid#,#Dictmutexdiagnosisid#,#Createdate#)
+    </insert>    
+    <delete id="Dict.DeleteDictdiagnosesmutex" parameterClass="string">
+      DELETE FROM Dictdiagnosesmutex
+      WHERE DICTDIAGNOSESMUTEXID = #Dictdiagnosesmutexid#
+    </delete>
+    <!--按互斥建议ID查询是否已包含该项-->
+    <select id="Dict.SelectIsHaveMutexd" parameterClass="Hashtable" resultMap="DictdiagnosesmutexResult">
+      select  count(1) as counts from Dictdiagnosesmutex where  DICTMUTEXDIAGNOSISID=#dictmutexdiagnosisid# and DICTDIAGNOSISID=#dictdiagnosisid#
+    </select>
+  </statements>
+</sqlMap>

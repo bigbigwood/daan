@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictlibrary"  type="daan.domain.Dictlibrary,daan.domain"/>
+  </alias>
+  <resultMaps>
+    <resultMap id="DictlibraryResult" class="daan.domain.Dictlibrary">
+      <result property="Dictlibraryid" column="DICTLIBRARYID"/>
+      <result property="Librarycode" column="LIBRARYCODE"/>
+      <result property="Libraryname" column="LIBRARYNAME"/>
+      <result property="Createdate" column="CREATEDATE"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--按某个字段获取详细信息，没有查询全部列表-->
+    <select id="Dict.GetDictLibraryLst" parameterClass="Dictlibrary" resultMap="DictlibraryResult">
+      SELECT Dictlibraryid,Librarycode,Libraryname,Createdate  FROM DICTLIBRARY where 1=1
+      <isNotNull prepend="and" property="Dictlibraryid">
+        Dictlibraryid=#Dictlibraryid#
+      </isNotNull>
+      <isNotNull prepend="and" property="Librarycode">
+        Librarycode =#Librarycode#
+      </isNotNull>
+      <isNotNull prepend="and" property="Libraryname">
+        Libraryname=#Libraryname#
+      </isNotNull>
+      order by Dictlibraryid desc
+    </select>
+
+    <!--分页查询-->
+    <select id="Dict.GetDictLibraryPageLst" parameterClass="Hashtable" resultMap="DictlibraryResult">
+      SELECT DICTLIBRARYID as Dictlibraryid,LIBRARYCODE as Librarycode, LIBRARYNAME as Libraryname,CREATEDATE as Createdate FROM
+      (SELECT ROWNUM RN, t.* FROM (SELECT Dictlibraryid,Librarycode,Libraryname,Createdate  FROM DICTLIBRARY where 1=1
+      <isNotNull prepend="and" property="strKey">
+        Librarycode like '%$strKey$%' or Libraryname like  '%$strKey$%'
+      </isNotNull>
+      order by Dictlibraryid desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictLibraryPageLstCount" parameterClass="Hashtable">
+      SELECT Count(1) as pageCount FROM DICTLIBRARY where 1=1
+      <isNotNull prepend="and" property="strKey">
+        Librarycode like '%$strKey$%' or Libraryname like  '%$strKey$%'
+      </isNotNull>
+    </select>
+    <!--新增-->
+    <insert id="Dict.InsertDictLibrary" parameterClass="Dictlibrary">
+      INSERT INTO DICTLIBRARY
+      (Dictlibraryid,Librarycode,Libraryname,Createdate) VALUES(#Dictlibraryid#,#Librarycode#,#Libraryname#,#Createdate#)
+    </insert>
+    <!--编辑-->
+    <update id="Dict.UpdateDictLibrary" parameterClass="Dictlibrary">
+      UPDATE DICTLIBRARY
+      SET Librarycode=#Librarycode#,Libraryname = #Libraryname#,Createdate=#Createdate#
+      WHERE Dictlibraryid = #Dictlibraryid#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DelDictLibraryByID" parameterClass="string">
+      DELETE FROM DictLibrary
+      WHERE Dictlibraryid in($value$)
+    </delete>   
+  </statements>
+</sqlMap>

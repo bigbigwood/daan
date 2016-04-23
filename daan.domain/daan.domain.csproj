@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{78EF06FB-5568-4DC8-986E-59B6C5685072}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>daan.domain</RootNamespace>
+    <AssemblyName>daan.domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseDomain.cs" />
+    <Compile Include="bill\Billdetail.cs" />
+    <Compile Include="bill\Billdetailcancel.cs" />
+    <Compile Include="bill\Billhead.cs" />
+    <Compile Include="bill\Billtrace.cs" />
+    <Compile Include="CacheInfo.cs" />
+    <Compile Include="CommonConst.cs" />
+    <Compile Include="dict\Dictcustomer.cs" />
+    <Compile Include="dict\Dictcustomerdiscounted.cs" />
+    <Compile Include="dict\Dictcustomertestdiscount.cs" />
+    <Compile Include="dict\Dictdiagnosis.cs" />
+    <Compile Include="dict\Dictfamilymedhistory.cs" />
+    <Compile Include="dict\Dictfastcomment.cs" />
+    <Compile Include="dict\Dicthealthrecords.cs" />
+    <Compile Include="dict\Dictlab.cs" />
+    <Compile Include="dict\Dictlabandtest.cs" />
+    <Compile Include="dict\Dictlabandtestprice.cs" />
+    <Compile Include="dict\Dictlabdept.cs" />
+    <Compile Include="dict\Dictlibrary.cs" />
+    <Compile Include="dict\Dictlibraryitem.cs" />
+    <Compile Include="dict\Dictlocusremark.cs" />
+    <Compile Include="dict\Dictmedhistory.cs" />
+    <Compile Include="dict\Dictmember.cs" />
+    <Compile Include="dict\DictModule.cs" />
+    <Compile Include="dict\Dictothermedhistory.cs" />
+    <Compile Include="dict\Dictproductdetail.cs" />
+    <Compile Include="dict\Dictreporttemplate.cs" />
+    <Compile Include="dict\Dictruleformular.cs" />
+    <Compile Include="dict\Dictscores.cs" />
+    <Compile Include="dict\DictSubCompany.cs" />
+    <Compile Include="dict\Dicttestgroupdetail.cs" />
+    <Compile Include="dict\Dicttestitem.cs" />
+    <Compile Include="dict\Dicttestitemresult.cs" />
+    <Compile Include="dict\Dicttestitem_productdetail.cs" />
+    <Compile Include="dict\Dictuser.cs" />
+    <Compile Include="dict\Dictuserandlab.cs" />
+    <Compile Include="dict\Dictuserandlabdept.cs" />
+    <Compile Include="dict\Dictdiagnosesmutex.cs" />
+    <Compile Include="dict\ProjectControl.cs" />
+    <Compile Include="ErrorCode.cs" />
+    <Compile Include="order\Hpvinstruments.cs" />
+    <Compile Include="dict\Initbasic.cs" />
+    <Compile Include="dict\Initlocalsetting.cs" />
+    <Compile Include="dict\Initsyssetting.cs" />
+    <Compile Include="dict\Interfacelog.cs" />
+    <Compile Include="dict\Interfacemanager.cs" />
+    <Compile Include="dict\MaintenanceLog.cs" />
+    <Compile Include="dict\Operationlog.cs" />
+    <Compile Include="dict\DictSmsModule.cs" />
+    <Compile Include="order\Customernexttest.cs" />
+    <Compile Include="order\Orderbarcode.cs" />
+    <Compile Include="order\Orderdiagnosis.cs" />
+    <Compile Include="order\Orderfiledetail.cs" />
+    <Compile Include="order\Orderfileheader.cs" />
+    <Compile Include="order\Ordergrouptest.cs" />
+    <Compile Include="order\Orderimage.cs" />
+    <Compile Include="order\Orderlabdeptresult.cs" />
+    <Compile Include="order\Ordernexttest.cs" />
+    <Compile Include="order\Orderproducts.cs" />
+    <Compile Include="order\Orderresultcomment.cs" />
+    <Compile Include="order\Orders.cs" />
+    <Compile Include="order\Orderserviceinfo.cs" />
+    <Compile Include="order\Ordertest.cs" />
+    <Compile Include="LogInfo.cs" />
+    <Compile Include="order\OrderRegister.cs" />
+    <Compile Include="order\Orderexception.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="report\Customerresultcomment.cs" />
+    <Compile Include="report\Customervaliddiagnosis.cs" />
+    <Compile Include="report\ReportData.cs" />
+    <Compile Include="TableID.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="ValueObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\daan.util\daan.util.csproj">
+      <Project>{125C1986-151A-469E-A85C-D266965B1F6E}</Project>
+      <Name>daan.util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderdiagnosis" type="daan.domain.Orderdiagnosis,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderdiagnosisResult" class="daan.domain.Orderdiagnosis">
+      <result property="Orderdiagnosisid" column="ORDERDIAGNOSISID"/>
+      <result property="Ordernum" column="ORDERNUM" type="string" dbType="varchar"/>
+      <result property="Diagnosisname" column="DIAGNOSISNAME" type="string" dbType="varchar"/>
+      <result property="Diagnosistype" column="DIAGNOSISTYPE" type="string" dbType="varchar"/>
+      <result property="Dictdiagnosisid" column="DICTDIAGNOSISID"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Diseasedescription" column="DISEASEDESCRIPTION" type="string" dbType="varchar"/>
+      <result property="Diseasecause" column="DISEASECAUSE" type="string" dbType="varchar"/>
+      <result property="Suggestion" column="SUGGESTION" type="string" dbType="varchar"/>
+      <result property="Engdiseasedescription" column="ENGDISEASEDESCRIPTION" type="string" dbType="varchar"/>
+      <result property="Engdiseasecause" column="ENGDISEASECAUSE" type="string" dbType="varchar"/>
+      <result property="Engsuggestion" column="ENGSUGGESTION" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Isdisease" column="ISDISEASE" type="string" dbType="varchar"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+    </resultMap>
+
+    <resultMap id="OrderdiagnosisResultEx" extends="OrderdiagnosisResult" class="daan.domain.Orderdiagnosis">
+      <result property="Labdeptname" column="LABDEPTNAME" />
+    </resultMap>
+    
+  </resultMaps>
+  <statements>
+    <!--根据订单号查询相对应的诊断信息返回DateSet-->
+    <select id="Order.SelectOrderdiagnosisDs" parameterClass="string">
+      select a.DIAGNOSISNAME,b.labdeptname,a.suggestion,a.diseasecause,a.diseasedescription,a.ORDERDIAGNOSISID,a.Diagnosistype
+      from orderdiagnosis a left join dictlabdept b on b.dictlabdeptid=a.dictlabdeptid
+      where a.ordernum='$ordernum$' 
+    </select>
+    <!--统计诊断建议是否存在-->
+    <select id="Order.CountDiagnosis" parameterClass="Hashtable">
+      select count(1) from orderdiagnosis a where a.ordernum='$ordernum$' and a.dictdiagnosisid=$dictdiagnosisid$
+    </select>
+    <!--根据订单号查询相对应的诊断信息，返回诊断信息对象-->
+    <select id="Order.SelectOrderdiagnosisLst" parameterClass="Hashtable" resultMap="OrderdiagnosisResultEx">
+      SELECT t1.ORDERDIAGNOSISID AS Orderdiagnosisid,t1.ORDERNUM AS Ordernum,t1.DIAGNOSISNAME AS Diagnosisname,t1.DIAGNOSISTYPE AS Diagnosistype,t1.DICTDIAGNOSISID AS Dictdiagnosisid,t1.DICTLABDEPTID AS Dictlabdeptid,t1.DISEASEDESCRIPTION AS Diseasedescription,t1.DISEASECAUSE AS Diseasecause,t1.SUGGESTION AS Suggestion,t1.ENGDISEASEDESCRIPTION AS Engdiseasedescription,t1.ENGDISEASECAUSE AS Engdiseasecause,t1.ENGSUGGESTION AS Engsuggestion,t1.CREATEDATE AS Createdate,t1.ISDISEASE AS Isdisease,t1.DISPLAYORDER AS Displayorder,t2.LABDEPTNAME as Labdeptname
+      FROM ORDERDIAGNOSIS t1 inner join Dictlabdept t2 on t1.Dictlabdeptid=t2.Dictlabdeptid where t1.ORDERNUM = $OrderNum$ and t1.Dictlabdeptid in (select d1.dictlabdeptid from DICTUSERANDLABDEPT d1 where d1.dictuserid=$UserId$)
+    </select>
+    <!--根据体检单位查询异常报告，团检查询-->
+    <select id="Order.DataForCompanyTest" parameterClass="Hashtable">
+      select d.diagnosisname,c.numpepeo,d.diseasedescription,d.diseasecause,d.suggestion
+      from (select a.dictdiagnosisid, count(1) numpepeo
+      from orderdiagnosis a
+      join orders b
+      on b.ordernum = a.ordernum
+      where b.dictcustomerid = $dictcustomerid$ and b.iscancel=0
+      and  b.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      b.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      group by a.dictdiagnosisid) c
+      join dictdiagnosis d
+      on d.dictdiagnosisid = c.dictdiagnosisid
+    </select>
+    <!--全体员工体检结果汇总,团检-->
+    <select id="Order.GetdtGroupAllResult" parameterClass="Hashtable">
+      select aa.realname "name",aa.ordernum,aa.sex,aa.age,
+      replace(wmsys.wm_concat(aa.diagnosisname), ',', chr(10)) AbnormalText
+      from (select a.realname,
+      a.ordernum,
+      decode(a.sex, 'M', '男', 'F', '女', '未知') sex,
+      substr(a.age, 0, instr(a.age, '岁')) age,
+      ((row_number()
+      over(partition by b.ordernum order by b.ordernum)) || '.' ||
+      b.diagnosisname) diagnosisname
+      from orderdiagnosis b
+      join orders a on b.ordernum = a.ordernum
+      join customervaliddiagnosis c on c.dictdiagnosisid = b.dictdiagnosisid
+      where c.dictcustomerid = $dictcustomerid$  and to_number(a.status)>24 and  a.iscancel=0 and
+      a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd') and c.ordersyear='$ordersyear$'
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')) aa
+      group by aa.realname, aa.ordernum, aa.sex, aa.age
+    </select>
+    <!--根据表主键查询相对应的诊断信息-->
+    <select id="Order.SelectSingleOrderdiagnosis" parameterClass="string">
+      select * from orderdiagnosis a where a.orderdiagnosisid='$value$'
+    </select>
+    <!--团检报告，异常统计，人数-->
+    <select id="order.GetDiseasePeople" parameterClass="Hashtable">
+      select  aa.diagnosisname,aa.dictdiagnosisid,aa.numpeople,decode(bb.dictdiagnosisid,null,0,1) checkstatus  from
+      (select  a.diagnosisname,a.dictdiagnosisid,count(1)numpeople   from orderdiagnosis a
+      join orders b on b.ordernum=a.ordernum
+      where b.dictcustomerid=$dictcustomerid$ and to_number(b.status)>24 and  b.iscancel=0 and
+      b.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and b.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      and b.dictcustomerid=$dictcustomerid$ 
+      group by a.diagnosisname,a.dictdiagnosisid order by numpeople      
+      ) aa
+      left join  customervaliddiagnosis bb on aa.dictdiagnosisid=bb.dictdiagnosisid
+      <!--where and bb.ordersyear=substr('$StartDate$',0,instr('$StartDate$','-')-1)--> 
+    </select>
+    <!--团检报告,体检异常统计表，只统计医生选择的异常-->
+    <select id="Order.GetdtGroupHealthCompare" parameterClass="Hashtable">
+
+      with vwa as (select count(1) a from orders a where a.sex in ('M', 'F') and to_number(a.status) > 24 and a.iscancel=0
+      and a.dictcustomerid = $dictcustomerid$ and a.enterdate<![CDATA[>=]]>to_date('$StartDate$', 'yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$', 'yyyy-MM-dd')),
+
+      vwb as (select e.diagnosisname, sum(e.m) m, sum(e.f) f from (select c.diagnosisname,decode(d.sex, 'M', count(1), 0) M,
+      decode(d.sex, 'F', count(1), 0) F from orderdiagnosis c join   customervaliddiagnosis b on c.dictdiagnosisid = b.dictdiagnosisid
+      join orders d on d.ordernum = c.ordernum where d.sex in ('M', 'F') and to_number(d.status) > 24 and b.dictcustomerid =$dictcustomerid$
+      and d.enterdate<![CDATA[>=]]>to_date('$StartDate$', 'yyyy-MM-dd') and b.ordersyear = '$ordersyear$'
+      and d.enterdate <![CDATA[<]]>to_date('$EndDate$', 'yyyy-MM-dd') and d.iscancel=0
+      group by d.sex, c.diagnosisname) e group by e.diagnosisname)
+
+      <!--select bb.diagnosisname,bb.m,bb.f,(bb.m+bb.f) SumNumber,(trunc(bb.m * 100 / aasum, 2) || '%') MalePercent,
+      (trunc(bb.f * 100 / aasum, 2) || '%') FamalePercent,
+      ((trunc(bb.m * 100 / aasum, 2)+trunc(bb.f * 100 / aasum, 2))||'%')SumPercent
+      from (select vwb.diagnosisname, vwb.m,vwb.f,(select vwa.a from vwa) aasum from  vwb)bb-->
+
+      select bb.diagnosisname as MedicalConclusion,bb.m as MaleNumber,bb.f as FamaleNumber,(bb.m+bb.f) SumNumber,(trunc(bb.m * 100 / aasum, 2) || '%') MalePercent,
+      (trunc(bb.f * 100 / aasum, 2) || '%') FamalePercent,
+      ((trunc(bb.m * 100 / aasum, 2)+trunc(bb.f * 100 / aasum, 2))||'%')SumPercent
+      from (select vwb.diagnosisname, vwb.m,vwb.f,(select vwa.a from vwa) aasum from  vwb)bb
+    </select>
+    <!--疾病数据对比,团检报告-->
+    <select id="Order.DiseaseDataCompare" parameterClass="Hashtable">
+      with vwa as (select c.enterdate from orders c where c.dictcustomerid = $dictcustomerid$ and c.iscancel=0 and  to_number( c.status)>24),
+      vwb as (select a.diagnosisname,b.enterdate from orderdiagnosis a join orders b on a.ordernum = b.ordernum
+      where a.diagnosistype = $diagnosistype$ and  to_number( b.status)>24 and b.iscancel=0 and b.dictcustomerid = $dictcustomerid$)
+
+      select vc.diagnosisname MedicalConclusion,vc.nowpercent ThisResult,vc.lastpercent LastResult,
+      decode(sign(replace(vc.nowpercent, '%', '') -
+      replace(vc.lastpercent, '%', '')),
+      -1,
+      '下降',
+      1,
+      '上升',0,'持平','') Tendency
+      from (select e.diagnosisname, d.lastpercent, e.nowpercent
+      from (select vwb.diagnosisname,
+      (trunc(count(1) * 100 /
+      (select count(1) from vwa where  vwa.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and vwa.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')),
+      2) || '%') nowpercent
+      from vwb where   vwb.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and vwb.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+      group by vwb.diagnosisname) e
+      left join (select vwb.diagnosisname,
+      (trunc(count(1) * 100 /
+      (select count(1) from vwa where   vwa.enterdate <![CDATA[>=]]>to_date('$lastStartDate$','yyyy-MM-dd')
+      and vwa.enterdate <![CDATA[<]]>to_date('$lastEndDate$','yyyy-MM-dd')),
+      2) || '%') lastpercent
+      from vwb
+      where vwb.enterdate <![CDATA[>=]]>to_date('$lastStartDate$','yyyy-MM-dd')
+      and vwb.enterdate <![CDATA[<]]>to_date('$lastEndDate$','yyyy-MM-dd')
+      group by vwb.diagnosisname) d
+      on e.diagnosisname = d.diagnosisname)vc
+    </select>
+    <!--查询体检结果的前10种异常，团检报告-->
+    <select id="Order.GetTopOrderdiagnosis" parameterClass="Hashtable">
+      with   vw as
+      (select b.diagnosisname DiseaseName,a.sex  from  orderdiagnosis b join  orders a on a.ordernum=b.ordernum
+      where   a.dictcustomerid =$dictcustomerid$ and a.iscancel=0
+      and   a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+      and a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd') and  a.sex in ('M','F')
+      )
+      select vw.DiseaseName,trunc(count(1)*100/(select count(1) from vw),2)DiseasePercent from  vw
+      where rownum<![CDATA[<]]>11
+      <isNotNull prepend="and" property="MStatus">
+        vw.sex='M'
+      </isNotNull>
+      <isNotNull prepend="and" property="FStatus">
+        vw.sex='F'
+      </isNotNull>
+      <isNotNull prepend="and" property="All">
+        vw.sex in ('M','F')
+      </isNotNull>
+      group by vw.DiseaseName order by DiseasePercent desc
+    </select>
+    <!--社区网站数据上传 根据ordernum查询建议内容-->
+    <select id="Order.GetOrderdiagnosisByordernum" parameterClass="Hashtable" resultMap="OrderdiagnosisResult" >
+      select c.SUGGESTION from orderdiagnosis c where c.ordernum = $value$
+    </select>
+    
+    <!--新增-->
+    <insert id="Order.InsertOrderdiagnosis" parameterClass="Orderdiagnosis">
+      INSERT INTO ORDERDIAGNOSIS
+      (ORDERDIAGNOSISID,ORDERNUM,DIAGNOSISNAME,DIAGNOSISTYPE,DICTDIAGNOSISID,DICTLABDEPTID,DISEASEDESCRIPTION,DISEASECAUSE,SUGGESTION,ENGDISEASEDESCRIPTION,ENGDISEASECAUSE,ENGSUGGESTION,CREATEDATE,ISDISEASE,DISPLAYORDER)
+      VALUES(#Orderdiagnosisid#,#Ordernum#,#Diagnosisname#,#Diagnosistype#,#Dictdiagnosisid#,#Dictlabdeptid#,#Diseasedescription#,#Diseasecause#,#Suggestion#,#Engdiseasedescription#,#Engdiseasecause#,#Engsuggestion#,#Createdate#,#Isdisease#,#Displayorder#)
+    </insert>
+    <!--添加诊断信息，总检-->
+    <insert id="Order.AddOrderdiagnosis" parameterClass="Hashtable">
+      insert into orderdiagnosis(ORDERDIAGNOSISID,ordernum,diagnosisname,diagnosistype,dictdiagnosisid,dictlabdeptid,diseasedescription,
+      diseasecause,suggestion,engdiseasedescription,engdiseasecause,engsuggestion,isdisease,displayorder)
+      select seq_orderdiagnosis.nextval,'$ordernum$',t1.diagnosisname,
+      t1.diagnosistype,t1.dictdiagnosisid,DICTLABDEPTID,t1.DISEASEDESCRIPTION,t1.DISEASECAUSE,t1.SUGGESTION,t1.ENGDISEASEDESCRIPTION,t1.ENGDISEASECAUSE,
+      t1.ENGSUGGESTION,t1.isdisease,t1.displayorder from dictdiagnosis t1
+      where t1.dictdiagnosisid =$dictdiagnosisid$ and rownum=1
+    </insert>
+    <!--总检时如果诊断信息不对，最后审核者可以修改诊断信息-->
+    <update id="Order.UpdateOrderdiagnosis" parameterClass="Orderdiagnosis">
+      UPDATE ORDERDIAGNOSIS SET DIAGNOSISNAME=#Diagnosisname#,DISEASEDESCRIPTION=#Diseasedescription#,
+      DISEASECAUSE=#Diseasecause#,SUGGESTION=#Suggestion# ,DIAGNOSISTYPE=#Diagnosistype#  WHERE ORDERDIAGNOSISID = #Orderdiagnosisid#
+    </update>
+    <!--根据ORDERDIAGNOSISID主键进行多条数据删除-->
+    <delete id="Order.DeleteOrderdiagnosis" parameterClass="string">
+      DELETE FROM ORDERDIAGNOSIS
+      WHERE ORDERDIAGNOSISID in( #value#)
+    </delete>
+
+    <!--按体检号删除诊断建议-->
+    <delete id="Order.DeleteOrderdiagnosisByOrderNum" parameterClass="string">
+      DELETE FROM ORDERDIAGNOSIS
+      WHERE ORDERNUM = #value#
+    </delete>
+  </statements>
+</sqlMap>

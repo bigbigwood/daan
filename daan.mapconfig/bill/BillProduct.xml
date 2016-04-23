@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <statements>
+    <!--已返回检验列表-->
+    <select id="Bill.SelectBillProductPageLst" parameterClass="Hashtable">
+      select instrumentsbarcode, barcode,customername,testname,createdate,standardprice,groupprice,contractprice,finalprice
+      from (SELECT ROWNUM RN, t.* FROM (
+      select h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,o1.createdate,sum(g1.standardprice) as standardprice,sum(g1.groupprice) as groupprice,sum(g1.contractprice) as contractprice,sum(g1.finalprice) as finalprice
+      from
+      hpvinstruments h1,
+      ordertest o1,
+      orders o2,
+      dictcustomer c1,
+      dicttestitem t1,
+      ordergrouptest g1
+      where
+      h1.barcode is not null
+      and h1.dicttestitemid=t1.dicttestitemid
+      and h1.dictcustomerid=c1.dictcustomerid
+      and h1.barcode=o1.barcode
+      and o1.ordernum=o2.ordernum
+
+      and o2.ordernum=g1.ordernum
+      and o2.iscancel=0
+      and o2.status>20
+
+
+      <isNotNull prepend="and" property="endDate">
+        h1.instcreatedate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        h1.instcreatedate >= to_date('$startDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEqual  prepend="and" property="dictTestItemID" compareValue="-1">
+        h1.dicttestitemid=$dictTestItemID$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="customerid" compareValue="-1">
+        h1.dictcustomerid=$customerid$
+      </isNotEqual>
+      group by h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,o1.createdate
+      order by  h1.instrumentsbarcode desc, h1.barcode,c1.customername,t1.testname,o1.createdate) t
+      WHERE
+      ROWNUM <![CDATA[<=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[>]]>= $pageStart$
+    </select>
+    <!--已返回检验总数-->
+    <select id="Bill.SelectBillProductTotal" parameterClass="Hashtable">
+      select count(1) as total
+      from
+      hpvinstruments h1,
+      ordertest o1,
+      orders o2,
+      dictcustomer c1,
+      dicttestitem t1
+      where
+      h1.barcode is not null
+      and h1.dicttestitemid=t1.dicttestitemid
+      and h1.dictcustomerid=c1.dictcustomerid
+      and h1.barcode=o1.barcode
+      and o1.ordernum=o2.ordernum
+      and o2.iscancel=0
+      and o2.status>20
+      <isNotNull prepend="and" property="endDate">
+        h1.instcreatedate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        h1.instcreatedate >= to_date('$startDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEqual  prepend="and" property="dictTestItemID" compareValue="-1">
+        h1.dicttestitemid=$dictTestItemID$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="customerid" compareValue="-1">
+        h1.dictcustomerid=$customerid$
+      </isNotEqual>
+    </select>
+
+    <!--已返回内勤列表-->
+    <select id="Bill.SelectBillBackProductPageLst" parameterClass="Hashtable">
+      select instrumentsbarcode, barcode,customername,testname,createdate,standardprice,groupprice,contractprice,finalprice
+      from (SELECT ROWNUM RN, t.* FROM (
+      select h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,o1.createdate,sum(g1.standardprice) as standardprice,sum(g1.groupprice) as groupprice,sum(g1.contractprice) as contractprice,sum(g1.finalprice) as finalprice
+      from
+      hpvinstruments h1,
+      ordertest o1,
+      orders o2,
+      dictcustomer c1,
+      dicttestitem t1,
+      ordergrouptest g1
+      where
+      h1.barcode is not null
+      and h1.dicttestitemid=t1.dicttestitemid
+      and h1.dictcustomerid=c1.dictcustomerid
+      and h1.barcode=o1.barcode
+      and o1.ordernum=o2.ordernum
+
+      and o2.ordernum=g1.ordernum
+      and o2.iscancel=0
+      and o2.status between 5 and 20
+
+
+      <isNotNull prepend="and" property="endDate">
+        h1.instcreatedate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        h1.instcreatedate >= to_date('$startDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEqual  prepend="and" property="dictTestItemID" compareValue="-1">
+        h1.dicttestitemid=$dictTestItemID$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="customerid" compareValue="-1">
+        h1.dictcustomerid=$customerid$
+      </isNotEqual>
+      group by h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,o1.createdate
+      order by  h1.instrumentsbarcode desc, h1.barcode,c1.customername,t1.testname,o1.createdate) t
+      WHERE
+      ROWNUM <![CDATA[<=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[>]]>= $pageStart$
+    </select>
+    <!--已返回内勤总数-->
+    <select id="Bill.SelectBillBackProductTotal" parameterClass="Hashtable">
+      select count(1) as total
+      from
+      hpvinstruments h1,
+      ordertest o1,
+      orders o2,
+      dictcustomer c1,
+      dicttestitem t1
+      where
+      h1.barcode is not null
+      and h1.dicttestitemid=t1.dicttestitemid
+      and h1.dictcustomerid=c1.dictcustomerid
+      and h1.barcode=o1.barcode
+      and o1.ordernum=o2.ordernum
+      and o2.iscancel=0
+      and o2.status between 5 and 20
+      <isNotNull prepend="and" property="endDate">
+        h1.instcreatedate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        h1.instcreatedate >= to_date('$startDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEqual  prepend="and" property="dictTestItemID" compareValue="-1">
+        h1.dicttestitemid=$dictTestItemID$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="customerid" compareValue="-1">
+        h1.dictcustomerid=$customerid$
+      </isNotEqual>
+    </select>
+
+    <!--未返回检验列表-->
+    <select id="Bill.SelectBillNoBackProductPageLst" parameterClass="Hashtable">
+      select instrumentsbarcode, barcode,customername,testname,createdate,''as standardprice,''as groupprice,''as contractprice,finalprice
+      from (SELECT ROWNUM RN, t.* FROM (
+      select h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,h1.instcreatedate as createdate,sum(b2.price) as finalprice
+      from
+      hpvinstruments h1,
+      dictcustomer c1,
+      dicttestitem t1,
+      dictproductdetail a1,
+      dicttestitem b2
+      where
+      h1.barcode is null
+      and h1.dicttestitemid=t1.dicttestitemid
+      and h1.dictcustomerid=c1.dictcustomerid
+      and h1.dicttestitemid=a1.productid
+      and a1.testgroupid=b2.dicttestitemid
+
+      <isNotNull prepend="and" property="endDate">
+        h1.instcreatedate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        h1.instcreatedate >= to_date('$startDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEqual  prepend="and" property="dictTestItemID" compareValue="-1">
+        h1.dicttestitemid=$dictTestItemID$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="customerid" compareValue="-1">
+        h1.dictcustomerid=$customerid$
+      </isNotEqual>
+      group by h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,h1.instcreatedate
+      order by  h1.instrumentsbarcode, h1.barcode,c1.customername,t1.testname,h1.instcreatedate) t
+      WHERE
+      ROWNUM <![CDATA[<=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[>]]>= $pageStart$
+    </select>
+    <!--未返回检验总数-->
+    <select id="Bill.SelectBillNoBackProductTotal" parameterClass="Hashtable">
+      select count(1) as total
+      from
+      hpvinstruments h1,
+      dictcustomer c1,
+      dicttestitem t1
+      where
+      h1.barcode is null
+      and h1.dicttestitemid=t1.dicttestitemid
+      and h1.dictcustomerid=c1.dictcustomerid
+      <isNotNull prepend="and" property="endDate">
+        h1.instcreatedate <![CDATA[<]]>to_date('$endDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="startDate">
+        h1.instcreatedate >= to_date('$startDate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEqual  prepend="and" property="dictTestItemID" compareValue="-1">
+        h1.dicttestitemid=$dictTestItemID$
+      </isNotEqual>
+      <isNotEqual  prepend="and" property="customerid" compareValue="-1">
+        h1.dictcustomerid=$customerid$
+      </isNotEqual>
+    </select>
+  </statements>
+</sqlMap>
+      

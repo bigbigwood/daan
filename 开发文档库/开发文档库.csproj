@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9173D040-7024-4ECB-8099-54BF69DEB965}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>开发文档库</RootNamespace>
+    <AssemblyName>开发文档库</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="数据库设计文档\体检系统数据库设计.pdm">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="更新历史记录\体检系统更新记录表20121130.doc" />
+    <None Include="界面草图设计\人员关联分点.bmml" />
+    <None Include="界面草图设计\体检系统 -个人登记.bmml" />
+    <None Include="界面草图设计\体检系统-个人收费.bmml" />
+    <None Include="界面草图设计\体检系统-体检登记集中管理.bmml" />
+    <None Include="界面草图设计\体检系统-外勤确认.bmml" />
+    <None Include="界面草图设计\体检系统-采血确认.bmml" />
+    <None Include="界面草图设计\分点维护.bmml" />
+    <None Include="界面草图设计\区域价格维护.bmml" />
+    <None Include="界面草图设计\基础字典维护.bmml" />
+    <None Include="界面草图设计\外包客户明细折扣维护.bmml" />
+    <None Include="界面草图设计\套餐区域价格维护.bmml" />
+    <None Include="界面草图设计\客户资料维护.bmml" />
+    <None Include="界面草图设计\客户部-客户追踪-定期复查.bmml" />
+    <None Include="界面草图设计\客户部-客户追踪-跟进内容.bmml" />
+    <None Include="界面草图设计\客户部-客户追踪-跟进内容登记.bmml" />
+    <None Include="界面草图设计\快速录入模版维护.bmml" />
+    <None Include="界面草图设计\总检.bmml" />
+    <None Include="界面草图设计\总检1-增加异常.bmml" />
+    <None Include="界面草图设计\检查结果录入.bmml" />
+    <None Include="界面草图设计\检验套餐维护.bmml" />
+    <None Include="界面草图设计\检验组合项目维护.bmml" />
+    <None Include="界面草图设计\检验项目维护.bmml" />
+    <None Include="界面草图设计\组合项目维护.bmml" />
+    <None Include="界面草图设计\规则计算公式.bmml" />
+    <None Include="界面草图设计\集中打印.bmml" />
+    <None Include="界面草图设计\诊断建议字典维护.bmml" />
+    <None Include="程序设计及代码规范\C#控件命名规范.doc" />
+    <None Include="设计文档\体检系统结构图.mmap" />
+    <None Include="设计文档\体检系统需求文档V1.1.doc" />
+    <None Include="设计文档\体检系统概要设计.doc" />
+    <None Include="设计文档\双向对接设计文档.doc" />
+    <None Include="设计文档\接口平台设计.doc" />
+    <None Include="部署文档\体检系统部署文档.doc" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

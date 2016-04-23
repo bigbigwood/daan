@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictfamilymedhistory" type="daan.domain.Dictfamilymedhistory,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictfamilymedhistoryResult" class="daan.domain.Dictfamilymedhistory">
+      <result property="Dictfamilymedhistoryid" column="DICTFAMILYMEDHISTORYID"/>
+      <result property="Dictmemberid" column="DICTMEMBERID" />
+      <result property="Diseasename" column="DISEASENAME" />
+      <result property="Diseasedate" column="DISEASEDATE" />
+      <result property="Patientname" column="PATIENTNAME" />
+      <result property="Currentsituation" column="CURRENTSITUATION" />
+      <result property="Medname" column="MEDNAME" />
+      <result property="Createdate" column="CREATEDATE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictfamilymedhistory" parameterClass="string" resultMap="DictfamilymedhistoryResult">
+      SELECT DICTFAMILYMEDHISTORYID AS Dictfamilymedhistoryid,DICTMEMBERID AS Dictmemberid,DISEASENAME AS Diseasename,DISEASEDATE AS Diseasedate,PATIENTNAME AS Patientname,CURRENTSITUATION AS Currentsituation,MEDNAME AS Medname,CREATEDATE AS Createdate
+      FROM DICTFAMILYMEDHISTORY
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTMEMBERID = #value#
+        </isParameterPresent>
+      </dynamic>
+      ORDER BY DICTFAMILYMEDHISTORYID desc
+    </select>
+    <insert id="Dict.InsertDictfamilymedhistory" parameterClass="Dictfamilymedhistory">
+      INSERT INTO DICTFAMILYMEDHISTORY
+      (DICTFAMILYMEDHISTORYID,DICTMEMBERID,DISEASENAME,DISEASEDATE,PATIENTNAME,CURRENTSITUATION,MEDNAME)
+      VALUES(#Dictfamilymedhistoryid#,#Dictmemberid#,#Diseasename#,#Diseasedate#,#Patientname#,#Currentsituation#,#Medname#)
+    </insert>
+    <update id="UpdateDictfamilymedhistory" parameterClass="Dictfamilymedhistory">
+      UPDATE DICTFAMILYMEDHISTORY
+      SET DICTFAMILYMEDHISTORYID=#Dictfamilymedhistoryid#,DICTMEMBERID=#Dictmemberid#,DISEASENAME=#Diseasename#,DISEASEDATE=#Diseasedate#,PATIENTNAME=#Patientname#,CURRENTSITUATION=#Currentsituation#,MEDNAME=#Medname#,CREATEDATE=#Createdate#
+      WHERE DICTFAMILYMEDHISTORYID = #Dictfamilymedhistoryid#
+    </update>
+    <delete id="Dict.DeleteDictfamilymedhistory" parameterClass="string">
+      DELETE FROM DICTFAMILYMEDHISTORY
+      WHERE DICTFAMILYMEDHISTORYID = #value#
+    </delete>
+  </statements>
+</sqlMap>

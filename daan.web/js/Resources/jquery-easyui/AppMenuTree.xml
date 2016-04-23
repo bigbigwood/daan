@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modules iconUrl="../Images/Icons/">
+  <module title="业务受理" key="biz" folder="/Modules/">
+    <node title="来电受理" icon="icon003a11.gif" url="Events/EventCall.aspx" visible="true" lock="1"/>
+    <node title="客户清单" icon="icon025a11.gif" url="Biz/CusList.aspx" visible="true" />
+    <node title="业务清单" icon="icon038a1.gif" url="Events/EventList.aspx" visible="true" />
+    <node title="录音管理" icon="icon051a1.gif" url="Dvs/Recording.aspx" visible="true" />
+    <node title="留言管理" icon="icon028a7.gif" url="Dvs/LeaveMessage.aspx" visible="true" />
+    <node title="未接来电" icon="icon017a4.gif" url="Dvs/CallLogNoAnswer.aspx" visible="true" />
+    <node title="黑名单管理" icon="icon007a4.gif" url="Tools/BlackList.aspx" visible="true" />
+    <node key="notice" title="公告信息" icon="icon034a6.gif" url="Message/Default.aspx" visible="true" />
+    <node key="fax" title="传真管理" icon="icon037a1.gif" url="Fax/Default.aspx" visible="true" />
+    <node title="短信管理" icon="icon037a1.gif" url="Sms/Default.aspx" visible="true" />
+    <node title="我的排班" icon="icon010a18.gif" url="Working/WorkingAgent.aspx" visible="true" />
+    <node key="plan" title="我的计划" icon="icon022a12.gif" url="Tools/PlanControl.aspx" visible="true" />
+    <node title="知识库" icon="icon008a1.gif" url="Know/KnowledgeWare.aspx" visible="true" />
+    <node title="预测外呼" icon="icon017a7.gif" url="CPDS/Default.aspx" visible="false" />
+    <node title="演示例子" icon="icon003a11.gif" url="Demo/Default.htm" visible="false"  />
+  </module>
+  <module title="座席管理" key="agent" appid="1" folder="../Modules/">
+    <node title="话务员管理" icon="icon021a1.gif" url="UserMgr/UserList.aspx" visible="true" />
+    <node title="话务组管理" icon="icon025a1.gif" url="UserMgr/UserGroupList.aspx" visible="true" />
+    <node title="权限管理" icon="icon025a6.gif" url="UserMgr/UserRoleList.aspx" visible="true" />
+    <node title="排班管理" icon="icon042a1.gif" url="Working/WorkingGet.aspx?groupID=0" folder="" visible="true" />
+    <node title="字典维护" icon="icon008a1.gif" url="Dictionary/Default.aspx" visible="true" />
+  </module>
+  <module title="系统管理" key="syscfg" appid="1" folder="../Modules/SysAdmin/">
+    <node title="中继参数" icon="icon006a6.gif" url="TrunkMgr.aspx" visible="true" />
+    <node title="基本内线" icon="icon042a1.gif" url="ExtTel.aspx" visible="true" />
+    <node title="系统参数" icon="icon018a4.gif" url="SysParamMgr.aspx" visible="true" />
+    <node title="话机功能键" icon="icon017a6.gif" url="FunKeyMgr.aspx" visible="true" />
+    <node title="作息时间" icon="icon020a1.gif" url="WorkSegMgr.aspx" visible="true" />
+  </module>
+  <module title="统计分析" key="stat" appid="9" folder="../Modules/">
+    <node title="平台话务" icon="icon032a1.gif" url="Stats/Default.aspx?treetypeex=icallstat_platform" visible="true" />
+    <node title="座席工作情况" icon="icon018a4.gif" url="Stats/Default.aspx?treetypeex=icallstat_agent" visible="true" />
+    <node title="服务质量" icon="icon031a1.gif" url="Stats/Default.aspx?treetypeex=icallstat_sitSeatLose" visible="true" />
+    <node title="外转外" icon="icon031a12.gif" url="Stats/Default.aspx?treetypeex=icallstat_trunktrunk" visible="true" />
+    <node title="满意度" icon="icon402a1.gif" url="Stats_Satisfy/Default.aspx?treetypeex=satisfy" visible="true" />
+  </module>
+</modules>

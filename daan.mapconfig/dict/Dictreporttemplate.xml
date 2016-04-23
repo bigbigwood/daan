@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictreporttemplate" type="daan.domain.Dictreporttemplate,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictreporttemplateResult" class="daan.domain.Dictreporttemplate">
+      <result property="Dictreporttemplateid" column="DICTREPORTTEMPLATEID" />
+      <result property="Templatename" column="TEMPLATENAME" type="string" dbType="varchar"/>
+      <result property="Templatecode" column="TEMPLATECODE" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Papersize" column="PAPERSIZE" type="string" dbType="varchar"/>
+      <result property="Singleappraise" column="SINGLEAPPRAISE" type="string" dbType="varchar"/>
+      <result property="Reporttype" column="REPORTTYPE"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.GetDictreporttemplateByID" parameterClass="string" resultMap="DictreporttemplateResult">
+      SELECT DICTREPORTTEMPLATEID AS Dictreporttemplateid,TEMPLATENAME AS Templatename,TEMPLATECODE AS Templatecode,CREATEDATE AS Createdate,PAPERSIZE AS Papersize,SINGLEAPPRAISE AS Singleappraise,REPORTTYPE AS Reporttype,REMARK AS Remark
+      FROM DICTREPORTTEMPLATE
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          DICTREPORTTEMPLATEID = #value#
+        </isParameterPresent>
+      </dynamic> 
+    </select>
+    <select id="Dict.GetDictreporttemplateByreportType" parameterClass="string" resultMap="DictreporttemplateResult">
+      SELECT DICTREPORTTEMPLATEID AS Dictreporttemplateid,TEMPLATENAME AS Templatename,TEMPLATECODE AS Templatecode,CREATEDATE AS Createdate,PAPERSIZE AS Papersize,SINGLEAPPRAISE AS Singleappraise,REPORTTYPE AS Reporttype,REMARK AS Remark
+      FROM DICTREPORTTEMPLATE
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          REPORTTYPE = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <select id="Dict.SelectDictreporttemplateByCommonRep" >
+      select t.dictreporttemplateid from dictreporttemplate t where t.reporttype=5<!--常规的报告ID-->
+    </select>
+    <insert id="Dict.Insertreporttemplate" parameterClass="Dictreporttemplate">
+      INSERT INTO DICTREPORTTEMPLATE
+      (DICTREPORTTEMPLATEID,TEMPLATENAME,TEMPLATECODE,CREATEDATE,PAPERSIZE,SINGLEAPPRAISE,REPORTTYPE,REMARK)
+      VALUES(#Dictreporttemplateid#,#Templatename#,#Templatecode#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Papersize#,#Singleappraise#,#Reporttype#,#Remark#)
+    </insert>
+    <update id="Dict.Updatereporttemplate" parameterClass="Dictreporttemplate">
+      UPDATE DICTREPORTTEMPLATE
+      SET DICTREPORTTEMPLATEID=#Dictreporttemplateid#,TEMPLATENAME=#Templatename#,TEMPLATECODE=#Templatecode#,CREATEDATE=#Createdate#,PAPERSIZE=#Papersize#,SINGLEAPPRAISE=#Singleappraise#,REPORTTYPE=#Reporttype#,REMARK=#Remark#
+      WHERE DICTREPORTTEMPLATEID = #Dictreporttemplateid#
+    </update>
+    <delete id="Dict.Deletereporttemplate" parameterClass="string">
+      DELETE FROM DICTREPORTTEMPLATE
+      WHERE DICTREPORTTEMPLATEID = #value#
+    </delete>
+    <select id="Dict.GetDictreporttemplateAll" parameterClass="string" resultMap="DictreporttemplateResult">
+      SELECT DICTREPORTTEMPLATEID AS Dictreporttemplateid,TEMPLATENAME AS Templatename,TEMPLATECODE AS Templatecode,CREATEDATE AS Createdate,PAPERSIZE AS Papersize,SINGLEAPPRAISE AS Singleappraise,REPORTTYPE AS Reporttype,REMARK AS Remark
+      FROM DICTREPORTTEMPLATE
+    order by DICTREPORTTEMPLATEID asc
+    </select>
+    
+  </statements>
+</sqlMap>

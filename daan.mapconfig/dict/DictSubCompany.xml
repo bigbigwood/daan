@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="DictSubCompany" type="daan.domain.DictSubCompany,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictSubCompanyResult" class="daan.domain.DictSubCompany">
+      <result property="SubCompanyId" column="SUBCOMPANYID"/>
+      <result property="SubCompanyName" column="SUBCOMPANYNAME" type="string" dbType="varchar"/>
+      <result property="Addres" column="ADDRES" type="string" dbType="varchar"/>
+      <result property="Phone" column="PHONE" type="string" dbType="varchar"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Remark" column="REMARK" type="string" dbType="varchar"/>
+  
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--查询-->
+    <select id="Dict.SelectDictSubcompany" parameterClass="string" resultMap="DictSubCompanyResult">
+      SELECT SUBCOMPANYID AS SubCompanyId,SUBCOMPANYNAME AS SubCompanyName,ADDRES AS Addres,PHONE AS Phone,DISPLAYORDER AS Displayorder,REMARK AS Remark
+      FROM SUBCOMPANY
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          SubCompanyName like '%'||#value#||'%' or Addres like '%'||#value#||'%' 
+        </isParameterPresent>
+      </dynamic>
+      order by Displayorder
+    </select>
+    
+    <!--分页查询-->
+    <select id="Dict.GetDictSubcompanyPageLst" parameterClass="Hashtable" resultMap="DictSubCompanyResult">
+      SELECT * FROM
+
+      (SELECT ROWNUM RN, t.* FROM (SELECT SubCompanyId,SubCompanyName,Addres,Phone,Displayorder,Remark  FROM SUBCOMPANY where 1=1
+      <isNotNull prepend="and" property="strKey">
+        SubCompanyId like '%$strKey$%' or SubCompanyName like  '%$strKey$%' or Addres like  '%$strKey$%'
+      </isNotNull>
+      order by SubCompanyId desc,Displayorder desc ) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictSubcompanyLstCount" parameterClass="Hashtable"   >
+      SELECT Count(*) FROM SUBCOMPANY where 1=1
+      <isNotEmpty prepend="and" property="strKey">
+        SubCompanyId like '%$strKey$%' or SubCompanyName like  '%$strKey$%' or Addres like  '%$strKey$%'
+      </isNotEmpty>
+    </select>
+
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictSubcompanyInfo" parameterClass="DictSubCompany" resultMap="DictSubCompanyResult">
+      SELECT SubCompanyId,SubCompanyName,Addres,Phone,Displayorder,Remark   FROM SUBCOMPANY WHERE SubCompanyId=#SubCompanyId#
+    </select>
+    
+    <!--新增-->
+    <insert id="Dict.InsertDictSubcompany" parameterClass="DictSubCompany">
+      INSERT INTO SUBCOMPANY
+      (SubCompanyId,SubCompanyName,Addres,Phone,Displayorder,Remark)
+      VALUES(#SubCompanyId#,#SubCompanyName#,#Addres#,#Phone#,#Displayorder#,#Remark#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictSubcompany" parameterClass="DictSubCompany">
+      UPDATE SUBCOMPANY
+      SET SubCompanyName=#SubCompanyName#,Addres=#Addres#,Phone=#Phone#,Displayorder=#Displayorder#,Remark=#Remark#
+      WHERE SubCompanyId = #SubCompanyId#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictSubcompany" parameterClass="string">
+      DELETE FROM SUBCOMPANY
+      WHERE SubCompanyId in($value$)
+    </delete>
+  </statements>
+</sqlMap>

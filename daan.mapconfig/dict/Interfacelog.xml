@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Interfacelog"  type="daan.domain.Interfacelog,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="InterfacelogResult" class="daan.domain.Interfacelog">
+      <result property="Interfacelogid" column="INTERFACELOGID" type="string" dbType="varchar"/>
+      <result property="Interfacemanagerid" column="INTERFACEMANAGERID" type="single" dbType="Real"/>
+      <result property="Logtext" column="LOGTEXT" type="string" dbType="varchar"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Logdate" column="LOGDATE" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="SelectInterfacelog" parameterClass="string" resultMap="InterfacelogResult">
+      SELECT INTERFACELOGID AS Interfacelogid,INTERFACEMANAGERID AS Interfacemanagerid,LOGTEXT AS Logtext,CREATEDATE AS Createdate,LOGDATE AS Logdate
+      FROM INTERFACELOG
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          INTERFACELOGID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="InsertInterfacelog" parameterClass="Interfacelog">
+      INSERT INTO INTERFACELOG
+      (INTERFACELOGID,INTERFACEMANAGERID,LOGTEXT,CREATEDATE,LOGDATE)
+      VALUES(#Interfacelogid#,#Interfacemanagerid#,#Logtext#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Logdate#)
+    </insert>
+    <update id="UpdateInterfacelog" parameterClass="Interfacelog">
+      UPDATE INTERFACELOG
+      SET INTERFACELOGID=#Interfacelogid#,INTERFACEMANAGERID=#Interfacemanagerid#,LOGTEXT=#Logtext#,CREATEDATE=#Createdate#,LOGDATE=#Logdate#
+      WHERE INTERFACELOGID = #Interfacelogid#
+    </update>
+    <delete id="DeleteInterfacelog" parameterClass="string">
+      DELETE FROM INTERFACELOG
+      WHERE INTERFACELOGID = #value#
+    </delete>
+  </statements>
+</sqlMap>

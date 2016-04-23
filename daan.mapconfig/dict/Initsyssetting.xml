@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Initsyssetting"  type="daan.domain.Initsyssetting,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="InitsyssettingResult" class="daan.domain.Initsyssetting">
+      <result property="Copyright" column="COPYRIGHT" />
+      <result property="Website" column="WEBSITE" />
+      <result property="Remark" column="REMARK" />
+      <result property="Interfacemode" column="INTERFACEMODE" />
+      <result property="Initsyssettingid" column="INITSYSSETTINGID" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectInitsyssetting" parameterClass="string" resultMap="InitsyssettingResult">
+      SELECT COPYRIGHT AS Copyright,WEBSITE AS Website,REMARK AS Remark,INTERFACEMODE AS Interfacemode,INITSYSSETTINGID AS Initsyssettingid
+      FROM INITSYSSETTING
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          INITSYSSETTINGID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="InsertInitsyssetting" parameterClass="Initsyssetting">
+      INSERT INTO INITSYSSETTING
+      (COPYRIGHT,WEBSITE,REMARK,INTERFACEMODE,INITSYSSETTINGID)
+      VALUES(#Copyright#,#Website#,#Remark#,#Interfacemode#,#Initsyssettingid#)
+    </insert>
+    <update id="UpdateInitsyssetting" parameterClass="Initsyssetting">
+      UPDATE INITSYSSETTING
+      SET COPYRIGHT=#Copyright#,WEBSITE=#Website#,REMARK=#Remark#,INTERFACEMODE=#Interfacemode#,INITSYSSETTINGID=#Initsyssettingid#
+      WHERE INITSYSSETTINGID = #Initsyssettingid#
+    </update>
+    <delete id="DeleteInitsyssetting" parameterClass="string">
+      DELETE FROM INITSYSSETTING
+      WHERE INITSYSSETTINGID = #value#
+    </delete>
+  </statements>
+</sqlMap>

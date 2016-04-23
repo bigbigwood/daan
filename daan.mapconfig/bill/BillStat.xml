@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+<resultMaps>
+</resultMaps>
+<statements>
+  <!--护美类产品返回公司体检量统计-->
+  <select id="Order.SelectHuMeiList" parameterClass="Hashtable">
+    select * from(
+    select rownum as rn,t.* from(
+    select distinct o.ordernum,b.barcode,o.realname,decode(o.sex,'M','男','F','女','未知') sex,o.age,c.customername,c.customercode,
+    o.ordertestlst testname,t.productname,t.dictproductid,o.section,o.remarks,replace(o.province||','||o.city||','||o.county,',,','') as province
+    from  hpvinstruments h,orders o,dictcustomer c,dictlab d,orderbarcode b,ordergrouptest t
+    where h.barcode is not null and o.ordernum=t.ordernum
+    and h.dictcustomerid=c.dictcustomerid
+    and h.dicttestitemid in(599,600)
+    and h.barcode=b.barcode
+    and o.ordernum=b.ordernum
+    and o.iscancel='0'
+    and o.dictlabid=d.dictlabid
+    and o.dictlabid in($labid$)
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (o.section like '%$Section$%' or o.remarks like '%$Section$%' or c.customername like '%$Section$%')
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      o.province =  #province#
+    </isNotEqual>
+    )t where rownum  <![CDATA[<=]]> $pageEnd$
+    )tt where tt.rn>=$pageStart$
+  </select>
+  <select id="Order.SelectHuMeiListCount" parameterClass="Hashtable">
+    select count(1) from(
+    select distinct o.ordernum,b.barcode,o.realname,decode(o.sex,'M','男','F','女','未知') sex,o.age,c.customername,
+    o.ordertestlst testname,t.productname,t.dictproductid,o.section,o.remarks,replace(o.province||','||o.city||','||o.county,',,','') as pro
+    from  hpvinstruments h,orders o,dictcustomer c,dictlab d,orderbarcode b,ordergrouptest t
+    where h.barcode is not null and o.ordernum=t.ordernum
+    and h.dictcustomerid=c.dictcustomerid
+    and h.dicttestitemid in(599,600)
+    and h.barcode=b.barcode
+    and o.ordernum=b.ordernum
+    and o.iscancel='0'
+    and o.dictlabid=d.dictlabid
+    and o.dictlabid in($labid$)
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      o.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      o.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (o.section like '%$Section$%' or o.remarks like '%$Section$%' or c.customername like '%$Section$%')
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      o.province =  #province#
+    </isNotEqual>
+    )
+  </select>
+  <!--根根据条件查找护美类产品返回公司体检量统计  zhangwei-->
+  <select id="Order.SelectHpvinstrumentsByWhereTime" parameterClass="Hashtable">
+    select distinct * from
+    (select  o.ordernum  条码号 ,
+    o.realname 姓名,
+    o.ordertestlst 套餐名称,
+    d.labname 分点名称,
+    c.customername 公司名称,
+    to_char(o.createdate,'yyyy-MM-dd') 体检日期,
+    '报告已出' 报告状态
+    from  hpvinstruments h,
+    orders o,
+    dictcustomer c,
+    dictlab d,
+    orderbarcode b
+    where h.dictcustomerid=c.dictcustomerid
+    and h.barcode is not null
+    and h.dicttestitemid in(599,600)
+    and h.barcode=b.barcode
+    and o.ordernum=b.ordernum
+    and o.status<![CDATA[  >=]]>25
+    and o.iscancel='0'
+    and o.dictlabid=d.dictlabid
+    and o.dictlabid in($labid$)
+    and  o.createdate  between to_date('$DateStart$','yyyy-MM-dd')
+    and to_date('$DateEnd$','yyyy-MM-dd')
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    union all
+    select o.ordernum   条码号,
+    o.realname 姓名,
+    o.ordertestlst 套餐名称,
+    d.labname 分点名称,
+    c.customername 公司名称,
+    to_char(o.createdate,'yyyy-MM-dd') 体检日期,
+    '报告未出' 报告状态
+    from  hpvinstruments h,orders o,dictcustomer c,dictlab d,orderbarcode b
+    where h.dictcustomerid=c.dictcustomerid
+    and h.barcode is not null
+    and h.dicttestitemid in(599,600)
+    and h.barcode=b.barcode
+    and o.ordernum=b.ordernum
+    and o.status<![CDATA[<]]>25
+    and o.iscancel='0'
+    and o.dictlabid=d.dictlabid
+    and o.dictlabid in($labid$)
+    and  o.createdate  between to_date('$DateStart$','yyyy-MM-dd')
+    and to_date('$DateEnd$','yyyy-MM-dd')
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    ) www
+  </select>
+
+  
+  
+  <!--根据条件查询TM15检测数据-->
+  <select id="Order.SelectTM15List" parameterClass="Hashtable">
+    select * from(
+    select rownum as rn,t.* from(
+    select ordernum,barcode,realname,sex,section,age,dictproductid,productname,wm_concat(testname) testname,customername,labname,createdate,remarks,province,customercode from (
+    select a.ordernum ,a.realname ,decode(a.sex,'M','男','F','女','未知') as sex,a.Section ,a.age ,b.testname, b.productname ,b.dictproductid,
+    replace(a.province||','||a.city||','||a.county,',,','') as province,
+    c.customername ,d.labname ,to_char(a.createdate,'yyyy-MM-dd') createdate,c.customercode,
+    b.barcode ,a.remarks
+    from
+    orders a,ordergrouptest b,dictcustomer c,dictlab d
+    where a.ordernum=b.ordernum
+    and a.dictcustomerid=c.dictcustomerid
+    and a.dictlabid=d.dictlabid
+    and a.iscancel='0'
+    and a.dictlabid in($labid$)
+    <isNotEmpty prepend="and" property="isTP">
+      c.customername like '%太平%'
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or c.customername like '%$Section$%')
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      a.province =  #province#
+    </isNotEqual>
+    ) w
+    group by w.ordernum,w.realname,w.sex,w.section,w.age,w.productname,w.customercode,w.customername,w.labname,w.createdate,w.barcode,w.remarks,w.dictproductid,w.province
+    order by w.createdate
+    )t where rownum  <![CDATA[<=]]> $pageEnd$
+    )tt where tt.rn>=$pageStart$
+  </select>
+  <select id="Order.SelectTm15ListCount" parameterClass="Hashtable">
+    select count(1) cnt from (
+    select ordernum,realname,sex,section,age,wm_concat(testname) testname,productname,customername,labname,createdate,barcode,remarks from (
+    select a.ordernum ,a.realname ,decode(a.sex,'M','男','F','女','未知') as sex,a.Section ,a.age ,b.testname, b.productname ,
+    c.customername ,d.labname ,to_char(a.createdate,'yyyy-MM-dd') createdate,b.barcode ,a.remarks
+    from
+    orders a,ordergrouptest b,dictcustomer c,dictlab d
+    where a.ordernum=b.ordernum
+    and a.dictcustomerid=c.dictcustomerid
+    and a.dictlabid=d.dictlabid
+    and a.iscancel='0'
+    and a.dictlabid in($labid$)
+    <isNotNull prepend="and" property="isTP">
+      c.customername like '%太平%'
+    </isNotNull>
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or c.customername like '%$Section$%')
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      a.province =  #province#
+    </isNotEqual>
+    ) w
+    group by w.ordernum,w.realname,w.sex,w.section,w.age,w.productname,w.customername,w.labname,w.createdate,w.barcode,w.remarks
+    order by w.createdate
+    )
+  </select>
+  <!--根据条件查询TM15检测数据导出  -->
+  <select id="Order.SelectTM15ByWhereTime" parameterClass="Hashtable">
+    select 体检号,条码号,姓名,性别,区域,省,市,县,备注,年龄,电话,身份证,套餐代码,套餐,wm_concat(检测项名称) 检测项名称,单位代码,单位名称,分点名称,登记日期,采样日期,
+    sum(达安标准价) 达安标准价,sum(分点价) 分点价,sum(应收价) 应收价,sum(成交价) 成交价,报告状态,签约子公司,套餐标准价格,套餐成交价格
+    from
+    (
+    select a.ordernum 体检号,b.barcode 条码号,a.realname 姓名,decode(a.sex,'M','男','F','女','未知') as 性别,a.Section 区域,a.age 年龄,b.testname 检测项名称,c.customercode 单位代码,c.customername 单位名称,d.labname 分点名称,to_char(a.createdate,'yyyy-MM-dd') 登记日期,
+    b.standardprice 达安标准价,b.groupprice 分点价,b.contractprice 应收价,b.finalprice 成交价,a.status 报告状态,a.remarks 备注,to_char(a.samplingdate,'yyyy-MM-dd') 采样日期,dc.mobile 电话,dc.idnumber 身份证 ,
+    b.productname 套餐,i.testcode 套餐代码,a.province 省,a.city 市,a.county 县,i.price 套餐标准价格,dd.price 套餐成交价格,s.subcompanyname 签约子公司
+    from orders a
+    left join ordergrouptest b on a.ordernum=b.ordernum
+    left join dictcustomer c on a.dictcustomerid=c.dictcustomerid
+    left join dictlab d on a.dictlabid=d.dictlabid
+    left join dictmember dc on a.dictmemberid=dc.dictmemberid
+    left join dicttestitem i on b.dictproductid=i.dicttestitemid
+    left join dictcustomerdiscounted dd on (a.dictcustomerid=dd.dictcustomerid and dd.productid=b.dictproductid and dd.active='1'
+    and to_date(to_char(a.createdate,'yyyy-mm-dd'),'yyyy-mm-dd')>=dd.begindate and to_date(to_char(a.createdate,'yyyy-mm-dd'),'yyyy-mm-dd') <![CDATA[<=]]> dd.enddate )
+    left join subcompany s on dd.dictsubcompanyid=s.subcompanyid
+    where a.iscancel='0'
+    and a.createdate between to_date('$DateStart$','yyyy-MM-dd') and to_date('$DateEnd$','yyyy-MM-dd')
+    and a.dictlabid in($labid$)
+    <isNotEmpty prepend="and" property="customername">
+      c.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      a.province =  #province#
+    </isNotEqual>
+    )www where 1=1
+    <isNotNull prepend="and" property="isTP">
+      www.单位名称 like '%太平%'
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (www.区域 like '%$Section$%' or www.备注 like '%$Section$%' or www.单位名称 like '%$Section$%')
+    </isNotEmpty>
+    group by  www.体检号,www.条码号,www.姓名,www.性别,www.区域,www.备注,www.年龄,www.电话,www.身份证,www.单位代码,www.单位名称,www.分点名称,www.登记日期,www.采样日期,www.报告状态,
+    www.省,www.市,www.县,www.套餐代码,www.套餐,www.套餐标准价格,www.套餐成交价格,www.签约子公司
+    order by www.登记日期
+  </select>
+
+  
+  
+  
+  <!--按分点查询所有检测项目，并组合项目及价格求和【暂停使用】  zhangwei-->
+  <select id="Order.SelectTestnameWhereTime" parameterClass="Hashtable">
+    select 体检号,姓名,性别,区域,年龄,wm_concat(检测项名称) 检测项名称,公司名称,分点名称,日期,
+    sum(达安标准价) 达安标准价,sum(分点价) 分点价,sum(应收价) 应收价,sum(成交价) 成交价,报告状态
+    from
+    (
+    select a.ordernum 体检号,a.realname 姓名,decode(a.sex,'M','男','F','女','未知') as 性别,a.Section 区域,a.age 年龄,b.testname 检测项名称,c.customername 公司名称,d.labname 分点名称,to_char(a.createdate,'yyyy-MM-dd') 日期,
+    b.standardprice 达安标准价,b.groupprice 分点价,b.contractprice 应收价,b.finalprice 成交价,'报告已出' 报告状态
+    from
+    orders a,ordergrouptest b,dictcustomer c,dictlab d
+    where a.ordernum=b.ordernum
+    and a.dictcustomerid=c.dictcustomerid
+    and a.dictlabid=d.dictlabid
+    and a.status<![CDATA[>=]]>25
+    and a.iscancel='0'
+    and a.createdate between to_date('$DateStart$','yyyy-MM-dd') and to_date('$DateEnd$','yyyy-MM-dd')
+    and a.dictlabid in($labid$)
+    union all
+    select a.ordernum 体检号,a.realname 姓名,decode(a.sex,'M','男','F','女','未知') as 性别,a.Section 区域,a.age 年龄,b.testname 检测项名称,c.customername 公司名称,d.labname 分点名称,to_char(a.createdate,'yyyy-MM-dd') 日期,
+    b.standardprice 达安标准价,b.groupprice 分点价,b.contractprice 应收价,b.finalprice 成交价,'报告未出' 报告状态
+    from
+    orders a,ordergrouptest b,dictcustomer c,dictlab d
+    where a.ordernum=b.ordernum
+    and a.dictcustomerid=c.dictcustomerid
+    and a.dictlabid=d.dictlabid
+    and a.status<![CDATA[<]]>25
+    and a.iscancel='0'
+    and a.createdate between to_date('$DateStart$','yyyy-MM-dd') and to_date('$DateEnd$','yyyy-MM-dd')
+    and a.dictlabid in($labid$)
+    )
+    www
+    group by  www.体检号,www.姓名,www.性别,www.区域,www.年龄,www.公司名称,www.分点名称,www.日期,www.报告状态
+  </select>
+  
+  
+  
+  <!--HPV+TM15统计-->
+  <!--数据导出-->
+  <select id="Order.SelectHPVTMAccondingInfos" parameterClass="Hashtable">
+    select distinct a.ordernum 体检号,b.barcode 条码号,
+    m.realname 姓名,decode(m.sex,'F','女','M','男')as 性别,a.age 年龄,dc.customercode 单位代码,dc.customername 单位名称,b.dictproductid 套餐代码,b.productname 套餐,b.testname 检测组合项目,a.createdate 登记时间
+    from orders a,ordergrouptest b,dictmember m,dictcustomer dc
+    where a.ordernum=b.ordernum and a.dictmemberid=m.dictmemberid and a.dictcustomerid=dc.dictcustomerid
+    and to_number(a.status)>=10 and a.iscancel='0' and m.mobile is not null
+    and (b.testname like '%TM%' or b.testname like '%高危型人乳头瘤病毒DNA荧光定量%')
+    <isNotNull prepend="and" property="labid">
+      a.dictlabid in ($labid$)
+    </isNotNull>
+    <isNotEmpty prepend="and" property="customername">
+      dc.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or dc.customername like '%$Section$%')
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      a.province =  #province#
+    </isNotEqual>
+    order by a.createdate
+  </select>
+  <!--列表查询-->
+  <select id ="Order.GetHPVTMAccondingInfos" parameterClass="Hashtable">
+    select * from(
+    select rownum as rn,t.* from(select distinct a.ordernum,b.barcode,dc.customercode,
+    m.realname,decode(m.sex,'F','女','M','男')as sex,dc.customername,a.age,b.testname,b.productname,a.section,a.remarks,
+    b.dictproductid,replace(a.province||','||a.city||','||a.county,',,','') as province,a.createdate
+    from orders a,ordergrouptest b,dictmember m,dictcustomer dc
+    where a.ordernum=b.ordernum and a.dictmemberid=m.dictmemberid and a.dictcustomerid=dc.dictcustomerid
+    and to_number(a.status)>=10 and a.iscancel='0' and m.mobile is not null
+    and (b.testname like '%TM%' or b.testname like '%高危型人乳头瘤病毒DNA荧光定量%')
+    <isNotNull prepend="and" property="labid">
+      a.dictlabid in ($labid$)
+    </isNotNull>
+    <isNotEmpty prepend="and" property="customername">
+      dc.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or dc.customername like '%$Section$%')
+    </isNotEmpty>
+    order by a.createdate
+    )t where rownum  <![CDATA[<=]]> $pageEnd$
+    )tt where tt.rn>=$pageStart$
+  </select>
+  <select id="Order.GetHPVTMAccondingInfosCount" parameterClass="Hashtable">
+    select count(1) as total
+    from orders a,ordergrouptest b,dictmember m,dictcustomer dc
+    where a.ordernum=b.ordernum and a.dictmemberid=m.dictmemberid and a.dictcustomerid=dc.dictcustomerid 
+    and to_number(a.status)>=10 and a.iscancel='0' and m.mobile is not null
+    and (b.testname like '%TM%' or b.testname like '%高危型人乳头瘤病毒DNA荧光定量%')
+    <isNotNull prepend="and" property="labid">
+      a.dictlabid in ($labid$)
+    </isNotNull>
+    <isNotEmpty prepend="and" property="customername">
+      dc.dictcustomerid=#customername#
+    </isNotEmpty>
+    <isNotNull prepend="and" property="DateEnd">
+      a.createdate <![CDATA[<]]>to_date('$DateEnd$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotNull prepend="and" property="DateStart">
+      a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
+    </isNotNull>
+    <isNotEmpty prepend="and" property="Section">
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or dc.customername like '%$Section$%')
+    </isNotEmpty>
+    <isNotEqual property="province" compareValue="-1" prepend="and">
+      a.province =  #province#
+    </isNotEqual>
+  </select>
+  <!--TM交付管理统计报表 BEGIN-->
+  <select id="Stat.SelectTMSTATPRESEARCH" parameterClass="Hashtable">
+    select a.searchid,a.dictlabid,a.dictcustomerid,decode(a.dictcustomerid,-1,'全部单位',c.customername)customername,to_char(a.begindate,'yyyy/mm/dd')begindate,
+    to_char(a.enddate,'yyyy/mm/dd')enddate,a.section,nvl(a.section,'所有区域')section2,a.dictuserid,u.username,a.createtime,a.status
+    from TMSTATPRESEARCH a
+    left join dictuser u on (a.dictuserid=u.dictuserid)
+    left join dictcustomer c on (a.dictcustomerid=c.dictcustomerid)
+    where a.status<![CDATA[<>]]>'2'
+    <isNotEqual property="status" compareValue="-1" prepend="and">
+      a.status =  #status#
+    </isNotEqual>
+    <isNotNull property="userid" prepend="and">
+      a.dictuserid=#userid#
+    </isNotNull>
+    order by a.createtime desc
+  </select>
+  <select id="Stat.GetPreSearchList">
+    select a.searchid,a.dictlabid,a.dictcustomerid,to_char(a.begindate,'yyyy/mm/dd')begindate,
+    to_char(a.enddate,'yyyy/mm/dd')enddate,a.section,a.dictuserid,a.createtime,a.status
+    from TMSTATPRESEARCH a where a.status='0'
+  </select>
+  <insert id="Stat.InsertTMSTATPRESEARCH" parameterClass="Hashtable">
+    insert into tmstatpresearch
+    (searchid, dictlabid, dictcustomerid, begindate, enddate, section, dictuserid, createtime)
+    values
+    (#searchid#, #dictlabid#, #dictcustomerid#,to_date('$begindate$','yyyy-mm-dd') ,to_date('$enddate$','yyyy-mm-dd') , #section#, #dictuserid#, to_date('$createtime$','YYYY-MM-DD HH24:MI:SS') )
+  </insert>
+  <select id="Stat.SelectTMStatSearchResultList" parameterClass="Hashtable">
+    select * from(
+    select rownum as rn,t.* from(
+    select distinct searchid, ordercode, labname, customername, section, ordertestlst,
+    to_char(createdate,'yyyy-mm-dd')createdate, to_char(samplingdate,'yyyy-mm-dd')samplingdate, ordercount,
+    importcount, to_char(importtime,'YYYY-MM-DD HH24:MI:SS')importtime, resultcount,to_char(importtime,'YYYY-MM-DD HH24:MI:SS') resulttime,
+    finishedcount, to_char(finishedtime,'YYYY-MM-DD HH24:MI:SS')finishedtime, printcount,to_char(printtime,'YYYY-MM-DD HH24:MI:SS') printtime
+    from tmstatresult where searchid=#searchid# order by ordercode,labname,customername,section
+    )t where rownum  <![CDATA[<=]]> $pageEnd$
+    )tt where tt.rn>=$pageStart$
+  </select>
+  <select id="Stat.SelectTMStatSearchResultListCount" parameterClass="Hashtable">
+    select count(1) from (
+      select distinct searchid, ordercode, labname, customername, section, ordertestlst,
+      to_char(createdate,'yyyy-mm-dd')createdate, to_char(samplingdate,'yyyy-mm-dd')samplingdate, ordercount,
+      importcount, to_char(importtime,'YYYY-MM-DD HH24:MI:SS')importtime, resultcount,to_char(importtime,'YYYY-MM-DD HH24:MI:SS') resulttime,
+      finishedcount, to_char(finishedtime,'YYYY-MM-DD HH24:MI:SS')finishedtime, printcount,to_char(printtime,'YYYY-MM-DD HH24:MI:SS') printtime
+      from tmstatresult where searchid=#searchid#
+    )
+  </select>
+  <select id="Stat.SelectTMStatSearchResultExportList" parameterClass="Hashtable">
+    select distinct searchid, ordercode, labname, customername, section, ordertestlst,
+    to_char(createdate,'yyyy-mm-dd')createdate, to_char(samplingdate,'yyyy-mm-dd')samplingdate, ordercount,
+    importcount, to_char(importtime,'YYYY-MM-DD HH24:MI:SS')importtime, resultcount,to_char(importtime,'YYYY-MM-DD HH24:MI:SS') resulttime,
+    finishedcount, to_char(finishedtime,'YYYY-MM-DD HH24:MI:SS')finishedtime, printcount,to_char(printtime,'YYYY-MM-DD HH24:MI:SS') printtime
+    from tmstatresult where searchid=#searchid# order by ordercode,labname,customername,section
+  </select>
+  <update id="Stat.SetTMPreSearchStatus" parameterClass="Hashtable">
+    update tmstatpresearch set
+    status = '$status$',
+    scantime = to_date('$scantime$','YYYY-MM-DD HH24:MI:SS'),
+    reason = #reason#
+    where searchid = #searchid#
+  </update>
+  <insert id="Stat.InsertTMSTATSEARCHRESULT" parameterClass="Hashtable">
+    insert into tmstatresult
+    (tmstatresultid, searchid, ordercode, labname, customername, section, ordertestlst, createdate, samplingdate, ordercount, importcount, importtime,
+    resultcount, resulttime, finishedcount, finishedtime, printcount, printtime)
+    values
+    (#tmstatresultid#, #searchid#,#ordercode#, #labname#,#customername#, #section#, #ordertestlst#, to_date(#createdate#,'yyyy-mm-dd'),  to_date(#samplingdate#,'yyyy-mm-dd'), #ordercount#, #importcount#, to_date(#importtime#,'YYYY-MM-DD HH24:MI:SS'),
+    #resultcount#,to_date(#resulttime#,'YYYY-MM-DD HH24:MI:SS') , #finishedcount#,to_date(#finishedtime#,'YYYY-MM-DD HH24:MI:SS') , #printcount#,to_date(#printtime#,'YYYY-MM-DD HH24:MI:SS') )
+  </insert>
+  <delete id="Stat.DeleteTmStatSearchResult" parameterClass="Double">
+    delete from tmstatresult where searchid in ($value$)
+  </delete>
+  <!--TM交付管理统计报表 END-->
+</statements>
+</sqlMap>

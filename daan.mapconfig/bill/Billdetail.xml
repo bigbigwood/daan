@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Billdetail"  type="daan.domain.Billdetail,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="BilldetailInfoResult" class="daan.domain.Billdetail">
+      <result property="Billheadid" column="BILLHEADID"/>
+      <result property="Billdetailid" column="BILLDETAILID"/>
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+      <result property="Standardprice" column="STANDARDPRICE" />
+      <result property="Groupprice" column="GROUPPRICE" />
+      <result property="Contractprice" column="CONTRACTPRICE"/>
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Status" column="STATUS" />
+      <result property="Remark" column="REMARK" />
+      <result property="Selfremark" column="SELFREMARK" />
+      <result property="Enterby" column="ENTERBY" />
+      <result property="Enterdate" column="ENTERDATE" />
+      <result property="Testname" column="testname" />
+      <result property="Dictproductid" column="dictproductid" />
+      <result property="Productname" column="productname" />
+    </resultMap>
+    
+    
+    <resultMap id="BilldetailResult" class="daan.domain.Billdetail">
+      <result property="Billheadid" column="BILLHEADID"/>
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Standardprice" column="STANDARDPRICE" />
+      <result property="Groupprice" column="GROUPPRICE" />
+      <result property="Contractprice" column="CONTRACTPRICE"/>
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Status" column="STATUS" />
+      <result property="Remark" column="REMARK" />
+      <result property="Selfremark" column="SELFREMARK" />
+      <result property="Enterdate" column="ENTERDATE" />
+      <result property="Realname" column="realname"></result>
+      <result property="Testname" column="testname" />
+      <result property="Ids" column="ids" />
+      <result property="Testitemids" column="testitemids" />
+      <result property="Testcount" column="testcount" />
+    </resultMap>
+
+    <!-- 预出账时查询所有账单明细编号、体检流水号、检测项目编号 -->
+    <resultMap id="BilldetailPrepareOut" class="daan.domain.Billdetail">
+      <result property="Billdetailid" column="BILLDETAILID" />
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+    </resultMap>
+    
+    <!-- 获得账单明细价格统计信息 -->
+    <resultMap id="BilldetailPriceStatistics" class="daan.domain.Billdetail">
+      <result property="Ordernum" column="ordernum" />
+      <result property="Standardprice" column="standardprice" />
+      <result property="Groupprice" column="groupprice" />
+      <result property="Contractprice" column="contractprice" />
+      <result property="finalprice" column="finalprice" />
+    </resultMap>
+    
+    <!-- 账单明细导出 -->
+    <resultMap id="BilldetailListResult" class="daan.domain.Billdetail">
+      <result property="Ordernum" column="ordernum" />
+      <result property="Standardprice" column="standardprice" />
+      <result property="Groupprice" column="groupprice" />
+      <result property="Contractprice" column="contractprice"/>
+      <result property="Finalprice" column="finalprice" />
+      <result property="Status" column="status" />
+      <result property="Remark" column="remark" />
+      <result property="Selfremark" column="selfremark" />
+      <result property="Enterdate" column="enterdate" />
+      <result property="Realname" column="realname"></result>
+      <result property="Testname" column="testname" />
+      <result property="Testcount" column="testcount" />
+      <result property="Productname" column="productname" />
+      <result property="Orderenterdate" column="orderenterdate" />
+    </resultMap>
+    
+    <!-- 体检流水号的收费信息 -->
+    <resultMap id="BilldetailPrice" class="daan.domain.Billdetail">
+      <result property="Billdetailid" column="BILLDETAILID" />
+      <result property="Standardprice" column="STANDARDPRICE" />
+      <result property="Contractprice" column="CONTRACTPRICE" />
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Status" column="STATUS" />
+      <result property="Testname" column="testname" />
+      <result property="Dicttestitemid" column="dicttestitemid" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="Bill.SelectBilldetailByOrderNum" parameterClass="string" resultMap="BilldetailInfoResult">
+      select a.billheadid,a.billdetailid,a.ordernum,a.dicttestitemid,a.standardprice,a.groupprice,a.contractprice,a.finalprice,a.status,a.remark,a.selfremark,a.enterby,a.enterdate,
+      a.testname,a.dictproductid,a.productname from billdetail a where a.ordernum = '$value$'
+    </select>
+    
+    <!-- 根据billheadid获得billdetail表的记录集 -->
+    <select id="Bill.SelectBilldetailByheadid" parameterClass="string" resultMap="BilldetailInfoResult">
+      select a.billheadid,a.billdetailid,a.ordernum,a.dicttestitemid,a.standardprice,a.groupprice,a.contractprice,a.finalprice,a.status,a.remark,a.selfremark,a.enterby,a.enterdate,
+      a.testname,a.dictproductid,a.productname from billdetail a where a.billheadid in($value$)
+    </select>
+    
+    <!-- 非外包账单明细导出excel -->
+    <select id="Bill.SelectBilldetailInfo" parameterClass="string" resultMap="BilldetailListResult">
+      select a.ordernum,sum(a.standardprice) as standardprice,sum(a.groupprice) as groupprice, sum(a.contractprice) as contractprice ,sum(a.finalprice) as finalprice,
+      i.basicname as status,a.remark,a.selfremark,b.realname,b.enterdate as enterdate, wmsys.wm_concat(a.testname) as testname,
+      count(a.testname) as testcount,wmsys.wm_concat(distinct(nvl(a.productname,testname))) as productname,b.enterdate as orderenterdate
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      left join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      <dynamic prepend="WHERE">
+          a.billheadid=#value#
+      </dynamic>
+      group by a.ordernum,i.basicname,a.remark,a.selfremark,b.enterdate,b.realname
+      order by b.enterdate asc
+    </select>
+
+    <!-- 外包账单明细导出excel -->
+    <select id="Bill.SelectSendOutBilldetailInfo" parameterClass="string" resultMap="BilldetailListResult">
+      select a.ordernum,sum(a.standardprice) as standardprice,sum(a.groupprice) as groupprice, sum(a.contractprice) as contractprice ,sum(a.finalprice) as finalprice,
+      i.basicname as status,a.remark,a.selfremark,b.realname,b.enterdate as enterdate, wmsys.wm_concat(a.testname) as testname,
+      count(a.testname) as testcount,wmsys.wm_concat(distinct(testname)) as productname,b.enterdate as orderenterdate
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      left join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      <dynamic prepend="WHERE">
+        a.billheadid=#value#
+      </dynamic>
+      group by a.ordernum,i.basicname,a.remark,a.selfremark,b.enterdate,b.realname
+      order by b.enterdate asc
+    </select>
+    
+    <!-- 预出账:查询所有账单明细编号、体检流水号、检测项目编号 -->
+    <select id="Bill.SelectBilldetailList" parameterClass="Hashtable" resultMap="BilldetailPrepareOut">
+      select a.billdetailid,a.ordernum,a.dicttestitemid
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      <isNotNull  property="flag">
+        inner join ordergrouptest t on a.ordernum = t.ordernum and a.dicttestitemid = t.dicttestitemid
+      </isNotNull>
+      where  a.billheadid is null
+      <!-- 体检登记开始时间 -->
+      <isNotNull prepend="and" property="beginDate">
+        b.enterdate <![CDATA[>=]]>to_date(#beginDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 体检登记结束时间 -->
+      <isNotNull prepend="and" property="endDate">
+        b.enterdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 分点 -->
+      <isNotNull prepend="and" property="dictlabid">
+        b.dictlabid = #dictlabid#
+      </isNotNull>
+      <!-- 是否外包 -->
+      <isNotNull  property="flag">
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="flag">
+          <isNotNull  property="customerid">
+            and t.sendoutcustomerid = #customerid#
+          </isNotNull>
+          and t.sendbilled = 0
+        </isEqual>
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          <isNotNull  property="customerid">
+            and b.dictcustomerid=#customerid#
+          </isNotNull>
+          and t.billed=0
+        </isEqual>
+      </isNotNull>
+
+      <!-- 是否按billheadids查询 -->
+      <isNotNull  prepend="and"  property="billheadids">
+        a.billheadid in( $billheadids$)
+      </isNotNull>
+    </select>
+
+    <!-- 分页：预出账查询 -->
+    <select id="Bill.SelectBilldetailInfoPrepareOutForPage" parameterClass="Hashtable" resultMap="BilldetailResult">
+      select * from (select rownum rn, t.* from (select wmsys.wm_concat(a.billdetailid) as ids, wmsys.wm_concat(Dicttestitemid) as testitemids ,
+      a.billheadid,a.ordernum,sum(a.standardprice) as standardprice,sum(a.groupprice) as groupprice,
+      sum(a.contractprice) as contractprice,sum(a.finalprice) as finalprice, i.basicname as status,a.remark,a.selfremark,
+      b.enterdate,b.realname, wmsys.wm_concat(a.testname) as testname,count(a.testname) as testcount
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      left join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      <isNotNull  property="flag">
+        inner join ordergrouptest t on a.ordernum = t.ordernum and a.dicttestitemid = t.dicttestitemid
+      </isNotNull>
+      where a.billheadid is null
+      <!-- 体检登记开始时间 -->
+      <isNotNull prepend="and" property="beginDate">
+        b.enterdate <![CDATA[>=]]>to_date(#beginDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 体检登记结束时间 -->
+      <isNotNull prepend="and" property="endDate">
+        b.enterdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 分点 -->
+      <isNotNull prepend="and" property="dictlabid">
+        b.dictlabid = #dictlabid#
+      </isNotNull>
+      <!-- 是否外包 -->
+      <isNotNull  property="flag">
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="flag">
+          <isNotNull  property="customerid">
+            and t.sendoutcustomerid = #customerid#
+          </isNotNull>
+          and t.sendbilled = 0
+        </isEqual>
+
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          <isNotNull  property="customerid">
+            and b.dictcustomerid=#customerid#
+          </isNotNull>
+          and t.billed=0
+        </isEqual>
+      </isNotNull>      
+      group by  a.ordernum,a.billheadid,i.basicname,a.remark,a.selfremark, b.enterdate,b.realname
+      order by b.enterdate asc) t where rownum <![CDATA[<=]]>#pageEnd#
+      )where rn<![CDATA[>]]>=#pageStart#
+    </select>
+
+    <!-- 分页：预出账查询记录总数 -->
+    <select id="Bill.SelectBilldetailInfoPrepareOutCount" parameterClass="Hashtable">
+      select count(distinct(a.ordernum)) as pageCount
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      <isNotNull  property="flag">
+        inner join ordergrouptest t on a.ordernum = t.ordernum and a.dicttestitemid = t.dicttestitemid
+      </isNotNull>
+      where a.billheadid is null
+      <!-- 体检登记开始时间 -->
+      <isNotNull prepend="and" property="beginDate">
+        b.enterdate <![CDATA[>=]]>to_date(#beginDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 体检登记结束时间 -->
+      <isNotNull prepend="and" property="endDate">
+        b.enterdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 分点 -->
+      <isNotNull prepend="and" property="dictlabid">
+        b.dictlabid = #dictlabid#
+      </isNotNull>
+      <!-- 是否外包 -->
+      <isNotNull  property="flag">
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="flag">
+          <isNotNull  property="customerid">
+            and t.sendoutcustomerid = #customerid#
+          </isNotNull>
+          and t.sendbilled = 0
+        </isEqual>
+
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          <isNotNull  property="customerid">
+            and b.dictcustomerid=#customerid#
+          </isNotNull>
+          and t.billed=0
+        </isEqual>
+      </isNotNull>
+    </select>
+    
+    <!-- 预出账:明细价格统计信息 -->
+    <select id="Bill.SelectBilldetailPrepareOutPriceStatistics" parameterClass="Hashtable" resultMap="BilldetailPriceStatistics">
+      select a.ordernum, sum(a.standardprice) as standardprice,sum(a.groupprice) as groupprice,
+      sum(a.contractprice) as contractprice,sum(a.finalprice) as finalprice
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      inner join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      <isNotNull  property="flag">
+        inner join ordergrouptest t on a.ordernum = t.ordernum and a.dicttestitemid = t.dicttestitemid
+      </isNotNull>
+      where a.billheadid is null
+      <!-- 体检登记开始时间 -->
+      <isNotNull prepend="and" property="beginDate">
+        b.enterdate <![CDATA[>=]]>to_date(#beginDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 体检登记结束时间 -->
+      <isNotNull prepend="and" property="endDate">
+        b.enterdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+      </isNotNull>
+      <!-- 分点 -->
+      <isNotNull prepend="and" property="dictlabid">
+        b.dictlabid = #dictlabid#
+      </isNotNull>
+      <!-- 是否外包 -->
+      <isNotNull  property="flag">
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="flag">
+          <isNotNull  property="customerid">
+            and t.sendoutcustomerid = #customerid#
+          </isNotNull>
+          and t.sendbilled = 0
+        </isEqual>
+
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          <isNotNull  property="customerid">
+            and b.dictcustomerid=#customerid#
+          </isNotNull>
+          and t.billed=0
+        </isEqual>
+      </isNotNull>
+      group by a.ordernum
+    </select>
+    
+     <!-- 分页：根据条件查询账单明细信息 -->
+    <select id="Bill.SelectBilldetailInfoForPage" parameterClass="Hashtable" resultMap="BilldetailResult">
+      select * from (select rownum rn, t.* from (select wmsys.wm_concat(a.billdetailid) as ids, wmsys.wm_concat(Dicttestitemid) as testitemids ,
+      a.billheadid,a.ordernum,sum(a.standardprice) as standardprice,sum(a.groupprice) as groupprice,
+      sum(a.contractprice) as contractprice,sum(a.finalprice) as finalprice, i.basicname as status,a.remark,a.selfremark,
+      b.enterdate,b.realname, wmsys.wm_concat(a.testname) as testname,count(a.testname) as testcount
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      left join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      <isNotNull  property="flag">
+       inner join ordergrouptest t on a.ordernum = t.ordernum and a.dicttestitemid = t.dicttestitemid
+      </isNotNull>
+      where 1=1
+      <!-- 是否按billheadid查询 -->
+        <isNotNull  prepend="and"  property="billheadid">
+          a.billheadid=#billheadid# 
+        </isNotNull>
+
+      <!-- 是否按billheadids查询 -->
+        <isNotNull  prepend="and"  property="billheadids">
+          a.billheadid in( $billheadids$)
+        </isNotNull>
+
+      group by  a.ordernum,a.billheadid,i.basicname,a.remark,a.selfremark, b.enterdate,b.realname
+      order by b.enterdate asc) t where rownum <![CDATA[<=]]>#pageEnd#
+      )where rn<![CDATA[>]]>=#pageStart#
+    </select>
+
+    <!-- 分页：根据条件查询账单明细记录总数 -->
+    <select id="Bill.SelectBilldetailInfoCount" parameterClass="Hashtable">
+      select count(distinct(a.ordernum)) as pageCount
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      where 1=1
+        <!-- 是否按billheadid查询 -->
+        <isNotNull  prepend="and"  property="billheadid">
+          a.billheadid=#billheadid#
+        </isNotNull>
+    </select>
+    
+    <!-- 按ordernum分组：获得账单明细价格统计信息 -->
+    <select id="Bill.SelectBilldetailPriceStatistics" parameterClass="Hashtable" resultMap="BilldetailPriceStatistics">
+      select a.ordernum, sum(a.standardprice) as standardprice,sum(a.groupprice) as groupprice,
+      sum(a.contractprice) as contractprice,sum(a.finalprice) as finalprice
+      from billdetail a
+      inner join orders b on a.ordernum = b.ordernum
+      inner join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      where 1=1
+      <!-- 事物处理删除标本后的统计总价 -->
+        <isNotNull  property="billheadid">
+          and a.billheadid=#billheadid#
+          <isNotNull prepend="and"  property="billdetailids">
+            a.billdetailid not in($billdetailids$)
+          </isNotNull>
+          </isNotNull>
+      group by a.ordernum
+    </select>
+    
+    <!--查询体检流水号的收费信息-->
+    <select id="Bill.SelectBilldetailPriceList"  parameterClass="Hashtable" resultMap="BilldetailPrice">
+      select a.billdetailid, a.standardprice,a.contractprice,a.finalprice,b.testname, i.basicname as status,a.dicttestitemid
+      from billdetail a
+      inner join ordergrouptest b
+      on a.ordernum = b.ordernum and  a.dicttestitemid = b.dicttestitemid
+      inner join initbasic i on i.basictype='BILLDETAILSTATUS' and  a.status = i.basicvalue
+      where  a.ordernum=#ordernum# and a.billdetailid in($billdetailids$)
+    </select>
+    
+    <!-- 新增 -->
+    <insert id="Bill.InsertBilldetail" parameterClass="Billdetail">
+      INSERT INTO BILLDETAIL
+      (BILLDETAILID,BILLHEADID,ORDERNUM,DICTTESTITEMID,STANDARDPRICE,GROUPPRICE,CONTRACTPRICE,FINALPRICE,STATUS,REMARK,SELFREMARK,CREATEDATE,ENTERBY,ENTERDATE,DICTPRODUCTID,TESTNAME,PRODUCTNAME)
+      VALUES(#Billdetailid#,#Billheadid#,#Ordernum#,#Dicttestitemid#,#Standardprice#,#Groupprice#,#Contractprice#,#Finalprice#,#Status#,#Remark#,#Selfremark#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Enterby#,#Enterdate:DateTime:1/1/0001 12:00:00 AM#,#Dictproductid#,#Testname#,#Productname#)
+    </insert>
+    
+    <!-- 修改 -->
+    <update id="Bill.UpdateBilldetail" parameterClass="Billdetail">
+      UPDATE BILLDETAIL
+      SET BILLDETAILID=#Billdetailid#,BILLHEADID=#Billheadid#,ORDERNUM=#Ordernum#,DICTTESTITEMID=#Dicttestitemid#,STANDARDPRICE=#Standardprice#,GROUPPRICE=#Groupprice#,CONTRACTPRICE=#Contractprice#,FINALPRICE=#Finalprice#,STATUS=#Status#,REMARK=#Remark#,SELFREMARK=#Selfremark#,CREATEDATE=#Createdate#,ENTERBY=#Enterby#,ENTERDATE=#Enterdate#
+      WHERE BILLDETAILID = #Billdetailid#
+    </update>
+
+    <!-- 根据编号修改账单号 -->
+    <update id="Bill.UpdateBilldetailHeadId" parameterClass="Hashtable">
+      UPDATE BILLDETAIL
+      SET BILLHEADID=#Billheadid#
+      WHERE BILLDETAILID = #Billdetailids#
+    </update>
+
+    <!-- 根据订单号修改备注 -->
+    <update id="Bill.UpdateBilldetailRemark" parameterClass="Hashtable">
+      UPDATE BILLDETAIL
+      SET selfremark = #selfremark# , remark=#remark#
+      WHERE BILLHEADID=#billheadid# and ordernum=#ordernum#
+    </update>
+    
+    <!-- 作废时修改billdetail表 -->
+    <update id="Bill.UpdateBilldetailheadid" parameterClass="Hashtable">
+      UPDATE BILLDETAIL
+      SET BILLHEADID=null
+      WHERE BILLHEADID=#billheadid#
+    </update>
+
+    <!-- 根据编号修改实收价格 -->
+    <update id="Bill.UpdateBilldetailFinalprice" parameterClass="Hashtable">
+      UPDATE BILLDETAIL
+      SET finalprice = #finalprice#
+      WHERE billdetailid=#billdetailid#
+    </update>
+    
+    <!-- 查询时删除旧数据 -->
+    <delete id="Bill.DeleteBilldetailBySearch" parameterClass ="System.Collections.IDictionary">
+      delete from billdetail a where a.ordernum in(
+      select o.ordernum
+      from ordergrouptest t
+      inner join orders o on(o.ordernum = t.ordernum)
+      where 1=1  
+     <!-- 体检登记开始时间 -->
+    <isNotNull prepend="and" property="beginDate">
+      o.enterdate <![CDATA[>=]]>to_date(#beginDate#,'yyyy-MM-dd')
+    </isNotNull>
+    <!-- 体检登记结束时间 -->
+    <isNotNull prepend="and" property="endDate">
+      o.enterdate  <![CDATA[<]]>to_date(#endDate#,'yyyy-MM-dd')
+    </isNotNull>
+    <!-- 分点 -->
+    <isNotNull prepend="and" property="dictlabid">
+      o.dictlabid = #dictlabid#
+    </isNotNull>
+      <!-- 是否外包 -->
+      <isNotNull  property="flag">
+        <!-- 外包账单 -->
+        <isEqual  compareValue="sendout" property="flag">
+          <isNotNull  property="customerid">
+            and t.sendoutcustomerid = #customerid#
+          </isNotNull>
+          and t.sendbilled = 0
+        </isEqual>
+
+        <!-- 非外包账单 -->
+        <isEqual  compareValue="nosendout" property="flag">
+          <isNotNull  property="customerid">
+            and o.dictcustomerid=#customerid#
+          </isNotNull>
+          and t.billed=0
+        </isEqual>
+      </isNotNull>
+      ) and a.billheadid is null
+    </delete>
+    
+    <!-- 删除标本： -->
+    <delete id="Bill.DeleteBilldetail" parameterClass ="string">
+      delete from billdetail a where a.billdetailid in($value$)
+    </delete>
+
+    <!-- 删除标本：根据billheadid -->
+    <delete id="Bill.DeleteBilldetailByHeadid" parameterClass ="string">
+      delete from billdetail a where a.billheadid in($value$)
+    </delete>
+  </statements>
+</sqlMap>

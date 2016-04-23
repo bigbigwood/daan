@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="ProjectControl" type="daan.domain.ProjectControl,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="ProjectControlResult" class="daan.domain.ProjectControl">
+      <result property="PID" column="PID" />
+      <result property="OldUniquecode" column="OLDUNIQUECODE"/>
+      <result property="NewUniquecode" column="NEWUNIQUECODE"/>
+      <result property="TestName" column="TESTNAME"/>
+      <result property="CreateTime" column="CREATETIME"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--根据统一码和检测项名称查询是否有项目对照记录-->
+    <select id="Dict.GetProjectControlCountByUniquecode" parameterClass="Hashtable">
+      select count(1) cnt from projectcontrol p where p.olduniquecode=#olduniquecode# 
+      <!--and p.testname=#testname#-->
+    </select>
+    <!--新增-->
+    <insert id="Dict.InsertProjectControl" parameterClass="ProjectControl">
+      INSERT INTO ProjectControl(PID,OLDUNIQUECODE,NEWUNIQUECODE,TESTNAME)
+      VALUES(#PID#,#OldUniquecode#,#NewUniquecode#,#TestName#)
+    </insert>
+    <!--删除-->
+    <delete id="Dict.DeleteProjectControl" parameterClass="string">
+      DELETE FROM ProjectControl
+    </delete>
+  </statements>
+</sqlMap>
+

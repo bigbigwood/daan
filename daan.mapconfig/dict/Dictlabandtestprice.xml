@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictlabandtestprice" assembly="daan.domain" type="daan.domain.Dictlabandtestprice" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictlabandtestpriceResult" class="Dictlabandtestprice">
+      <result property="Dictlabandtestpriceid" column="DICTLABANDTESTPRICEID"/>
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Begindate" column="BEGINDATE"/>
+      <result property="Enddate" column="ENDDATE"/>
+      <result property="Price" column="PRICE"/>
+      <result property="Createdate" column="CREATEDATE"/>
+    </resultMap>
+    <resultMap id="DictlabandtestpriceResultTo" class="Dictlabandtestprice">
+      <result property="Dictlabandtestpriceid" column="DICTLABANDTESTPRICEID"/>
+      <result property="Dictlabid" column="DICTLABID"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Begindate" column="BEGINDATE"/>
+      <result property="Enddate" column="ENDDATE"/>
+      <result property="Price" column="PRICE"/>
+      <result property="Createdate" column="CREATEDATE"/>
+      <result property="Labname" column="LABNAME" type="string" dbType="varchar"/>
+      <result property="Testname" column="TESTNAME"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictlabandtestprice" parameterClass="Dictlabandtestprice" resultMap="DictlabandtestpriceResult">
+      SELECT DICTLABANDTESTPRICEID AS Dictlabandtestpriceid,DICTLABID AS Dictlabid,DICTTESTITEMID AS Dicttestitemid,BEGINDATE AS Begindate,ENDDATE AS Enddate,PRICE AS Price,CREATEDATE AS Createdate
+      FROM Dictlabandtestprice 
+    </select>
+
+    <select id="Dict.SelectDictlabandtestpriceByWhere" parameterClass="Hashtable" resultMap="DictlabandtestpriceResult">
+      SELECT DICTLABANDTESTPRICEID AS Dictlabandtestpriceid,DICTLABID AS Dictlabid,DICTTESTITEMID AS Dicttestitemid,BEGINDATE AS Begindate,ENDDATE AS Enddate,PRICE AS Price,CREATEDATE AS Createdate
+      FROM Dictlabandtestprice where 1= 1
+      <isNotNull prepend="and" property="strKey">
+        Dictlabid = '$strKey$'
+      </isNotNull>
+      <isNotNull prepend="and" property="Begindate">
+        Begindate <![CDATA[<=]]> to_date('$Begindate$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotNull prepend="and" property="Enddate">
+        Enddate  <![CDATA[>=]]> to_date('$Enddate$','yyyy-MM-dd')
+      </isNotNull>
+    </select>
+    
+    <select id="Dict.GetDictlabandtestpriceInfo" parameterClass="Dictlabandtestprice" resultMap="DictlabandtestpriceResult">
+      SELECT Dictlabandtestpriceid,Dictlabid,Dicttestitemid,Begindate,Enddate,Price,Createdate  FROM Dictlabandtestprice WHERE Dictlabandtestpriceid=#Dictlabandtestpriceid#
+    </select>
+    <!--分页查询-->
+    <select id="Dict.GetDictlabandtestpricePageLst" parameterClass="Hashtable" resultMap="DictlabandtestpriceResultTo" >
+      SELECT Dictlabandtestpriceid,Dictlabid,Dicttestitemid,Begindate,Enddate,Price,Createdate,Labname,Testname FROM
+      (SELECT ROWNUM RN, t.* FROM (select t.dictlabandtestpriceid,t.dictlabid,t.dicttestitemid,t.begindate,t.enddate,t.price,t.createdate,  a.testname, c.labname from
+      dictlabandtestprice t inner join DICTTESTITEM a  on t.dicttestitemid = a.dicttestitemid  inner join  DICTLAB  c on t.dictlabid = c.dictlabid
+      where 1=1 and t.dictlabid = '$DictlabId$' and t.dicttestitemid = '$DicttestitemId$'
+      <isNotNull prepend="and" property="strKey">
+        t.begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd')
+    </isNotNull>
+      <isNotEmpty prepend="and" property="endDate" >
+        t.enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+      order by t.dictlabandtestpriceid  desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!---按时间查询（判断有没有已经存在的时间段报价）-->
+    <select id="Dict.GetDictlabandtestpriceByTime" parameterClass="Hashtable"    resultMap="DictlabandtestpriceResult"  >
+      SELECT * FROM Dictlabandtestprice where 1=1
+      <isNotEmpty prepend="and">
+        Enddate <![CDATA[>=]]> to_date('$begdate$','yyyy-MM-dd') and begindate <![CDATA[<=]]> to_date('$Enddate$','yyyy-MM-dd') and Dicttestitemid = '$itemsId$' and   Dictlabid = '$Dictlabid$' and  Dictlabandtestpriceid != '$Dictlabandtestpriceid$'
+      </isNotEmpty>
+    </select>
+
+    <select id="Dict.GetDictlabandtestpriceByTimeTo" parameterClass="Hashtable"    resultMap="DictlabandtestpriceResult"  >
+      SELECT * FROM Dictlabandtestprice where 1=1
+      <isNotEmpty prepend="and">
+        Enddate <![CDATA[>=]]> to_date('$begdate$','yyyy-MM-dd') and begindate <![CDATA[<=]]> to_date('$Enddate$','yyyy-MM-dd') and Dicttestitemid = '$itemsId$' and Dictlabid = '$Dictlabid$'
+      </isNotEmpty>
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictlabandtestpricePageLstCount" parameterClass="Hashtable"    resultMap="DictlabandtestpriceResultTo"  >
+      select Count(*) from
+      dictlabandtestprice t inner join DICTTESTITEM a  on t.dicttestitemid = a.dicttestitemid  inner join  DICTLAB  c on t.dictlabid = c.dictlabid
+      where 1=1 and t.dictlabid = '$DictlabId$' and t.dicttestitemid = '$DicttestitemId$'
+      <isNotEmpty prepend="and" property="strKey">
+        t.begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endDate" >
+        t.enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+    </select>
+    <insert id="Dict.InsertDictlabandtestprice" parameterClass="Dictlabandtestprice" resultMap="DictlabandtestpriceResult">
+      INSERT INTO Dictlabandtestprice
+      (Dictlabandtestpriceid,Dictlabid,Dicttestitemid,Begindate,Enddate,Price,Createdate)
+      VALUES(#Dictlabandtestpriceid#,#Dictlabid#,#Dicttestitemid#,#Begindate:DateTime:1/1/0001 12:00:00 AM#,#Enddate:DateTime:1/1/0001 12:00:00 AM#,#Price#,#Createdate:DateTime:1/1/0001 12:00:00 AM#)
+    </insert>
+    <update id="Dict.UpdateDictlabandtestprice" parameterClass="Dictlabandtestprice">
+      UPDATE Dictlabandtestprice
+      SET Dictlabid=#Dictlabid#,Dicttestitemid=#Dicttestitemid#,Begindate=#Begindate#,Enddate=#Enddate#,Price=#Price#,Createdate=#Createdate#
+      WHERE Dictlabandtestpriceid = #Dictlabandtestpriceid#
+    </update>
+    <delete id="Dict.DeleteDictlabandtestprice" parameterClass="string">
+      DELETE FROM Dictlabandtestprice
+      WHERE Dictlabandtestpriceid in($value$)
+    </delete>
+
+    <delete id="Dict.DeleteDictlabandtestpriceByWhere" parameterClass="Dictlabandtestprice">
+      DELETE FROM Dictlabandtestprice
+      WHERE Dictlabid = $Dictlabid$ and  Dicttestitemid = $Dicttestitemid$
+    </delete>
+  </statements>
+</sqlMap>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Billdetailcancel"  type="daan.domain.Billdetailcancel,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="BilldetailcancelResult" class="daan.domain.Billdetailcancel">
+      <result property="Billdetailcancelid" column="BILLDETAILCANCELID" />
+      <result property="Billheadid" column="BILLHEADID" />
+      <result property="Ordernum" column="ORDERNUM"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID" />
+      <result property="Standardprice" column="STANDARDPRICE" />
+      <result property="Groupprice" column="GROUPPRICE" />
+      <result property="Contractprice" column="CONTRACTPRICE" />
+      <result property="Finalprice" column="FINALPRICE" />
+      <result property="Status" column="STATUS" />
+      <result property="Remark" column="REMARK" />
+      <result property="Selfremark" column="SELFREMARK" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Enterby" column="ENTERBY" />
+      <result property="Enterdate" column="ENTERDATE" />
+      <result property="Dictproductid" column="DICTPRODUCTID" />
+      <result property="Testname" column="TESTNAME" />
+      <result property="Productname" column="PRODUCTNAME" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Bill.SelectBilldetailcancel" parameterClass="string" resultMap="BilldetailcancelResult">
+      SELECT BILLDETAILCANCELID AS Billdetailcancelid,BILLHEADID AS Billheadid,ORDERNUM AS Ordernum,DICTTESTITEMID AS Dicttestitemid,STANDARDPRICE AS Standardprice,GROUPPRICE AS Groupprice,CONTRACTPRICE AS Contractprice,FINALPRICE AS Finalprice,STATUS AS Status,REMARK AS Remark,SELFREMARK AS Selfremark,CREATEDATE AS Createdate,ENTERBY AS Enterby,ENTERDATE AS Enterdate,DICTPRODUCTID AS Dictproductid,TESTNAME AS Testname,PRODUCTNAME AS Productname
+      FROM BILLDETAILCANCEL
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          BILLDETAILCANCELID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <insert id="Bill.InsertBilldetailcancel" parameterClass="Billdetailcancel">
+      INSERT INTO BILLDETAILCANCEL
+      (BILLDETAILCANCELID,BILLHEADID,ORDERNUM,DICTTESTITEMID,STANDARDPRICE,GROUPPRICE,CONTRACTPRICE,FINALPRICE,STATUS,REMARK,SELFREMARK,CREATEDATE,ENTERBY,ENTERDATE,DICTPRODUCTID,TESTNAME,PRODUCTNAME)
+      VALUES(#Billdetailcancelid#,#Billheadid#,#Ordernum#,#Dicttestitemid#,#Standardprice#,#Groupprice#,#Contractprice#,#Finalprice#,#Status#,#Remark#,#Selfremark#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Enterby#,#Enterdate:DateTime:1/1/0001 12:00:00 AM#,#Dictproductid#,#Testname#,#Productname#)
+    </insert>
+    <update id="Bill.UpdateBilldetailcancel" parameterClass="Billdetailcancel">
+      UPDATE BILLDETAILCANCEL
+      SET BILLDETAILCANCELID=#Billdetailcancelid#,BILLHEADID=#Billheadid#,ORDERNUM=#Ordernum#,DICTTESTITEMID=#Dicttestitemid#,STANDARDPRICE=#Standardprice#,GROUPPRICE=#Groupprice#,CONTRACTPRICE=#Contractprice#,FINALPRICE=#Finalprice#,STATUS=#Status#,REMARK=#Remark#,SELFREMARK=#Selfremark#,CREATEDATE=#Createdate#,ENTERBY=#Enterby#,ENTERDATE=#Enterdate#,DICTPRODUCTID=#Dictproductid#,TESTNAME=#Testname#,PRODUCTNAME=#Productname#
+      WHERE BILLDETAILCANCELID = #Billdetailcancelid#
+    </update>
+    <delete id="Bill.DeleteBilldetailcancel" parameterClass="string">
+      DELETE FROM BILLDETAILCANCEL
+      WHERE BILLDETAILCANCELID = #value#
+    </delete>
+  </statements>
+</sqlMap>

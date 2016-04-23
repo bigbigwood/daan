@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictcustomerdiscounted" type="daan.domain.Dictcustomerdiscounted,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictcustomerdiscountedResult" class="daan.domain.Dictcustomerdiscounted">
+      <result property="Dictcustomerdiscountid" column="DICTCUSTOMERDISCOUNTID"/>
+      <result property="Dictcustomerid" column="DICTCUSTOMERID"/>
+      <result property="Discounted" column="DISCOUNTED"/>
+      <result property="Begindate" column="BEGINDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Enddate" column="ENDDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Updateby" column="UPDATEBY"/>
+      <result property="Updatedate" column="UPDATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Sendoutprice" column="SENDOUTPRICE"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Productid" column="PRODUCTID"/>
+      <result property="Price" column="PRICE"/>
+      <result property="Active" column="ACTIVE" />
+      <result property="AuditBy" column="AUDITBY"/>
+      <result property="AuditDate" column="AUDITDATE" type="DateTime" dbType="DateTime"/>
+      <result property="DictSubCompanyID" column="DICTSUBCOMPANYID"/>
+    </resultMap>
+
+    <resultMap id="DictcustomerdiscountedResultTo" class="daan.domain.Dictcustomerdiscounted">
+      <result property="Dictcustomerdiscountid" column="DICTCUSTOMERDISCOUNTID"/>
+      <result property="Dictcustomerid" column="DICTCUSTOMERID"/>
+      <result property="Discounted" column="DISCOUNTED"/>
+      <result property="Begindate" column="BEGINDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Enddate" column="ENDDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Updateby" column="UPDATEBY"/>
+      <result property="Updatedate" column="UPDATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Sendoutprice" column="SENDOUTPRICE"/>
+      <result property="Createdate" column="CREATEDATE" type="DateTime" dbType="DateTime"/>
+      <result property="Customername" column="CUSTOMERNAME" type="string" dbType="varchar"/>
+    </resultMap>
+    
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDictcustomerdiscounted" parameterClass="string" resultMap="DictcustomerdiscountedResult">
+      SELECT DICTCUSTOMERDISCOUNTID AS Dictcustomerdiscountid,DICTCUSTOMERID AS Dictcustomerid,DISCOUNTED AS Discounted,BEGINDATE AS Begindate,ENDDATE AS Enddate,UPDATEBY AS Updateby,UPDATEDATE AS Updatedate,SENDOUTPRICE AS Sendoutprice,CREATEDATE AS Createdate
+      , PRODUCTID as Productid, PRICE as Price, ACTIVE as Active, AUDITBY as AuditBy , AUDITDATE as AuditDate,DICTSUBCOMPANYID as DictSubCompanyID
+      FROM DICTCUSTOMERDISCOUNTED
+    </select>
+    <!--分页查询 返回list-->
+    <select id="Dict.GetDictcustomerdiscountedPageLst" parameterClass="Hashtable" resultMap="DictcustomerdiscountedResultTo" >
+      SELECT * FROM
+      (SELECT ROWNUM RN, t.* FROM (
+      select d1.Dictcustomerdiscountid,d1.Dictcustomerid,d1.Discounted,d1.Begindate,d1.Enddate,d1.Updateby,d1.Updatedate,
+      d1.Sendoutprice,d1.Createdate,d2.Customername 
+      from Dictcustomerdiscounted  d1 
+      inner join Dictcustomer d2 on d1.dictcustomerid = d2.dictcustomerid 
+      where 1=1 and d1.Dictcustomerid = '$Dictcustomerid$'
+      <isNotNull prepend="and" property="strKey">
+       Begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd') 
+      </isNotNull>
+      <isNotEmpty prepend="and" property="endDate" >
+        Enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+      order by d1.Dictcustomerdiscountid  desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--分页查询 返回DataTable-->
+    <select id="Dict.GetDictcustomerdiscountedPageDt" parameterClass="Hashtable">
+      SELECT * FROM
+      (SELECT ROWNUM RN, t.* FROM (
+      select a.Dictcustomerdiscountid,a.Dictcustomerid,a.Discounted,a.Begindate,a.Enddate,a.Updateby,a.Updatedate,a.Sendoutprice,s.subcompanyname,
+      a.Createdate,a.Productid,a.Price,nvl(a.Active,'0') Active,a.AuditBy,a.AuditDate,a.DictSubCompanyID,t.testname,t.price as nprice,u1.username UpdatebyName,u2.username AuditByName
+      ,decode(a.active,'1','已审核','未审核') as AuditText,t.testcode 
+      from Dictcustomerdiscounted  a
+      left join dicttestitem t on a.Productid=t.dicttestitemid
+      left join dictuser u1 on a.updateby=u1.dictuserid
+      left join dictuser u2 on a.auditby=u2.dictuserid
+      left join subcompany s on a.dictsubcompanyid=s.subcompanyid
+      where a.Dictcustomerid = '$Dictcustomerid$'
+      <isNotNull property="productid">
+        <isNotEqual property="productid" compareValue="-1" prepend="and">
+          a.Productid=#productid#
+        </isNotEqual>
+      </isNotNull>
+      <isNotNull property="active">
+        <isNotEqual property="active" compareValue="-1" prepend="and">
+          a.Active=#active#
+        </isNotEqual>
+      </isNotNull>
+      <isNotNull property="dictsubcompanyid">
+        <isNotEqual property="dictsubcompanyid" compareValue="-1" prepend="and">
+          a.DictSubCompanyID=#dictsubcompanyid#
+        </isNotEqual>
+      </isNotNull>
+      <isNotNull prepend="and" property="strKey">
+        a.Begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd')
+      </isNotNull>
+      <isNotEmpty prepend="and" property="endDate" >
+        a.Enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+      order by a.Dictcustomerdiscountid  desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+    <!--获取总项数-->
+    <select id="Dict.GetDictcustomerdiscountedPageLstCount" parameterClass="Hashtable"    resultMap="DictcustomerdiscountedResult"  >
+      SELECT Count(1) FROM Dictcustomerdiscounted a 
+      where a.Dictcustomerid = '$Dictcustomerid$'
+      <isNotNull property="productid">
+        <isNotEqual property="productid" compareValue="-1" prepend="and">
+          a.Productid=#productid#
+        </isNotEqual>
+      </isNotNull>
+      <isNotNull property="active">
+        <isNotEqual property="active" compareValue="-1" prepend="and">
+          a.Active=#active#
+        </isNotEqual>
+      </isNotNull>
+      <isNotNull property="dictsubcompanyid">
+        <isNotEqual property="dictsubcompanyid" compareValue="-1" prepend="and">
+          a.DictSubCompanyID=#dictsubcompanyid#
+        </isNotEqual>
+      </isNotNull>
+      <isNotEmpty prepend="and" property="strKey" >
+        a.Begindate <![CDATA[>=]]> to_date('$strKey$','yyyy-MM-dd')
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endDate" >
+        a.Enddate <![CDATA[<=]]> to_date('$endDate$','yyyy-MM-dd')
+      </isNotEmpty>
+    </select>
+    <!---按时间查询（判断有没有已经存在的时间段报价）-->
+    <select id="Dict.GetDictcustomerdiscountedByTime" parameterClass="Hashtable"    resultMap="DictcustomerdiscountedResult"  >
+      SELECT * FROM Dictcustomerdiscounted where Dictcustomerid = #Dictcustomerid# and Productid=#ProductID#
+      <isNotEmpty prepend="and">
+        Enddate <![CDATA[>=]]> to_date('$begdate$','yyyy-MM-dd') and begindate <![CDATA[<=]]> to_date('$Enddate$','yyyy-MM-dd')  and Dictcustomerdiscountid != '$DictId$'
+      </isNotEmpty>
+    </select>
+    <!---按时间查询（判断有没有已经存在的时间段报价）-->
+    <select id="Dict.GetDictcustomerdiscountedByTimeTo" parameterClass="Hashtable"    resultMap="DictcustomerdiscountedResult"  >
+      SELECT * FROM Dictcustomerdiscounted where Dictcustomerid = #Dictcustomerid# and Productid=#ProductID#
+      <isNotEmpty prepend="and">
+        Enddate <![CDATA[>=]]> to_date('$begdate$','yyyy-MM-dd') and begindate <![CDATA[<=]]> to_date('$Enddate$','yyyy-MM-dd')
+      </isNotEmpty>
+    </select>
+    <!--按ID查询详细信息-->
+    <select id="Dict.GetDictcustomerdiscountedInfo" parameterClass="string" resultMap="DictcustomerdiscountedResult">
+      SELECT Dictcustomerdiscountid,Dictcustomerid,Discounted,Begindate,Enddate,Updateby,Updatedate,Sendoutprice,Createdate,
+      Productid,Price,Active,AuditBy,AuditDate,DictSubCompanyID  FROM Dictcustomerdiscounted where  Dictcustomerdiscountid=#value#
+    </select>
+    <select id="Dict.GetDictcustomerdiscountedInfoByID" parameterClass="string">
+      SELECT a.Dictcustomerdiscountid,a.Dictcustomerid,a.Discounted,a.Begindate,a.Enddate,a.Updateby,a.Updatedate,a.Sendoutprice,s.subcompanyname,
+      a.Createdate,a.Productid,a.Price,nvl(a.Active,'0') Active,a.AuditBy,a.AuditDate,a.DictSubCompanyID,b.testname,b.price as nprice,b.testcode,u1.username UpdatebyName,u2.username AuditByName
+      FROM Dictcustomerdiscounted a
+      left join dicttestitem b on a.productid=b.dicttestitemid
+      left join dictuser u1 on a.updateby=u1.dictuserid
+      left join dictuser u2 on a.auditby=u2.dictuserid
+      left join subcompany s on a.dictsubcompanyid=s.subcompanyid
+      where Dictcustomerdiscountid=#value#
+    </select>
+    <select id="Dict.DictcustomerdiscountedAuditList" parameterClass="Hashtable">
+      select * from(
+      select rownum as rn,t.* from(
+      SELECT c.Dictcustomerid,c.Customercode,c.Fastcode,c.Customername,c.Customerengname,c.Engaddress,c.Displayorder,c.Address,c.Telephone,c.Fax,c.Postcode,c.Contactman,c.Contactphone,
+      c.Email, c.Active,c.Remark,c.Status,c.Erpcode,c.Erpname,c.Documenttype,c.Documentcode,c. Dictsalemanid,c.Dictcheckbillid,c.Lastupdatedate,c.Dictlabid, c.Customertype,c.Reporttitle,
+      c.Issms,c.Customername2,c.IsPublic,user1.username saleman,user2.username checkbillnam,decode(c.active,'0','未审核','1','已审核') audittext,l.labname
+      from dictcustomer c ,dictuser user1,dictuser user2,dictlab l
+      where c.dictsalemanid=user1.dictuserid
+      and c.dictcheckbillid=user2.dictuserid
+      and c.dictlabid=l.dictlabid
+      <isNotEmpty prepend="and" property="strKey">
+        (c.Customercode like '%$strKey$%' or c.Customername like  '%$strKey$%' or c.Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual prepend="and" property="IsActive" compareValue="-1">
+        c.dictcustomerid in(select distinct dd.dictcustomerid from dictcustomerdiscounted dd  where dd.active='$IsActive$')
+      </isNotEqual>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        (c.Dictlabid =  $Dictlabid$ or c.IsPublic='1')
+      </isNotEqual>
+      order by c.dictcustomerid desc,c.displayorder desc
+      )t where rownum  <![CDATA[<=]]> $pageEnd$
+      )tt where tt.rn>=$pageStart$
+    </select>
+    <select id="Dict.DictcustomerdiscountedAuditListCount" parameterClass="Hashtable" >
+      SELECT count(1) cnt from dictcustomer c 
+      where 1=1 
+      <isNotEmpty prepend="and" property="strKey">
+        (c.Customercode like '%$strKey$%' or c.Customername like  '%$strKey$%' or c.Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual prepend="and" property="IsActive" compareValue="-1">
+        c.dictcustomerid in(select distinct dd.dictcustomerid from dictcustomerdiscounted dd  where dd.active='$IsActive$')
+      </isNotEqual>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        (c.Dictlabid =  $Dictlabid$ or c.IsPublic='1')
+      </isNotEqual>
+    </select>
+    <select id="Dict.DictcustomerdiscountedExportList" parameterClass="Hashtable">
+      SELECT c.Dictcustomerid,c.Customercode,c.Fastcode,c.Customername,c.Customerengname,c.Engaddress,c.Displayorder,c.Address,c.Telephone,c.Fax,c.Postcode,c.Contactman,c.Contactphone,
+      c.Email, c.Active,c.Remark,c.Status,c.Erpcode,c.Erpname,c.Documenttype,c.Documentcode,c. Dictsalemanid,c.Dictcheckbillid,c.Lastupdatedate,c.Dictlabid, c.Customertype,c.Reporttitle,
+      c.Issms,c.Customername2,c.IsPublic,user1.username saleman,user2.username checkbillnam,decode(c.active,'0','未审核','1','已审核') audittext,l.labname
+      from dictcustomer c ,dictuser user1,dictuser user2,dictlab l
+      where c.dictsalemanid=user1.dictuserid
+      and c.dictcheckbillid=user2.dictuserid
+      and c.dictlabid=l.dictlabid
+      <isNotEmpty prepend="and" property="strKey">
+        (c.Customercode like '%$strKey$%' or c.Customername like  '%$strKey$%' or c.Customerengname like '%$strKey$%')
+      </isNotEmpty>
+      <isNotEqual prepend="and" property="IsActive" compareValue="-1">
+        c.dictcustomerid in(select distinct dd.dictcustomerid from dictcustomerdiscounted dd  where dd.active='$IsActive$')
+      </isNotEqual>
+      <isNotEqual property="Dictlabid" compareValue="-1" prepend="and">
+        (c.Dictlabid =  $Dictlabid$ or c.IsPublic='1')
+      </isNotEqual>
+      order by c.dictcustomerid desc,c.displayorder desc
+    </select>
+    <!--新增-->
+    <insert id="Dict.InsertDictcustomerdiscounted" parameterClass="Dictcustomerdiscounted">
+      INSERT INTO DICTCUSTOMERDISCOUNTED
+      (Dictcustomerdiscountid,Dictcustomerid,Discounted,Begindate,Enddate,Updateby,Updatedate,Sendoutprice,Createdate,Productid,Price,Active,AuditBy,AuditDate,DictSubCompanyID)
+      VALUES(#Dictcustomerdiscountid#,#Dictcustomerid#,#Discounted#,#Begindate:DateTime:1/1/0001 12:00:00 AM#,#Enddate:DateTime:1/1/0001 12:00:00 AM#,#Updateby#,#Updatedate:DateTime:1/1/0001 12:00:00 AM#,#Sendoutprice#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Productid#,#Price#,#Active#,#AuditBy#,#AuditDate#,#DictSubCompanyID#)
+    </insert>
+    <!--修改-->
+    <update id="Dict.UpdateDictcustomerdiscounted" parameterClass="Dictcustomerdiscounted">
+      UPDATE DICTCUSTOMERDISCOUNTED
+      SET Dictcustomerdiscountid=#Dictcustomerdiscountid#,Dictcustomerid=#Dictcustomerid#,Discounted=#Discounted#,Begindate=#Begindate#,Enddate=#Enddate#,Updateby=#Updateby#,Updatedate=#Updatedate#,Sendoutprice=#Sendoutprice#,Createdate=#Createdate#,
+      Productid=#Productid#,Price=#Price#,Active=#Active#,AuditBy=#AuditBy#,AuditDate=#AuditDate#,DictSubCompanyID=#DictSubCompanyID#
+      WHERE Dictcustomerdiscountid = #Dictcustomerdiscountid#
+    </update>
+    <!--删除-->
+    <delete id="Dict.DeleteDictcustomerdiscounted" parameterClass="string">
+      DELETE FROM Dictcustomerdiscounted WHERE Dictcustomerdiscountid in ($value$)
+    </delete>
+    <!--审核-->
+    <update id="Dict.AuditDictcustomerdiscounted" parameterClass="Hashtable">
+      UPDATE DICTCUSTOMERDISCOUNTED
+      SET Active=#Active#,AuditBy=#AuditBy#,AuditDate=#AuditDate#
+      where Dictcustomerdiscountid in ($ids$)
+    </update>
+  </statements>
+</sqlMap>

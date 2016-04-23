@@ -1,0 +1,37 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+	<script type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+	<script>
+		$(function(){
+			$('#tt').datagrid({
+				title:'Column Group',
+				width:560,
+				height:250,
+				url:'datagrid_data.json',
+				columns:[[
+					{field:'itemid',title:'Item ID',rowspan:2,width:80,sortable:true},
+					{field:'productid',title:'Product ID',rowspan:2,width:80,sortable:true},
+					{title:'Item Details',colspan:4}
+				],[
+					{field:'listprice',title:'List Price',width:80,align:'right',sortable:true},
+					{field:'unitcost',title:'Unit Cost',width:80,align:'right',sortable:true},
+					{field:'attr1',title:'Attribute',width:100},
+					{field:'status',title:'Status',width:60}
+				]],
+				rownumbers:true
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>DataGrid</h1>
+	
+	<table id="tt"></table>
+	
+</body>
+</html>

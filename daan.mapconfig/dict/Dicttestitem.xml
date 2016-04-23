@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dicttestitem" type="daan.domain.Dicttestitem,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DicttestitemResults" class="daan.domain.Dicttestitem">
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Fastcode" column="FASTCODE"/>
+      <result property="Testcode" column="TESTCODE"/>
+      <result property="Engname" column="ENGNAME"/>
+      <result property="Englongname" column="ENGLONGNAME"/>
+      <result property="Testname" column="TESTNAME"/>
+      <result property="Precision" column="PRECISION"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+      <result property="Price" column="PRICE"/>
+      <result property="Billable" column="BILLABLE"/>
+      <result property="Active" column="ACTIVE"/>
+      <result property="Report" column="REPORT"/>
+      <result property="Tubegroup" column="TUBEGROUP"/>
+      <result property="Dictcontainerid" column="DICTCONTAINERID"/>
+      <result property="Dictspecimentypeid" column="DICTSPECIMENTYPEID"/>
+      <result property="Resulttype" column="RESULTTYPE"/>
+      <result property="Limithigh" column="LIMITHIGH"/>
+      <result property="Limitlow" column="LIMITLOW"/>
+      <result property="Forsex" column="FORSEX"/>
+      <result property="Refmethod" column="REFMETHOD" />
+      <result property="Clinicalremark" column="CLINICALREMARK"/>
+      <result property="Operationremark" column="OPERATIONREMARK"/>
+      <result property="Deltacheck" column="DELTACHECK"/>
+      <result property="Deltatype" column="DELTATYPE"/>
+      <result property="Defaultresult" column="DEFAULTRESULT"/>
+      <result property="Unit" column="UNIT"/>
+      <result property="Remark" column="REMARK"/>
+      <result property="Testtype" column="TESTTYPE"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Uniqueid" column="UNIQUEID"/>
+      <result property="Dictcustomerid" column="DICTCUSTOMERID"/>
+      <!--<result property="Issendouttest" column="ISSENDOUTTEST"/>-->
+      <result property="Testresulttype" column="TESTRESULTTYPE"/>
+      <result property="Labelnumber" column="LABELNUMBER"/>
+      <result property="Dictreporttemplateid" column="DICTREPORTTEMPLATEID"/>
+      <result property="Isneededorder" column="ISNEEDEDORDER" />
+      <result property="Isimportant" column="ISIMPORTANT"/>
+      <result property="Dictlocusid" column="DICTLOCUSID"/>
+      <result property="Genotype" column="GENOTYPE"/>
+      <result property="Testalias" column="TESTALIAS"/>
+      <result property="Imageneed" column="IMAGENEED"/>
+      <result property="Riskdenominator" column="RISKDENOMINATOR"/>
+      <result property="Averagerisk" column="AVERAGERISK"/>
+      <result property="Maxriskmultiple" column="MAXRISKMULTIPLE"/>
+      <result property="Minriskmultiple" column="MINRISKMULTIPLE"/>
+      <result property="Isonlyforbill" column="ISONLYFORBILL"/>
+      <result property="IsProject" column="ISPROJECT"/>
+    </resultMap>
+    <resultMap id="DicttestResult" class="daan.domain.Dicttestitem">
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Testcode" column="TESTCODE"/>
+      <result property="Testname" column="TESTNAME"/>
+      <result property="Testtype" column="TESTTYPE"/>
+      <result property="Forsex" column="FORSEX"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="Dict.SelectDicttestitemByCode" parameterClass="HashTable" resultMap="DicttestitemResults">
+      select * from Dicttestitem where 1= 1
+      <isNotEmpty prepend="and" property="Uniqueid">
+        Uniqueid = #Uniqueid#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Testcode">
+        Testcode = #Testcode#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Dicttestitemid">
+        Dicttestitemid != #Dicttestitemid#
+      </isNotEmpty>
+    </select>
+    <select id="Dict.SelectDicttestitemByID"  parameterClass="HashTable" resultMap="DicttestitemResults">
+      select * from Dicttestitem where 1= 1
+      <isNotEmpty prepend="and" property="Uniqueid">
+        Uniqueid = #Uniqueid#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Testcode">
+        Testcode = #Testcode#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Dicttestitemid">
+        Dicttestitemid = #Dicttestitemid#
+      </isNotEmpty>
+    </select>
+    <!--根据分点查询组合项目 zhouy 团检查询分点项目用于推荐项目选择-->
+    <select id="Dict.SelectGroupTestByLabId" parameterClass="Double" resultMap="DicttestResult">
+      select g.dicttestitemid , g.testname,g.testtype,g.testcode,nvl(g.forsex,'B') forsex from dictlabandtest a
+      inner join dicttestitem g on a.dicttestitemid=g.dicttestitemid
+      where g.testtype=0 and a.dictlabid=#value# and a.isactive=1 and g.active=1
+      union all
+      select dtest.dicttestitemid,dtest.testname,dtest.testtype,dtest.testcode,nvl(dtest.forsex,'B') forsex from  dicttestgroupdetail d
+      inner join dicttestitem dtest on (d.testgroupid=dtest.dicttestitemid and dtest.testtype=1)
+      inner join dictlabandtest dlab on (dtest.dicttestitemid=dlab.dicttestitemid and dlab.isactive=1 and dlab.dictlabid=#value#)
+      left join dicttestitem g on d.dicttestitemid=g.dicttestitemid where dtest.active=1 
+      group by dtest.dicttestitemid,dtest.testname,dtest.testtype,dtest.testcode,dtest.forsex
+      having count(d.dicttestitemid)=count(g.dicttestitemid) and count(d.dicttestitemid)>0
+    </select>
+    <!--团检查询分点项目 用于推荐项目选择 zhouy-->
+    <select id="Dict.SelectInitgdGroupTestByLabId" parameterClass="HashTable" resultMap="DicttestitemResults">
+      select * from (
+      select * from (
+      select  g.* ,rownum as rn from dictlabandtest a
+      inner join dicttestitem g on a.dicttestitemid=g.dicttestitemid
+      where g.testtype <![CDATA[<]]>2 and a.dictlabid=#labid# and a.isactive=1 and (g.testname like '%$key$%' or g.fastcode like '%$key$%'
+      or g.engname like '%$key$%')
+      )t where t.rn <![CDATA[<=]]>#pageEnd#
+      )tt where tt.rn > #pageStart#
+    </select>
+    <!--团检查询分点项目总数 用于推荐项目选择 zhouy-->
+    <select id="Dict.SelectInitgdGroupTestByLabIdCount" parameterClass="HashTable" resultClass="Int">
+      select count(1) from dictlabandtest a
+      inner join dicttestitem g on a.dicttestitemid=g.dicttestitemid
+      where g.testtype <![CDATA[<]]>2 and a.dictlabid=#labid# and a.isactive=1 and (g.testname like '%$key$%' or g.fastcode like '%$key$%'
+      or g.engname like '%$key$%')
+    </select>
+
+
+    <!--根据单位查询套餐+公用套餐 zhouy-->
+    <select id="Dict.SelectProductByCustomerId" parameterClass="Double" resultMap="DicttestResult">
+      select dgtest.dicttestitemid,dgtest.testcode,decode(dgtest.testtype,'2',dgtest.testname||'(公用套餐)',dgtest.testname) as testname,dgtest.testtype,nvl(dgtest.forsex,'B') as forsex from dictproductdetail dg
+      inner join dicttestitem dgtest on (dgtest.active='1' and dg.productid=dgtest.dicttestitemid and (dgtest.testtype=2 or (dgtest.testtype=3 and dgtest.dictcustomerid=#value# )))
+      left join dicttestitem dgt on (dg.testgroupid=dgt.dicttestitemid and dgt.testtype=1)
+      left join dicttestgroupdetail dp on dgt.dicttestitemid=dp.testgroupid
+      left join dicttestitem dpttest on dp.dicttestitemid=dpttest.dicttestitemid
+      left join dicttestitem dptgrouptest on (dg.testgroupid=dptgrouptest.dicttestitemid and dptgrouptest.testtype=0)
+      group by dgtest.dicttestitemid,dgtest.testcode,dgtest.testname,dgtest.testtype,dgtest.forsex
+      having count(dg.productid)=(count(dpttest.dicttestitemid)+count(dptgrouptest.dicttestitemid))
+      order by dgtest.testtype
+    </select>
+
+    <select id="Dict.SelectDicttestitem"  resultMap="DicttestitemResults">
+      SELECT DICTTESTITEMID AS Dicttestitemid,FASTCODE AS Fastcode,TESTCODE AS Testcode,ENGNAME AS Engname,ENGLONGNAME AS Englongname,TESTNAME AS Testname,PRECISION AS Precision,DISPLAYORDER AS Displayorder,PRICE AS Price,BILLABLE AS Billable,ACTIVE AS Active,REPORT AS Report,TUBEGROUP AS Tubegroup,DICTCONTAINERID AS Dictcontainerid,DICTSPECIMENTYPEID AS Dictspecimentypeid,RESULTTYPE AS Resulttype,LIMITHIGH AS Limithigh,LIMITLOW AS Limitlow,FORSEX AS Forsex,REFMETHOD AS Refmethod,CLINICALREMARK AS Clinicalremark,OPERATIONREMARK AS Operationremark,DELTACHECK AS Deltacheck,DELTATYPE AS Deltatype,DEFAULTRESULT AS Defaultresult,UNIT AS Unit,REMARK AS Remark,TESTTYPE AS Testtype,DICTLABDEPTID AS Dictlabdeptid,UNIQUEID AS Uniqueid,DICTCUSTOMERID AS Dictcustomerid,TESTRESULTTYPE AS Testresulttype,LABELNUMBER AS Labelnumber,DICTREPORTTEMPLATEID AS Dictreporttemplateid,NVL(ISNEEDEDORDER,'0') AS Isneededorder ,ISIMPORTANT AS Isimportant,DICTLOCUSID AS Dictlocusid,GENOTYPE AS Genotype,TESTALIAS AS Testalias,IMAGENEED AS Imageneed,RISKDENOMINATOR AS Riskdenominator,AVERAGERISK AS Averagerisk,MAXRISKMULTIPLE AS Maxriskmultiple,MINRISKMULTIPLE AS Minriskmultiple,ISONLYFORBILL  AS Isonlyforbill,ISPROJECT
+      FROM DICTTESTITEM
+    </select>
+    
+    <select id="Dict.SelectDicttestitemById"  parameterClass="string" resultMap="DicttestitemResults">
+      SELECT  Dicttestitemid, Fastcode, Testcode, Engname, Englongname, Testname, Precision, Displayorder, Price,Billable,Active,Report,Tubegroup,Dictcontainerid,Dictspecimentypeid,Resulttype,Limithigh,Limitlow,Forsex,Refmethod,Clinicalremark,Operationremark,Deltacheck,Deltatype,Defaultresult,Unit,Remark,Testtype,Dictlabdeptid,Uniqueid,Dictcustomerid,Testresulttype,Labelnumber,Dictreporttemplateid,Isneededorder,Isimportant,Dictlocusid,Genotype,Testalias,Imageneed,Riskdenominator,Averagerisk,Maxriskmultiple,Minriskmultiple,Isonlyforbill,ISPROJECT
+      FROM Dicttestitem where Dicttestitemid=#value#
+    </select>
+
+    <!--项目分页查询-->
+    <select id="Dict.GetDictTestItemPageLst" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT * from
+      (SELECT ROWNUM RN, t.* FROM  (select Dicttestitemid, Fastcode, Testcode, Engname, Englongname, Testname, Precision, Displayorder, Price,Billable,Active,Report,Tubegroup,Dictcontainerid,Dictspecimentypeid,Resulttype,Limithigh,Limitlow,Forsex,Refmethod,Clinicalremark,Operationremark,Deltacheck,Deltatype,Defaultresult,Unit,Remark,Testtype,Dictlabdeptid,Uniqueid,Dictcustomerid,Testresulttype,Labelnumber,Dictreporttemplateid,Isneededorder,Isimportant,Dictlocusid,Genotype,Testalias,Imageneed,Riskdenominator,Averagerisk,Maxriskmultiple,Minriskmultiple,Isonlyforbill,ISPROJECT
+      from dicttestitem d
+      where (d.testtype = ($testtype$)) and d.active=$IsActive$
+      <isNotEmpty prepend="and" property="Dictlabdeptid">
+        Dictlabdeptid=$Dictlabdeptid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.Dicttestitemid desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--项目分页查询总项目数目-->
+    <select id="Dict.GetDictTestItemPageLstCount" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT Count(*) from dicttestitem d
+      where (d.testtype = ($testtype$)) and d.active=$IsActive$
+      <isNotEmpty prepend="and" property="Dictlabdeptid">
+        Dictlabdeptid=$Dictlabdeptid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.Dicttestitemid
+    </select>
+
+    <!--按条件查询总项目列表-->
+    <select id="Dict.GetDictTestItemLst" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT * from dicttestitem d
+      where (d.testtype = ($testtype$)) and d.active=$IsActive$
+      <isNotEmpty prepend="and" property="Dictlabdeptid">
+        Dictlabdeptid=$Dictlabdeptid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.Dicttestitemid
+    </select>
+
+    <!--套餐列表-->
+    <select id="Dict.GettDictproductPageLst" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT * from
+      (SELECT ROWNUM RN, t.* FROM  (select Dicttestitemid, Fastcode, Testcode, Engname, Englongname, Testname, Precision, Displayorder, Price,Billable,Active,Report,Tubegroup,Dictcontainerid,Dictspecimentypeid,Resulttype,Limithigh,Limitlow,Forsex,Refmethod,Clinicalremark,Operationremark,Deltacheck,Deltatype,Defaultresult,Unit,Remark,Testtype,Dictlabdeptid,Uniqueid,Dictcustomerid,Testresulttype,Labelnumber,Dictreporttemplateid,Isneededorder,Isimportant,Dictlocusid,Genotype,Testalias,Imageneed,Riskdenominator,Averagerisk,Maxriskmultiple,Minriskmultiple,Isonlyforbill,ISPROJECT
+      from dicttestitem d
+      where (d.testtype=0 or d.testtype=1) and d.active=1
+      <isNotEmpty prepend="and" property="strdictlabid">
+        d.dicttestitemid in
+        (select h.dicttestitemid from Dictlabandtest h where h.dictlabid=$strdictlabid$ and h.isactive=1)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strtestitemid">
+        d.dicttestitemid not in ($strtestitemid$)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="testitemid">
+        d.dicttestitemid not in
+        (select p.testgroupid from dictproductdetail p where 1=1 and
+        p.productid=$testitemid$ )
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.displayorder desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--套餐总项数-->
+    <select id="Dict.GetDictproductPageLstCount" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT Count(*) FROM DICTTESTITEM d where (d.testtype=0 or d.testtype=1) and d.active=1
+      <isNotEmpty prepend="and" property="strdictlabid">
+        d.dicttestitemid in
+        (select h.dicttestitemid from Dictlabandtest h where h.dictlabid=$strdictlabid$ and h.isactive=1)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strtestitemid">
+        d.dicttestitemid not in ($strtestitemid$)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="testitemid">
+        d.dicttestitemid not in
+        (select p.testgroupid from dictproductdetail p where 1=1 and
+        p.productid=$testitemid$)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+    </select>
+
+    <!--组合未包含项目分页查询-->
+    <select id="Dict.GettDicttestgroupPageLst" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT * from
+      (SELECT ROWNUM RN, t.* FROM
+      (select Dicttestitemid, Fastcode, Testcode, Engname, Englongname, Testname, Precision, Displayorder, Price,Billable,Active,Report,Tubegroup,Dictcontainerid,Dictspecimentypeid,Resulttype,Limithigh,Limitlow,Forsex,Refmethod,Clinicalremark,Operationremark,Deltacheck,Deltatype,Defaultresult,Unit,Remark,Testtype,Dictlabdeptid,Uniqueid,Dictcustomerid,Testresulttype,Labelnumber,Dictreporttemplateid,Isneededorder,Isimportant,Dictlocusid,Genotype,Testalias,Imageneed,Riskdenominator,Averagerisk,Maxriskmultiple,Minriskmultiple,Isonlyforbill,ISPROJECT
+      from dicttestitem d
+      where d.testtype=0 and d.Active='1'
+      <isNotEmpty prepend="and" property="strtestitemid">
+        d.dicttestitemid not in ($strtestitemid$)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="testitemid">
+        d.dicttestitemid not in
+        (select g.dicttestitemid from dicttestgroupdetail g where 1=1 and
+        g.testgroupid=$testitemid$ )
+      </isNotEmpty>
+
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.displayorder desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--组合未包含项目总项数-->
+    <select id="Dict.GetDicttestgroupPageLstCount" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      select Count(*) from dicttestitem d
+      where d.testtype=0 and d.Active='1'
+      <isNotEmpty prepend="and" property="strtestitemid">
+        d.dicttestitemid not in ($strtestitemid$)
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="testitemid">
+        d.dicttestitemid not in
+        (select g.dicttestitemid from dicttestgroupdetail g where 1=1 and
+        g.testgroupid=$testitemid$ )
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Uniqueid like  '%$strKey$%')
+      </isNotEmpty>
+    </select>
+
+    <!--组合包含项目-->
+    <select id="Dict.GetDicttestgroupIn" parameterClass="string" resultMap="DicttestitemResults">
+      select * from dicttestitem d where d.dicttestitemid in(
+      select g.dicttestitemid from dicttestgroupdetail g where g.testgroupid=#value#
+      )
+    </select>
+
+    <!--套餐分页查询-->
+    <select id="Dict.GetDictTestProductPageLst" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT * from
+      (SELECT ROWNUM RN, t.* FROM  (select Dicttestitemid, Fastcode, Testcode, Engname, Englongname, Testname, Precision, Displayorder, Price,Billable,Active,Report,Tubegroup,Dictcontainerid,Dictspecimentypeid,Resulttype,Limithigh,Limitlow,Forsex,Refmethod,Clinicalremark,Operationremark,Deltacheck,Deltatype,Defaultresult,Unit,Remark,Testtype,Dictlabdeptid,Uniqueid,Dictcustomerid,Testresulttype,Labelnumber,Dictreporttemplateid,Isneededorder,Isimportant,Dictlocusid,Genotype,Testalias,Imageneed,Riskdenominator,Averagerisk,Maxriskmultiple,Minriskmultiple,Isonlyforbill,ISPROJECT
+      from dicttestitem d
+      where  1=1 and d.active=$IsActive$
+      <isNotEmpty prepend="and" property="Dictcustomerid">
+        Dictcustomerid=$Dictcustomerid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Testtype">
+        Testtype=$Testtype$
+      </isNotEmpty>
+      <isEmpty prepend="and" property="Testtype">
+        (d.testtype = '2' or d.testtype = '3' )
+      </isEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Testcode like  '%$strKey$%')
+      </isNotEmpty>
+      order by d.displayorder desc) t
+      WHERE
+      ROWNUM <![CDATA[  <=]]>$pageEnd$
+      )
+      WHERE RN <![CDATA[> ]]>= $pageStart$
+    </select>
+
+    <!--套餐分页查询总项目-->
+    <select id="Dict.GetDictTestProductPageLstCount" parameterClass="Hashtable" resultMap="DicttestitemResults">
+      SELECT Count(*) from dicttestitem d
+      where 1=1 and d.active=$IsActive$
+      <isNotEmpty prepend="and" property="Dictcustomerid">
+        Dictcustomerid=$Dictcustomerid$
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="Testtype">
+        Testtype=$Testtype$
+      </isNotEmpty>
+      <isEmpty prepend="and" property="Testtype">
+        (d.testtype = '2' or d.testtype = '3' )
+      </isEmpty>
+      <isNotEmpty prepend="and" property="strKey">
+        ( Testname like  '%$strKey$%' or Testcode like  '%$strKey$%')
+      </isNotEmpty>
+    </select>
+
+    <insert id="Dict.InsertDicttestitem" parameterClass="Dicttestitem">
+      INSERT INTO DICTTESTITEM
+      (DICTTESTITEMID,FASTCODE,TESTCODE,ENGNAME,ENGLONGNAME,TESTNAME,PRECISION,DISPLAYORDER,PRICE,BILLABLE,ACTIVE,REPORT,TUBEGROUP,DICTCONTAINERID,DICTSPECIMENTYPEID,RESULTTYPE,LIMITHIGH,LIMITLOW,FORSEX,REFMETHOD,CLINICALREMARK,OPERATIONREMARK,DELTACHECK,DELTATYPE,DEFAULTRESULT,UNIT,REMARK,TESTTYPE,DICTLABDEPTID,UNIQUEID,DICTCUSTOMERID,TESTRESULTTYPE,LABELNUMBER,DICTREPORTTEMPLATEID,ISNEEDEDORDER,ISIMPORTANT,DICTLOCUSID,GENOTYPE,TESTALIAS,IMAGENEED,RISKDENOMINATOR,AVERAGERISK,MAXRISKMULTIPLE,MINRISKMULTIPLE,ISONLYFORBILL,ISPROJECT)
+      VALUES(#Dicttestitemid#,#Fastcode#,#Testcode#,#Engname#,#Englongname#,#Testname#,#Precision#,#Displayorder#,#Price#,#Billable#,#Active#,#Report#,#Tubegroup#,#Dictcontainerid#,#Dictspecimentypeid#,#Resulttype#,#Limithigh#,#Limitlow#,#Forsex#,#Refmethod#,#Clinicalremark#,#Operationremark#,#Deltacheck#,#Deltatype#,#Defaultresult#,#Unit#,#Remark#,#Testtype#,#Dictlabdeptid#,#Uniqueid#,#Dictcustomerid#,#Testresulttype#,#Labelnumber#,#Dictreporttemplateid#,#Isneededorder#,#Isimportant#,#Dictlocusid#,#Genotype#,#Testalias#,#Imageneed#,#Riskdenominator#,#Averagerisk#,#Maxriskmultiple#,#Minriskmultiple#,#Isonlyforbill#,#IsProject#)
+    </insert>
+    <update id="Dict.UpdateDicttestitem" parameterClass="Dicttestitem">
+      UPDATE DICTTESTITEM
+      SET DICTTESTITEMID=#Dicttestitemid#,FASTCODE=#Fastcode#,TESTCODE=#Testcode#,ENGNAME=#Engname#,ENGLONGNAME=#Englongname#,TESTNAME=#Testname#,PRECISION=#Precision#,DISPLAYORDER=#Displayorder#,PRICE=#Price#,BILLABLE=#Billable#,ACTIVE=#Active#,REPORT=#Report#,TUBEGROUP=#Tubegroup#,DICTCONTAINERID=#Dictcontainerid#,DICTSPECIMENTYPEID=#Dictspecimentypeid#,RESULTTYPE=#Resulttype#,LIMITHIGH=#Limithigh#,LIMITLOW=#Limitlow#,FORSEX=#Forsex#,REFMETHOD=#Refmethod#,CLINICALREMARK=#Clinicalremark#,OPERATIONREMARK=#Operationremark#,DELTACHECK=#Deltacheck#,DELTATYPE=#Deltatype#,DEFAULTRESULT=#Defaultresult#,UNIT=#Unit#,REMARK=#Remark#,TESTTYPE=#Testtype#,DICTLABDEPTID=#Dictlabdeptid#,UNIQUEID=#Uniqueid#,DICTCUSTOMERID=#Dictcustomerid#,TESTRESULTTYPE=#Testresulttype#,LABELNUMBER=#Labelnumber#,DICTREPORTTEMPLATEID=#Dictreporttemplateid#,ISNEEDEDORDER=#Isneededorder#,ISIMPORTANT=#Isimportant#,DICTLOCUSID=#Dictlocusid#,GENOTYPE=#Genotype#,TESTALIAS=#Testalias#,IMAGENEED=#Imageneed#,RISKDENOMINATOR=#Riskdenominator#,AVERAGERISK=#Averagerisk#,MAXRISKMULTIPLE=#Maxriskmultiple#,MINRISKMULTIPLE=#Minriskmultiple#,ISONLYFORBILL=#Isonlyforbill#,ISPROJECT=#IsProject#
+      WHERE DICTTESTITEMID = #Dicttestitemid#
+    </update>
+    <delete id="Dict.DeleteDicttestitem" parameterClass="string">
+      DELETE FROM DICTTESTITEM
+      WHERE DICTTESTITEMID = #value#
+    </delete>
+    
+    <!--查询套餐是产品标识的项-->
+    <select id="Dict.GetDictTestProductWithIsProject" resultMap="DicttestResult">
+      SELECT DICTTESTITEMID,TESTCODE,TESTNAME,TESTTYPE,nvl(forsex,'B') FORSEX
+      FROM dicttestitem WHERE ISPROJECT = '1'
+    </select>
+    
+  </statements>
+</sqlMap>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dicttestitemresult" type="daan.domain.Dicttestitemresult,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DicttestitemresultResult" class="daan.domain.Dicttestitemresult">
+      <result property="Dicttestitemresultid" column="DICTTESTITEMRESULTID"/>
+      <result property="Dicttestitemid" column="DICTTESTITEMID"/>
+      <result property="Result" column="RESULT"/>
+      <result property="Isexception" column="ISEXCEPTION"/>
+      <result property="Displayorder" column="DISPLAYORDER"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectDicttestitemresult" resultMap="DicttestitemresultResult">
+      SELECT DICTTESTITEMRESULTID AS Dicttestitemresultid,DICTTESTITEMID AS Dicttestitemid,RESULT AS Result,ISEXCEPTION AS Isexception,DISPLAYORDER AS Displayorder
+      FROM DICTTESTITEMRESULT
+    </select>
+    <select id="Dict.SelectResultByDicttestitemid" parameterClass="string" resultMap="DicttestitemresultResult">
+      SELECT DICTTESTITEMRESULTID AS Dicttestitemresultid,DICTTESTITEMID AS Dicttestitemid,RESULT AS Result,ISEXCEPTION AS Isexception,DISPLAYORDER AS Displayorder
+      FROM DICTTESTITEMRESULT where Dicttestitemid=#value#
+    </select>
+    <insert id="Dict.InsertDicttestitemresult" parameterClass="Dicttestitemresult">
+      INSERT INTO DICTTESTITEMRESULT
+      (DICTTESTITEMRESULTID,DICTTESTITEMID,RESULT,ISEXCEPTION,DISPLAYORDER)
+      VALUES(#Dicttestitemresultid#,#Dicttestitemid#,#Result#,#Isexception#,#Displayorder#)
+    </insert>
+    <update id="UpdateDicttestitemresult" parameterClass="Dicttestitemresult">
+      UPDATE DICTTESTITEMRESULT
+      SET DICTTESTITEMRESULTID=#Dicttestitemresultid#,DICTTESTITEMID=#Dicttestitemid#,RESULT=#Result#,ISEXCEPTION=#Isexception#,DISPLAYORDER=#Displayorder#
+      WHERE DICTTESTITEMRESULTID = #Dicttestitemresultid#
+    </update>
+    <delete id="DeleteDicttestitemresult" parameterClass="string">
+      DELETE FROM DICTTESTITEMRESULT
+      WHERE DICTTESTITEMRESULTID = #value#
+    </delete>
+    <!--根据项目Id删除其对应的项目结果-->
+    <delete id="Dict.DeleteDicttestitemresultBytestitemid" parameterClass="string">
+      DELETE FROM DICTTESTITEMRESULT
+      WHERE DICTTESTITEMID = #value#
+    </delete>
+
+    <!--删除多条项目结果-->
+    <delete id="Dict.DeleteDicttestitemresultByIdStr" parameterClass="string">
+      DELETE FROM DICTTESTITEMRESULT
+      WHERE DICTTESTITEMRESULTID in ($value$)
+    </delete>
+  </statements>
+</sqlMap>

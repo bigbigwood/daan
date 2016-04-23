@@ -1,0 +1,17 @@
+1.个人常规报告单：CommonRep.frx
+
+2.财务结算报告单：FinancialDatialRep.frx
+
+3.团体报告单：GroupRep.frx
+
+4.健康指引单：HealthGuidelRep.frx
+
+5.HPV报告单：HpvLctRep.frx
+
+6.收费收据报告单：MoneyReceiptRep.frx
+
+7.TM15报告单：TM15Rep.frx
+
+8.C14报告单：C14Rep.frx
+
+9.C13报告单：C14Rep2.frx

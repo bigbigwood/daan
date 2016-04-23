@@ -1,0 +1,104 @@
+﻿body
+{
+    margin: 0px;
+    height: auto;
+}
+
+.inline
+{
+    margin-right: 5px;
+    float: left;
+}
+.inlineTop
+{
+    margin-top: 3px;
+    float: left;
+}
+.inlineButton
+{
+	margin-right: 5px;
+	float: left;
+	margin-top:5px;
+}
+.clear
+{
+    clear: both;
+}
+
+.mright
+{
+    margin-right: 10px;
+}
+
+.mright_lable
+{
+    margin-top: 3px;
+    width:70px;
+    text-align:right;
+    float:right;
+}
+
+.diaplay_none
+{
+     display:none;
+}
+.tbxwidth100
+{
+     
+    width:120px;
+}
+/*.tabletrhegith
+{
+    height: 23px;
+}
+
+.table_td_width
+{
+    width:60px;
+}
+
+.width100px
+{
+    width:20px;
+}
+
+.width80px
+{
+    width:80px;
+}*/
+.toolButtonright
+{
+   float:right;
+}
+.center
+{
+       text-align:center;
+    
+    }
+
+a:hover{text-decoration:underline;}
+/*
+table.result
+{
+    margin: 0px;
+    padding: 0px;
+    width: 500px;
+}
+
+table.result th
+{
+    border-bottom: solid 1px #ccc;
+    font-weight: bold;
+    padding: 3px;
+}
+
+table.result td
+{
+    padding: 3px;
+}
+*/
+ol.result
+{
+    list-style-type: decimal;
+    margin: 10px 0 10px 25px;
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Initlocalsetting" type="daan.domain.Initlocalsetting,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="InitlocalsettingResult" class="daan.domain.Initlocalsetting">
+      <result property="Hostmac" column="HOSTMAC" type="string" dbType="varchar"/>
+      <result property="Hostname" column="HOSTNAME" type="string" dbType="varchar"/>
+      <result property="A4printer" column="A4PRINTER" type="string" dbType="varchar"/>
+      <result property="A5printer" column="A5PRINTER" type="string" dbType="varchar"/>
+      <result property="Barcodeprinter" column="BARCODEPRINTER" type="string" dbType="varchar"/>
+      <result property="Pdfprinter" column="PDFPRINTER" type="string" dbType="varchar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Dict.SelectInitlocalsetting"  parameterClass="string" resultMap="InitlocalsettingResult">
+      SELECT Hostmac,Hostname,A4printer,A5printer,Barcodeprinter,Pdfprinter
+      FROM Initlocalsetting  where Hostmac = #value#   
+    </select>
+    
+    <select id="Dict.GetInitlocalsettingInfo" parameterClass="Initlocalsetting" resultMap="InitlocalsettingResult">
+      SELECT  Hostmac,Hostname,A4printer,A5printer,Barcodeprinter,Pdfprinter
+      FROM Initlocalsetting  where Hostmac='$Hostmac$'
+    </select>
+    
+    <insert id="Dict.InsertInitlocalsetting" parameterClass="Initlocalsetting">
+      INSERT INTO INITLOCALSETTING
+      (HOSTMAC,HOSTNAME,A4PRINTER,A5PRINTER,BARCODEPRINTER,PDFPRINTER)
+      VALUES(#Hostmac#,#Hostname#,#A4printer#,#A5printer#,#Barcodeprinter#,#Pdfprinter#)
+    </insert>
+    <update id="Dict.UpdateInitlocalsetting" parameterClass="Initlocalsetting">
+      UPDATE INITLOCALSETTING
+      SET HOSTMAC=#Hostmac#,HOSTNAME=#Hostname#,A4PRINTER=#A4printer#,A5PRINTER=#A5printer#,BARCODEPRINTER=#Barcodeprinter#,PDFPRINTER=#Pdfprinter#
+      WHERE HOSTMAC = #Hostmac#
+    </update>
+    <delete id="Dict.DeleteInitlocalsetting" parameterClass="string">
+      DELETE FROM INITLOCALSETTING
+      WHERE HOSTMAC = #value#
+    </delete>
+  </statements>
+</sqlMap>
