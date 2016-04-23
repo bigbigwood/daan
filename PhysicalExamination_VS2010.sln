@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.exportExcel", "daan
 		{125C1986-151A-469E-A85C-D266965B1F6E} = {125C1986-151A-469E-A85C-D266965B1F6E}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.phyReportSystem", "daan.webservice.phyReportSystem\daan.webservice.phyReportSystem.csproj", "{6D79015F-C018-412F-85FA-0C992C95585E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +246,16 @@ Global
 		{A63E74C0-8EAF-47D4-8702-794FF4BD3C24}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A63E74C0-8EAF-47D4-8702-794FF4BD3C24}.Release|x86.ActiveCfg = Release|x86
 		{A63E74C0-8EAF-47D4-8702-794FF4BD3C24}.Release|x86.Build.0 = Release|x86
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

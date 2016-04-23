@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="daan.webservice.phyReportSystem.PhyReportService" CodeBehind="PhyReportService.svc.cs" %>
