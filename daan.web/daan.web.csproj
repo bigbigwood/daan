@@ -103,6 +103,10 @@
     <Reference Include="FastReport.Web">
       <HintPath>..\EXTERNAL-BIN\FastReport.Web.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EXTERNAL-BIN\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
       <HintPath>..\EXTERNAL-BIN\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
     </Reference>
@@ -246,6 +250,7 @@
     <Content Include="admin\Setting\LocalSettingInfo.aspx" />
     <Content Include="code\Captcha\createImg.aspx" />
     <Content Include="EditPassword.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="icon\accept.png" />
     <Content Include="icon\add.png" />
     <Content Include="icon\anchor.png" />
@@ -3105,6 +3110,9 @@
     <Compile Include="EditPassword.aspx.designer.cs">
       <DependentUpon>EditPassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3267,7 +3275,6 @@
     <Content Include="timehelper.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="log4net.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

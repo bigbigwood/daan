@@ -6,7 +6,7 @@ using System.Web.Security;
 using System.Web.SessionState;
 using log4net;
 
-namespace daan.webservice.phyReportSystem
+namespace daan.web
 {
     public class Global : System.Web.HttpApplication
     {

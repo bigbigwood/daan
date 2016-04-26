@@ -5,7 +5,7 @@ using System.Web;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace daan.webservice.phyReportSystem.Messages
+namespace daan.webservice.phyReportSystem.Contract.Messages
 {
     public class Declarations
     {
@@ -31,18 +31,16 @@ namespace daan.webservice.phyReportSystem.Messages
         UnknownError = 99,
     }
 
-    [MessageContract(IsWrapped = true)]
-    [DataContract(Namespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
     public class RequestBase
     {
-        [MessageHeader]
-        public string Username{get; set;}
-        [MessageHeader]
+        [MessageHeader(Name = "Username", Namespace = Declarations.NameSpace)]
+        public string Username { get; set; }
+        [MessageHeader(Name = "Password", Namespace = Declarations.NameSpace)]
         public string Password { get; set; }
     }
 
-    [MessageContract(IsWrapped = true)]
-    [DataContract(Namespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
     public class ResponseBase
     {
         [DataMember(Order = 900)]

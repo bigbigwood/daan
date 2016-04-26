@@ -7,6 +7,15 @@ namespace daan.webservice.phyReportSystem.Framework.Authenticaition
 {
     public interface IAuthenticaitionService
     {
-        bool Authenticate(UserCredential userCredential);
+        AuthenticaitionResultCode Authenticate(UserCredential userCredential);
+    }
+
+    public enum AuthenticaitionResultCode
+    {
+        OK,
+        UserOrPasswordIsEmpty,
+        UserIsNotExisting,
+        PasswordIsIncorrect,
+        Error,
     }
 }

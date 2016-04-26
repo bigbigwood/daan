@@ -3,6 +3,20 @@
   <alias>
     <typeAlias alias="Initbasic" type="daan.domain.Initbasic,daan.domain" />
   </alias>
+  <!--
+  implementation="MEMORY"是设置缓存的实现方式，可以指定LRU、FIFO等，有点类似于内存的页替换策略。MEMORY是最常使用的一种方式。
+  flushOnExecute设置的是当执行了这些语句时更新缓存  readOnly="false" serialize="true"
+  -->
+  <cacheModels>
+    <cacheModel id="Initbasic-cache"  implementation="MEMORY" >
+      <flushInterval minutes="5"/>
+      <flushOnExecute  statement="Dict.InsertInitbasic"/>
+      <flushOnExecute  statement="Dict.UpdateInitbasic"/>
+      <flushOnExecute  statement="Dict.DeleteInitbasic"/>
+      <property name="Type" value="Weak"/>
+    </cacheModel>
+  </cacheModels>
+  
   <resultMaps>
     <resultMap id="InitbasicResult" class="daan.domain.Initbasic">
       <result property="Basicid" column="BASICID" />
@@ -15,7 +29,7 @@
   </resultMaps>
   <statements>
     
-    <select id="Dict.GetInitbasicInfoByType" parameterClass="Hashtable" >
+    <select id="Dict.GetInitbasicInfoByType" parameterClass="Hashtable" cacheModel="Initbasic-cache">
       SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
       <isNotEmpty prepend="and" parameterClass="strKey" >
         Basictype like '%$strKey$%'
@@ -23,7 +37,7 @@
     </select>
 
     <!--按基本资料类型查询-->
-    <select id="Dict.GetInitbasicLst" parameterClass="string" ResultMap="InitbasicResult" >
+    <select id="Dict.GetInitbasicLst" parameterClass="string" ResultMap="InitbasicResult" cacheModel="Initbasic-cache">
       SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
       <isNotEmpty prepend="and" parameterClass="string">
         Basictype=#value#
@@ -31,7 +45,7 @@
       order by Basicvalue
     </select>
     
-    <select id="Dict.GetInitbasicInfoByTypeAndByValue" parameterClass="Hashtable" >
+    <select id="Dict.GetInitbasicInfoByTypeAndByValue" parameterClass="Hashtable" cacheModel="Initbasic-cache">
       SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
       <isNotEmpty prepend="and" parameterClass="strKey">
         Basictype like '%LABDEPTTYPE%' and Basicvalue like  '%$strKey$%'
