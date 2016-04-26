@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace daan.webservice.phyReportSystem.Framework.Authenticaition
+﻿namespace daan.webservice.phyReportSystem.Framework.Authenticaition
 {
     public interface IAuthenticaitionService
     {
-        AuthenticaitionResultCode Authenticate(UserCredential userCredential);
+        AuthenticaitionResultCode Authenticate(string username, string password);
     }
 
     public enum AuthenticaitionResultCode
     {
-        OK,
+        Ok,
         UserOrPasswordIsEmpty,
+        UserOrPasswordIsIncorrect,
         UserIsNotExisting,
         PasswordIsIncorrect,
         Error,

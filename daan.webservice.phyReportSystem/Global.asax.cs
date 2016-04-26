@@ -15,6 +15,9 @@ namespace daan.webservice.phyReportSystem
         {
             log4net.Config.XmlConfigurator.Configure();
             Log.Info("Application start");
+
+            Log.Info("ServiceInitializer initialize");
+            ObjectFactory.Initialize();
         }
 
         protected void Session_Start(object sender, EventArgs e)

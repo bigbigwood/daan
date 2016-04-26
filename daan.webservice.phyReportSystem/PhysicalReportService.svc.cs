@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using daan.webservice.phyReportSystem.Contract;
+﻿using System.ServiceModel;
 using daan.webservice.phyReportSystem.Contract.Messages;
 using log4net;
-using daan.webservice.phyReportSystem.Framework.Authenticaition;
 using daan.webservice.phyReportSystem.Framework;
-using daan.service.order;
-using daan.service.dict;
-using daan.domain;
-using daan.webservice.phyReportSystem.Framework.Operation;
 using daan.webservice.phyReportSystem.Operations;
+using daan.webservice.phyReportSystem.Contract.Interface;
 
 namespace daan.webservice.phyReportSystem
 {

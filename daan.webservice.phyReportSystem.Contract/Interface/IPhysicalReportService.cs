@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using daan.webservice.phyReportSystem.Contract.Messages;
 using System.ServiceModel;
-using System.Text;
-using daan.webservice.phyReportSystem.Contract.Messages;
 
-namespace daan.webservice.phyReportSystem.Contract
+namespace daan.webservice.phyReportSystem.Contract.Interface
 {
     [ServiceContract(Namespace = Declarations.NameSpace)]
     public interface IPhysicalReportService

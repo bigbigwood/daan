@@ -15,18 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.service.common", "daan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.web", "daan.web\daan.web.csproj", "{50BC9FAB-597F-48BB-A525-A496A9B78861}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "界面层", "界面层", "{8FAE57C8-BD45-4960-A115-004208D8888B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "控件库", "控件库", "{A35C9DCB-83D0-4413-AEFB-0BFD5D33096F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "配置文件域", "配置文件域", "{DD0CE117-07E3-4F1B-AD5B-69E6F8BBA58F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "数据层", "数据层", "{E6441637-ED22-4A6B-873F-E579D0EFFC7D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "中间层", "中间层", "{39FD5A99-2BA5-4639-9360-A5C43E70B1A9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "开发文档库", "开发文档库", "{6040CA45-82D7-48A3-9124-7E2ACEFFA193}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.util", "daan.util\daan.util.csproj", "{125C1986-151A-469E-A85C-D266965B1F6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.main", "daan.ui.main\daan.ui.main.csproj", "{7531988F-0B0C-4DD7-A9E5-6672E1659877}"
@@ -36,8 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeHelper", "TimeHelper\TimeHelper.csproj", "{DC543009-A8B0-47D9-BE29-C7E43F08E301}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.toshequ", "daan.ui.toshequ\daan.ui.toshequ.csproj", "{DF8704AA-52F8-4286-AC8B-30C24CF319E4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "接口", "接口", "{58C3C65F-093D-4EE6-B3E3-4AC6DE0E883E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice", "daan.webservice\daan.webservice.csproj", "{CB945879-BCBD-46EA-A22C-0614F3460124}"
 EndProject
@@ -53,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.exportExcel", "daan
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.phyReportSystem", "daan.webservice.phyReportSystem\daan.webservice.phyReportSystem.csproj", "{6D79015F-C018-412F-85FA-0C992C95585E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.PrinterApplication", "daan.ui.PrintClient\daan.ui.PrinterApplication.csproj", "{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.phyReportSystem.Contract", "daan.webservice.phyReportSystem.Contract\daan.webservice.phyReportSystem.Contract.csproj", "{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -244,6 +234,26 @@ Global
 		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6D79015F-C018-412F-85FA-0C992C95585E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Debug|x86.ActiveCfg = Debug|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Debug|x86.Build.0 = Debug|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Release|Any CPU.ActiveCfg = Release|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Release|x86.ActiveCfg = Release|x86
+		{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}.Release|x86.Build.0 = Release|x86
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

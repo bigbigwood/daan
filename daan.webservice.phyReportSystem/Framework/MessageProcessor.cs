@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using log4net;
 using daan.webservice.phyReportSystem.Contract.Messages;
 using daan.webservice.phyReportSystem.Framework.Authenticaition;
+using daan.webservice.phyReportSystem.Framework.Operation;
+using log4net;
 
-namespace daan.webservice.phyReportSystem.Framework.Operation
+namespace daan.webservice.phyReportSystem.Framework
 {
     public static class MessageProcessor
     {
@@ -15,6 +13,7 @@ namespace daan.webservice.phyReportSystem.Framework.Operation
 
         public static TResponse Process<TRequest, TResponse>(TRequest request, IOperation<TRequest, TResponse> processor)
          where TResponse : ResponseBase, new()
+         where TRequest : RequestBase, new()
         {
             TResponse result = new TResponse();
 
@@ -24,9 +23,8 @@ namespace daan.webservice.phyReportSystem.Framework.Operation
 
                 // 2. authentication
                 Log.Info("Check user credential.");
-                var userCredential = new UserCredentialProvider().GetUserCredential();
-                var authenticaitionResultCode  = new MockAuthenticaitionServiceImpl().Authenticate(userCredential);
-                if (authenticaitionResultCode != AuthenticaitionResultCode.OK)
+                var authenticaitionResultCode = ObjectFactory.GetImpl<IAuthenticaitionService>().Authenticate(request.Username, request.Password);
+                if (authenticaitionResultCode != AuthenticaitionResultCode.Ok)
                 {
                     result.ResultType = ResultTypes.AuthenticationError;
                     result.Messages = new String[] { "User password is incorrect" };
