@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using IBatisNet.Common.Exceptions;
 using IBatisNet.Common.Pagination;
@@ -10,6 +10,7 @@ using IBatisNet.Common;
 //using Oracle.DataAccess.Client;
 //using Oracle.DataAccess;
 using System.Data.OracleClient;
+using log4net;
 namespace daan.dao.common
 {
     /// <summary>
@@ -17,6 +18,7 @@ namespace daan.dao.common
     /// </summary>
     public class BaseDAO
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected const int PAGE_SIZE = 4;
         public ISqlMapper mapper = MapperDAO.Get();
 
@@ -73,6 +75,7 @@ namespace daan.dao.common
 
                 IDbCommand command = _mapper.LocalSession.CreateCommand(CommandType.Text);
                 command.CommandText = scope.IDbCommand.CommandText;
+                Log.Info(scope.IDbCommand.CommandText);
 
                 foreach (IDataParameter pa in scope.IDbCommand.Parameters)
                 {
@@ -103,6 +106,7 @@ namespace daan.dao.common
 
                 IDbCommand command = mapper.LocalSession.CreateCommand(CommandType.Text);
                 command.CommandText = scope.IDbCommand.CommandText;
+                Log.Info(scope.IDbCommand.CommandText);
 
                 foreach (IDataParameter pa in scope.IDbCommand.Parameters)
                 {

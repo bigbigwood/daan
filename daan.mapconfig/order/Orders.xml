@@ -573,8 +573,7 @@
     </select>
     <!--体检报告单查询打印,分页查询-->
     <select id="Order.DataForFocusPrintPageLst" parameterClass="Hashtable">
-      select * from
-      (select rownum as rn,t.* from
+      select rownum as rn,t.* from
       (select distinct a.ordernum,a.realname,b.customername,ib.basicname as statusname,ib2.basicname as sex,a.age,a.createdate,a.dictreporttemplateid,
       a.ordertestlst,a.status,m.idnumber,a.section,a.samplingdate,a.postaddress,a.recipient,a.contactnumber,nvl(m.mobile,m.phone) mobile
       from orders a
@@ -586,6 +585,7 @@
       where a.iscancel='0'
       <isNotEmpty prepend="and" property="ordernum">
         (a.ordernum='$ordernum$' or c.barcode='$ordernum$')
+        )t
       </isNotEmpty>
       <isEmpty prepend="" property="ordernum">
         <isNotNull prepend="and" property="StartDate">
@@ -622,10 +622,9 @@
         <isNotNull prepend="and" property="dictlabid">
           a.dictlabid  in ($dictlabid$)
         </isNotNull>
+        order by a.ordernum desc
+        )t where rownum  <![CDATA[<=]]> $pageEnd$ and rownum >=$pageStart$
       </isEmpty>
-      order by a.ordernum desc
-      )t where rownum  <![CDATA[<=]]> $pageEnd$
-      )tt where tt.rn>=$pageStart$
     </select>
     <!--体检报告单查询打印总数-->
     <select id="Order.DataForFocusPrintPageTotal" parameterClass="Hashtable">
