@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Windows.Forms;
 using daan.webservice.phyReportSystem.Contract.Messages;
 using log4net;
@@ -12,13 +13,16 @@ namespace daan.ui.PrinterApplication
         public LoginForm()
         {
             InitializeComponent();
+
+            this.AcceptButton = btnLogin;
+            this.CancelButton = btnExit;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             try
             {
-                string url = @"http://localhost:24313/UserService.svc";
+                string url = ConfigurationManager.AppSettings.Get("UserServiceUrl");
                 var userService = ServiceFactory.GetUserService(url);
                 var authenticateResponse = userService.Authenticate(new AuthenticateRequest()
                 {
@@ -30,7 +34,12 @@ namespace daan.ui.PrinterApplication
                 {
                     Log.Info("Authenticate OK");
 
-                    // Do something, for example load user data in the context
+                    //PrinterApp.UserInfo = 
+                    
+                    //show main form
+                    this.Hide();
+                    MainForm mainForm = new MainForm();
+                    mainForm.ShowDialog();
                 }
                 else
                 {
@@ -48,7 +57,7 @@ namespace daan.ui.PrinterApplication
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
     }
 }
