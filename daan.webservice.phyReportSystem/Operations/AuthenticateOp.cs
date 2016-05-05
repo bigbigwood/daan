@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using daan.webservice.phyReportSystem.Contract.Messages;
-using daan.webservice.phyReportSystem.Framework.Operation;
+﻿using daan.webservice.PrintingSystem.Contract.Messages;
+using daan.webservice.PrintingSystem.Framework.Operation;
 
-namespace daan.webservice.phyReportSystem.Operations
+namespace daan.webservice.PrintingSystem.Operations
 {
     public class AuthenticateOp : IOperation<AuthenticateRequest, AuthenticateResponse>
     {
         public AuthenticateResponse Process(AuthenticateRequest request)
         {
-            return new AuthenticateResponse();
+            return new AuthenticateResponse() { ResultType = ResultTypes.Ok };
         }
     }
 }

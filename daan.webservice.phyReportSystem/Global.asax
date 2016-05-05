@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="daan.webservice.phyReportSystem.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="daan.webservice.PrintingSystem.Global" Language="C#" %>

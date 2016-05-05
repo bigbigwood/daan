@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace daan.webservice.phyReportSystem.Contract.Messages
+namespace daan.webservice.PrintingSystem.Contract.Messages
 {
     [MessageContract(IsWrapped = true)]
-    public class QueryPhysicalReportsRequest : RequestBase
+    public class QueryOrdersRequest : RequestBase
     {
         [MessageBodyMember(Order = 1)]
         public string OrderNumber { get; set; }

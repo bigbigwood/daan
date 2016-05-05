@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace daan.webservice.phyReportSystem.Contract.Models
+namespace daan.webservice.PrintingSystem.Contract.Models
 {
     [DataContract(Namespace = Declarations.NameSpace)]
     public class UserPrinterConfig

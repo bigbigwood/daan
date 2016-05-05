@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Windows.Forms;
-using daan.webservice.phyReportSystem.Contract.Messages;
+using daan.webservice.PrintingSystem.Contract.Messages;
 using log4net;
 
 namespace daan.ui.PrinterApplication

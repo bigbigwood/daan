@@ -1,4 +1,4 @@
-﻿namespace daan.webservice.phyReportSystem.Framework.Authenticaition
+﻿namespace daan.webservice.PrintingSystem.Framework.Authenticaition
 {
     public interface IAuthenticaitionService
     {

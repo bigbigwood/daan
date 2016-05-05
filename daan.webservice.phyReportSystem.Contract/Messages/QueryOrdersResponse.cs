@@ -3,7 +3,9 @@
 namespace daan.webservice.PrintingSystem.Contract.Messages
 {
     [MessageContract(IsWrapped = true)]
-    public class AuthenticateResponse : ResponseBase
+    public class QueryOrdersResponse : ResponseBase
     {
+        [MessageBodyMember]
+        public System.Data.DataTable Result { get; set; }
     }
 }

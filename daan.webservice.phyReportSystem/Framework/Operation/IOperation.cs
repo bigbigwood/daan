@@ -1,4 +1,4 @@
-﻿namespace daan.webservice.phyReportSystem.Framework.Operation
+﻿namespace daan.webservice.PrintingSystem.Framework.Operation
 {
     public interface IOperation<TRequest, TResponse>
     {

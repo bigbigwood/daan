@@ -1,10 +1,10 @@
 ﻿using System;
-using daan.webservice.phyReportSystem.Contract.Messages;
-using daan.webservice.phyReportSystem.Framework.Authenticaition;
-using daan.webservice.phyReportSystem.Framework.Operation;
+using daan.webservice.PrintingSystem.Contract.Messages;
+using daan.webservice.PrintingSystem.Framework.Authenticaition;
+using daan.webservice.PrintingSystem.Framework.Operation;
 using log4net;
 
-namespace daan.webservice.phyReportSystem.Framework
+namespace daan.webservice.PrintingSystem.Framework
 {
     public static class MessageProcessor
     {

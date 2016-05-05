@@ -3,7 +3,7 @@
 namespace daan.webservice.PrintingSystem.Contract.Messages
 {
     [MessageContract(IsWrapped = true)]
-    public class AuthenticateResponse : ResponseBase
+    public class UpdateOrdersStatusRequest : RequestBase
     {
     }
 }

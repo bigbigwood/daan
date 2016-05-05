@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace daan.webservice.phyReportSystem.Services
+﻿namespace daan.webservice.PrintingSystem.Services
 {
     public class ReportService
     {

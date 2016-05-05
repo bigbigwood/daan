@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using daan.webservice.phyReportSystem.Contract.Messages;
-using daan.webservice.phyReportSystem.Framework.Operation;
-using daan.service.order;
+﻿using daan.service.order;
+using daan.webservice.PrintingSystem.Contract.Messages;
+using daan.webservice.PrintingSystem.Framework.Operation;
 
-namespace daan.webservice.phyReportSystem.Operations
+namespace daan.webservice.PrintingSystem.Operations
 {
-    public class QueryPhysicalReportsOp : IOperation<QueryPhysicalReportsRequest, QueryPhysicalReportsResponse>
+    public class QueryOrdersOp : IOperation<QueryOrdersRequest, QueryOrdersResponse>
     {
-        public QueryPhysicalReportsResponse Process(QueryPhysicalReportsRequest request)
+        public QueryOrdersResponse Process(QueryOrdersRequest request)
         {
-            System.Collections.Hashtable htPara = new System.Collections.Hashtable();
+            var htPara = new System.Collections.Hashtable();
 
             if (!string.IsNullOrWhiteSpace(request.OrderNumber))
             {
@@ -35,10 +31,10 @@ namespace daan.webservice.phyReportSystem.Operations
                 htPara.Add("reportstatus", request.ReportStatus);
             }
 
-            OrdersService ordersService = new OrdersService();
+            var ordersService = new OrdersService();
             var dataTable = ordersService.DataForFocusPrintPageLst(htPara);
 
-            return new QueryPhysicalReportsResponse() { ResultType = ResultTypes.Ok, Result = dataTable };
+            return new QueryOrdersResponse() { ResultType = ResultTypes.Ok, Result = dataTable };
         }
 
 

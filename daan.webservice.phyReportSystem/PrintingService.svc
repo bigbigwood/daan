@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="daan.webservice.PrintingSystem.PrintingService" CodeBehind="PrintingService.svc.cs" %>

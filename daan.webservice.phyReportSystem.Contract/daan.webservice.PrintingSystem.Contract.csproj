@@ -8,8 +8,8 @@
     <ProjectGuid>{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>daan.webservice.phyReportSystem.Contract</RootNamespace>
-    <AssemblyName>daan.webservice.phyReportSystem.Contract</AssemblyName>
+    <RootNamespace>daan.webservice.PrintingSystem.Contract</RootNamespace>
+    <AssemblyName>daan.webservice.PrintingSystem.Contract</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,15 +43,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Declarations.cs" />
-    <Compile Include="Interface\IPhysicalReportService.cs" />
-    <Compile Include="Interface\IUserService.cs" />
+    <Compile Include="Interface\IClientApplicationServiceContract.cs" />
+    <Compile Include="Interface\IPrintingServiceContract.cs" />
     <Compile Include="Messages\AuthenticateRequest.cs" />
     <Compile Include="Messages\AuthenticateResponse.cs" />
-    <Compile Include="Messages\GetLastClientVersionsResponse.cs" />
-    <Compile Include="Messages\GetLastClientVersionsRequest.cs" />
+    <Compile Include="Messages\GetReportTemplatesRequest.cs" />
+    <Compile Include="Messages\GetReportTemplatesResponse.cs" />
+    <Compile Include="Messages\GetReportDataRequest.cs" />
+    <Compile Include="Messages\GetReportDataResponse.cs" />
+    <Compile Include="Messages\UpdateOrdersStatusRequest.cs" />
+    <Compile Include="Messages\UpdateOrdersStatusResponse.cs" />
+    <Compile Include="Messages\QueryOrdersRequest.cs" />
+    <Compile Include="Messages\QueryOrdersResponse.cs" />
+    <Compile Include="Messages\GetLastClientAppVersionResponse.cs" />
+    <Compile Include="Messages\GetLastClientAppVersionRequest.cs" />
     <Compile Include="Messages\MessageBase.cs" />
-    <Compile Include="Messages\QueryPhysicalReportsRequest.cs" />
-    <Compile Include="Messages\QueryPhysicalReportsResponse.cs" />
     <Compile Include="Models\ClientVersionInfo.cs" />
     <Compile Include="Models\UserCredential.cs" />
     <Compile Include="Models\UserInfo.cs" />

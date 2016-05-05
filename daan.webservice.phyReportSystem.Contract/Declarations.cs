@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace daan.webservice.phyReportSystem.Contract
+namespace daan.webservice.PrintingSystem.Contract
 {
     public class Declarations
     {

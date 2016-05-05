@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
-namespace daan.webservice.phyReportSystem.Contract.Models
+namespace daan.webservice.PrintingSystem.Contract.Models
 {
     [DataContract(Namespace = Declarations.NameSpace)]
     public class ClientVersionInfo

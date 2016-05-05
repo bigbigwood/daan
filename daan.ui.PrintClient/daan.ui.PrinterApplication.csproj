@@ -122,9 +122,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\daan.webservice.phyReportSystem.Contract\daan.webservice.phyReportSystem.Contract.csproj">
+    <ProjectReference Include="..\daan.webservice.phyReportSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj">
       <Project>{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}</Project>
-      <Name>daan.webservice.phyReportSystem.Contract</Name>
+      <Name>daan.webservice.PrintingSystem.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

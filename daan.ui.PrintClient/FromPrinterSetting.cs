@@ -10,8 +10,6 @@ using System.Windows.Forms;
 using CCWin;
 using System.Net.NetworkInformation;
 using System.Drawing.Printing;
-using daan.webservice.phyReportSystem.Contract.Messages;
-using daan.webservice.phyReportSystem.Contract.Models;
 
 namespace daan.ui.PrinterApplication
 {

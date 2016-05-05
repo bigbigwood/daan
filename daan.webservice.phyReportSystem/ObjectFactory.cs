@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using daan.webservice.PrintingSystem.AuthenticaitionImpl;
+using daan.webservice.PrintingSystem.Framework.Authenticaition;
 using Ninject;
-using daan.webservice.phyReportSystem.Framework.Authenticaition;
-using daan.webservice.phyReportSystem.AuthenticaitionImpl;
 
-namespace daan.webservice.phyReportSystem
+namespace daan.webservice.PrintingSystem
 {
     public static class ObjectFactory
     {

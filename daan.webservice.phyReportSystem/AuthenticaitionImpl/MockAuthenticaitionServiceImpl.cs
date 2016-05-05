@@ -1,8 +1,7 @@
-﻿using daan.webservice.phyReportSystem.Framework.Authenticaition;
+﻿using daan.webservice.PrintingSystem.Framework.Authenticaition;
 using log4net;
-using daan.webservice.phyReportSystem.Contract.Models;
 
-namespace daan.webservice.phyReportSystem.AuthenticaitionImpl
+namespace daan.webservice.PrintingSystem.AuthenticaitionImpl
 {
     public class MockAuthenticaitionServiceImpl
     {

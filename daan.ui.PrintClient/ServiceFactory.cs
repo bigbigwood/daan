@@ -2,36 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using daan.webservice.phyReportSystem.Contract.Interface;
 using System.ServiceModel;
+using daan.webservice.PrintingSystem.Contract.Interface;
 
 namespace daan.ui.PrinterApplication
 {
     public static class ServiceFactory
     {
-        private static ChannelFactory<IUserService> _userServiceFactory;
-        private static ChannelFactory<IPhysicalReportService> _physicalReportServiceFactory;
+        private static ChannelFactory<IPrintingServiceContract> _printingServiceFactory;
 
-        public static IUserService GetUserService(String url)
+        public static IPrintingServiceContract GetPrintingService(String url)
         {
-            if (_userServiceFactory == null)
+            if (_printingServiceFactory == null)
             {
                 var endpointAddress = new EndpointAddress(url);
-                _userServiceFactory = new ChannelFactory<IUserService>(new BasicHttpBinding(), endpointAddress);
+                _printingServiceFactory = new ChannelFactory<IPrintingServiceContract>(new BasicHttpBinding(), endpointAddress);
             }
 
-            return _userServiceFactory.CreateChannel();
-        }
-
-        public static IPhysicalReportService GetPhysicalReportService(String url)
-        {
-            if (_physicalReportServiceFactory == null)
-            {
-                var endpointAddress = new EndpointAddress(url);
-                _physicalReportServiceFactory = new ChannelFactory<IPhysicalReportService>(new BasicHttpBinding(), endpointAddress);
-            }
-
-            return _physicalReportServiceFactory.CreateChannel();
+            return _printingServiceFactory.CreateChannel();
         }
     }
 }
