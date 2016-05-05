@@ -47,13 +47,12 @@
     <Compile Include="Interface\IUserService.cs" />
     <Compile Include="Messages\AuthenticateRequest.cs" />
     <Compile Include="Messages\AuthenticateResponse.cs" />
+    <Compile Include="Messages\GetLastClientVersionsResponse.cs" />
+    <Compile Include="Messages\GetLastClientVersionsRequest.cs" />
     <Compile Include="Messages\MessageBase.cs" />
-    <Compile Include="Messages\ModifyPhysicalReportsRequest.cs" />
-    <Compile Include="Messages\ModifyPhysicalReportsResponse.cs" />
     <Compile Include="Messages\QueryPhysicalReportsRequest.cs" />
     <Compile Include="Messages\QueryPhysicalReportsResponse.cs" />
-    <Compile Include="Messages\UpdateUserPrinterConfigRequest.cs" />
-    <Compile Include="Messages\UpdateUserPrinterConfigResponse.cs" />
+    <Compile Include="Models\ClientVersionInfo.cs" />
     <Compile Include="Models\UserCredential.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\UserPrinterConfig.cs" />

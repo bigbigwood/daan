@@ -16,5 +16,27 @@ namespace daan.ui.PrinterApplication
         {
             InitializeComponent();
         }
+
+        private void tab_Settings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //FromPrinterSetting setting = new FromPrinterSetting();
+            //setting.TopLevel = false;
+            //setting.Dock = DockStyle.Fill;
+            ////setting.WindowState = 
+            //setting.Parent = tab_Settings.SelectedTab;
+            //setting.Show();
+        }
+
+        private void MainFormTabImpl_Load(object sender, EventArgs e)
+        {
+            var setting = new FromPrinterSetting();
+            setting.TopLevel = false;
+            setting.Dock = DockStyle.Fill;
+            setting.FormBorderStyle = FormBorderStyle.None;
+            setting.ControlBox = false;
+            tab_Settings.TabPages[0].Controls.Add(setting);
+            setting.BackColor = setting.Parent.BackColor;
+            setting.Show();
+        }
     }
 }

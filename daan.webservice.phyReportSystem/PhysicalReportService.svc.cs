@@ -17,9 +17,9 @@ namespace daan.webservice.phyReportSystem
             return MessageProcessor.Process(request, new QueryPhysicalReportsOp());
         }
 
-        public ModifyPhysicalReportsResponse ModifyPhysicalReports(ModifyPhysicalReportsRequest request)
+        public GetLastClientVersionsResponse GetLastClientVersions(GetLastClientVersionsRequest request)
         {
-            return MessageProcessor.Process(request, new ModifyPhysicalReportsOp());
+            return MessageProcessor.Process(request, new GetLastClientVersionsOp());
         }
     }
 }

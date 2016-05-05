@@ -8,8 +8,5 @@ namespace daan.webservice.phyReportSystem.Contract.Interface
     {
         [OperationContract]
         AuthenticateResponse Authenticate(AuthenticateRequest request);
-
-        [OperationContract]
-        UpdateUserPrinterConfigResponse UpdateUserPrinterConfig(UpdateUserPrinterConfigRequest request);
     }
 }

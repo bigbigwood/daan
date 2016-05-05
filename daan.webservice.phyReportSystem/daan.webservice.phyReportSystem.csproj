@@ -88,8 +88,7 @@
     </Compile>
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Operations\AuthenticateOp.cs" />
-    <Compile Include="Operations\UpdateUserPrinterConfigOp.cs" />
-    <Compile Include="Operations\ModifyPhysicalReportsOp.cs" />
+    <Compile Include="Operations\GetLastClientVersionsOp.cs" />
     <Compile Include="Operations\QueryPhysicalReportsOp.cs" />
     <Compile Include="PhysicalReportService.svc.cs">
       <DependentUpon>PhysicalReportService.svc</DependentUpon>

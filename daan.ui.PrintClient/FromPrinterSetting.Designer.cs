@@ -40,11 +40,10 @@
             this.cb_BarcodePrinter = new CCWin.SkinControl.SkinComboBox();
             this.cb_A5Printer = new CCWin.SkinControl.SkinComboBox();
             this.cb_PDFPrinter = new CCWin.SkinControl.SkinComboBox();
-            this.MacCode = new CCWin.SkinControl.SkinLabel();
+            this.mac = new CCWin.SkinControl.SkinLabel();
             this.hostname = new CCWin.SkinControl.SkinLabel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btnSave = new CCWin.SkinControl.SkinButton();
-            this.btnExit = new CCWin.SkinControl.SkinButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -68,19 +67,19 @@
             this.tableLayoutPanel1.Controls.Add(this.cb_BarcodePrinter, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.cb_A5Printer, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.cb_PDFPrinter, 4, 2);
-            this.tableLayoutPanel1.Controls.Add(this.MacCode, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.mac, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.hostname, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 4, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 28);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(974, 473);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(982, 505);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lbl_Mac
@@ -129,7 +128,7 @@
             this.lbl_hostname.BackColor = System.Drawing.Color.Transparent;
             this.lbl_hostname.BorderColor = System.Drawing.Color.White;
             this.lbl_hostname.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_hostname.Location = new System.Drawing.Point(546, 5);
+            this.lbl_hostname.Location = new System.Drawing.Point(550, 5);
             this.lbl_hostname.Name = "lbl_hostname";
             this.lbl_hostname.Size = new System.Drawing.Size(58, 20);
             this.lbl_hostname.TabIndex = 3;
@@ -142,7 +141,7 @@
             this.lbl_A5Printer.BackColor = System.Drawing.Color.Transparent;
             this.lbl_A5Printer.BorderColor = System.Drawing.Color.White;
             this.lbl_A5Printer.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_A5Printer.Location = new System.Drawing.Point(496, 35);
+            this.lbl_A5Printer.Location = new System.Drawing.Point(500, 35);
             this.lbl_A5Printer.Name = "lbl_A5Printer";
             this.lbl_A5Printer.Size = new System.Drawing.Size(108, 20);
             this.lbl_A5Printer.TabIndex = 4;
@@ -155,7 +154,7 @@
             this.lbl_PDFPrinter.BackColor = System.Drawing.Color.Transparent;
             this.lbl_PDFPrinter.BorderColor = System.Drawing.Color.White;
             this.lbl_PDFPrinter.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_PDFPrinter.Location = new System.Drawing.Point(518, 65);
+            this.lbl_PDFPrinter.Location = new System.Drawing.Point(522, 65);
             this.lbl_PDFPrinter.Name = "lbl_PDFPrinter";
             this.lbl_PDFPrinter.Size = new System.Drawing.Size(86, 20);
             this.lbl_PDFPrinter.TabIndex = 5;
@@ -168,7 +167,7 @@
             this.cb_A4Printer.FormattingEnabled = true;
             this.cb_A4Printer.Location = new System.Drawing.Point(123, 33);
             this.cb_A4Printer.Name = "cb_A4Printer";
-            this.cb_A4Printer.Size = new System.Drawing.Size(341, 23);
+            this.cb_A4Printer.Size = new System.Drawing.Size(345, 23);
             this.cb_A4Printer.TabIndex = 6;
             this.cb_A4Printer.WaterText = "";
             // 
@@ -179,7 +178,7 @@
             this.cb_BarcodePrinter.FormattingEnabled = true;
             this.cb_BarcodePrinter.Location = new System.Drawing.Point(123, 63);
             this.cb_BarcodePrinter.Name = "cb_BarcodePrinter";
-            this.cb_BarcodePrinter.Size = new System.Drawing.Size(341, 23);
+            this.cb_BarcodePrinter.Size = new System.Drawing.Size(345, 23);
             this.cb_BarcodePrinter.TabIndex = 7;
             this.cb_BarcodePrinter.WaterText = "";
             // 
@@ -188,9 +187,9 @@
             this.cb_A5Printer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cb_A5Printer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cb_A5Printer.FormattingEnabled = true;
-            this.cb_A5Printer.Location = new System.Drawing.Point(610, 33);
+            this.cb_A5Printer.Location = new System.Drawing.Point(614, 33);
             this.cb_A5Printer.Name = "cb_A5Printer";
-            this.cb_A5Printer.Size = new System.Drawing.Size(341, 23);
+            this.cb_A5Printer.Size = new System.Drawing.Size(345, 23);
             this.cb_A5Printer.TabIndex = 8;
             this.cb_A5Printer.WaterText = "";
             // 
@@ -199,24 +198,24 @@
             this.cb_PDFPrinter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cb_PDFPrinter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cb_PDFPrinter.FormattingEnabled = true;
-            this.cb_PDFPrinter.Location = new System.Drawing.Point(610, 63);
+            this.cb_PDFPrinter.Location = new System.Drawing.Point(614, 63);
             this.cb_PDFPrinter.Name = "cb_PDFPrinter";
-            this.cb_PDFPrinter.Size = new System.Drawing.Size(341, 23);
+            this.cb_PDFPrinter.Size = new System.Drawing.Size(345, 23);
             this.cb_PDFPrinter.TabIndex = 9;
             this.cb_PDFPrinter.WaterText = "";
             // 
-            // MacCode
+            // mac
             // 
-            this.MacCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.MacCode.AutoSize = true;
-            this.MacCode.BackColor = System.Drawing.Color.Transparent;
-            this.MacCode.BorderColor = System.Drawing.Color.White;
-            this.MacCode.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MacCode.Location = new System.Drawing.Point(123, 5);
-            this.MacCode.Name = "MacCode";
-            this.MacCode.Size = new System.Drawing.Size(147, 20);
-            this.MacCode.TabIndex = 10;
-            this.MacCode.Text = "00-00-00-00-00-00";
+            this.mac.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.mac.AutoSize = true;
+            this.mac.BackColor = System.Drawing.Color.Transparent;
+            this.mac.BorderColor = System.Drawing.Color.White;
+            this.mac.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.mac.Location = new System.Drawing.Point(123, 5);
+            this.mac.Name = "mac";
+            this.mac.Size = new System.Drawing.Size(147, 20);
+            this.mac.TabIndex = 10;
+            this.mac.Text = "00-00-00-00-00-00";
             // 
             // hostname
             // 
@@ -225,7 +224,7 @@
             this.hostname.BackColor = System.Drawing.Color.Transparent;
             this.hostname.BorderColor = System.Drawing.Color.White;
             this.hostname.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.hostname.Location = new System.Drawing.Point(610, 5);
+            this.hostname.Location = new System.Drawing.Point(614, 5);
             this.hostname.Name = "hostname";
             this.hostname.Size = new System.Drawing.Size(157, 20);
             this.hostname.TabIndex = 11;
@@ -237,14 +236,13 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.btnSave, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnExit, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnSave, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(610, 93);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(614, 93);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(341, 44);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(345, 34);
             this.tableLayoutPanel2.TabIndex = 12;
             // 
             // btnSave
@@ -253,31 +251,15 @@
             this.btnSave.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btnSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSave.DownBack = null;
-            this.btnSave.Location = new System.Drawing.Point(144, 3);
+            this.btnSave.Location = new System.Drawing.Point(248, 3);
             this.btnSave.MouseBack = null;
             this.btnSave.Name = "btnSave";
             this.btnSave.NormlBack = null;
-            this.btnSave.Size = new System.Drawing.Size(94, 38);
+            this.btnSave.Size = new System.Drawing.Size(94, 28);
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.BackColor = System.Drawing.Color.Transparent;
-            this.btnExit.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.btnExit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExit.DownBack = null;
-            this.btnExit.Location = new System.Drawing.Point(244, 3);
-            this.btnExit.MouseBack = null;
-            this.btnExit.Name = "btnExit";
-            this.btnExit.NormlBack = null;
-            this.btnExit.Size = new System.Drawing.Size(94, 38);
-            this.btnExit.TabIndex = 1;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // FromPrinterSetting
             // 
@@ -285,8 +267,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 505);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FromPrinterSetting";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FromPrinterSetting";
+            this.Load += new System.EventHandler(this.FromPrinterSetting_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -307,10 +292,9 @@
         private CCWin.SkinControl.SkinComboBox cb_BarcodePrinter;
         private CCWin.SkinControl.SkinComboBox cb_A5Printer;
         private CCWin.SkinControl.SkinComboBox cb_PDFPrinter;
-        private CCWin.SkinControl.SkinLabel MacCode;
+        private CCWin.SkinControl.SkinLabel mac;
         private CCWin.SkinControl.SkinLabel hostname;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private CCWin.SkinControl.SkinButton btnSave;
-        private CCWin.SkinControl.SkinButton btnExit;
     }
 }

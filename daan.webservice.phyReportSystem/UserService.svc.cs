@@ -11,10 +11,5 @@ namespace daan.webservice.phyReportSystem
         {
             return MessageProcessor.Process(request, new AuthenticateOp());
         }
-
-        public UpdateUserPrinterConfigResponse UpdateUserPrinterConfig(UpdateUserPrinterConfigRequest request)
-        {
-            return MessageProcessor.Process(request, new UpdateUserPrinterConfigOp());
-        }
     }
 }

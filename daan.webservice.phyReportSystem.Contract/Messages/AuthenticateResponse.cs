@@ -7,7 +7,7 @@ using daan.webservice.phyReportSystem.Contract.Messages;
 
 namespace daan.webservice.phyReportSystem.Contract.Messages
 {
-    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true)]
     public class AuthenticateResponse : ResponseBase
     {
     }

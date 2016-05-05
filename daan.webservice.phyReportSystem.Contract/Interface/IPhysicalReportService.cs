@@ -10,6 +10,6 @@ namespace daan.webservice.phyReportSystem.Contract.Interface
         QueryPhysicalReportsResponse QueryPhysicalReports(QueryPhysicalReportsRequest request);
 
         [OperationContract]
-        ModifyPhysicalReportsResponse ModifyPhysicalReports(ModifyPhysicalReportsRequest request);
+        GetLastClientVersionsResponse GetLastClientVersions(GetLastClientVersionsRequest request);
     }
 }

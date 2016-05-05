@@ -7,11 +7,10 @@ using System.ServiceModel;
 
 namespace daan.webservice.phyReportSystem.Contract.Messages
 {
-    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true)]
     public class QueryPhysicalReportsResponse : ResponseBase
     {
-        [DataMember(Order = 1)]
-        [MessageBodyMember(Order = 1)]
+        [MessageBodyMember]
         public System.Data.DataTable Result { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace daan.webservice.phyReportSystem.Contract.Messages
 {
-    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true)]
     public class AuthenticateRequest : RequestBase
     {
     }

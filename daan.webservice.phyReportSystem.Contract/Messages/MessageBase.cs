@@ -26,16 +26,18 @@ namespace daan.webservice.phyReportSystem.Contract.Messages
         UnknownError = 99,
     }
 
-    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true)]
+    [DataContract(Namespace = Declarations.NameSpace)]
     public class RequestBase
     {
-        [MessageHeader(Name = "Username", Namespace = Declarations.NameSpace)]
+        [MessageHeader(Name = "Username")]
         public string Username { get; set; }
-        [MessageHeader(Name = "Password", Namespace = Declarations.NameSpace)]
+        [MessageHeader(Name = "Password")]
         public string Password { get; set; }
     }
 
-    [MessageContract(IsWrapped = true, WrapperNamespace = Declarations.NameSpace)]
+    [MessageContract(IsWrapped = true)]
+    [DataContract(Namespace = Declarations.NameSpace)]
     public class ResponseBase
     {
         [DataMember(Order = 900)]
