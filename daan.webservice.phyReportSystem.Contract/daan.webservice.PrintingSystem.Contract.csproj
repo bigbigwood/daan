@@ -58,10 +58,11 @@
     <Compile Include="Messages\GetLastClientAppVersionResponse.cs" />
     <Compile Include="Messages\GetLastClientAppVersionRequest.cs" />
     <Compile Include="Messages\MessageBase.cs" />
-    <Compile Include="Models\ClientVersionInfo.cs" />
-    <Compile Include="Models\UserCredential.cs" />
-    <Compile Include="Models\UserInfo.cs" />
-    <Compile Include="Models\UserPrinterConfig.cs" />
+    <Compile Include="Models\ClientApplicationVersion.cs" />
+    <Compile Include="Models\ReportTemplate.cs" />
+    <Compile Include="Models\User\UserCredential.cs" />
+    <Compile Include="Models\User\UserInfo.cs" />
+    <Compile Include="Models\User\UserPrinterConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

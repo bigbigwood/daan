@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using daan.webservice.PrintingSystem.Contract.Models;
+using daan.webservice.PrintingSystem.Contract.Models.User;
 
 namespace daan.ui.PrinterApplication
 {

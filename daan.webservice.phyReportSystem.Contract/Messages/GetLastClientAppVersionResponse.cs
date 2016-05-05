@@ -7,6 +7,6 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
     public class GetLastClientAppVersionsResponse : ResponseBase
     {
         [MessageBodyMember]
-        public ClientVersionInfo[] ClientVersions { get; set; }
+        public ClientApplicationVersion[] ClientApplicationVersions { get; set; }
     }
 }

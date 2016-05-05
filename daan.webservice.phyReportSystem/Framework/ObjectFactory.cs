@@ -2,7 +2,7 @@
 using daan.webservice.PrintingSystem.Framework.Authenticaition;
 using Ninject;
 
-namespace daan.webservice.PrintingSystem
+namespace daan.webservice.PrintingSystem.Framework
 {
     public static class ObjectFactory
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Framework.Authenticaition;
 using daan.webservice.PrintingSystem.Framework.Operation;
@@ -16,6 +17,7 @@ namespace daan.webservice.PrintingSystem.Framework
          where TRequest : RequestBase, new()
         {
             TResponse result = new TResponse();
+            var sw = Stopwatch.StartNew();
 
             try
             {
@@ -44,7 +46,7 @@ namespace daan.webservice.PrintingSystem.Framework
             }
             finally
             {
-                Log.Info("Operation is done.");
+                Log.InfoFormat("Finish processing {0}, cost {1} milliseconds", processor.ToString(), sw.ElapsedMilliseconds);
 
                 // release session
             }

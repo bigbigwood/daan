@@ -1,13 +1,17 @@
 ﻿using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Framework.Operation;
+using daan.webservice.PrintingSystem.Services;
 
 namespace daan.webservice.PrintingSystem.Operations
 {
-    public class GetLastClientAppVersionOp : IOperation<GetLastClientAppVersionsRequest, GetLastClientAppVersionsResponse>
+    public class GetReportTemplatesOp : IOperation<GetReportTemplatesRequest, GetReportTemplatesResponse>
     {
-        public GetLastClientAppVersionsResponse Process(GetLastClientAppVersionsRequest request)
+        public GetReportTemplatesResponse Process(GetReportTemplatesRequest request)
         {
-            return new GetLastClientAppVersionsResponse() { ResultType = ResultTypes.Ok };
+            var reportTemplates = ReportTemplateService.GetReportTemplates();
+
+            return new GetReportTemplatesResponse() { ResultType = ResultTypes.Ok, ReportTemplates = reportTemplates .ToArray()};
         }
     }
+
 }

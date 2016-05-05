@@ -1,4 +1,5 @@
 ﻿using System;
+using daan.webservice.PrintingSystem.Framework;
 using log4net;
 
 namespace daan.webservice.PrintingSystem

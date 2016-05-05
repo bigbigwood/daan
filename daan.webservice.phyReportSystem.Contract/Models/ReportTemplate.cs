@@ -4,13 +4,11 @@ using System.Runtime.Serialization;
 namespace daan.webservice.PrintingSystem.Contract.Models
 {
     [DataContract(Namespace = Declarations.NameSpace)]
-    public class ClientVersionInfo
+    public class ReportTemplate
     {
         [DataMember]
-        public String ApplicationType { get; set; }
+        public String Name { get; set; }
         [DataMember]
-        public String ApplicationVersion { get; set; }
-        [DataMember]
-        public String ReportTemplateVersion { get; set; }
+        public String Content { get; set; }
     }
 }

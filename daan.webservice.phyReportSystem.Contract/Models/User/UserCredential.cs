@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace daan.webservice.PrintingSystem.Contract.Models
+namespace daan.webservice.PrintingSystem.Contract.Models.User
 {
     [DataContract(Namespace = Declarations.NameSpace)]
     public class UserCredential
