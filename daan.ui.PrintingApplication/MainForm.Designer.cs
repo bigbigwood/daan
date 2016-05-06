@@ -1,4 +1,4 @@
-﻿namespace daan.ui.PrinterApplication
+﻿namespace daan.ui.PrintingApplication
 {
     partial class MainForm
     {
@@ -34,16 +34,16 @@
             this.skinSplitContainer1 = new CCWin.SkinControl.SkinSplitContainer();
             this.skinPushPanel1 = new CCWin.SkinControl.SkinPushPanel();
             this.pushPanelItem_PrintList = new CCWin.SkinControl.PushPanelItem();
+            this.skinFlowLayoutPanel2 = new CCWin.SkinControl.SkinFlowLayoutPanel();
             this.pushPanelItem_Setting = new CCWin.SkinControl.PushPanelItem();
             this.pushPanelItem3 = new CCWin.SkinControl.PushPanelItem();
             this.MainTab = new CCWin.SkinControl.SkinTabControl();
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
+            this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
+            this.skinTabPage3 = new CCWin.SkinControl.SkinTabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblVersion = new CCWin.SkinControl.SkinLabel();
             this.lbl_Datetime = new CCWin.SkinControl.SkinLabel();
-            this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
-            this.skinTabPage3 = new CCWin.SkinControl.SkinTabPage();
-            this.skinFlowLayoutPanel2 = new CCWin.SkinControl.SkinFlowLayoutPanel();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skinSplitContainer1)).BeginInit();
             this.skinSplitContainer1.Panel1.SuspendLayout();
@@ -125,6 +125,20 @@
             this.pushPanelItem_PrintList.Name = "pushPanelItem_PrintList";
             this.pushPanelItem_PrintList.Text = "Print Function";
             // 
+            // skinFlowLayoutPanel2
+            // 
+            this.skinFlowLayoutPanel2.AutoScroll = true;
+            this.skinFlowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
+            this.skinFlowLayoutPanel2.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.skinFlowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.skinFlowLayoutPanel2.DownBack = null;
+            this.skinFlowLayoutPanel2.Location = new System.Drawing.Point(2, 24);
+            this.skinFlowLayoutPanel2.MouseBack = null;
+            this.skinFlowLayoutPanel2.Name = "skinFlowLayoutPanel2";
+            this.skinFlowLayoutPanel2.NormlBack = null;
+            this.skinFlowLayoutPanel2.Size = new System.Drawing.Size(193, 0);
+            this.skinFlowLayoutPanel2.TabIndex = 0;
+            // 
             // pushPanelItem_Setting
             // 
             this.pushPanelItem_Setting.CaptionFont = new System.Drawing.Font("Segoe UI", 9F);
@@ -174,6 +188,29 @@
             this.skinTabPage1.TabItemImage = null;
             this.skinTabPage1.Text = "skinTabPage1";
             // 
+            // skinTabPage2
+            // 
+            this.skinTabPage2.BackColor = System.Drawing.Color.White;
+            this.skinTabPage2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.skinTabPage2.Location = new System.Drawing.Point(0, 36);
+            this.skinTabPage2.Name = "skinTabPage2";
+            this.skinTabPage2.Size = new System.Drawing.Size(763, 381);
+            this.skinTabPage2.TabIndex = 1;
+            this.skinTabPage2.TabItemImage = null;
+            this.skinTabPage2.Text = "skinTabPage2";
+            // 
+            // skinTabPage3
+            // 
+            this.skinTabPage3.BackColor = System.Drawing.Color.White;
+            this.skinTabPage3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.skinTabPage3.Location = new System.Drawing.Point(0, 36);
+            this.skinTabPage3.Name = "skinTabPage3";
+            this.skinTabPage3.Size = new System.Drawing.Size(763, 381);
+            this.skinTabPage3.TabIndex = 2;
+            this.skinTabPage3.TabItemImage = null;
+            this.skinTabPage3.Text = "skinTabPage3";
+            this.skinTabPage3.Click += new System.EventHandler(this.skinTabPage3_Click);
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.DarkGray;
@@ -218,43 +255,6 @@
             this.lbl_Datetime.Name = "lbl_Datetime";
             this.lbl_Datetime.Size = new System.Drawing.Size(0, 20);
             this.lbl_Datetime.TabIndex = 1;
-            // 
-            // skinTabPage2
-            // 
-            this.skinTabPage2.BackColor = System.Drawing.Color.White;
-            this.skinTabPage2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skinTabPage2.Location = new System.Drawing.Point(0, 36);
-            this.skinTabPage2.Name = "skinTabPage2";
-            this.skinTabPage2.Size = new System.Drawing.Size(763, 381);
-            this.skinTabPage2.TabIndex = 1;
-            this.skinTabPage2.TabItemImage = null;
-            this.skinTabPage2.Text = "skinTabPage2";
-            // 
-            // skinTabPage3
-            // 
-            this.skinTabPage3.BackColor = System.Drawing.Color.White;
-            this.skinTabPage3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skinTabPage3.Location = new System.Drawing.Point(0, 36);
-            this.skinTabPage3.Name = "skinTabPage3";
-            this.skinTabPage3.Size = new System.Drawing.Size(763, 381);
-            this.skinTabPage3.TabIndex = 2;
-            this.skinTabPage3.TabItemImage = null;
-            this.skinTabPage3.Text = "skinTabPage3";
-            this.skinTabPage3.Click += new System.EventHandler(this.skinTabPage3_Click);
-            // 
-            // skinFlowLayoutPanel2
-            // 
-            this.skinFlowLayoutPanel2.AutoScroll = true;
-            this.skinFlowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
-            this.skinFlowLayoutPanel2.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinFlowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skinFlowLayoutPanel2.DownBack = null;
-            this.skinFlowLayoutPanel2.Location = new System.Drawing.Point(2, 24);
-            this.skinFlowLayoutPanel2.MouseBack = null;
-            this.skinFlowLayoutPanel2.Name = "skinFlowLayoutPanel2";
-            this.skinFlowLayoutPanel2.NormlBack = null;
-            this.skinFlowLayoutPanel2.Size = new System.Drawing.Size(193, 335);
-            this.skinFlowLayoutPanel2.TabIndex = 0;
             // 
             // MainForm
             // 

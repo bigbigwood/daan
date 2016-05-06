@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using log4net;
 
-namespace daan.ui.PrinterApplication
+namespace daan.ui.PrintingApplication
 {
     static class Program
     {

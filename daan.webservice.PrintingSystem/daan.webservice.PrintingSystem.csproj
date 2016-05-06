@@ -123,7 +123,7 @@
       <Project>{FD4D6980-4244-4A9D-ABB8-50E1E9D35EE5}</Project>
       <Name>daan.service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\daan.webservice.phyReportSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj">
+    <ProjectReference Include="..\daan.webservice.PrintingSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj">
       <Project>{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}</Project>
       <Name>daan.webservice.PrintingSystem.Contract</Name>
     </ProjectReference>

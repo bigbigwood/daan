@@ -1,4 +1,4 @@
-﻿namespace daan.ui.PrinterApplication
+﻿namespace daan.ui.PrintingApplication
 {
     partial class LoginForm
     {

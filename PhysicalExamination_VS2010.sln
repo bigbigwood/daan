@@ -38,11 +38,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.exportExcel", "daan
 		{125C1986-151A-469E-A85C-D266965B1F6E} = {125C1986-151A-469E-A85C-D266965B1F6E}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem", "daan.webservice.phyReportSystem\daan.webservice.PrintingSystem.csproj", "{6D79015F-C018-412F-85FA-0C992C95585E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem", "daan.webservice.PrintingSystem\daan.webservice.PrintingSystem.csproj", "{6D79015F-C018-412F-85FA-0C992C95585E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.PrinterApplication", "daan.ui.PrintClient\daan.ui.PrinterApplication.csproj", "{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.PrintingApplication", "daan.ui.PrintingApplication\daan.ui.PrintingApplication.csproj", "{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem.Contract", "daan.webservice.phyReportSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj", "{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem.Contract", "daan.webservice.PrintingSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj", "{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

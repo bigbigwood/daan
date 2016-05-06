@@ -8,8 +8,8 @@
     <ProjectGuid>{F3D5A3EB-6A21-4B1C-BCAF-1FB5B160FB29}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>daan.ui.PrinterApplication</RootNamespace>
-    <AssemblyName>daan.ui.PrinterApplication</AssemblyName>
+    <RootNamespace>daan.ui.PrintingApplication</RootNamespace>
+    <AssemblyName>daan.ui.PrintingApplication</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -57,19 +57,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FromPrinterSetting.cs">
+    <Compile Include="PrinterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FromPrinterSetting.Designer.cs">
-      <DependentUpon>FromPrinterSetting.cs</DependentUpon>
+    <Compile Include="PrinterSettingForm.Designer.cs">
+      <DependentUpon>PrinterSettingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocalMachineInfomationProvider.cs" />
     <Compile Include="MainFormTabImpl.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainFormTabImpl.Designer.cs">
       <DependentUpon>MainFormTabImpl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PrinterApp.cs" />
+    <Compile Include="PrintingApp.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,12 +83,11 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PrinterInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory.cs" />
-    <EmbeddedResource Include="FromPrinterSetting.resx">
-      <DependentUpon>FromPrinterSetting.cs</DependentUpon>
+    <EmbeddedResource Include="PrinterSettingForm.resx">
+      <DependentUpon>PrinterSettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -122,7 +122,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\daan.webservice.phyReportSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj">
+    <ProjectReference Include="..\daan.webservice.PrintingSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj">
       <Project>{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}</Project>
       <Name>daan.webservice.PrintingSystem.Contract</Name>
     </ProjectReference>

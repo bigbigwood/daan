@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using log4net;
 
-namespace daan.ui.PrinterApplication
+namespace daan.ui.PrintingApplication
 {
     public partial class LoginForm : Form
     {
@@ -23,11 +23,12 @@ namespace daan.ui.PrinterApplication
             try
             {
                 string url = ConfigurationManager.AppSettings.Get("UserServiceUrl");
-                var userService = ServiceFactory.GetUserService(url);
+                var userService = ServiceFactory.GetClientApplicationService(url);
                 var authenticateResponse = userService.Authenticate(new AuthenticateRequest()
                 {
                     Username = txtUsername.Text,
-                    Password = txtPassword.Text
+                    Password = txtPassword.Text,
+
                 });
 
                 if (authenticateResponse.ResultType == ResultTypes.Ok)
