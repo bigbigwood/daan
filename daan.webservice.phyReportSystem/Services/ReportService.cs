@@ -1,4 +1,6 @@
-﻿namespace daan.webservice.PrintingSystem.Services
+﻿using daan.webservice.PrintingSystem.Contract.Models.Report;
+
+namespace daan.webservice.PrintingSystem.Services
 {
     public class ReportService
     {
@@ -7,9 +9,9 @@
         /// </summary>
         /// <param name="orderNumber"></param>
         /// <returns></returns>
-        public string GetReportData(string orderNumber)
+        public ReportInfo GetReportInfo(string orderNumber)
         {
-            return string.Empty;
+            return new ReportInfo();
         }
     }
 }

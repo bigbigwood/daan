@@ -5,5 +5,7 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
     [MessageContract(IsWrapped = true)]
     public class GetReportDataRequest : RequestBase
     {
+        [MessageBodyMember]
+        public string OrderNumbers { get; set; }
     }
 }

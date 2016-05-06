@@ -6,8 +6,6 @@ namespace daan.webservice.PrintingSystem.Contract.Models.User
     public class UserInfo
     {
         [DataMember]
-        public UserCredential UserCredential { get; set; }
-        [DataMember]
         public UserPrinterConfig UserPrinterConfig { get; set; }
     }
 }

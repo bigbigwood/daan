@@ -18,6 +18,8 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
         [EnumMember]
         BussinessLogicError = 4,
         [EnumMember]
+        PartiallyOk = 5,
+        [EnumMember]
         Queued = 98,
         [EnumMember]
         UnknownError = 99,

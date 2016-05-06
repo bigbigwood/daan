@@ -16,14 +16,6 @@ namespace daan.webservice.PrintingSystem.Services
         private static readonly String ReportTemplatePath = ConfigurationManager.AppSettings.Get("ReportTemplatePath");
         private const string CacheKey = "CacheKey_ReportTemplate";
 
-        //public List<ReportTemplate> GetReportTemplates()
-        //{
-        //    if (_reportTemplates == null)
-        //        LoadReportTemplates();
-
-        //    return _reportTemplates;
-        //}
-
         /// <summary>
         /// 从内存缓存中读取配置。若缓存中不存在，则重新从文件中读取配置，存入缓存
         /// </summary>
