@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationUpdater.cs" />
     <Compile Include="PrinterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,7 +86,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportTemplateProvider.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="VersioningManager.cs" />
     <EmbeddedResource Include="PrinterSettingForm.resx">
       <DependentUpon>PrinterSettingForm.cs</DependentUpon>
     </EmbeddedResource>

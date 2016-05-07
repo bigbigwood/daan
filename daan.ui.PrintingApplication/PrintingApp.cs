@@ -2,11 +2,11 @@
 
 namespace daan.ui.PrintingApplication
 {
-    public class PrinterApp
+    public class PrintingApp
     {
-        static PrinterApp()
+        static PrintingApp()
         {
-            CurrentUserInfo = MockUserInfo();
+            //CurrentUserInfo = MockUserInfo();
         }
 
         public static UserInfo CurrentUserInfo { get; set; }

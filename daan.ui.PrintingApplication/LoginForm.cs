@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Configuration;
+using System.IO;
+using System.Web.UI.Design.WebControls;
 using System.Windows.Forms;
 using daan.webservice.PrintingSystem.Contract.Messages;
+using daan.webservice.PrintingSystem.Contract.Models.User;
 using log4net;
 
 namespace daan.ui.PrintingApplication
@@ -22,33 +25,45 @@ namespace daan.ui.PrintingApplication
         {
             try
             {
-                string url = ConfigurationManager.AppSettings.Get("UserServiceUrl");
+                string username = txtUsername.Text;
+                string password = txtPassword.Text;
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                {
+                    MessageBox.Show("用户名或者密码不能为空");
+                    return;
+                }
+
+
+                string url = ConfigurationManager.AppSettings.Get("ClientApplicationServiceUrl");
                 var userService = ServiceFactory.GetClientApplicationService(url);
                 var authenticateResponse = userService.Authenticate(new AuthenticateRequest()
                 {
-                    Username = txtUsername.Text,
-                    Password = txtPassword.Text,
-
+                    Username = username,
+                    Password = password,
                 });
 
-                if (authenticateResponse.ResultType == ResultTypes.Ok)
-                {
-                    Log.Info("Authenticate OK");
-
-                    //PrinterApp.UserInfo = 
-                    
-                    //show main form
-                    this.Hide();
-                    MainForm mainForm = new MainForm();
-                    mainForm.ShowDialog();
-                }
-                else
+                if (authenticateResponse.ResultType != ResultTypes.Ok)
                 {
                     Log.Info("Authenticate fail.");
-
-                    // Do something, for example load user data in the context
-
+                    MessageBox.Show("用户名或者密码不正确");
+                    return;
                 }
+
+                Log.Info("Authenticate OK");
+                var userCredential = new UserCredential() { UserName = username, Password = password };
+                PrintingApp.CurrentUserInfo = authenticateResponse.UserInfo;
+                PrintingApp.CurrentUserInfo.UserCredential = userCredential;
+
+                ApplicationUpdater updater = new ApplicationUpdater();
+                updater.Initialize();
+
+
+
+                //show main form
+                this.Hide();
+                var mainForm = new MainFormTabImpl();
+                mainForm.ShowDialog();
+
             }
             catch (Exception ex)
             {

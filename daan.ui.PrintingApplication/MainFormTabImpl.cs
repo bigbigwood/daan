@@ -23,14 +23,6 @@ namespace daan.ui.PrintingApplication
 
         private void MainFormTabImpl_Load(object sender, EventArgs e)
         {
-            var setting = new FromPrinterSetting();
-            setting.TopLevel = false;
-            setting.Dock = DockStyle.Fill;
-            setting.FormBorderStyle = FormBorderStyle.None;
-            setting.ControlBox = false;
-            tab_Settings.TabPages[0].Controls.Add(setting);
-            setting.BackColor = setting.Parent.BackColor;
-            setting.Show();
         }
     }
 }

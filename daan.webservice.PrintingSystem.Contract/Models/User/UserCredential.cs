@@ -3,12 +3,12 @@
 namespace daan.webservice.PrintingSystem.Contract.Models.User
 {
     [DataContract(Namespace = Declarations.NameSpace)]
-    public class UserInfo
+    public class UserCredential
     {
         [DataMember]
-        public UserPrinterConfig UserPrinterConfig { get; set; }
+        public string UserName { get; set; }
 
         [DataMember]
-        public UserCredential UserCredential { get; set; }
+        public string Password { get; set; }
     }
 }

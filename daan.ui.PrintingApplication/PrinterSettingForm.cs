@@ -37,7 +37,7 @@ namespace daan.ui.PrintingApplication
             cb_PDFPrinter.DataSource = new List<String>(printers);
 
             //bind user printer config.
-            var userInfo = PrinterApp.CurrentUserInfo;
+            var userInfo = PrintingApp.CurrentUserInfo;
             cb_A4Printer.SelectedItem = userInfo.UserPrinterConfig.A4Printer;
             cb_A5Printer.SelectedItem = userInfo.UserPrinterConfig.A5Printer;
             cb_BarcodePrinter.SelectedItem = userInfo.UserPrinterConfig.BarcodePrinter;

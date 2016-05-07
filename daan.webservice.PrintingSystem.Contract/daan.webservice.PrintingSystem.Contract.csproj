@@ -63,6 +63,7 @@
     <Compile Include="Models\Order\OrderTransition.cs" />
     <Compile Include="Models\ReportTemplate.cs" />
     <Compile Include="Models\Report\ReportInfo.cs" />
+    <Compile Include="Models\User\UserCredential.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
     <Compile Include="Models\User\UserPrinterConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

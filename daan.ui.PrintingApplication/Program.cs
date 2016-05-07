@@ -19,7 +19,7 @@ namespace daan.ui.PrintingApplication
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FromPrinterSetting());
+            Application.Run(new LoginForm());
         }
     }
 }
