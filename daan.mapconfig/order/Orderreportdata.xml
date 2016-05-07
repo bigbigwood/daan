@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+
+  <cacheModels>
+    <cacheModel id="Orderreportdata-cache"  implementation="MEMORY" >
+      <flushInterval hours="24"/>
+      <flushOnExecute  statement="Order.InsertOrderreportdata"/>
+      <flushOnExecute  statement="Order.UpdateOrderreportdata"/>
+      <flushOnExecute  statement="Order.DeleteOrderreportdata"/>
+      <property name="Type" value="Weak"/>
+    </cacheModel>
+  </cacheModels>
+
+  <alias>
+    <typeAlias alias="Orderreportdata" type="daan.domain.Orderreportdata,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderreportdataResult" class="daan.domain.Orderreportdata">
+      <result property="Orderreportdataid" column="ORDERREPORTDATAID" />
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="ReportData" column="REPORTDATA" />
+      <result property="Createdate" column="CREATEDATE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Order.SelectOrderreportdata" parameterClass="string" resultMap="OrderreportdataResult" cacheModel="Orderreportdata-cache">
+      SELECT ORDERREPORTDATAID, ORDERNUM, REPORTDATA, CREATEDATE
+      FROM Orderreportdata
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERREPORTDATAID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <select id="Order.SelectOrderreportdataByOrdernum" parameterClass="string" resultMap="OrderreportdataResult" cacheModel="Orderreportdata-cache">
+      SELECT ORDERREPORTDATAID, ORDERNUM, REPORTDATA, CREATEDATE
+      FROM Orderreportdata
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = '$value$'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    
+    <!--<select id="Order.SelectOrderreportdataByOrdernum" parameterClass="string">
+      SELECT count(1) FROM Orderreportdata
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = '$value$'
+        </isParameterPresent>
+      </dynamic>
+    </select>-->
+    <insert id="Order.InsertOrderreportdata" parameterClass="Orderreportdata">
+      INSERT INTO Orderreportdata
+      (ORDERREPORTDATAID,ORDERNUM,REPORTDATA)
+      VALUES(#Orderreportdataid#,#Ordernum#,#ReportData#)
+    </insert>
+    <update id="Order.UpdateOrderreportdata" parameterClass="Orderreportdata">
+      UPDATE Orderreportdata
+      SET ORDERNUM=#Ordernum#,REPORTDATA=#ReportData#,CREATEDATE=#Createdate#
+      WHERE ORDERNUM = '$Ordernum$'
+    </update>
+    <delete id="Order.DeleteOrderreportdata" parameterClass="string">
+      DELETE FROM Orderreportdata WHERE ORDERREPORTDATAID = #value#
+    </delete>
+  </statements>
+</sqlMap>

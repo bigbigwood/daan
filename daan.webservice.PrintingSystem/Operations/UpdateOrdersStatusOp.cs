@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using daan.domain;
+using daan.service.dict;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Framework.Operation;
 using System.Collections;
@@ -18,6 +20,23 @@ namespace daan.webservice.PrintingSystem.Operations
         {
             List<String> messages = new List<string>();
 
+            var dictUser = new Dictuser() { Usercode = request.Username };
+            dictUser = new DictuserService().GetDictuserInfoByUserCode(dictUser);
+            if (dictUser == null)
+            {
+                throw new Exception("");
+            }
+
+            var userInfo = new UserInfo();
+            userInfo.userCode = dictUser.Usercode;
+            userInfo.userName = dictUser.Username;
+            userInfo.userId = Convert.ToInt32(dictUser.Dictuserid);
+            userInfo.loginTime = DateTime.Now;
+            userInfo.joinLabidstr = dictUser.Joinlabid;
+            userInfo.dictlabid = dictUser.Dictlabid;
+            userInfo.joinDeptstr = dictUser.Joindeptid;
+            userInfo.dictlabdeptid = dictUser.Dictlabdeptid;
+
             foreach (var orderTransition in request.OrderTransitions)
             {
                 Hashtable ht = new Hashtable();
@@ -32,7 +51,7 @@ namespace daan.webservice.PrintingSystem.Operations
                     messages.Add(message);
                 }
 
-                ordersService.AddOperationLog(orderTransition.OrderNumber, null, "报告单集中打印", "新版打印报告单", "修改留痕", "");
+                ordersService.AddOperationLog(orderTransition.OrderNumber, null, "报告单集中打印", "新版打印报告单", "修改留痕", "", userInfo);
             }
 
             if (messages.Any())

@@ -528,10 +528,32 @@ namespace daan.service.common
             doAddOperationLog(ht);
         }
 
+        /// <summary>
+        /// 操作日志记录保存
+        /// </summary>
+        /// <param name="OrderNum">体检订单号</param>
+        /// <param name="BarCode">条码</param>
+        /// <param name="ModuleName">模块名称如：财务管理，总检</param>
+        /// <param name="Content">操作内容</param>
+        /// <param name="OperationType">操作的类型如：修改留痕，节点信息，增加备注</param>
+        /// <param name="Remark">备注内容</param>
+        /// <param name="currentUserInfo">当前操作用户</param>
+        public void AddOperationLog(string OrderNum, string BarCode, string ModuleName, string Content, string OperationType, string Remark, UserInfo currentUserInfo, Hashtable htScan = null)
+        {
+            Hashtable ht = new Hashtable();
+            ht["OrderNum"] = OrderNum;
+            ht["BarCode"] = BarCode;
+            ht["ModuleName"] = ModuleName;
+            ht["Content"] = Content;
+            ht["OperationType"] = OperationType;
+            ht["Remark"] = Remark;
+            ht["CurrentUserInfo"] = currentUserInfo;
+            ht["Scan"] = htScan;
+            doAddOperationLog(ht);
+        }
+
         private void doAddOperationLog(object obj)
         {
-            UserInfo userInfo = GetUserInfo();
-
             Hashtable ht = (Hashtable)obj;
 
             String OrderNum = ht["OrderNum"] == null ? "" : ht["OrderNum"].ToString();
@@ -541,6 +563,9 @@ namespace daan.service.common
             String OperationType = ht["OperationType"] == null ? "" : ht["OperationType"].ToString();
             String Remark = ht["Remark"] == null ? "" : ht["Remark"].ToString();
             Hashtable htScan = ht["Scan"] == null ? null : (Hashtable)ht["Scan"];
+            UserInfo currentUserInfo = ht["CurrentUserInfo"] == null ? null : (UserInfo)ht["CurrentUserInfo"];
+
+            UserInfo userInfo = currentUserInfo ?? GetUserInfo();
 
             Operationlog log = new Operationlog();
             log.Operationid = this.getSeqID("seq_OperationLog");

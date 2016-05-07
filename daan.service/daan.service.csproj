@@ -130,6 +130,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="report\CustomerresultcommentService.cs" />
     <Compile Include="report\CustomervaliddiagnosisService.cs" />
+    <Compile Include="order\OrderreportdataService.cs" />
     <Compile Include="report\ReportService.cs" />
   </ItemGroup>
   <ItemGroup>
