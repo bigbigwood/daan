@@ -2,6 +2,7 @@ bin
 obj
 packages
 *.log*
+log.txt*
 *.suo
 *.userprefs
 *.nupkg
