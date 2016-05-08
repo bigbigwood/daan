@@ -61,7 +61,7 @@ namespace daan.ui.PrintingApplication
 
                 //show main form
                 this.Hide();
-                var mainForm = new MainFormTabImpl();
+                var mainForm = new MainForm();
                 mainForm.ShowDialog();
 
             }

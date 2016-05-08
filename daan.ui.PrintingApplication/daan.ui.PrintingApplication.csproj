@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUpdater.cs" />
+    <Compile Include="ComboBoxDataSourceProvider.cs" />
     <Compile Include="PrinterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,11 +66,11 @@
       <DependentUpon>PrinterSettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalMachineInfomationProvider.cs" />
-    <Compile Include="MainFormTabImpl.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFormTabImpl.Designer.cs">
-      <DependentUpon>MainFormTabImpl.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PrintingApp.cs" />
     <Compile Include="LoginForm.cs">
@@ -77,12 +78,6 @@
     </Compile>
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,9 +92,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainFormTabImpl.resx">
-      <DependentUpon>MainFormTabImpl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

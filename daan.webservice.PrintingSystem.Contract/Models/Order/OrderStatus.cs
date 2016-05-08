@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace daan.webservice.PrintingSystem.Contract.Models.Order
 {

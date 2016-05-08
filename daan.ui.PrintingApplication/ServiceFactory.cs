@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using daan.webservice.PrintingSystem.Contract.Interface;
 
 namespace daan.ui.PrintingApplication
@@ -14,7 +15,7 @@ namespace daan.ui.PrintingApplication
             if (_clientApplicationServiceFactory == null)
             {
                 var endpointAddress = new EndpointAddress(url);
-                _clientApplicationServiceFactory = new ChannelFactory<IClientApplicationServiceContract>(new BasicHttpBinding(), endpointAddress);
+                _clientApplicationServiceFactory = new ChannelFactory<IClientApplicationServiceContract>(GetBinding(), endpointAddress);
             }
 
             return _clientApplicationServiceFactory.CreateChannel();
@@ -25,10 +26,15 @@ namespace daan.ui.PrintingApplication
             if (_printingServiceFactory == null)
             {
                 var endpointAddress = new EndpointAddress(url);
-                _printingServiceFactory = new ChannelFactory<IPrintingServiceContract>(new BasicHttpBinding(), endpointAddress);
+                _printingServiceFactory = new ChannelFactory<IPrintingServiceContract>(GetBinding(), endpointAddress);
             }
 
             return _printingServiceFactory.CreateChannel();
+        }
+
+        private static Binding GetBinding()
+        {
+            return new BasicHttpBinding() { MaxReceivedMessageSize = int.MaxValue };
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace daan.ui.PrintingApplication
 {
-    public partial class FromPrinterSetting : Form
+    public partial class PrinterSettingForm : Form
     {
-        public FromPrinterSetting()
+        public PrinterSettingForm()
         {
             InitializeComponent();
         }

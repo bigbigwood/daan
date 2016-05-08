@@ -7,5 +7,8 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
     {
         [MessageBodyMember]
         public string HostMac { get; set; }
+
+        [MessageBodyMember]
+        public string HostName { get; set; }
     }
 }

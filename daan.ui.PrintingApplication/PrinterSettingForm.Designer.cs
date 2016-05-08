@@ -1,6 +1,6 @@
 ﻿namespace daan.ui.PrintingApplication
 {
-    partial class FromPrinterSetting
+    partial class PrinterSettingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -261,16 +261,16 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // FromPrinterSetting
+            // PrinterSettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 505);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FromPrinterSetting";
+            this.Name = "PrinterSettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FromPrinterSetting";
+            this.Text = "PrinterSettingForm";
             this.Load += new System.EventHandler(this.FromPrinterSetting_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
