@@ -21,6 +21,7 @@ namespace daan.ui.PrintingApplication
         private void MainFormTabImpl_Load(object sender, EventArgs e)
         {
             BindData();
+            dgv_orders.AutoGenerateColumns = false;
         }
 
         private void BindData()
@@ -57,7 +58,6 @@ namespace daan.ui.PrintingApplication
 
         private void BindDataGrid(QueryOrdersResponse response)
         {
-
             dgv_orders.DataSource = response.Result;
         }
 

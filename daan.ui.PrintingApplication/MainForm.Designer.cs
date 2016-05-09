@@ -39,7 +39,6 @@
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgv_orders = new CCWin.SkinControl.SkinDataGridView();
-            this.IsCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ReportToolBar = new CCWin.SkinControl.SkinToolStrip();
             this.btnQueryOrder = new System.Windows.Forms.ToolStripButton();
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
@@ -65,6 +64,22 @@
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.IsCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.RN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RealName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Age = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mobile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CreateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrganizationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderPackageName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SamplingDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PostAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.skinTabPage1.SuspendLayout();
@@ -169,7 +184,22 @@
             this.dgv_orders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_orders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_orders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IsCheck});
+            this.IsCheck,
+            this.RN,
+            this.OrderStatus,
+            this.OrderNumber,
+            this.RealName,
+            this.Sex,
+            this.Age,
+            this.Mobile,
+            this.CreateDate,
+            this.OrganizationName,
+            this.OrderPackageName,
+            this.Section,
+            this.SamplingDate,
+            this.PostAddress,
+            this.Recipient,
+            this.ContractNumber});
             this.dgv_orders.ColumnSelectForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
@@ -201,15 +231,6 @@
             this.dgv_orders.TitleBack = null;
             this.dgv_orders.TitleBackColorBegin = System.Drawing.Color.White;
             this.dgv_orders.TitleBackColorEnd = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(196)))), ((int)(((byte)(242)))));
-            // 
-            // IsCheck
-            // 
-            this.IsCheck.HeaderText = "";
-            this.IsCheck.Name = "IsCheck";
-            this.IsCheck.ReadOnly = true;
-            this.IsCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IsCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.IsCheck.Width = 18;
             // 
             // ReportToolBar
             // 
@@ -490,7 +511,7 @@
             this.dropDictLab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictLab.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictLab.FormattingEnabled = true;
-            this.dropDictLab.Location = new System.Drawing.Point(83, 7);
+            this.dropDictLab.Location = new System.Drawing.Point(83, 4);
             this.dropDictLab.Name = "dropDictLab";
             this.dropDictLab.Size = new System.Drawing.Size(160, 29);
             this.dropDictLab.TabIndex = 10;
@@ -501,7 +522,7 @@
             this.dropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropStatus.FormattingEnabled = true;
-            this.dropStatus.Location = new System.Drawing.Point(83, 44);
+            this.dropStatus.Location = new System.Drawing.Point(83, 41);
             this.dropStatus.Name = "dropStatus";
             this.dropStatus.Size = new System.Drawing.Size(160, 29);
             this.dropStatus.TabIndex = 11;
@@ -512,7 +533,7 @@
             this.dropDictcustomer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictcustomer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictcustomer.FormattingEnabled = true;
-            this.dropDictcustomer.Location = new System.Drawing.Point(369, 7);
+            this.dropDictcustomer.Location = new System.Drawing.Point(369, 4);
             this.dropDictcustomer.Name = "dropDictcustomer";
             this.dropDictcustomer.Size = new System.Drawing.Size(160, 29);
             this.dropDictcustomer.TabIndex = 12;
@@ -523,7 +544,7 @@
             this.dropReportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropReportStatus.FormattingEnabled = true;
-            this.dropReportStatus.Location = new System.Drawing.Point(369, 83);
+            this.dropReportStatus.Location = new System.Drawing.Point(369, 80);
             this.dropReportStatus.Name = "dropReportStatus";
             this.dropReportStatus.Size = new System.Drawing.Size(160, 29);
             this.dropReportStatus.TabIndex = 13;
@@ -634,6 +655,138 @@
             this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
             this.imageList.Images.SetKeyName(3, "System_Module.png");
             // 
+            // IsCheck
+            // 
+            this.IsCheck.HeaderText = "";
+            this.IsCheck.Name = "IsCheck";
+            this.IsCheck.ReadOnly = true;
+            this.IsCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.IsCheck.Width = 18;
+            // 
+            // RN
+            // 
+            this.RN.DataPropertyName = "RN";
+            this.RN.HeaderText = "Number";
+            this.RN.Name = "RN";
+            this.RN.ReadOnly = true;
+            this.RN.Visible = false;
+            this.RN.Width = 86;
+            // 
+            // OrderStatus
+            // 
+            this.OrderStatus.DataPropertyName = "STATUSNAME";
+            this.OrderStatus.HeaderText = "订单状态";
+            this.OrderStatus.Name = "OrderStatus";
+            this.OrderStatus.ReadOnly = true;
+            this.OrderStatus.Width = 97;
+            // 
+            // OrderNumber
+            // 
+            this.OrderNumber.DataPropertyName = "ORDERNUM";
+            this.OrderNumber.HeaderText = "订单号";
+            this.OrderNumber.Name = "OrderNumber";
+            this.OrderNumber.ReadOnly = true;
+            this.OrderNumber.Width = 81;
+            // 
+            // RealName
+            // 
+            this.RealName.DataPropertyName = "REALNAME";
+            this.RealName.HeaderText = "姓名";
+            this.RealName.Name = "RealName";
+            this.RealName.ReadOnly = true;
+            this.RealName.Width = 65;
+            // 
+            // Sex
+            // 
+            this.Sex.DataPropertyName = "SEX";
+            this.Sex.HeaderText = "性别";
+            this.Sex.Name = "Sex";
+            this.Sex.ReadOnly = true;
+            this.Sex.Width = 65;
+            // 
+            // Age
+            // 
+            this.Age.DataPropertyName = "AGE";
+            this.Age.HeaderText = "年龄";
+            this.Age.Name = "Age";
+            this.Age.ReadOnly = true;
+            this.Age.Width = 65;
+            // 
+            // Mobile
+            // 
+            this.Mobile.DataPropertyName = "MOBILE";
+            this.Mobile.HeaderText = "联系方式";
+            this.Mobile.Name = "Mobile";
+            this.Mobile.ReadOnly = true;
+            this.Mobile.Width = 97;
+            // 
+            // CreateDate
+            // 
+            this.CreateDate.DataPropertyName = "createdate";
+            this.CreateDate.HeaderText = "登记时间";
+            this.CreateDate.Name = "CreateDate";
+            this.CreateDate.ReadOnly = true;
+            this.CreateDate.Width = 97;
+            this.CreateDate.DefaultCellStyle.Format = "yyyy-MM-dd";
+            // 
+            // OrganizationName
+            // 
+            this.OrganizationName.DataPropertyName = "CUSTOMERNAME";
+            this.OrganizationName.HeaderText = "体检单位";
+            this.OrganizationName.Name = "OrganizationName";
+            this.OrganizationName.ReadOnly = true;
+            this.OrganizationName.Width = 97;
+            // 
+            // OrderPackageName
+            // 
+            this.OrderPackageName.DataPropertyName = "ORDERTESTLST";
+            this.OrderPackageName.HeaderText = "套餐名称";
+            this.OrderPackageName.Name = "OrderPackageName";
+            this.OrderPackageName.ReadOnly = true;
+            this.OrderPackageName.Width = 97;
+            // 
+            // Section
+            // 
+            this.Section.DataPropertyName = "section";
+            this.Section.HeaderText = "部门[地区]";
+            this.Section.Name = "Section";
+            this.Section.ReadOnly = true;
+            this.Section.Width = 105;
+            // 
+            // SamplingDate
+            // 
+            this.SamplingDate.DataPropertyName = "samplingdate";
+            this.SamplingDate.HeaderText = "采样时间";
+            this.SamplingDate.Name = "SamplingDate";
+            this.SamplingDate.ReadOnly = true;
+            this.SamplingDate.Width = 97;
+            this.SamplingDate.DefaultCellStyle.Format = "yyyy-MM-dd";
+            // 
+            // PostAddress
+            // 
+            this.PostAddress.DataPropertyName = "POSTADDRESS";
+            this.PostAddress.HeaderText = "邮寄地址";
+            this.PostAddress.Name = "PostAddress";
+            this.PostAddress.ReadOnly = true;
+            this.PostAddress.Width = 97;
+            // 
+            // Recipient
+            // 
+            this.Recipient.DataPropertyName = "RECIPIENT";
+            this.Recipient.HeaderText = "收件人";
+            this.Recipient.Name = "Recipient";
+            this.Recipient.ReadOnly = true;
+            this.Recipient.Width = 81;
+            // 
+            // ContractNumber
+            // 
+            this.ContractNumber.DataPropertyName = "CONTACTNUMBER";
+            this.ContractNumber.HeaderText = "联系电话";
+            this.ContractNumber.Name = "ContractNumber";
+            this.ContractNumber.ReadOnly = true;
+            this.ContractNumber.Width = 97;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -665,7 +818,6 @@
         private CCWin.SkinControl.SkinTabPage skinTabPage1;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private CCWin.SkinControl.SkinDataGridView dgv_orders;
         private CCWin.SkinControl.SkinToolStrip ReportToolBar;
         private System.Windows.Forms.ToolStripButton btnQueryOrder;
         private System.Windows.Forms.ToolStripButton btnPrint;
@@ -691,5 +843,21 @@
         private System.Windows.Forms.DateTimePicker dpTo;
         private System.Windows.Forms.DateTimePicker dpFrom;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCheck;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RealName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Sex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Age;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mobile;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CreateDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrganizationName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderPackageName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Section;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SamplingDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PostAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Recipient;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContractNumber;
+        private CCWin.SkinControl.SkinDataGridView dgv_orders;
     }
 }
