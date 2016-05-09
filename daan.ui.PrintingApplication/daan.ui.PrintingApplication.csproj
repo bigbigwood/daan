@@ -83,6 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportTemplateProvider.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Helper\AddCheckBoxToDataGridView.cs" />
     <Compile Include="VersioningManager.cs" />
     <EmbeddedResource Include="PrinterSettingForm.resx">
       <DependentUpon>PrinterSettingForm.cs</DependentUpon>

@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Windows.Forms;
 using CCWin;
+using daan.ui.PrintingApplication.Helper;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models;
 using daan.webservice.PrintingSystem.Contract.Models.Order;
@@ -20,8 +21,15 @@ namespace daan.ui.PrintingApplication
 
         private void MainFormTabImpl_Load(object sender, EventArgs e)
         {
+            WindowState = FormWindowState.Maximized;
+
             BindData();
+
+            AddCheckBoxToDataGridView.dgv = dgv_orders;
+            AddCheckBoxToDataGridView.AddFullSelect();
             dgv_orders.AutoGenerateColumns = false;
+
+
         }
 
         private void BindData()

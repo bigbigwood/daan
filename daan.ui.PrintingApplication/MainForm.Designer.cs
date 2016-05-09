@@ -29,16 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainTabControl = new CCWin.SkinControl.SkinTabControl();
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dgv_orders = new CCWin.SkinControl.SkinDataGridView();
             this.ReportToolBar = new CCWin.SkinControl.SkinToolStrip();
             this.btnQueryOrder = new System.Windows.Forms.ToolStripButton();
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
@@ -63,30 +58,29 @@
             this.tbxName = new CCWin.SkinControl.SkinTextBox();
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
+            this.dgv_orders = new System.Windows.Forms.DataGridView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.IsCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.RN = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RealName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Age = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mobile = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CreateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OrganizationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OrderPackageName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Section = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SamplingDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PostAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_Sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_Age = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_Mobile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_CreateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_OrganizationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_OrderPackageName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_Section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_SamplingDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_PostAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.skinTabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
             this.ReportToolBar.SuspendLayout();
             this.tlp_queryConditions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -148,9 +142,9 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.dgv_orders, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.ReportToolBar, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tlp_queryConditions, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.dgv_orders, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -158,79 +152,10 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(986, 504);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // dgv_orders
-            // 
-            this.dgv_orders.AllowUserToAddRows = false;
-            this.dgv_orders.AllowUserToDeleteRows = false;
-            this.dgv_orders.AllowUserToResizeColumns = false;
-            this.dgv_orders.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
-            this.dgv_orders.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv_orders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgv_orders.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgv_orders.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dgv_orders.ColumnFont = null;
-            this.dgv_orders.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Baiduan Number", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_orders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_orders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_orders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IsCheck,
-            this.RN,
-            this.OrderStatus,
-            this.OrderNumber,
-            this.RealName,
-            this.Sex,
-            this.Age,
-            this.Mobile,
-            this.CreateDate,
-            this.OrganizationName,
-            this.OrderPackageName,
-            this.Section,
-            this.SamplingDate,
-            this.PostAddress,
-            this.Recipient,
-            this.ContractNumber});
-            this.dgv_orders.ColumnSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Baiduan Number", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_orders.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgv_orders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_orders.EnableHeadersVisualStyles = false;
-            this.dgv_orders.GridColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.dgv_orders.HeadFont = new System.Drawing.Font("Baiduan Number", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_orders.HeadSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgv_orders.Location = new System.Drawing.Point(3, 153);
-            this.dgv_orders.Name = "dgv_orders";
-            this.dgv_orders.ReadOnly = true;
-            this.dgv_orders.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_orders.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgv_orders.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.dgv_orders.RowTemplate.Height = 23;
-            this.dgv_orders.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.dgv_orders.Size = new System.Drawing.Size(980, 348);
-            this.dgv_orders.TabIndex = 2;
-            this.dgv_orders.TitleBack = null;
-            this.dgv_orders.TitleBackColorBegin = System.Drawing.Color.White;
-            this.dgv_orders.TitleBackColorEnd = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(196)))), ((int)(((byte)(242)))));
             // 
             // ReportToolBar
             // 
@@ -336,10 +261,11 @@
             this.tlp_queryConditions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_queryConditions.Location = new System.Drawing.Point(3, 33);
             this.tlp_queryConditions.Name = "tlp_queryConditions";
-            this.tlp_queryConditions.RowCount = 3;
+            this.tlp_queryConditions.RowCount = 4;
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tlp_queryConditions.Size = new System.Drawing.Size(980, 114);
             this.tlp_queryConditions.TabIndex = 4;
             // 
@@ -348,7 +274,7 @@
             this.dpSTo.CustomFormat = "yyyy-MM-dd";
             this.dpSTo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dpSTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSTo.Location = new System.Drawing.Point(816, 40);
+            this.dpSTo.Location = new System.Drawing.Point(816, 39);
             this.dpSTo.Name = "dpSTo";
             this.dpSTo.Size = new System.Drawing.Size(161, 28);
             this.dpSTo.TabIndex = 23;
@@ -396,7 +322,7 @@
             this.skinLabel2.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel2.BorderColor = System.Drawing.Color.White;
             this.skinLabel2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel2.Location = new System.Drawing.Point(35, 46);
+            this.skinLabel2.Location = new System.Drawing.Point(35, 44);
             this.skinLabel2.Name = "skinLabel2";
             this.skinLabel2.Size = new System.Drawing.Size(42, 20);
             this.skinLabel2.TabIndex = 1;
@@ -409,7 +335,7 @@
             this.skinLabel3.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel3.BorderColor = System.Drawing.Color.White;
             this.skinLabel3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel3.Location = new System.Drawing.Point(20, 84);
+            this.skinLabel3.Location = new System.Drawing.Point(20, 80);
             this.skinLabel3.Name = "skinLabel3";
             this.skinLabel3.Size = new System.Drawing.Size(57, 20);
             this.skinLabel3.TabIndex = 2;
@@ -435,7 +361,7 @@
             this.skinLabel5.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel5.BorderColor = System.Drawing.Color.White;
             this.skinLabel5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel5.Location = new System.Drawing.Point(255, 46);
+            this.skinLabel5.Location = new System.Drawing.Point(255, 44);
             this.skinLabel5.Name = "skinLabel5";
             this.skinLabel5.Size = new System.Drawing.Size(108, 20);
             this.skinLabel5.TabIndex = 4;
@@ -448,7 +374,7 @@
             this.skinLabel6.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel6.BorderColor = System.Drawing.Color.White;
             this.skinLabel6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel6.Location = new System.Drawing.Point(291, 84);
+            this.skinLabel6.Location = new System.Drawing.Point(291, 80);
             this.skinLabel6.Name = "skinLabel6";
             this.skinLabel6.Size = new System.Drawing.Size(72, 20);
             this.skinLabel6.TabIndex = 5;
@@ -474,7 +400,7 @@
             this.skinLabel8.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel8.BorderColor = System.Drawing.Color.White;
             this.skinLabel8.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel8.Location = new System.Drawing.Point(537, 46);
+            this.skinLabel8.Location = new System.Drawing.Point(537, 44);
             this.skinLabel8.Name = "skinLabel8";
             this.skinLabel8.Size = new System.Drawing.Size(72, 20);
             this.skinLabel8.TabIndex = 7;
@@ -500,7 +426,7 @@
             this.skinLabel10.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel10.BorderColor = System.Drawing.Color.White;
             this.skinLabel10.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel10.Location = new System.Drawing.Point(783, 46);
+            this.skinLabel10.Location = new System.Drawing.Point(783, 44);
             this.skinLabel10.Name = "skinLabel10";
             this.skinLabel10.Size = new System.Drawing.Size(27, 20);
             this.skinLabel10.TabIndex = 9;
@@ -511,7 +437,7 @@
             this.dropDictLab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictLab.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictLab.FormattingEnabled = true;
-            this.dropDictLab.Location = new System.Drawing.Point(83, 4);
+            this.dropDictLab.Location = new System.Drawing.Point(83, 3);
             this.dropDictLab.Name = "dropDictLab";
             this.dropDictLab.Size = new System.Drawing.Size(160, 29);
             this.dropDictLab.TabIndex = 10;
@@ -522,7 +448,7 @@
             this.dropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropStatus.FormattingEnabled = true;
-            this.dropStatus.Location = new System.Drawing.Point(83, 41);
+            this.dropStatus.Location = new System.Drawing.Point(83, 39);
             this.dropStatus.Name = "dropStatus";
             this.dropStatus.Size = new System.Drawing.Size(160, 29);
             this.dropStatus.TabIndex = 11;
@@ -533,7 +459,7 @@
             this.dropDictcustomer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictcustomer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictcustomer.FormattingEnabled = true;
-            this.dropDictcustomer.Location = new System.Drawing.Point(369, 4);
+            this.dropDictcustomer.Location = new System.Drawing.Point(369, 3);
             this.dropDictcustomer.Name = "dropDictcustomer";
             this.dropDictcustomer.Size = new System.Drawing.Size(160, 29);
             this.dropDictcustomer.TabIndex = 12;
@@ -544,7 +470,7 @@
             this.dropReportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropReportStatus.FormattingEnabled = true;
-            this.dropReportStatus.Location = new System.Drawing.Point(369, 80);
+            this.dropReportStatus.Location = new System.Drawing.Point(369, 75);
             this.dropReportStatus.Name = "dropReportStatus";
             this.dropReportStatus.Size = new System.Drawing.Size(160, 29);
             this.dropReportStatus.TabIndex = 13;
@@ -561,7 +487,7 @@
             this.tbxName.IsPasswordChat = '\0';
             this.tbxName.IsSystemPasswordChar = false;
             this.tbxName.Lines = new string[0];
-            this.tbxName.Location = new System.Drawing.Point(80, 80);
+            this.tbxName.Location = new System.Drawing.Point(80, 76);
             this.tbxName.Margin = new System.Windows.Forms.Padding(0);
             this.tbxName.MaxLength = 32767;
             this.tbxName.MinimumSize = new System.Drawing.Size(28, 28);
@@ -603,7 +529,7 @@
             this.tbxOrderNum.IsPasswordChat = '\0';
             this.tbxOrderNum.IsSystemPasswordChar = false;
             this.tbxOrderNum.Lines = new string[0];
-            this.tbxOrderNum.Location = new System.Drawing.Point(366, 41);
+            this.tbxOrderNum.Location = new System.Drawing.Point(366, 39);
             this.tbxOrderNum.Margin = new System.Windows.Forms.Padding(0);
             this.tbxOrderNum.MaxLength = 32767;
             this.tbxOrderNum.MinimumSize = new System.Drawing.Size(28, 28);
@@ -640,11 +566,42 @@
             this.dpSFrom.CustomFormat = "yyyy-MM-dd";
             this.dpSFrom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dpSFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSFrom.Location = new System.Drawing.Point(615, 40);
+            this.dpSFrom.Location = new System.Drawing.Point(615, 39);
             this.dpSFrom.Name = "dpSFrom";
             this.dpSFrom.Size = new System.Drawing.Size(160, 28);
             this.dpSFrom.TabIndex = 20;
             this.dpSFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
+            // 
+            // dgv_orders
+            // 
+            this.dgv_orders.AllowUserToAddRows = false;
+            this.dgv_orders.AllowUserToDeleteRows = false;
+            this.dgv_orders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv_orders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_orders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.OrderStatus,
+            this.Cell_OrderNumber,
+            this.Cell_FullName,
+            this.Cell_Sex,
+            this.Cell_Age,
+            this.Cell_Mobile,
+            this.Cell_CreateDate,
+            this.Cell_OrganizationName,
+            this.Cell_OrderPackageName,
+            this.Cell_Section,
+            this.Cell_SamplingDate,
+            this.Cell_PostAddress,
+            this.Cell_Recipient,
+            this.Cell_ContractNumber});
+            this.dgv_orders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_orders.Location = new System.Drawing.Point(3, 153);
+            this.dgv_orders.Name = "dgv_orders";
+            this.dgv_orders.ReadOnly = true;
+            this.dgv_orders.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgv_orders.RowTemplate.Height = 24;
+            this.dgv_orders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_orders.Size = new System.Drawing.Size(980, 348);
+            this.dgv_orders.TabIndex = 5;
             // 
             // imageList
             // 
@@ -655,137 +612,119 @@
             this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
             this.imageList.Images.SetKeyName(3, "System_Module.png");
             // 
-            // IsCheck
-            // 
-            this.IsCheck.HeaderText = "";
-            this.IsCheck.Name = "IsCheck";
-            this.IsCheck.ReadOnly = true;
-            this.IsCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IsCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.IsCheck.Width = 18;
-            // 
-            // RN
-            // 
-            this.RN.DataPropertyName = "RN";
-            this.RN.HeaderText = "Number";
-            this.RN.Name = "RN";
-            this.RN.ReadOnly = true;
-            this.RN.Visible = false;
-            this.RN.Width = 86;
-            // 
             // OrderStatus
             // 
             this.OrderStatus.DataPropertyName = "STATUSNAME";
             this.OrderStatus.HeaderText = "订单状态";
             this.OrderStatus.Name = "OrderStatus";
             this.OrderStatus.ReadOnly = true;
-            this.OrderStatus.Width = 97;
+            this.OrderStatus.Width = 76;
             // 
-            // OrderNumber
+            // Cell_OrderNumber
             // 
-            this.OrderNumber.DataPropertyName = "ORDERNUM";
-            this.OrderNumber.HeaderText = "订单号";
-            this.OrderNumber.Name = "OrderNumber";
-            this.OrderNumber.ReadOnly = true;
-            this.OrderNumber.Width = 81;
+            this.Cell_OrderNumber.DataPropertyName = "ORDERNUM";
+            this.Cell_OrderNumber.HeaderText = "订单号";
+            this.Cell_OrderNumber.Name = "Cell_OrderNumber";
+            this.Cell_OrderNumber.ReadOnly = true;
+            this.Cell_OrderNumber.Width = 76;
             // 
-            // RealName
+            // Cell_FullName
             // 
-            this.RealName.DataPropertyName = "REALNAME";
-            this.RealName.HeaderText = "姓名";
-            this.RealName.Name = "RealName";
-            this.RealName.ReadOnly = true;
-            this.RealName.Width = 65;
+            this.Cell_FullName.DataPropertyName = "REALNAME";
+            this.Cell_FullName.HeaderText = "姓名";
+            this.Cell_FullName.Name = "Cell_FullName";
+            this.Cell_FullName.ReadOnly = true;
+            this.Cell_FullName.Width = 61;
             // 
-            // Sex
+            // Cell_Sex
             // 
-            this.Sex.DataPropertyName = "SEX";
-            this.Sex.HeaderText = "性别";
-            this.Sex.Name = "Sex";
-            this.Sex.ReadOnly = true;
-            this.Sex.Width = 65;
+            this.Cell_Sex.DataPropertyName = "SEX";
+            this.Cell_Sex.HeaderText = "性别";
+            this.Cell_Sex.Name = "Cell_Sex";
+            this.Cell_Sex.ReadOnly = true;
+            this.Cell_Sex.Width = 61;
             // 
-            // Age
+            // Cell_Age
             // 
-            this.Age.DataPropertyName = "AGE";
-            this.Age.HeaderText = "年龄";
-            this.Age.Name = "Age";
-            this.Age.ReadOnly = true;
-            this.Age.Width = 65;
+            this.Cell_Age.DataPropertyName = "AGE";
+            this.Cell_Age.HeaderText = "年龄";
+            this.Cell_Age.Name = "Cell_Age";
+            this.Cell_Age.ReadOnly = true;
+            this.Cell_Age.Width = 61;
             // 
-            // Mobile
+            // Cell_Mobile
             // 
-            this.Mobile.DataPropertyName = "MOBILE";
-            this.Mobile.HeaderText = "联系方式";
-            this.Mobile.Name = "Mobile";
-            this.Mobile.ReadOnly = true;
-            this.Mobile.Width = 97;
+            this.Cell_Mobile.DataPropertyName = "MOBILE";
+            this.Cell_Mobile.HeaderText = "联系方式";
+            this.Cell_Mobile.Name = "Cell_Mobile";
+            this.Cell_Mobile.ReadOnly = true;
+            this.Cell_Mobile.Width = 76;
             // 
-            // CreateDate
+            // Cell_CreateDate
             // 
-            this.CreateDate.DataPropertyName = "createdate";
-            this.CreateDate.HeaderText = "登记时间";
-            this.CreateDate.Name = "CreateDate";
-            this.CreateDate.ReadOnly = true;
-            this.CreateDate.Width = 97;
-            this.CreateDate.DefaultCellStyle.Format = "yyyy-MM-dd";
+            this.Cell_CreateDate.DataPropertyName = "createdate";
+            this.Cell_CreateDate.HeaderText = "登记时间";
+            this.Cell_CreateDate.Name = "Cell_CreateDate";
+            this.Cell_CreateDate.ReadOnly = true;
+            this.Cell_CreateDate.Width = 76;
+            this.Cell_CreateDate.DefaultCellStyle.Format = "yyyy-MM-dd";
             // 
-            // OrganizationName
+            // Cell_OrganizationName
             // 
-            this.OrganizationName.DataPropertyName = "CUSTOMERNAME";
-            this.OrganizationName.HeaderText = "体检单位";
-            this.OrganizationName.Name = "OrganizationName";
-            this.OrganizationName.ReadOnly = true;
-            this.OrganizationName.Width = 97;
+            this.Cell_OrganizationName.DataPropertyName = "CUSTOMERNAME";
+            this.Cell_OrganizationName.HeaderText = "体检单位";
+            this.Cell_OrganizationName.Name = "Cell_OrganizationName";
+            this.Cell_OrganizationName.ReadOnly = true;
+            this.Cell_OrganizationName.Width = 76;
             // 
-            // OrderPackageName
+            // Cell_OrderPackageName
             // 
-            this.OrderPackageName.DataPropertyName = "ORDERTESTLST";
-            this.OrderPackageName.HeaderText = "套餐名称";
-            this.OrderPackageName.Name = "OrderPackageName";
-            this.OrderPackageName.ReadOnly = true;
-            this.OrderPackageName.Width = 97;
+            this.Cell_OrderPackageName.DataPropertyName = "ORDERTESTLST";
+            this.Cell_OrderPackageName.HeaderText = "套餐名称";
+            this.Cell_OrderPackageName.Name = "Cell_OrderPackageName";
+            this.Cell_OrderPackageName.ReadOnly = true;
+            this.Cell_OrderPackageName.Width = 76;
             // 
-            // Section
+            // Cell_Section
             // 
-            this.Section.DataPropertyName = "section";
-            this.Section.HeaderText = "部门[地区]";
-            this.Section.Name = "Section";
-            this.Section.ReadOnly = true;
-            this.Section.Width = 105;
+            this.Cell_Section.DataPropertyName = "section";
+            this.Cell_Section.HeaderText = "部门[地区]";
+            this.Cell_Section.Name = "Cell_Section";
+            this.Cell_Section.ReadOnly = true;
+            this.Cell_Section.Width = 79;
             // 
-            // SamplingDate
+            // Cell_SamplingDate
             // 
-            this.SamplingDate.DataPropertyName = "samplingdate";
-            this.SamplingDate.HeaderText = "采样时间";
-            this.SamplingDate.Name = "SamplingDate";
-            this.SamplingDate.ReadOnly = true;
-            this.SamplingDate.Width = 97;
-            this.SamplingDate.DefaultCellStyle.Format = "yyyy-MM-dd";
+            this.Cell_SamplingDate.DataPropertyName = "samplingdate";
+            this.Cell_SamplingDate.HeaderText = "采样时间";
+            this.Cell_SamplingDate.Name = "Cell_SamplingDate";
+            this.Cell_SamplingDate.ReadOnly = true;
+            this.Cell_SamplingDate.Width = 76;
+            this.Cell_SamplingDate.DefaultCellStyle.Format = "yyyy-MM-dd";
             // 
-            // PostAddress
+            // Cell_PostAddress
             // 
-            this.PostAddress.DataPropertyName = "POSTADDRESS";
-            this.PostAddress.HeaderText = "邮寄地址";
-            this.PostAddress.Name = "PostAddress";
-            this.PostAddress.ReadOnly = true;
-            this.PostAddress.Width = 97;
+            this.Cell_PostAddress.DataPropertyName = "POSTADDRESS";
+            this.Cell_PostAddress.HeaderText = "邮寄地址";
+            this.Cell_PostAddress.Name = "Cell_PostAddress";
+            this.Cell_PostAddress.ReadOnly = true;
+            this.Cell_PostAddress.Width = 76;
             // 
-            // Recipient
+            // Cell_Recipient
             // 
-            this.Recipient.DataPropertyName = "RECIPIENT";
-            this.Recipient.HeaderText = "收件人";
-            this.Recipient.Name = "Recipient";
-            this.Recipient.ReadOnly = true;
-            this.Recipient.Width = 81;
+            this.Cell_Recipient.DataPropertyName = "RECIPIENT";
+            this.Cell_Recipient.HeaderText = "收件人";
+            this.Cell_Recipient.Name = "Cell_Recipient";
+            this.Cell_Recipient.ReadOnly = true;
+            this.Cell_Recipient.Width = 76;
             // 
-            // ContractNumber
+            // Cell_ContractNumber
             // 
-            this.ContractNumber.DataPropertyName = "CONTACTNUMBER";
-            this.ContractNumber.HeaderText = "联系电话";
-            this.ContractNumber.Name = "ContractNumber";
-            this.ContractNumber.ReadOnly = true;
-            this.ContractNumber.Width = 97;
+            this.Cell_ContractNumber.DataPropertyName = "CONTACTNUMBER";
+            this.Cell_ContractNumber.HeaderText = "联系电话";
+            this.Cell_ContractNumber.Name = "Cell_ContractNumber";
+            this.Cell_ContractNumber.ReadOnly = true;
+            this.Cell_ContractNumber.Width = 76;
             // 
             // MainForm
             // 
@@ -802,11 +741,11 @@
             this.skinTabPage1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
             this.ReportToolBar.ResumeLayout(false);
             this.ReportToolBar.PerformLayout();
             this.tlp_queryConditions.ResumeLayout(false);
             this.tlp_queryConditions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -842,22 +781,20 @@
         private System.Windows.Forms.DateTimePicker dpSTo;
         private System.Windows.Forms.DateTimePicker dpTo;
         private System.Windows.Forms.DateTimePicker dpFrom;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IsCheck;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RN;
+        private System.Windows.Forms.DataGridView dgv_orders;
         private System.Windows.Forms.DataGridViewTextBoxColumn OrderStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RealName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Sex;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Age;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mobile;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CreateDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrganizationName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderPackageName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Section;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SamplingDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PostAddress;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Recipient;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContractNumber;
-        private CCWin.SkinControl.SkinDataGridView dgv_orders;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_FullName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Sex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Age;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Mobile;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_CreateDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrganizationName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderPackageName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Section;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_SamplingDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_PostAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Recipient;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ContractNumber;
     }
 }
