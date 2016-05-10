@@ -33,64 +33,13 @@ namespace daan.webservice.PrintingSystem.Operations
 
             var dictUser = new Dictuser() { Usercode = request.Username };
             dictUser = new DictuserService().GetDictuserInfoByUserCode(dictUser);
-            if (dictUser == null)
+            if (dictUser != null && dictUser.Dictlabid.HasValue)
             {
-                throw new Exception("Canoot find dictUser");
+                var dictLabInfo = new DictlabService().GetDictlabById(dictUser.Dictlabid.Value);
+                if (dictLabInfo != null) userInfo.DefaultLab = dictLabInfo.ToLabInfo();
             }
 
-            var domainUserInfo = new daan.domain.UserInfo();
-            domainUserInfo.userCode = dictUser.Usercode;
-            domainUserInfo.userName = dictUser.Username;
-            domainUserInfo.userId = Convert.ToInt32(dictUser.Dictuserid);
-            domainUserInfo.loginTime = DateTime.Now;
-            domainUserInfo.joinLabidstr = dictUser.Joinlabid;
-            domainUserInfo.dictlabid = dictUser.Dictlabid;
-            domainUserInfo.joinDeptstr = dictUser.Joindeptid;
-            domainUserInfo.dictlabdeptid = dictUser.Dictlabdeptid;
-            
-
-            bool enablePermissionControl = true;
-            LoginService loginservice = new LoginService();
-            List<Dictlab> lablist = new List<Dictlab>();
-            if (enablePermissionControl)
-            {
-                lablist = loginservice.GetPermissionDictlab(domainUserInfo);
-            }
-            else
-            {
-                lablist = loginservice.GetLoginDictlab();
-            }
-            List<LabInfo> labInfos = lablist.Select(l => l.ToLabInfo()).ToList();
-            userInfo.LabAssociations = labInfos.ToArray();
-
-            if (dictUser.Dictlabid.HasValue)
-                userInfo.DefaultLab = lablist.FirstOrDefault(l => l.Dictlabid == dictUser.Dictlabid).ToLabInfo();
-
-            List<Dictcustomer> dictcustomerback = new List<Dictcustomer>();
-            string Customertype = "0";
-            if (dictUser.Dictlabid.HasValue)
-            {
-                dictcustomerback = loginservice.GetDictcustomer().FindAll(c => (c.Dictlabid == dictUser.Dictlabid && c.Customertype == Customertype && c.Active == "1") || (c.IsPublic == "1" && c.Active == "1"));
-            }
-            else   //全部
-            {
-                List<Dictcustomer> CustomerList = loginservice.GetDictcustomer();
-                List<Dictlab> dictList = loginservice.GetPermissionDictlab(domainUserInfo);
-
-                foreach (Dictlab dict in dictList)
-                {
-                    List<Dictcustomer> dictcustomerfirt = CustomerList.FindAll(c => (c.Dictlabid == dict.Dictlabid && c.Customertype == Customertype && c.Active == "1") || (c.IsPublic == "1" && c.Active == "1"));
-                    foreach (Dictcustomer dictcust in dictcustomerfirt)
-                    {
-                        if (!dictcustomerback.Contains(dictcust))
-                            dictcustomerback.Add(dictcust);
-                    }
-                }
-            }
-            List<OrganizationInfo> organizationInfos = dictcustomerback.Select(c => c.ToOrganizationInfo()).ToList();
-            userInfo.OrganizationAssociations = organizationInfos.ToArray();
-
-            return new AuthenticateResponse() { ResultType = ResultTypes.Ok, UserInfo = userInfo};
+            return new AuthenticateResponse() { ResultType = ResultTypes.Ok, UserInfo = userInfo };
         }
     }
 }

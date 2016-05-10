@@ -12,6 +12,11 @@ namespace daan.webservice.PrintingSystem
             return MessageProcessor.Process(request, new AuthenticateOp());
         }
 
+        public AuthorizeResponse Authorize(AuthorizeRequest request)
+        {
+            return MessageProcessor.Process(request, new AuthorizeOp());
+        }
+
         public GetLastClientAppVersionsResponse GetLastClientAppVersions(GetLastClientAppVersionsRequest request)
         {
             return MessageProcessor.Process(request, new GetLastClientAppVersionOp());

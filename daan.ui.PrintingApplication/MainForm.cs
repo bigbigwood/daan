@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using CCWin;
 using daan.ui.PrintingApplication.Helper;
+using daan.ui.PrintingApplication.PrintingImpl;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models;
 using daan.webservice.PrintingSystem.Contract.Models.Order;
@@ -28,8 +30,6 @@ namespace daan.ui.PrintingApplication
             AddCheckBoxToDataGridView.dgv = dgv_orders;
             AddCheckBoxToDataGridView.AddFullSelect();
             dgv_orders.AutoGenerateColumns = false;
-
-
         }
 
         private void BindData()
@@ -37,23 +37,23 @@ namespace daan.ui.PrintingApplication
             dropStatus.DataSource = new ComboBoxDataSourceProvider().GetOrderStatusDataSource();
             dropStatus.ValueMember = "EnumValue";
             dropStatus.DisplayMember = "EnumDisplayText";
-            dropStatus.SelectedValue = (int)OrdersStatus.FinishCheck; //选中值
+            dropStatus.SelectedValue = -1;
 
             dropReportStatus.DataSource = new ComboBoxDataSourceProvider().GetReportStatusDataSource();
             dropReportStatus.ValueMember = "EnumValue";
             dropReportStatus.DisplayMember = "EnumDisplayText";
-            dropReportStatus.SelectedValue = (int)ReportStatus.Normal; //选中值
+            dropReportStatus.SelectedValue = (int)ReportStatus.Normal;
 
-            var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = "全部"}};
-            labList.AddRange(PrintingApp.CurrentUserInfo.LabAssociations);
+            var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = "全部" } };
+            labList.AddRange(PrintingApp.LabAssociations);
             dropDictLab.DataSource = labList;
             dropDictLab.ValueMember = "Id";
             dropDictLab.DisplayMember = "Name";
             if (PrintingApp.CurrentUserInfo.DefaultLab != null && PrintingApp.CurrentUserInfo.DefaultLab.Id != 0)
                 dropDictLab.SelectedValue = PrintingApp.CurrentUserInfo.DefaultLab.Id;
 
-            var organizationList = new List<OrganizationInfo>() {new OrganizationInfo() {Id = -1, Name = "全部"}};
-            organizationList.AddRange(PrintingApp.CurrentUserInfo.OrganizationAssociations);
+            var organizationList = new List<OrganizationInfo>() { new OrganizationInfo() { Id = -1, Name = "全部" } };
+            organizationList.AddRange(PrintingApp.OrganizationAssociations);
             dropDictcustomer.DataSource = organizationList;
             dropDictcustomer.ValueMember = "Id";
             dropDictcustomer.DisplayMember = "Name";
@@ -72,8 +72,8 @@ namespace daan.ui.PrintingApplication
         private QueryOrdersRequest GetQueryOrdersRequest()
         {
             var request = new QueryOrdersRequest();
-            request.Username = PrintingApp.CurrentUserInfo.UserCredential.UserName;
-            request.Password = PrintingApp.CurrentUserInfo.UserCredential.Password;
+            request.Username = PrintingApp.UserCredential.UserName;
+            request.Password = PrintingApp.UserCredential.Password;
             request.OrderNumber = tbxOrderNum.Text;
             request.PageStart = "0";
             request.PageEnd = "50";
@@ -108,7 +108,60 @@ namespace daan.ui.PrintingApplication
             if (dialogResult == System.Windows.Forms.DialogResult.No)
                 return;
 
-            MessageBox.Show("打印");
+            if (AddCheckBoxToDataGridView.GetSelectedRows().Count == 0)
+            {
+                MessageBox.Show("请先选择订单");
+                return;
+            }
+
+            List<String> orderNumberList = new List<string>();
+            foreach (DataGridViewRow row in AddCheckBoxToDataGridView.GetSelectedRows())
+            {
+                orderNumberList.Add(row.Cells["Cell_OrderNumber"].Value.ToString());
+            }
+            string orderNumbers = string.Join(",", orderNumberList.ToArray());
+
+            if (PrintingApp.CurrentUserInfo.UserPrinterConfig == null)
+            {
+                MessageBox.Show("加载本地打印配置失败！");
+                return;
+            }
+            string printerName = PrintingApp.CurrentUserInfo.UserPrinterConfig.A4Printer ?? PrintingApp.CurrentUserInfo.UserPrinterConfig.A5Printer;
+            if (string.IsNullOrWhiteSpace((printerName)))
+            {
+                MessageBox.Show("请先维护打印机！");
+                return;
+            }
+
+            string url = ConfigurationManager.AppSettings.Get("PrintingServiceServiceUrl");
+            var printingService = ServiceFactory.GetPrintingService(url);
+
+            var request = new GetReportDataRequest()
+            {
+                Username = PrintingApp.UserCredential.UserName,
+                Password = PrintingApp.UserCredential.Password,
+                OrderNumbers = orderNumbers
+            };
+            var response = printingService.GetReportData(request);
+
+            if (response.ResultType == ResultTypes.Ok)
+            {
+                foreach (var reportInfo in response.Reports)
+                {
+                    Int32 reportTemplateId = int.Parse(
+                        AddCheckBoxToDataGridView.GetSelectedRows()
+                            .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == reportInfo.OrderNumber)
+                            .Cells["Cell_ReportTemplateId"].Value.ToString());
+                    string reportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
+
+                    PrintingProxy printingProxy = new PrintingProxy();
+                    printingProxy.PrintReport(printerName, reportTemplateCode, reportInfo.ReportData, reportInfo.OrderNumber);
+                    //printingProxy.PrintReport(printerName, reportTemplateCode, reportInfo.ReportData);
+                }
+            }
+
+            //更新报告状态
+            //printingService.UpdateOrdersStatus();
         }
     }
 }

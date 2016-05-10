@@ -49,8 +49,8 @@ namespace daan.ui.PrintingApplication
 
             var request = new GetLastClientAppVersionsRequest()
             {
-                Username = PrintingApp.CurrentUserInfo.UserCredential.UserName,
-                Password = PrintingApp.CurrentUserInfo.UserCredential.Password,
+                Username = PrintingApp.UserCredential.UserName,
+                Password = PrintingApp.UserCredential.Password,
             };
             var response = userService.GetLastClientAppVersions(request);
             if (response.ResultType == ResultTypes.Ok && response.ClientApplicationVersions != null)

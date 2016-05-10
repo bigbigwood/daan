@@ -94,6 +94,7 @@
     <Compile Include="Helper\XmlHelper.cs" />
     <Compile Include="Framework\ObjectFactory.cs" />
     <Compile Include="Operations\AuthenticateOp.cs" />
+    <Compile Include="Operations\AuthorizeOp.cs" />
     <Compile Include="Operations\GetReportDataOp.cs" />
     <Compile Include="Operations\UpdateOrdersStatusOp.cs" />
     <Compile Include="Operations\GetReportTemplatesOp.cs" />

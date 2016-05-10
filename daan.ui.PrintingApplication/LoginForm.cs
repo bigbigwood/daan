@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Web.UI.Design.WebControls;
 using System.Windows.Forms;
 using daan.webservice.PrintingSystem.Contract.Messages;
@@ -40,24 +41,39 @@ namespace daan.ui.PrintingApplication
                 {
                     Username = username,
                     Password = password,
+                    HostMac = LocalMachineInfomationProvider.GetMac(),
                 });
 
                 if (authenticateResponse.ResultType != ResultTypes.Ok)
                 {
-                    Log.Info("Authenticate fail.");
+                    Log.Info("Authenticate fail");
                     MessageBox.Show("用户名或者密码不正确");
                     return;
                 }
-
                 Log.Info("Authenticate OK");
-                var userCredential = new UserCredential() { UserName = username, Password = password };
                 PrintingApp.CurrentUserInfo = authenticateResponse.UserInfo;
-                PrintingApp.CurrentUserInfo.UserCredential = userCredential;
+                PrintingApp.UserCredential = new UserCredential() { UserName = username, Password = password };
+
+                var authorizeResponse = userService.Authorize(new AuthorizeRequest()
+                {
+                    Username = username,
+                    Password = password,
+                });
+                if (authorizeResponse.ResultType != ResultTypes.Ok)
+                {
+                    Log.Info("Authorize fail");
+                    MessageBox.Show("授权失败");
+                    return;
+                }
+                Log.Info("Authorize OK");
+                PrintingApp.LabAssociations = authorizeResponse.LabAssociations.ToList();
+                PrintingApp.OrganizationAssociations = authorizeResponse.OrganizationAssociations.ToList();
+                PrintingApp.ReportTemplates = authorizeResponse.ReportTemplates.ToList();
 
                 ApplicationUpdater updater = new ApplicationUpdater();
                 updater.Initialize();
 
-
+                ReportTemplateProvider.Init();
 
                 //show main form
                 this.Hide();

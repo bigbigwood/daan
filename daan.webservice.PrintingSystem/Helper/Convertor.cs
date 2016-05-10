@@ -74,6 +74,23 @@ namespace daan.webservice.PrintingSystem.Helper
 
             return model;
         }
+
+
+        public static ReportTemplateInfo ToReportTemplateInfo(this Dictreporttemplate domainReporttemplate)
+        {
+            if (domainReporttemplate == null)
+                return null;
+
+            var model = new ReportTemplateInfo();
+            model.Id = domainReporttemplate.Dictreporttemplateid.HasValue ? (int)domainReporttemplate.Dictreporttemplateid : 0;
+            model.Name = domainReporttemplate.Templatename;
+            model.Code = domainReporttemplate.Templatecode;
+            model.ReportType = domainReporttemplate.Reporttype.HasValue ? (int)domainReporttemplate.Reporttype : 0;
+            model.PaperSize = domainReporttemplate.Papersize;
+            model.SingleAppraise = domainReporttemplate.Singleappraise;
+
+            return model;
+        }
     }
 }
 

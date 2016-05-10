@@ -7,6 +7,6 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
     public class GetReportTemplatesResponse : ResponseBase
     {
         [MessageBodyMember]
-        public ReportTemplate[] ReportTemplates { get; set; }
+        public ReportTemplateInfo[] ReportTemplatesInfo { get; set; }
     }
 }

@@ -47,6 +47,8 @@
     <Compile Include="Interface\IPrintingServiceContract.cs" />
     <Compile Include="Messages\AuthenticateRequest.cs" />
     <Compile Include="Messages\AuthenticateResponse.cs" />
+    <Compile Include="Messages\AuthorizeResponse.cs" />
+    <Compile Include="Messages\AuthorizeRequest.cs" />
     <Compile Include="Messages\GetReportTemplatesRequest.cs" />
     <Compile Include="Messages\GetReportTemplatesResponse.cs" />
     <Compile Include="Messages\GetReportDataRequest.cs" />
@@ -63,7 +65,7 @@
     <Compile Include="Models\LabInfo.cs" />
     <Compile Include="Models\Order\OrderStatus.cs" />
     <Compile Include="Models\Order\OrderTransition.cs" />
-    <Compile Include="Models\ReportTemplate.cs" />
+    <Compile Include="Models\ReportTemplateInfo.cs" />
     <Compile Include="Models\Report\ReportStatus.cs" />
     <Compile Include="Models\Report\ReportInfo.cs" />
     <Compile Include="Models\User\UserCredential.cs" />

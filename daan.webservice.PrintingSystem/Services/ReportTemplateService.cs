@@ -20,15 +20,15 @@ namespace daan.webservice.PrintingSystem.Services
         /// 从内存缓存中读取配置。若缓存中不存在，则重新从文件中读取配置，存入缓存
         /// </summary>
         /// <returns></returns>
-        public static List<ReportTemplate> GetReportTemplates()
+        public static List<ReportTemplateInfo> GetReportTemplates()
         {
-            List<ReportTemplate> reportTemplates = null;
+            List<ReportTemplateInfo> reportTemplates = null;
 
             ObjectCache cache = MemoryCache.Default;
 
             if (cache.Contains(CacheKey))
             {
-                reportTemplates = cache.GetCacheItem(CacheKey).Value as List<ReportTemplate>;
+                reportTemplates = cache.GetCacheItem(CacheKey).Value as List<ReportTemplateInfo>;
             }
             else
             {
@@ -50,14 +50,14 @@ namespace daan.webservice.PrintingSystem.Services
             return reportTemplates;
         }
 
-        public static List<ReportTemplate> LoadReportTemplates()
+        public static List<ReportTemplateInfo> LoadReportTemplates()
         {
-            var templates = new List<ReportTemplate>();
+            var templates = new List<ReportTemplateInfo>();
 
             try
             {
                 var files = new DirectoryInfo(ReportTemplatePath).GetFiles().ToList();
-                templates.AddRange(files.Select(file => new ReportTemplate() { Name = file.Name, Content = File.ReadAllText(file.FullName) }));
+                templates.AddRange(files.Select(file => new ReportTemplateInfo() { Name = file.Name, Content = File.ReadAllText(file.FullName) }));
             }
             catch (Exception ex)
             {
