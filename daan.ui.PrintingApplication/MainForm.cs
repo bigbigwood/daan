@@ -5,17 +5,21 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using CCWin;
+using CCWin.SkinClass;
 using daan.ui.PrintingApplication.Helper;
 using daan.ui.PrintingApplication.PrintingImpl;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models;
 using daan.webservice.PrintingSystem.Contract.Models.Order;
 using daan.webservice.PrintingSystem.Contract.Models.Report;
+using log4net;
 
 namespace daan.ui.PrintingApplication
 {
     public partial class MainForm : CCSkinMain
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public MainForm()
         {
             InitializeComponent();
@@ -144,24 +148,60 @@ namespace daan.ui.PrintingApplication
             };
             var response = printingService.GetReportData(request);
 
+            List<string> successOrderNumbers = new List<string>();
             if (response.ResultType == ResultTypes.Ok)
             {
                 foreach (var reportInfo in response.Reports)
                 {
                     Int32 reportTemplateId = int.Parse(
-                        AddCheckBoxToDataGridView.GetSelectedRows()
-                            .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == reportInfo.OrderNumber)
-                            .Cells["Cell_ReportTemplateId"].Value.ToString());
-                    string reportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
-
-                    PrintingProxy printingProxy = new PrintingProxy();
-                    printingProxy.PrintReport(printerName, reportTemplateCode, reportInfo.ReportData, reportInfo.OrderNumber);
-                    //printingProxy.PrintReport(printerName, reportTemplateCode, reportInfo.ReportData);
+    AddCheckBoxToDataGridView.GetSelectedRows()
+        .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == reportInfo.OrderNumber)
+        .Cells["Cell_ReportTemplateId"].Value.ToString());
+                    reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
+                    if (PrintReport(printerName, reportInfo))
+                        successOrderNumbers.Add(reportInfo.OrderNumber);
                 }
             }
 
             //更新报告状态
-            //printingService.UpdateOrdersStatus();
+            var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
+            {
+                Username = PrintingApp.UserCredential.UserName,
+                Password = PrintingApp.UserCredential.Password,
+                OrderTransitions = successOrderNumbers.Select(o => new OrderTransition()
+                {
+                    OrderNumber = o, CurrentStatus = OrdersStatus.FinishCheck, NewStatus = OrdersStatus.FinishPrint
+                }).ToArray()
+            };
+            var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
+            if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
+            {
+                foreach (var successOrderNumber in successOrderNumbers)
+                {
+                    var row =
+                        dgv_orders.Rows.Cast<DataGridViewRow>()
+                            .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
+
+                    row.Cells["Cell_OrderStatus"].Value = "报告已打印";
+                }
+            }
+        }
+
+        private static bool PrintReport(string printerName, ReportInfo reportInfo)
+        {
+            try
+            {
+                PrintingProxy printingProxy = new PrintingProxy();
+                printingProxy.PrintReport(printerName, reportInfo);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while printing report", ex);
+                return false;
+            }
+
         }
     }
 }

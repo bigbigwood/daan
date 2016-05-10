@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Drawing;
 using System.Data;
 using System.Linq;
@@ -15,22 +16,25 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Drawing.Printing;
 using System.Net;
 using System.Net.NetworkInformation;
+using ReportDTO = daan.webservice.PrintingSystem.Contract.Models.Report.ReportInfo;
 
 namespace daan.ui.PrintingApplication.PrintingImpl
 {
     public class PrintingProxy
     {
-        public void PrintReport(string printerName, string repCode, string reportData, string fileName)
+        bool IsSetReportFileName = ConfigurationManager.AppSettings.Get("AutoSetReportFileNameWhilePrinting").ToUpper() == "TRUE";
+        public void PrintReport(string printerName, ReportDTO reportDTO)
         {
             string printType = string.Empty;
+            string repCode = reportDTO.ReportTemplateCode;
+
+            DataSet ds = new DataSet();
+            ds = Desrialize(ds, reportDTO.ReportData);
 
             string reportTemplateContent = ReportTemplateProvider.GetLocalReportTemplateContentByCode(repCode);
             Report report = new Report();
             report.Clear();
             report.LoadFromString(reportTemplateContent);
-
-            DataSet ds = new DataSet();
-            ds = Desrialize(ds, reportData);
 
             if (repCode.Contains("CommonRep") || repCode.Contains("TM15Rep") || repCode.Contains("HpvLctRep"))
             {
@@ -63,79 +67,18 @@ namespace daan.ui.PrintingApplication.PrintingImpl
 
             foreach (FastReport.ReportPage page in report.Pages)
             {
-                if (printType == "横向")
-                {
-                    page.Landscape = false;//横向打印
-                }
-                else
-                {
-                    page.Landscape = true;
-                }
-            }
-
-            report.PrintSettings.Printer = printerName;
-            report.FileName = string.Format("{0}.xps", fileName);
-            report.PrintSettings.ShowDialog = false;
-            report.Print();
-        }
-
-        public void PrintReport(string printerName, string repCode, string reportData)
-        {
-            string printType = string.Empty;
-
-            string reportTemplateContent = ReportTemplateProvider.GetLocalReportTemplateContentByCode(repCode);
-            Report report = new Report();
-            report.Clear();
-            report.LoadFromString(reportTemplateContent);
-
-            DataSet ds = new DataSet();
-            ds = Desrialize(ds, reportData);
-
-            if (repCode.Contains("CommonRep") || repCode.Contains("TM15Rep") || repCode.Contains("HpvLctRep"))
-            {
-                printType = "横向";
-                report.RegisterData(ds.Tables["dtRepTitle"], "dtRepTitle");//注册表头首页信息
-                report.RegisterData(ds.Tables["dtRepImportantSigns"], "dtRepImportantSigns");//本次体检结果
-                report.RegisterData(ds.Tables["dtRepExamCompared"], "dtRepExamCompared");//注册历次体检比对
-                report.RegisterData(ds.Tables["dtRepDiseaseGuide"], "dtRepDiseaseGuide");//解读与建议
-                report.RegisterData(ds.Tables["dtRepMustExam"], "dtRepMustExam");//注册每次体检必须检查的项目
-                report.RegisterData(ds.Tables["dtRepRecommendExam"], "dtRepRecommendExam");//注册下次体检特别推荐的项目
-                report.RegisterData(ds.Tables["dtOrderresultcomment"], "dtOrderresultcomment");//注册总体评价
-            }
-            else if (repCode.Contains("C14Rep"))
-            {
-                printType = "横向";
-                report.RegisterData(ds.Tables["dtRepTitle"], "dtRepTitle");//注册表头首页信息
-                report.RegisterData(ds.Tables["dtRepImportantSigns"], "dtRepImportantSigns");//本次体检结果
-            }
-            else
-            {
-                printType = "横向";
-                report.RegisterData(ds.Tables["dtRepTitle"], "dtRepTitle");//注册表头首页信息
-                report.RegisterData(ds.Tables["dtRepImportantSigns"], "dtRepImportantSigns");//本次体检结果
-                report.RegisterData(ds.Tables["dtRepExamCompared"], "dtRepExamCompared");//注册历次体检比对
-                report.RegisterData(ds.Tables["dtRepDiseaseGuide"], "dtRepDiseaseGuide");//解读与建议
-                report.RegisterData(ds.Tables["dtRepMustExam"], "dtRepMustExam");//注册每次体检必须检查的项目
-                report.RegisterData(ds.Tables["dtRepRecommendExam"], "dtRepRecommendExam");//注册下次体检特别推荐的项目
-                report.RegisterData(ds.Tables["dtOrderresultcomment"], "dtOrderresultcomment");//注册总体评价
-            }
-
-            foreach (FastReport.ReportPage page in report.Pages)
-            {
-                if (printType == "横向")
-                {
-                    page.Landscape = false;//横向打印
-                }
-                else
-                {
-                    page.Landscape = true;
-                }
+                page.Landscape = (printType != "横向");
             }
 
             report.PrintSettings.Printer = printerName;
             report.PrintSettings.ShowDialog = false;
+            if (IsSetReportFileName)
+                report.FileName = string.Format("{0}.pdf", reportDTO.OrderNumber);
+
+
             report.Print();
         }
+
 
         public static T Desrialize<T>(T obj, string str)
         {

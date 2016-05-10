@@ -61,7 +61,8 @@
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
-            this.OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_Sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,7 +77,6 @@
             this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.skinTabPage1.SuspendLayout();
@@ -440,7 +440,7 @@
             this.dropDictLab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictLab.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictLab.FormattingEnabled = true;
-            this.dropDictLab.Location = new System.Drawing.Point(83, 6);
+            this.dropDictLab.Location = new System.Drawing.Point(83, 3);
             this.dropDictLab.Name = "dropDictLab";
             this.dropDictLab.Size = new System.Drawing.Size(160, 29);
             this.dropDictLab.TabIndex = 10;
@@ -451,7 +451,7 @@
             this.dropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropStatus.FormattingEnabled = true;
-            this.dropStatus.Location = new System.Drawing.Point(83, 42);
+            this.dropStatus.Location = new System.Drawing.Point(83, 39);
             this.dropStatus.Name = "dropStatus";
             this.dropStatus.Size = new System.Drawing.Size(160, 29);
             this.dropStatus.TabIndex = 11;
@@ -462,7 +462,7 @@
             this.dropDictcustomer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictcustomer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictcustomer.FormattingEnabled = true;
-            this.dropDictcustomer.Location = new System.Drawing.Point(369, 6);
+            this.dropDictcustomer.Location = new System.Drawing.Point(369, 3);
             this.dropDictcustomer.Name = "dropDictcustomer";
             this.dropDictcustomer.Size = new System.Drawing.Size(160, 29);
             this.dropDictcustomer.TabIndex = 12;
@@ -473,7 +473,7 @@
             this.dropReportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropReportStatus.FormattingEnabled = true;
-            this.dropReportStatus.Location = new System.Drawing.Point(369, 78);
+            this.dropReportStatus.Location = new System.Drawing.Point(369, 75);
             this.dropReportStatus.Name = "dropReportStatus";
             this.dropReportStatus.Size = new System.Drawing.Size(160, 29);
             this.dropReportStatus.TabIndex = 13;
@@ -582,7 +582,7 @@
             this.dgv_orders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgv_orders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_orders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.OrderStatus,
+            this.Cell_OrderStatus,
             this.Cell_OrderNumber,
             this.Cell_FullName,
             this.Cell_Sex,
@@ -606,13 +606,22 @@
             this.dgv_orders.Size = new System.Drawing.Size(980, 348);
             this.dgv_orders.TabIndex = 5;
             // 
-            // OrderStatus
+            // imageList
             // 
-            this.OrderStatus.DataPropertyName = "STATUSNAME";
-            this.OrderStatus.HeaderText = "订单状态";
-            this.OrderStatus.Name = "OrderStatus";
-            this.OrderStatus.ReadOnly = true;
-            this.OrderStatus.Width = 98;
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "AdvanceSearch.png");
+            this.imageList.Images.SetKeyName(1, "ico_print.png");
+            this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
+            this.imageList.Images.SetKeyName(3, "System_Module.png");
+            // 
+            // Cell_OrderStatus
+            // 
+            this.Cell_OrderStatus.DataPropertyName = "STATUSNAME";
+            this.Cell_OrderStatus.HeaderText = "订单状态";
+            this.Cell_OrderStatus.Name = "Cell_OrderStatus";
+            this.Cell_OrderStatus.ReadOnly = true;
+            this.Cell_OrderStatus.Width = 98;
             // 
             // Cell_OrderNumber
             // 
@@ -730,15 +739,6 @@
             this.Cell_ReportTemplateId.ReadOnly = true;
             this.Cell_ReportTemplateId.Width = 184;
             // 
-            // imageList
-            // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "AdvanceSearch.png");
-            this.imageList.Images.SetKeyName(1, "ico_print.png");
-            this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
-            this.imageList.Images.SetKeyName(3, "System_Module.png");
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -795,7 +795,7 @@
         private System.Windows.Forms.DateTimePicker dpTo;
         private System.Windows.Forms.DateTimePicker dpFrom;
         private System.Windows.Forms.DataGridView dgv_orders;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Sex;
