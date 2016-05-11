@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace daan.ui.PrintingApplication.Helper
+namespace daan.ui.PrintingApplication.Control
 {
     public class AddCheckBoxToDataGridView
     {

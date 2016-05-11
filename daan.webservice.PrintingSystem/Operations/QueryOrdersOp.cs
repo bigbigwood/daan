@@ -32,9 +32,10 @@ namespace daan.webservice.PrintingSystem.Operations
             }
 
             var ordersService = new OrdersService();
+            var orderCount = ordersService.DataForFocusPrintPageTotal(htPara);
             var dataTable = ordersService.DataForFocusPrintPageLst(htPara);
 
-            return new QueryOrdersResponse() { ResultType = ResultTypes.Ok, Result = dataTable };
+            return new QueryOrdersResponse() { ResultType = ResultTypes.Ok, Result = dataTable, OrderCount = orderCount };
         }
 
 

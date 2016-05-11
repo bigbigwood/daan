@@ -148,6 +148,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dict\Initbasic.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="dict\Initlocalsetting.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

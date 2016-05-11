@@ -35,7 +35,7 @@
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainTabControl = new CCWin.SkinControl.SkinTabControl();
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel_PhysicalReport = new System.Windows.Forms.TableLayoutPanel();
             this.ReportToolBar = new CCWin.SkinControl.SkinToolStrip();
             this.btnQueryOrder = new System.Windows.Forms.ToolStripButton();
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
@@ -61,7 +61,6 @@
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,10 +76,12 @@
             this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.skinTabPage1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel_PhysicalReport.SuspendLayout();
             this.ReportToolBar.SuspendLayout();
             this.tlp_queryConditions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
@@ -130,7 +131,7 @@
             // skinTabPage1
             // 
             this.skinTabPage1.BackColor = System.Drawing.Color.White;
-            this.skinTabPage1.Controls.Add(this.tableLayoutPanel1);
+            this.skinTabPage1.Controls.Add(this.tableLayoutPanel_PhysicalReport);
             this.skinTabPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabPage1.Font = new System.Drawing.Font("Baiduan Number", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.skinTabPage1.ImageIndex = 1;
@@ -141,24 +142,25 @@
             this.skinTabPage1.TabItemImage = null;
             this.skinTabPage1.Text = "体检报告";
             // 
-            // tableLayoutPanel1
+            // tableLayoutPanel_PhysicalReport
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.ReportToolBar, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tlp_queryConditions, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dgv_orders, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(986, 504);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel_PhysicalReport.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel_PhysicalReport.ColumnCount = 1;
+            this.tableLayoutPanel_PhysicalReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_PhysicalReport.Controls.Add(this.ReportToolBar, 0, 0);
+            this.tableLayoutPanel_PhysicalReport.Controls.Add(this.tlp_queryConditions, 0, 1);
+            this.tableLayoutPanel_PhysicalReport.Controls.Add(this.dgv_orders, 0, 2);
+            this.tableLayoutPanel_PhysicalReport.Controls.Add(this.pagerControl1, 0, 3);
+            this.tableLayoutPanel_PhysicalReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_PhysicalReport.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel_PhysicalReport.Name = "tableLayoutPanel_PhysicalReport";
+            this.tableLayoutPanel_PhysicalReport.RowCount = 4;
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel_PhysicalReport.Size = new System.Drawing.Size(986, 504);
+            this.tableLayoutPanel_PhysicalReport.TabIndex = 0;
             // 
             // ReportToolBar
             // 
@@ -580,6 +582,7 @@
             this.dgv_orders.AllowUserToAddRows = false;
             this.dgv_orders.AllowUserToDeleteRows = false;
             this.dgv_orders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv_orders.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_orders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_orders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Cell_OrderStatus,
@@ -603,17 +606,8 @@
             this.dgv_orders.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_orders.RowTemplate.Height = 24;
             this.dgv_orders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_orders.Size = new System.Drawing.Size(980, 348);
+            this.dgv_orders.Size = new System.Drawing.Size(980, 313);
             this.dgv_orders.TabIndex = 5;
-            // 
-            // imageList
-            // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "AdvanceSearch.png");
-            this.imageList.Images.SetKeyName(1, "ico_print.png");
-            this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
-            this.imageList.Images.SetKeyName(3, "System_Module.png");
             // 
             // Cell_OrderStatus
             // 
@@ -739,6 +733,30 @@
             this.Cell_ReportTemplateId.ReadOnly = true;
             this.Cell_ReportTemplateId.Width = 184;
             // 
+            // pagerControl1
+            // 
+            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(8, 469);
+            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 50;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(978, 35);
+            this.pagerControl1.TabIndex = 6;
+            // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "AdvanceSearch.png");
+            this.imageList.Images.SetKeyName(1, "ico_print.png");
+            this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
+            this.imageList.Images.SetKeyName(3, "System_Module.png");
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -752,8 +770,8 @@
             this.MainTableLayoutPanel.ResumeLayout(false);
             this.MainTabControl.ResumeLayout(false);
             this.skinTabPage1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel_PhysicalReport.ResumeLayout(false);
+            this.tableLayoutPanel_PhysicalReport.PerformLayout();
             this.ReportToolBar.ResumeLayout(false);
             this.ReportToolBar.PerformLayout();
             this.tlp_queryConditions.ResumeLayout(false);
@@ -769,7 +787,7 @@
         private CCWin.SkinControl.SkinTabControl MainTabControl;
         private CCWin.SkinControl.SkinTabPage skinTabPage1;
         private System.Windows.Forms.ImageList imageList;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_PhysicalReport;
         private CCWin.SkinControl.SkinToolStrip ReportToolBar;
         private System.Windows.Forms.ToolStripButton btnQueryOrder;
         private System.Windows.Forms.ToolStripButton btnPrint;
@@ -810,5 +828,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Recipient;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ContractNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ReportTemplateId;
+        private Control.PagerControl pagerControl1;
     }
 }

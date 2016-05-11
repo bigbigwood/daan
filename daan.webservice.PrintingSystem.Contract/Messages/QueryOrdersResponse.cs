@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 
 namespace daan.webservice.PrintingSystem.Contract.Messages
 {
@@ -7,5 +8,8 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
     {
         [MessageBodyMember]
         public System.Data.DataTable Result { get; set; }
+
+        [MessageBodyMember]
+        public Int32 OrderCount { get; set; }
     }
 }

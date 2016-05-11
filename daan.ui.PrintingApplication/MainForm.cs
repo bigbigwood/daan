@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CCWin;
 using CCWin.SkinClass;
-using daan.ui.PrintingApplication.Helper;
+using daan.ui.PrintingApplication.Control;
 using daan.ui.PrintingApplication.PrintingImpl;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models;
@@ -29,14 +29,23 @@ namespace daan.ui.PrintingApplication
         {
             WindowState = FormWindowState.Maximized;
 
-            BindData();
+            BindQueryGroup();
+
+            BindDataGrid();
+        }
+
+        private void BindDataGrid()
+        {
+            pagerControl1.PageIndex = 1;
+            pagerControl1.PageSize = 10;
+            pagerControl1.OnPageChanged += new EventHandler(pagerControl1_OnPageChanged);
 
             AddCheckBoxToDataGridView.dgv = dgv_orders;
             AddCheckBoxToDataGridView.AddFullSelect();
             dgv_orders.AutoGenerateColumns = false;
         }
 
-        private void BindData()
+        private void BindQueryGroup()
         {
             dropStatus.DataSource = new ComboBoxDataSourceProvider().GetOrderStatusDataSource();
             dropStatus.ValueMember = "EnumValue";
@@ -68,9 +77,10 @@ namespace daan.ui.PrintingApplication
             dpSTo.Value = DateTime.Now;
         }
 
-        private void BindDataGrid(QueryOrdersResponse response)
+        private void PresentData(QueryOrdersResponse response)
         {
             dgv_orders.DataSource = response.Result;
+            pagerControl1.DrawControl(response.OrderCount);
         }
 
         private QueryOrdersRequest GetQueryOrdersRequest()
@@ -79,8 +89,8 @@ namespace daan.ui.PrintingApplication
             request.Username = PrintingApp.UserCredential.UserName;
             request.Password = PrintingApp.UserCredential.Password;
             request.OrderNumber = tbxOrderNum.Text;
-            request.PageStart = "0";
-            request.PageEnd = "50";
+            request.PageStart = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + 1).ToString();
+            request.PageEnd = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + pagerControl1.PageSize).ToString();
             request.StartDate = dpFrom.Value.ToString("yyyy-MM-dd");
             request.EndDate = dpTo.Value.AddDays(1).ToString("yyyy-MM-dd");
             request.SDateBegin = dpSFrom.Value.ToString("yyyy-MM-dd");
@@ -96,15 +106,24 @@ namespace daan.ui.PrintingApplication
         }
 
 
-
         private void btnQueryOrder_Click(object sender, EventArgs e)
         {
             string url = ConfigurationManager.AppSettings.Get("PrintingServiceServiceUrl");
             var printingService = ServiceFactory.GetPrintingService(url);
             var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
-            BindDataGrid(response);
+            PresentData(response);
         }
+
+        void pagerControl1_OnPageChanged(object sender, EventArgs e)
+        {
+            string url = ConfigurationManager.AppSettings.Get("PrintingServiceServiceUrl");
+            var printingService = ServiceFactory.GetPrintingService(url);
+            var response = printingService.QueryOrders(GetQueryOrdersRequest());
+
+            PresentData(response);
+        }
+
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
@@ -115,6 +134,12 @@ namespace daan.ui.PrintingApplication
             if (AddCheckBoxToDataGridView.GetSelectedRows().Count == 0)
             {
                 MessageBox.Show("请先选择订单");
+                return;
+            }
+
+            if (AddCheckBoxToDataGridView.GetSelectedRows().Any(r => r.Cells["Cell_OrderStatus"].ToInt32(0) < (int)OrdersStatus.FinishCheck))
+            {
+                MessageBox.Show("选中订单中有部分没有[完成总检],报告未出,不能预览和打印");
                 return;
             }
 
@@ -153,11 +178,10 @@ namespace daan.ui.PrintingApplication
             {
                 foreach (var reportInfo in response.Reports)
                 {
-                    Int32 reportTemplateId = int.Parse(
-    AddCheckBoxToDataGridView.GetSelectedRows()
-        .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == reportInfo.OrderNumber)
-        .Cells["Cell_ReportTemplateId"].Value.ToString());
+                    var row = AddCheckBoxToDataGridView.GetSelectedRows().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == reportInfo.OrderNumber);
+                    Int32 reportTemplateId = int.Parse(row.Cells["Cell_ReportTemplateId"].Value.ToString());
                     reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
+
                     if (PrintReport(printerName, reportInfo))
                         successOrderNumbers.Add(reportInfo.OrderNumber);
                 }
