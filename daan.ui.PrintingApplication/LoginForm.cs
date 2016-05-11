@@ -82,7 +82,7 @@ namespace daan.ui.PrintingApplication
             }
             catch (Exception ex)
             {
-                Log.Error("Authenticaition exception.", ex);
+                Log.Error("Login exception.", ex);
             }
         }
 

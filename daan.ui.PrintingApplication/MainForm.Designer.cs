@@ -61,7 +61,6 @@
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,8 +76,10 @@
             this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Version = new System.Windows.Forms.Label();
+            this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
             this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
@@ -88,6 +89,7 @@
             this.tlp_queryConditions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
             this.tlp_Bottom.SuspendLayout();
+            this.tlp_PagePicker.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -154,7 +156,7 @@
             this.tableLayoutPanel_PhysicalReport.Controls.Add(this.ReportToolBar, 0, 0);
             this.tableLayoutPanel_PhysicalReport.Controls.Add(this.tlp_queryConditions, 0, 1);
             this.tableLayoutPanel_PhysicalReport.Controls.Add(this.dgv_orders, 0, 2);
-            this.tableLayoutPanel_PhysicalReport.Controls.Add(this.pagerControl1, 0, 3);
+            this.tableLayoutPanel_PhysicalReport.Controls.Add(this.tlp_PagePicker, 0, 3);
             this.tableLayoutPanel_PhysicalReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_PhysicalReport.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel_PhysicalReport.Name = "tableLayoutPanel_PhysicalReport";
@@ -627,15 +629,6 @@
             this.dgv_orders.Size = new System.Drawing.Size(980, 340);
             this.dgv_orders.TabIndex = 5;
             // 
-            // imageList
-            // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "AdvanceSearch.png");
-            this.imageList.Images.SetKeyName(1, "ico_print.png");
-            this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
-            this.imageList.Images.SetKeyName(3, "System_Module.png");
-            // 
             // Cell_OrderStatus
             // 
             this.Cell_OrderStatus.DataPropertyName = "STATUSNAME";
@@ -761,6 +754,15 @@
             this.Cell_ReportTemplateId.Visible = false;
             this.Cell_ReportTemplateId.Width = 177;
             // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "AdvanceSearch.png");
+            this.imageList.Images.SetKeyName(1, "ico_print.png");
+            this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
+            this.imageList.Images.SetKeyName(3, "System_Module.png");
+            // 
             // tlp_Bottom
             // 
             this.tlp_Bottom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -788,21 +790,36 @@
             this.lbl_Version.TabIndex = 0;
             this.lbl_Version.Text = "打印工具 v1.0.0.0";
             // 
+            // tlp_PagePicker
+            // 
+            this.tlp_PagePicker.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.tlp_PagePicker.ColumnCount = 2;
+            this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_PagePicker.Controls.Add(this.pagerControl1, 1, 0);
+            this.tlp_PagePicker.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_PagePicker.Location = new System.Drawing.Point(3, 509);
+            this.tlp_PagePicker.Name = "tlp_PagePicker";
+            this.tlp_PagePicker.RowCount = 1;
+            this.tlp_PagePicker.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_PagePicker.Size = new System.Drawing.Size(980, 31);
+            this.tlp_PagePicker.TabIndex = 6;
+            // 
             // pagerControl1
             // 
+            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pagerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
             this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(0, 506);
+            this.pagerControl1.Location = new System.Drawing.Point(163, 0);
             this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
             this.pagerControl1.Name = "pagerControl1";
             this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 50;
+            this.pagerControl1.PageSize = 10;
             this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(986, 37);
-            this.pagerControl1.TabIndex = 6;
+            this.pagerControl1.Size = new System.Drawing.Size(817, 31);
+            this.pagerControl1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -827,6 +844,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
             this.tlp_Bottom.ResumeLayout(false);
             this.tlp_Bottom.PerformLayout();
+            this.tlp_PagePicker.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -863,7 +881,6 @@
         private System.Windows.Forms.DateTimePicker dpTo;
         private System.Windows.Forms.DateTimePicker dpFrom;
         private System.Windows.Forms.DataGridView dgv_orders;
-        private Control.PagerControl pagerControl1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_FullName;
@@ -881,5 +898,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ReportTemplateId;
         private System.Windows.Forms.TableLayoutPanel tlp_Bottom;
         private System.Windows.Forms.Label lbl_Version;
+        private System.Windows.Forms.TableLayoutPanel tlp_PagePicker;
+        private Control.PagerControl pagerControl1;
     }
 }

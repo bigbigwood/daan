@@ -109,104 +109,128 @@ namespace daan.ui.PrintingApplication
 
         private void btnQueryOrder_Click(object sender, EventArgs e)
         {
-            var printingService = ServiceFactory.GetPrintingService();
-            var response = printingService.QueryOrders(GetQueryOrdersRequest());
+            try
+            {
+                var printingService = ServiceFactory.GetPrintingService();
+                var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
-            PresentData(response);
+                PresentData(response);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while querying order.", ex);
+            }
+
         }
 
         void pagerControl1_OnPageChanged(object sender, EventArgs e)
         {
-            var printingService = ServiceFactory.GetPrintingService();
-            var response = printingService.QueryOrders(GetQueryOrdersRequest());
+            try
+            {
+                var printingService = ServiceFactory.GetPrintingService();
+                var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
-            PresentData(response);
+                PresentData(response);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while changing page.", ex);
+            }
+
         }
 
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            var dialogResult = MessageBox.Show("确定打印吗？", "确定打印吗？", MessageBoxButtons.YesNo);
-            if (dialogResult == System.Windows.Forms.DialogResult.No)
-                return;
+            try
+            {
+                var dialogResult = MessageBox.Show("确定打印吗？", "确定打印吗？", MessageBoxButtons.YesNo);
+                if (dialogResult == System.Windows.Forms.DialogResult.No)
+                    return;
 
-            if (AddCheckBoxToDataGridView.GetSelectedRows().Count == 0)
-            {
-                MessageBox.Show("请先选择订单");
-                return;
-            }
-
-            List<string> orderStatus = AddCheckBoxToDataGridView.GetSelectedRows().Select(r => r.Cells["Cell_OrderStatus"].ToString()).ToList();
-            
-            if (orderStatus.Any(s => AllowPrintStatusList.Contains(s) == false))
-            {
-                MessageBox.Show("选中订单中有部分没有[完成总检],报告未出,不能预览和打印");
-                return;
-            }
-
-            List<String> orderNumberList = new List<string>();
-            foreach (DataGridViewRow row in AddCheckBoxToDataGridView.GetSelectedRows())
-            {
-                orderNumberList.Add(row.Cells["Cell_OrderNumber"].Value.ToString());
-            }
-            string orderNumbers = string.Join(",", orderNumberList.ToArray());
-
-            if (PrintingApp.CurrentUserInfo.UserPrinterConfig == null)
-            {
-                MessageBox.Show("加载本地打印配置失败！");
-                return;
-            }
-            string printerName = PrintingApp.CurrentUserInfo.UserPrinterConfig.A4Printer ?? PrintingApp.CurrentUserInfo.UserPrinterConfig.A5Printer;
-            if (string.IsNullOrWhiteSpace((printerName)))
-            {
-                MessageBox.Show("请先维护打印机！");
-                return;
-            }
-
-            var printingService = ServiceFactory.GetPrintingService();
-            var request = new GetReportDataRequest()
-            {
-                Username = PrintingApp.UserCredential.UserName,
-                Password = PrintingApp.UserCredential.Password,
-                OrderNumbers = orderNumbers
-            };
-            var response = printingService.GetReportData(request);
-
-            List<string> successOrderNumbers = new List<string>();
-            if (response.ResultType == ResultTypes.Ok)
-            {
-                foreach (var reportInfo in response.Reports)
+                if (AddCheckBoxToDataGridView.GetSelectedRows().Count == 0)
                 {
-                    var row = AddCheckBoxToDataGridView.GetSelectedRows().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == reportInfo.OrderNumber);
-                    Int32 reportTemplateId = int.Parse(row.Cells["Cell_ReportTemplateId"].Value.ToString());
-                    reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
+                    MessageBox.Show("请先选择订单");
+                    return;
+                }
 
-                    if (PrintReport(printerName, reportInfo))
-                        successOrderNumbers.Add(reportInfo.OrderNumber);
+                //Item1 = OrderNumber, Item2 = Cell_OrderStatus, Item3 = Cell_ReportTemplateId
+                List<Tuple<string, string, string>> orderDtoList = AddCheckBoxToDataGridView.GetSelectedRows()
+                    .Select(r => Tuple.Create(
+                        r.Cells["Cell_OrderNumber"].Value.ToString(),
+                        r.Cells["Cell_OrderStatus"].Value.ToString(),
+                        r.Cells["Cell_ReportTemplateId"].Value.ToString()
+                        )).ToList();
+
+
+                if (orderDtoList.Any(o => AllowPrintStatusList.Contains(o.Item2) == false))
+                {
+                    MessageBox.Show("选中订单中有部分没有[完成总检],报告未出,不能预览和打印");
+                    return;
+                }
+
+                if (PrintingApp.CurrentUserInfo.UserPrinterConfig == null)
+                {
+                    MessageBox.Show("加载本地打印配置失败！");
+                    return;
+                }
+                string printerName = PrintingApp.CurrentUserInfo.UserPrinterConfig.A4Printer ?? PrintingApp.CurrentUserInfo.UserPrinterConfig.A5Printer;
+                if (string.IsNullOrWhiteSpace((printerName)))
+                {
+                    MessageBox.Show("请先维护打印机！");
+                    return;
+                }
+
+                //printerName = "Adobe PDF";
+                string orderNumbers = string.Join(",", orderDtoList.Select(o => o.Item1).ToArray());
+                var printingService = ServiceFactory.GetPrintingService();
+                var request = new GetReportDataRequest()
+                {
+                    Username = PrintingApp.UserCredential.UserName,
+                    Password = PrintingApp.UserCredential.Password,
+                    OrderNumbers = orderNumbers
+                };
+                var response = printingService.GetReportData(request);
+
+                List<string> successOrderNumbers = new List<string>();
+                if (response.ResultType == ResultTypes.Ok)
+                {
+                    foreach (var reportInfo in response.Reports)
+                    {
+                        var orderDto = orderDtoList.FirstOrDefault(o => o.Item1 == reportInfo.OrderNumber);
+                        Int32 reportTemplateId = int.Parse(orderDto.Item3);
+                        reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
+
+                        if (PrintReport(printerName, reportInfo))
+                            successOrderNumbers.Add(reportInfo.OrderNumber);
+                    }
+                }
+
+                //更新报告状态
+                var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
+                {
+                    Username = PrintingApp.UserCredential.UserName,
+                    Password = PrintingApp.UserCredential.Password,
+                    OrderTransitions = successOrderNumbers.Select(o => new OrderTransition()
+                    {
+                        OrderNumber = o,
+                        CurrentStatus = OrdersStatus.FinishCheck,
+                        NewStatus = OrdersStatus.FinishPrint
+                    }).ToArray()
+                };
+                var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
+                if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
+                {
+                    foreach (var successOrderNumber in successOrderNumbers)
+                    {
+                        var row = dgv_orders.Rows.Cast<DataGridViewRow>().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
+                        row.Cells["Cell_OrderStatus"].Value = ConstString.OrdersStatus_FinishPrint;
+                    }
                 }
             }
-
-            //更新报告状态
-            var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
+            catch (Exception ex)
             {
-                Username = PrintingApp.UserCredential.UserName,
-                Password = PrintingApp.UserCredential.Password,
-                OrderTransitions = successOrderNumbers.Select(o => new OrderTransition()
-                {
-                    OrderNumber = o, CurrentStatus = OrdersStatus.FinishCheck, NewStatus = OrdersStatus.FinishPrint
-                }).ToArray()
-            };
-            var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
-            if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
-            {
-                foreach (var successOrderNumber in successOrderNumbers)
-                {
-                    var row =
-                        dgv_orders.Rows.Cast<DataGridViewRow>()
-                            .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
-
-                    row.Cells["Cell_OrderStatus"].Value = ConstString.OrdersStatus_FinishPrint;
-                }
+                Log.Error("Error while processing print button.", ex);
             }
         }
 
@@ -221,7 +245,7 @@ namespace daan.ui.PrintingApplication
             }
             catch (Exception ex)
             {
-                Log.Error("Error while printing report", ex);
+                Log.Error("Error while printing report.", ex);
                 return false;
             }
 
