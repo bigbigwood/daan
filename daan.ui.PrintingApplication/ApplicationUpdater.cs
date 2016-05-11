@@ -44,9 +44,7 @@ namespace daan.ui.PrintingApplication
 
         public ClientApplicationVersion GetLatestVersionFromServer()
         {
-            string url = ConfigurationManager.AppSettings.Get("ClientApplicationServiceUrl");
-            var userService = ServiceFactory.GetClientApplicationService(url);
-
+            var userService = ServiceFactory.GetClientApplicationService();
             var request = new GetLastClientAppVersionsRequest()
             {
                 Username = PrintingApp.UserCredential.UserName,

@@ -35,8 +35,7 @@ namespace daan.ui.PrintingApplication
                 }
 
 
-                string url = ConfigurationManager.AppSettings.Get("ClientApplicationServiceUrl");
-                var userService = ServiceFactory.GetClientApplicationService(url);
+                var userService = ServiceFactory.GetClientApplicationService();
                 var authenticateResponse = userService.Authenticate(new AuthenticateRequest()
                 {
                     Username = username,

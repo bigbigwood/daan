@@ -22,13 +22,13 @@ namespace daan.ui.PrintingApplication
         {
             return new List<EnumEntity>()
             {
-                new EnumEntity() {EnumValue = -1, EnumText ="All", EnumDisplayText = "全部"},
-                new EnumEntity() {EnumValue = (int)OrdersStatus.Register, EnumText =OrdersStatus.Register.ToString(), EnumDisplayText = "已登记"},
-                new EnumEntity() {EnumValue = (int)OrdersStatus.BarCodePrint, EnumText =OrdersStatus.BarCodePrint.ToString(), EnumDisplayText = "条码已打印"},
-                new EnumEntity() {EnumValue = (int)OrdersStatus.WaitCheck, EnumText =OrdersStatus.WaitCheck.ToString(), EnumDisplayText = "待总检"},
-                new EnumEntity() {EnumValue = (int)OrdersStatus.FirstCheck, EnumText =OrdersStatus.FirstCheck.ToString(), EnumDisplayText = "初步总检"},
-                new EnumEntity() {EnumValue = (int)OrdersStatus.FinishCheck, EnumText =OrdersStatus.FinishCheck.ToString(), EnumDisplayText = "完成总检"},
-                new EnumEntity() {EnumValue = (int)OrdersStatus.FinishPrint, EnumText =OrdersStatus.FinishPrint.ToString(), EnumDisplayText = "报告已打印"},
+                new EnumEntity() {EnumValue = -1, EnumText ="All", EnumDisplayText = ConstString.ALL},
+                new EnumEntity() {EnumValue = (int)OrdersStatus.Register, EnumText =OrdersStatus.Register.ToString(), EnumDisplayText = ConstString.OrdersStatus_Register},
+                new EnumEntity() {EnumValue = (int)OrdersStatus.BarCodePrint, EnumText =OrdersStatus.BarCodePrint.ToString(), EnumDisplayText = ConstString.OrdersStatus_BarCodePrint},
+                new EnumEntity() {EnumValue = (int)OrdersStatus.WaitCheck, EnumText =OrdersStatus.WaitCheck.ToString(), EnumDisplayText = ConstString.OrdersStatus_WaitCheck},
+                new EnumEntity() {EnumValue = (int)OrdersStatus.FirstCheck, EnumText =OrdersStatus.FirstCheck.ToString(), EnumDisplayText = ConstString.OrdersStatus_FirstCheck},
+                new EnumEntity() {EnumValue = (int)OrdersStatus.FinishCheck, EnumText =OrdersStatus.FinishCheck.ToString(), EnumDisplayText = ConstString.OrdersStatus_FinishCheck},
+                new EnumEntity() {EnumValue = (int)OrdersStatus.FinishPrint, EnumText =OrdersStatus.FinishPrint.ToString(), EnumDisplayText = ConstString.OrdersStatus_FinishPrint},
             };
         }
 
@@ -36,28 +36,11 @@ namespace daan.ui.PrintingApplication
         {
             return new List<EnumEntity>()
             {
-                new EnumEntity() {EnumValue = -1, EnumText ="All", EnumDisplayText = "全部"},
-                new EnumEntity() {EnumValue = (int)ReportStatus.Normal, EnumText =ReportStatus.Normal.ToString(), EnumDisplayText = "正常"},
-                new EnumEntity() {EnumValue = (int)ReportStatus.Delay, EnumText =ReportStatus.Delay.ToString(), EnumDisplayText = "迟发"},
-                new EnumEntity() {EnumValue = (int)ReportStatus.Refund, EnumText =ReportStatus.Refund.ToString(), EnumDisplayText = "退单"},
+                new EnumEntity() {EnumValue = -1, EnumText ="All", EnumDisplayText = ConstString.ALL},
+                new EnumEntity() {EnumValue = (int)ReportStatus.Normal, EnumText =ReportStatus.Normal.ToString(), EnumDisplayText = ConstString.ReportStatus_Normal},
+                new EnumEntity() {EnumValue = (int)ReportStatus.Delay, EnumText =ReportStatus.Delay.ToString(), EnumDisplayText = ConstString.ReportStatus_Delay},
+                new EnumEntity() {EnumValue = (int)ReportStatus.Refund, EnumText =ReportStatus.Refund.ToString(), EnumDisplayText = ConstString.ReportStatus_Refund},
             };
         }
-
-        //public List<EnumEntity> GetDataSource(Type enumType)
-        //{
-        //    List<EnumEntity> data = new List<EnumEntity>();
-
-        //    var enumValues = Enum.GetValues(enumType);
-
-        //    FieldInfo[] fields = enumType.GetFields();
-        //    foreach (var fieldInfo in fields)
-        //    {
-        //        DescriptionAttribute[] arrDesc = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-        //        string desc = arrDesc[0].Description;
-        //    }
-
-        //    return data;
-        //}
-
     }
 }

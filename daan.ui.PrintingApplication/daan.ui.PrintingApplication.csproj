@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="ApplicationUpdater.cs" />
     <Compile Include="ComboBoxDataSourceProvider.cs" />
+    <Compile Include="ConstString.cs" />
     <Compile Include="Control\PagerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

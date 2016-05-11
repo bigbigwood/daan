@@ -34,7 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainTabControl = new CCWin.SkinControl.SkinTabControl();
-            this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
+            this.tab_PhyReport = new CCWin.SkinControl.SkinTabPage();
             this.tableLayoutPanel_PhysicalReport = new System.Windows.Forms.TableLayoutPanel();
             this.ReportToolBar = new CCWin.SkinControl.SkinToolStrip();
             this.btnQueryOrder = new System.Windows.Forms.ToolStripButton();
@@ -61,6 +61,7 @@
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,15 +77,17 @@
             this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_Version = new System.Windows.Forms.Label();
             this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
-            this.skinTabPage1.SuspendLayout();
+            this.tab_PhyReport.SuspendLayout();
             this.tableLayoutPanel_PhysicalReport.SuspendLayout();
             this.ReportToolBar.SuspendLayout();
             this.tlp_queryConditions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
+            this.tlp_Bottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -92,21 +95,22 @@
             this.MainTableLayoutPanel.ColumnCount = 1;
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MainTableLayoutPanel.Controls.Add(this.MainTabControl, 0, 1);
+            this.MainTableLayoutPanel.Controls.Add(this.tlp_Bottom, 0, 2);
             this.MainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainTableLayoutPanel.Location = new System.Drawing.Point(4, 28);
             this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
             this.MainTableLayoutPanel.RowCount = 3;
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 3F));
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.MainTableLayoutPanel.Size = new System.Drawing.Size(992, 618);
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.MainTableLayoutPanel.Size = new System.Drawing.Size(992, 659);
             this.MainTableLayoutPanel.TabIndex = 0;
             // 
             // MainTabControl
             // 
             this.MainTabControl.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
             this.MainTabControl.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
-            this.MainTabControl.Controls.Add(this.skinTabPage1);
+            this.MainTabControl.Controls.Add(this.tab_PhyReport);
             this.MainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainTabControl.HeadBack = null;
             this.MainTabControl.ImageList = this.imageList;
@@ -124,23 +128,23 @@
             this.MainTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Top;
             this.MainTabControl.PageNorml = null;
             this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(986, 579);
+            this.MainTabControl.Size = new System.Drawing.Size(986, 618);
             this.MainTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.MainTabControl.TabIndex = 0;
             // 
-            // skinTabPage1
+            // tab_PhyReport
             // 
-            this.skinTabPage1.BackColor = System.Drawing.Color.White;
-            this.skinTabPage1.Controls.Add(this.tableLayoutPanel_PhysicalReport);
-            this.skinTabPage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skinTabPage1.Font = new System.Drawing.Font("Baiduan Number", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinTabPage1.ImageIndex = 1;
-            this.skinTabPage1.Location = new System.Drawing.Point(0, 75);
-            this.skinTabPage1.Name = "skinTabPage1";
-            this.skinTabPage1.Size = new System.Drawing.Size(986, 504);
-            this.skinTabPage1.TabIndex = 0;
-            this.skinTabPage1.TabItemImage = null;
-            this.skinTabPage1.Text = "体检报告";
+            this.tab_PhyReport.BackColor = System.Drawing.Color.White;
+            this.tab_PhyReport.Controls.Add(this.tableLayoutPanel_PhysicalReport);
+            this.tab_PhyReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tab_PhyReport.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tab_PhyReport.ImageIndex = 1;
+            this.tab_PhyReport.Location = new System.Drawing.Point(0, 75);
+            this.tab_PhyReport.Name = "tab_PhyReport";
+            this.tab_PhyReport.Size = new System.Drawing.Size(986, 543);
+            this.tab_PhyReport.TabIndex = 0;
+            this.tab_PhyReport.TabItemImage = null;
+            this.tab_PhyReport.Text = "体检报告";
             // 
             // tableLayoutPanel_PhysicalReport
             // 
@@ -155,11 +159,11 @@
             this.tableLayoutPanel_PhysicalReport.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel_PhysicalReport.Name = "tableLayoutPanel_PhysicalReport";
             this.tableLayoutPanel_PhysicalReport.RowCount = 4;
-            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 128F));
             this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel_PhysicalReport.Size = new System.Drawing.Size(986, 504);
+            this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel_PhysicalReport.Size = new System.Drawing.Size(986, 543);
             this.tableLayoutPanel_PhysicalReport.TabIndex = 0;
             // 
             // ReportToolBar
@@ -189,6 +193,7 @@
             this.ReportToolBar.BindTabControl = null;
             this.ReportToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReportToolBar.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
+            this.ReportToolBar.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ReportToolBar.Fore = System.Drawing.Color.Black;
             this.ReportToolBar.GripMargin = new System.Windows.Forms.Padding(2, 2, 4, 2);
             this.ReportToolBar.HoverFore = System.Drawing.Color.White;
@@ -205,7 +210,7 @@
             this.ReportToolBar.Location = new System.Drawing.Point(0, 0);
             this.ReportToolBar.Name = "ReportToolBar";
             this.ReportToolBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-            this.ReportToolBar.Size = new System.Drawing.Size(986, 30);
+            this.ReportToolBar.Size = new System.Drawing.Size(986, 32);
             this.ReportToolBar.SkinAllColor = true;
             this.ReportToolBar.TabIndex = 3;
             this.ReportToolBar.Text = "skinToolStrip1";
@@ -216,19 +221,23 @@
             // 
             // btnQueryOrder
             // 
+            this.btnQueryOrder.AutoSize = false;
+            this.btnQueryOrder.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnQueryOrder.Image = ((System.Drawing.Image)(resources.GetObject("btnQueryOrder.Image")));
             this.btnQueryOrder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnQueryOrder.Name = "btnQueryOrder";
-            this.btnQueryOrder.Size = new System.Drawing.Size(59, 27);
+            this.btnQueryOrder.Size = new System.Drawing.Size(70, 29);
             this.btnQueryOrder.Text = "查询";
             this.btnQueryOrder.Click += new System.EventHandler(this.btnQueryOrder_Click);
             // 
             // btnPrint
             // 
+            this.btnPrint.AutoSize = false;
+            this.btnPrint.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrint.Image = ((System.Drawing.Image)(resources.GetObject("btnPrint.Image")));
             this.btnPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(59, 27);
+            this.btnPrint.Size = new System.Drawing.Size(70, 29);
             this.btnPrint.Text = "打印";
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
@@ -264,46 +273,49 @@
             this.tlp_queryConditions.Controls.Add(this.tbxOrderNum, 3, 1);
             this.tlp_queryConditions.Controls.Add(this.dpSFrom, 5, 1);
             this.tlp_queryConditions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_queryConditions.Location = new System.Drawing.Point(3, 33);
+            this.tlp_queryConditions.Location = new System.Drawing.Point(3, 35);
             this.tlp_queryConditions.Name = "tlp_queryConditions";
-            this.tlp_queryConditions.RowCount = 4;
+            this.tlp_queryConditions.RowCount = 3;
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tlp_queryConditions.Size = new System.Drawing.Size(980, 114);
+            this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_queryConditions.Size = new System.Drawing.Size(980, 122);
             this.tlp_queryConditions.TabIndex = 4;
             // 
             // dpSTo
             // 
+            this.dpSTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dpSTo.CustomFormat = "yyyy-MM-dd";
-            this.dpSTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dpSTo.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpSTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSTo.Location = new System.Drawing.Point(816, 39);
+            this.dpSTo.Location = new System.Drawing.Point(816, 48);
             this.dpSTo.Name = "dpSTo";
-            this.dpSTo.Size = new System.Drawing.Size(161, 28);
+            this.dpSTo.Size = new System.Drawing.Size(161, 24);
             this.dpSTo.TabIndex = 23;
             this.dpSTo.Value = new System.DateTime(2016, 5, 7, 0, 0, 0, 0);
             // 
             // dpTo
             // 
+            this.dpTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dpTo.CustomFormat = "yyyy-MM-dd";
-            this.dpTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dpTo.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpTo.Location = new System.Drawing.Point(816, 3);
+            this.dpTo.Location = new System.Drawing.Point(816, 8);
             this.dpTo.Name = "dpTo";
-            this.dpTo.Size = new System.Drawing.Size(161, 28);
+            this.dpTo.Size = new System.Drawing.Size(161, 24);
             this.dpTo.TabIndex = 22;
             this.dpTo.Value = new System.DateTime(2016, 5, 7, 0, 0, 0, 0);
             // 
             // dpFrom
             // 
+            this.dpFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dpFrom.CustomFormat = "yyyy-MM-dd";
-            this.dpFrom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dpFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpFrom.Location = new System.Drawing.Point(615, 3);
+            this.dpFrom.Location = new System.Drawing.Point(615, 8);
             this.dpFrom.Name = "dpFrom";
-            this.dpFrom.Size = new System.Drawing.Size(160, 28);
+            this.dpFrom.Size = new System.Drawing.Size(160, 24);
             this.dpFrom.TabIndex = 21;
             this.dpFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
@@ -313,10 +325,10 @@
             this.skinLabel1.AutoSize = true;
             this.skinLabel1.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel1.BorderColor = System.Drawing.Color.White;
-            this.skinLabel1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel1.Location = new System.Drawing.Point(35, 8);
+            this.skinLabel1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel1.Location = new System.Drawing.Point(38, 11);
             this.skinLabel1.Name = "skinLabel1";
-            this.skinLabel1.Size = new System.Drawing.Size(42, 20);
+            this.skinLabel1.Size = new System.Drawing.Size(39, 18);
             this.skinLabel1.TabIndex = 0;
             this.skinLabel1.Text = "分点:";
             // 
@@ -326,10 +338,10 @@
             this.skinLabel2.AutoSize = true;
             this.skinLabel2.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel2.BorderColor = System.Drawing.Color.White;
-            this.skinLabel2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel2.Location = new System.Drawing.Point(35, 44);
+            this.skinLabel2.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel2.Location = new System.Drawing.Point(38, 51);
             this.skinLabel2.Name = "skinLabel2";
-            this.skinLabel2.Size = new System.Drawing.Size(42, 20);
+            this.skinLabel2.Size = new System.Drawing.Size(39, 18);
             this.skinLabel2.TabIndex = 1;
             this.skinLabel2.Text = "状态:";
             // 
@@ -339,10 +351,10 @@
             this.skinLabel3.AutoSize = true;
             this.skinLabel3.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel3.BorderColor = System.Drawing.Color.White;
-            this.skinLabel3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel3.Location = new System.Drawing.Point(20, 80);
+            this.skinLabel3.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel3.Location = new System.Drawing.Point(24, 92);
             this.skinLabel3.Name = "skinLabel3";
-            this.skinLabel3.Size = new System.Drawing.Size(57, 20);
+            this.skinLabel3.Size = new System.Drawing.Size(53, 18);
             this.skinLabel3.TabIndex = 2;
             this.skinLabel3.Text = "关键词:";
             // 
@@ -352,10 +364,10 @@
             this.skinLabel4.AutoSize = true;
             this.skinLabel4.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel4.BorderColor = System.Drawing.Color.White;
-            this.skinLabel4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel4.Location = new System.Drawing.Point(291, 8);
+            this.skinLabel4.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel4.Location = new System.Drawing.Point(296, 11);
             this.skinLabel4.Name = "skinLabel4";
-            this.skinLabel4.Size = new System.Drawing.Size(72, 20);
+            this.skinLabel4.Size = new System.Drawing.Size(67, 18);
             this.skinLabel4.TabIndex = 3;
             this.skinLabel4.Text = "体检单位:";
             // 
@@ -365,10 +377,10 @@
             this.skinLabel5.AutoSize = true;
             this.skinLabel5.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel5.BorderColor = System.Drawing.Color.White;
-            this.skinLabel5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel5.Location = new System.Drawing.Point(255, 44);
+            this.skinLabel5.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel5.Location = new System.Drawing.Point(262, 51);
             this.skinLabel5.Name = "skinLabel5";
-            this.skinLabel5.Size = new System.Drawing.Size(108, 20);
+            this.skinLabel5.Size = new System.Drawing.Size(101, 18);
             this.skinLabel5.TabIndex = 4;
             this.skinLabel5.Text = "体检号/条形码:";
             // 
@@ -378,10 +390,10 @@
             this.skinLabel6.AutoSize = true;
             this.skinLabel6.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel6.BorderColor = System.Drawing.Color.White;
-            this.skinLabel6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel6.Location = new System.Drawing.Point(291, 80);
+            this.skinLabel6.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel6.Location = new System.Drawing.Point(296, 92);
             this.skinLabel6.Name = "skinLabel6";
-            this.skinLabel6.Size = new System.Drawing.Size(72, 20);
+            this.skinLabel6.Size = new System.Drawing.Size(67, 18);
             this.skinLabel6.TabIndex = 5;
             this.skinLabel6.Text = "报告状态:";
             // 
@@ -391,10 +403,10 @@
             this.skinLabel7.AutoSize = true;
             this.skinLabel7.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel7.BorderColor = System.Drawing.Color.White;
-            this.skinLabel7.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel7.Location = new System.Drawing.Point(537, 8);
+            this.skinLabel7.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel7.Location = new System.Drawing.Point(542, 11);
             this.skinLabel7.Name = "skinLabel7";
-            this.skinLabel7.Size = new System.Drawing.Size(72, 20);
+            this.skinLabel7.Size = new System.Drawing.Size(67, 18);
             this.skinLabel7.TabIndex = 6;
             this.skinLabel7.Text = "登记时间:";
             // 
@@ -404,10 +416,10 @@
             this.skinLabel8.AutoSize = true;
             this.skinLabel8.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel8.BorderColor = System.Drawing.Color.White;
-            this.skinLabel8.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel8.Location = new System.Drawing.Point(537, 44);
+            this.skinLabel8.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel8.Location = new System.Drawing.Point(542, 51);
             this.skinLabel8.Name = "skinLabel8";
-            this.skinLabel8.Size = new System.Drawing.Size(72, 20);
+            this.skinLabel8.Size = new System.Drawing.Size(67, 18);
             this.skinLabel8.TabIndex = 7;
             this.skinLabel8.Text = "采样时间:";
             // 
@@ -417,10 +429,10 @@
             this.skinLabel9.AutoSize = true;
             this.skinLabel9.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel9.BorderColor = System.Drawing.Color.White;
-            this.skinLabel9.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel9.Location = new System.Drawing.Point(783, 8);
+            this.skinLabel9.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel9.Location = new System.Drawing.Point(785, 11);
             this.skinLabel9.Name = "skinLabel9";
-            this.skinLabel9.Size = new System.Drawing.Size(27, 20);
+            this.skinLabel9.Size = new System.Drawing.Size(25, 18);
             this.skinLabel9.TabIndex = 8;
             this.skinLabel9.Text = "到:";
             // 
@@ -430,10 +442,10 @@
             this.skinLabel10.AutoSize = true;
             this.skinLabel10.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel10.BorderColor = System.Drawing.Color.White;
-            this.skinLabel10.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.skinLabel10.Location = new System.Drawing.Point(783, 44);
+            this.skinLabel10.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel10.Location = new System.Drawing.Point(785, 51);
             this.skinLabel10.Name = "skinLabel10";
-            this.skinLabel10.Size = new System.Drawing.Size(27, 20);
+            this.skinLabel10.Size = new System.Drawing.Size(25, 18);
             this.skinLabel10.TabIndex = 9;
             this.skinLabel10.Text = "到:";
             // 
@@ -441,10 +453,11 @@
             // 
             this.dropDictLab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictLab.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropDictLab.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropDictLab.FormattingEnabled = true;
-            this.dropDictLab.Location = new System.Drawing.Point(83, 3);
+            this.dropDictLab.Location = new System.Drawing.Point(83, 7);
             this.dropDictLab.Name = "dropDictLab";
-            this.dropDictLab.Size = new System.Drawing.Size(160, 29);
+            this.dropDictLab.Size = new System.Drawing.Size(160, 25);
             this.dropDictLab.TabIndex = 10;
             this.dropDictLab.WaterText = "";
             // 
@@ -452,10 +465,11 @@
             // 
             this.dropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropStatus.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropStatus.FormattingEnabled = true;
-            this.dropStatus.Location = new System.Drawing.Point(83, 39);
+            this.dropStatus.Location = new System.Drawing.Point(83, 47);
             this.dropStatus.Name = "dropStatus";
-            this.dropStatus.Size = new System.Drawing.Size(160, 29);
+            this.dropStatus.Size = new System.Drawing.Size(160, 25);
             this.dropStatus.TabIndex = 11;
             this.dropStatus.WaterText = "";
             // 
@@ -463,10 +477,11 @@
             // 
             this.dropDictcustomer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropDictcustomer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropDictcustomer.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropDictcustomer.FormattingEnabled = true;
-            this.dropDictcustomer.Location = new System.Drawing.Point(369, 3);
+            this.dropDictcustomer.Location = new System.Drawing.Point(369, 7);
             this.dropDictcustomer.Name = "dropDictcustomer";
-            this.dropDictcustomer.Size = new System.Drawing.Size(160, 29);
+            this.dropDictcustomer.Size = new System.Drawing.Size(160, 25);
             this.dropDictcustomer.TabIndex = 12;
             this.dropDictcustomer.WaterText = "";
             // 
@@ -474,10 +489,11 @@
             // 
             this.dropReportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropReportStatus.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropReportStatus.FormattingEnabled = true;
-            this.dropReportStatus.Location = new System.Drawing.Point(369, 75);
+            this.dropReportStatus.Location = new System.Drawing.Point(369, 88);
             this.dropReportStatus.Name = "dropReportStatus";
-            this.dropReportStatus.Size = new System.Drawing.Size(160, 29);
+            this.dropReportStatus.Size = new System.Drawing.Size(160, 25);
             this.dropReportStatus.TabIndex = 13;
             this.dropReportStatus.WaterText = "";
             // 
@@ -492,28 +508,29 @@
             this.tbxName.IsPasswordChat = '\0';
             this.tbxName.IsSystemPasswordChar = false;
             this.tbxName.Lines = new string[0];
-            this.tbxName.Location = new System.Drawing.Point(80, 76);
+            this.tbxName.Location = new System.Drawing.Point(80, 86);
             this.tbxName.Margin = new System.Windows.Forms.Padding(0);
             this.tbxName.MaxLength = 32767;
-            this.tbxName.MinimumSize = new System.Drawing.Size(28, 28);
+            this.tbxName.MinimumSize = new System.Drawing.Size(28, 30);
             this.tbxName.MouseBack = null;
             this.tbxName.MouseState = CCWin.SkinClass.ControlState.Normal;
-            this.tbxName.Multiline = false;
+            this.tbxName.Multiline = true;
             this.tbxName.Name = "tbxName";
             this.tbxName.NormlBack = null;
             this.tbxName.Padding = new System.Windows.Forms.Padding(5);
             this.tbxName.ReadOnly = false;
             this.tbxName.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbxName.Size = new System.Drawing.Size(166, 28);
+            this.tbxName.Size = new System.Drawing.Size(166, 30);
             // 
             // 
             // 
             this.tbxName.SkinTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxName.SkinTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbxName.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.tbxName.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxName.SkinTxt.Location = new System.Drawing.Point(5, 5);
+            this.tbxName.SkinTxt.Multiline = true;
             this.tbxName.SkinTxt.Name = "BaseText";
-            this.tbxName.SkinTxt.Size = new System.Drawing.Size(156, 22);
+            this.tbxName.SkinTxt.Size = new System.Drawing.Size(156, 20);
             this.tbxName.SkinTxt.TabIndex = 0;
             this.tbxName.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.tbxName.SkinTxt.WaterText = "";
@@ -534,10 +551,10 @@
             this.tbxOrderNum.IsPasswordChat = '\0';
             this.tbxOrderNum.IsSystemPasswordChar = false;
             this.tbxOrderNum.Lines = new string[0];
-            this.tbxOrderNum.Location = new System.Drawing.Point(366, 39);
+            this.tbxOrderNum.Location = new System.Drawing.Point(366, 44);
             this.tbxOrderNum.Margin = new System.Windows.Forms.Padding(0);
             this.tbxOrderNum.MaxLength = 32767;
-            this.tbxOrderNum.MinimumSize = new System.Drawing.Size(28, 28);
+            this.tbxOrderNum.MinimumSize = new System.Drawing.Size(28, 30);
             this.tbxOrderNum.MouseBack = null;
             this.tbxOrderNum.MouseState = CCWin.SkinClass.ControlState.Normal;
             this.tbxOrderNum.Multiline = true;
@@ -546,17 +563,17 @@
             this.tbxOrderNum.Padding = new System.Windows.Forms.Padding(5);
             this.tbxOrderNum.ReadOnly = false;
             this.tbxOrderNum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbxOrderNum.Size = new System.Drawing.Size(166, 29);
+            this.tbxOrderNum.Size = new System.Drawing.Size(166, 31);
             // 
             // 
             // 
             this.tbxOrderNum.SkinTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxOrderNum.SkinTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbxOrderNum.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F);
+            this.tbxOrderNum.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxOrderNum.SkinTxt.Location = new System.Drawing.Point(5, 5);
             this.tbxOrderNum.SkinTxt.Multiline = true;
             this.tbxOrderNum.SkinTxt.Name = "BaseText";
-            this.tbxOrderNum.SkinTxt.Size = new System.Drawing.Size(156, 19);
+            this.tbxOrderNum.SkinTxt.Size = new System.Drawing.Size(156, 21);
             this.tbxOrderNum.SkinTxt.TabIndex = 0;
             this.tbxOrderNum.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.tbxOrderNum.SkinTxt.WaterText = "";
@@ -568,12 +585,13 @@
             // 
             // dpSFrom
             // 
+            this.dpSFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dpSFrom.CustomFormat = "yyyy-MM-dd";
-            this.dpSFrom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dpSFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpSFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSFrom.Location = new System.Drawing.Point(615, 39);
+            this.dpSFrom.Location = new System.Drawing.Point(615, 48);
             this.dpSFrom.Name = "dpSFrom";
-            this.dpSFrom.Size = new System.Drawing.Size(160, 28);
+            this.dpSFrom.Size = new System.Drawing.Size(160, 24);
             this.dpSFrom.TabIndex = 20;
             this.dpSFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
@@ -601,152 +619,13 @@
             this.Cell_ContractNumber,
             this.Cell_ReportTemplateId});
             this.dgv_orders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_orders.Location = new System.Drawing.Point(3, 153);
+            this.dgv_orders.Location = new System.Drawing.Point(3, 163);
             this.dgv_orders.Name = "dgv_orders";
             this.dgv_orders.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_orders.RowTemplate.Height = 24;
             this.dgv_orders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_orders.Size = new System.Drawing.Size(980, 313);
+            this.dgv_orders.Size = new System.Drawing.Size(980, 340);
             this.dgv_orders.TabIndex = 5;
-            // 
-            // Cell_OrderStatus
-            // 
-            this.Cell_OrderStatus.DataPropertyName = "STATUSNAME";
-            this.Cell_OrderStatus.HeaderText = "订单状态";
-            this.Cell_OrderStatus.Name = "Cell_OrderStatus";
-            this.Cell_OrderStatus.ReadOnly = true;
-            this.Cell_OrderStatus.Width = 98;
-            // 
-            // Cell_OrderNumber
-            // 
-            this.Cell_OrderNumber.DataPropertyName = "ORDERNUM";
-            this.Cell_OrderNumber.HeaderText = "订单号";
-            this.Cell_OrderNumber.Name = "Cell_OrderNumber";
-            this.Cell_OrderNumber.ReadOnly = true;
-            this.Cell_OrderNumber.Width = 82;
-            // 
-            // Cell_FullName
-            // 
-            this.Cell_FullName.DataPropertyName = "REALNAME";
-            this.Cell_FullName.HeaderText = "姓名";
-            this.Cell_FullName.Name = "Cell_FullName";
-            this.Cell_FullName.ReadOnly = true;
-            this.Cell_FullName.Width = 66;
-            // 
-            // Cell_Sex
-            // 
-            this.Cell_Sex.DataPropertyName = "SEX";
-            this.Cell_Sex.HeaderText = "性别";
-            this.Cell_Sex.Name = "Cell_Sex";
-            this.Cell_Sex.ReadOnly = true;
-            this.Cell_Sex.Width = 66;
-            // 
-            // Cell_Age
-            // 
-            this.Cell_Age.DataPropertyName = "AGE";
-            this.Cell_Age.HeaderText = "年龄";
-            this.Cell_Age.Name = "Cell_Age";
-            this.Cell_Age.ReadOnly = true;
-            this.Cell_Age.Width = 66;
-            // 
-            // Cell_Mobile
-            // 
-            this.Cell_Mobile.DataPropertyName = "MOBILE";
-            this.Cell_Mobile.HeaderText = "联系方式";
-            this.Cell_Mobile.Name = "Cell_Mobile";
-            this.Cell_Mobile.ReadOnly = true;
-            this.Cell_Mobile.Width = 98;
-            // 
-            // Cell_CreateDate
-            // 
-            this.Cell_CreateDate.DataPropertyName = "createdate";
-            dataGridViewCellStyle1.Format = "yyyy-MM-dd";
-            this.Cell_CreateDate.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Cell_CreateDate.HeaderText = "登记时间";
-            this.Cell_CreateDate.Name = "Cell_CreateDate";
-            this.Cell_CreateDate.ReadOnly = true;
-            this.Cell_CreateDate.Width = 98;
-            // 
-            // Cell_OrganizationName
-            // 
-            this.Cell_OrganizationName.DataPropertyName = "CUSTOMERNAME";
-            this.Cell_OrganizationName.HeaderText = "体检单位";
-            this.Cell_OrganizationName.Name = "Cell_OrganizationName";
-            this.Cell_OrganizationName.ReadOnly = true;
-            this.Cell_OrganizationName.Width = 98;
-            // 
-            // Cell_OrderPackageName
-            // 
-            this.Cell_OrderPackageName.DataPropertyName = "ORDERTESTLST";
-            this.Cell_OrderPackageName.HeaderText = "套餐名称";
-            this.Cell_OrderPackageName.Name = "Cell_OrderPackageName";
-            this.Cell_OrderPackageName.ReadOnly = true;
-            this.Cell_OrderPackageName.Width = 98;
-            // 
-            // Cell_Section
-            // 
-            this.Cell_Section.DataPropertyName = "section";
-            this.Cell_Section.HeaderText = "部门[地区]";
-            this.Cell_Section.Name = "Cell_Section";
-            this.Cell_Section.ReadOnly = true;
-            this.Cell_Section.Width = 106;
-            // 
-            // Cell_SamplingDate
-            // 
-            this.Cell_SamplingDate.DataPropertyName = "samplingdate";
-            dataGridViewCellStyle2.Format = "yyyy-MM-dd";
-            this.Cell_SamplingDate.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Cell_SamplingDate.HeaderText = "采样时间";
-            this.Cell_SamplingDate.Name = "Cell_SamplingDate";
-            this.Cell_SamplingDate.ReadOnly = true;
-            this.Cell_SamplingDate.Width = 98;
-            // 
-            // Cell_PostAddress
-            // 
-            this.Cell_PostAddress.DataPropertyName = "POSTADDRESS";
-            this.Cell_PostAddress.HeaderText = "邮寄地址";
-            this.Cell_PostAddress.Name = "Cell_PostAddress";
-            this.Cell_PostAddress.ReadOnly = true;
-            this.Cell_PostAddress.Width = 98;
-            // 
-            // Cell_Recipient
-            // 
-            this.Cell_Recipient.DataPropertyName = "RECIPIENT";
-            this.Cell_Recipient.HeaderText = "收件人";
-            this.Cell_Recipient.Name = "Cell_Recipient";
-            this.Cell_Recipient.ReadOnly = true;
-            this.Cell_Recipient.Width = 82;
-            // 
-            // Cell_ContractNumber
-            // 
-            this.Cell_ContractNumber.DataPropertyName = "CONTACTNUMBER";
-            this.Cell_ContractNumber.HeaderText = "联系电话";
-            this.Cell_ContractNumber.Name = "Cell_ContractNumber";
-            this.Cell_ContractNumber.ReadOnly = true;
-            this.Cell_ContractNumber.Width = 98;
-            // 
-            // Cell_ReportTemplateId
-            // 
-            this.Cell_ReportTemplateId.DataPropertyName = "dictreporttemplateid";
-            this.Cell_ReportTemplateId.HeaderText = "Cell_ReportTemplateId";
-            this.Cell_ReportTemplateId.Name = "Cell_ReportTemplateId";
-            this.Cell_ReportTemplateId.ReadOnly = true;
-            this.Cell_ReportTemplateId.Width = 184;
-            // 
-            // pagerControl1
-            // 
-            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
-            this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(8, 469);
-            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.pagerControl1.Name = "pagerControl1";
-            this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 50;
-            this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(978, 35);
-            this.pagerControl1.TabIndex = 6;
             // 
             // imageList
             // 
@@ -757,19 +636,188 @@
             this.imageList.Images.SetKeyName(2, "Symbol-Check.png");
             this.imageList.Images.SetKeyName(3, "System_Module.png");
             // 
+            // Cell_OrderStatus
+            // 
+            this.Cell_OrderStatus.DataPropertyName = "STATUSNAME";
+            this.Cell_OrderStatus.HeaderText = "订单状态";
+            this.Cell_OrderStatus.Name = "Cell_OrderStatus";
+            this.Cell_OrderStatus.ReadOnly = true;
+            this.Cell_OrderStatus.Width = 89;
+            // 
+            // Cell_OrderNumber
+            // 
+            this.Cell_OrderNumber.DataPropertyName = "ORDERNUM";
+            this.Cell_OrderNumber.HeaderText = "订单号";
+            this.Cell_OrderNumber.Name = "Cell_OrderNumber";
+            this.Cell_OrderNumber.ReadOnly = true;
+            this.Cell_OrderNumber.Width = 75;
+            // 
+            // Cell_FullName
+            // 
+            this.Cell_FullName.DataPropertyName = "REALNAME";
+            this.Cell_FullName.HeaderText = "姓名";
+            this.Cell_FullName.Name = "Cell_FullName";
+            this.Cell_FullName.ReadOnly = true;
+            this.Cell_FullName.Width = 61;
+            // 
+            // Cell_Sex
+            // 
+            this.Cell_Sex.DataPropertyName = "SEX";
+            this.Cell_Sex.HeaderText = "性别";
+            this.Cell_Sex.Name = "Cell_Sex";
+            this.Cell_Sex.ReadOnly = true;
+            this.Cell_Sex.Width = 61;
+            // 
+            // Cell_Age
+            // 
+            this.Cell_Age.DataPropertyName = "AGE";
+            this.Cell_Age.HeaderText = "年龄";
+            this.Cell_Age.Name = "Cell_Age";
+            this.Cell_Age.ReadOnly = true;
+            this.Cell_Age.Width = 61;
+            // 
+            // Cell_Mobile
+            // 
+            this.Cell_Mobile.DataPropertyName = "MOBILE";
+            this.Cell_Mobile.HeaderText = "联系方式";
+            this.Cell_Mobile.Name = "Cell_Mobile";
+            this.Cell_Mobile.ReadOnly = true;
+            this.Cell_Mobile.Width = 89;
+            // 
+            // Cell_CreateDate
+            // 
+            this.Cell_CreateDate.DataPropertyName = "createdate";
+            dataGridViewCellStyle1.Format = "yyyy-MM-dd";
+            this.Cell_CreateDate.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Cell_CreateDate.HeaderText = "登记时间";
+            this.Cell_CreateDate.Name = "Cell_CreateDate";
+            this.Cell_CreateDate.ReadOnly = true;
+            this.Cell_CreateDate.Width = 89;
+            // 
+            // Cell_OrganizationName
+            // 
+            this.Cell_OrganizationName.DataPropertyName = "CUSTOMERNAME";
+            this.Cell_OrganizationName.HeaderText = "体检单位";
+            this.Cell_OrganizationName.Name = "Cell_OrganizationName";
+            this.Cell_OrganizationName.ReadOnly = true;
+            this.Cell_OrganizationName.Width = 89;
+            // 
+            // Cell_OrderPackageName
+            // 
+            this.Cell_OrderPackageName.DataPropertyName = "ORDERTESTLST";
+            this.Cell_OrderPackageName.HeaderText = "套餐名称";
+            this.Cell_OrderPackageName.Name = "Cell_OrderPackageName";
+            this.Cell_OrderPackageName.ReadOnly = true;
+            this.Cell_OrderPackageName.Width = 89;
+            // 
+            // Cell_Section
+            // 
+            this.Cell_Section.DataPropertyName = "section";
+            this.Cell_Section.HeaderText = "部门[地区]";
+            this.Cell_Section.Name = "Cell_Section";
+            this.Cell_Section.ReadOnly = true;
+            this.Cell_Section.Width = 99;
+            // 
+            // Cell_SamplingDate
+            // 
+            this.Cell_SamplingDate.DataPropertyName = "samplingdate";
+            dataGridViewCellStyle2.Format = "yyyy-MM-dd";
+            this.Cell_SamplingDate.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Cell_SamplingDate.HeaderText = "采样时间";
+            this.Cell_SamplingDate.Name = "Cell_SamplingDate";
+            this.Cell_SamplingDate.ReadOnly = true;
+            this.Cell_SamplingDate.Width = 89;
+            // 
+            // Cell_PostAddress
+            // 
+            this.Cell_PostAddress.DataPropertyName = "POSTADDRESS";
+            this.Cell_PostAddress.HeaderText = "邮寄地址";
+            this.Cell_PostAddress.Name = "Cell_PostAddress";
+            this.Cell_PostAddress.ReadOnly = true;
+            this.Cell_PostAddress.Width = 89;
+            // 
+            // Cell_Recipient
+            // 
+            this.Cell_Recipient.DataPropertyName = "RECIPIENT";
+            this.Cell_Recipient.HeaderText = "收件人";
+            this.Cell_Recipient.Name = "Cell_Recipient";
+            this.Cell_Recipient.ReadOnly = true;
+            this.Cell_Recipient.Width = 75;
+            // 
+            // Cell_ContractNumber
+            // 
+            this.Cell_ContractNumber.DataPropertyName = "CONTACTNUMBER";
+            this.Cell_ContractNumber.HeaderText = "联系电话";
+            this.Cell_ContractNumber.Name = "Cell_ContractNumber";
+            this.Cell_ContractNumber.ReadOnly = true;
+            this.Cell_ContractNumber.Width = 89;
+            // 
+            // Cell_ReportTemplateId
+            // 
+            this.Cell_ReportTemplateId.DataPropertyName = "dictreporttemplateid";
+            this.Cell_ReportTemplateId.HeaderText = "Cell_ReportTemplateId";
+            this.Cell_ReportTemplateId.Name = "Cell_ReportTemplateId";
+            this.Cell_ReportTemplateId.ReadOnly = true;
+            this.Cell_ReportTemplateId.Visible = false;
+            this.Cell_ReportTemplateId.Width = 177;
+            // 
+            // tlp_Bottom
+            // 
+            this.tlp_Bottom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlp_Bottom.ColumnCount = 3;
+            this.tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tlp_Bottom.Controls.Add(this.lbl_Version, 2, 0);
+            this.tlp_Bottom.Location = new System.Drawing.Point(3, 630);
+            this.tlp_Bottom.Name = "tlp_Bottom";
+            this.tlp_Bottom.RowCount = 1;
+            this.tlp_Bottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_Bottom.Size = new System.Drawing.Size(986, 26);
+            this.tlp_Bottom.TabIndex = 1;
+            // 
+            // lbl_Version
+            // 
+            this.lbl_Version.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lbl_Version.AutoSize = true;
+            this.lbl_Version.Location = new System.Drawing.Point(867, 4);
+            this.lbl_Version.Name = "lbl_Version";
+            this.lbl_Version.Size = new System.Drawing.Size(116, 18);
+            this.lbl_Version.TabIndex = 0;
+            this.lbl_Version.Text = "打印工具 v1.0.0.0";
+            // 
+            // pagerControl1
+            // 
+            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pagerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(0, 506);
+            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 50;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(986, 37);
+            this.pagerControl1.TabIndex = 6;
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 650);
+            this.ClientSize = new System.Drawing.Size(1000, 691);
             this.Controls.Add(this.MainTableLayoutPanel);
+            this.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "打印工具";
             this.Load += new System.EventHandler(this.MainFormTabImpl_Load);
             this.MainTableLayoutPanel.ResumeLayout(false);
             this.MainTabControl.ResumeLayout(false);
-            this.skinTabPage1.ResumeLayout(false);
+            this.tab_PhyReport.ResumeLayout(false);
             this.tableLayoutPanel_PhysicalReport.ResumeLayout(false);
             this.tableLayoutPanel_PhysicalReport.PerformLayout();
             this.ReportToolBar.ResumeLayout(false);
@@ -777,6 +825,8 @@
             this.tlp_queryConditions.ResumeLayout(false);
             this.tlp_queryConditions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
+            this.tlp_Bottom.ResumeLayout(false);
+            this.tlp_Bottom.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -785,7 +835,7 @@
 
         private System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
         private CCWin.SkinControl.SkinTabControl MainTabControl;
-        private CCWin.SkinControl.SkinTabPage skinTabPage1;
+        private CCWin.SkinControl.SkinTabPage tab_PhyReport;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_PhysicalReport;
         private CCWin.SkinControl.SkinToolStrip ReportToolBar;
@@ -813,6 +863,7 @@
         private System.Windows.Forms.DateTimePicker dpTo;
         private System.Windows.Forms.DateTimePicker dpFrom;
         private System.Windows.Forms.DataGridView dgv_orders;
+        private Control.PagerControl pagerControl1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_OrderNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_FullName;
@@ -828,6 +879,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Recipient;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ContractNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ReportTemplateId;
-        private Control.PagerControl pagerControl1;
+        private System.Windows.Forms.TableLayoutPanel tlp_Bottom;
+        private System.Windows.Forms.Label lbl_Version;
     }
 }

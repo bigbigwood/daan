@@ -19,6 +19,7 @@ namespace daan.ui.PrintingApplication
     public partial class MainForm : CCSkinMain
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly List<string> AllowPrintStatusList = new List<string>() { ConstString.OrdersStatus_FinishPrint, ConstString.OrdersStatus_FinishCheck };
 
         public MainForm()
         {
@@ -57,7 +58,7 @@ namespace daan.ui.PrintingApplication
             dropReportStatus.DisplayMember = "EnumDisplayText";
             dropReportStatus.SelectedValue = (int)ReportStatus.Normal;
 
-            var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = "全部" } };
+            var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = ConstString.ALL } };
             labList.AddRange(PrintingApp.LabAssociations);
             dropDictLab.DataSource = labList;
             dropDictLab.ValueMember = "Id";
@@ -65,7 +66,7 @@ namespace daan.ui.PrintingApplication
             if (PrintingApp.CurrentUserInfo.DefaultLab != null && PrintingApp.CurrentUserInfo.DefaultLab.Id != 0)
                 dropDictLab.SelectedValue = PrintingApp.CurrentUserInfo.DefaultLab.Id;
 
-            var organizationList = new List<OrganizationInfo>() { new OrganizationInfo() { Id = -1, Name = "全部" } };
+            var organizationList = new List<OrganizationInfo>() { new OrganizationInfo() { Id = -1, Name = ConstString.ALL } };
             organizationList.AddRange(PrintingApp.OrganizationAssociations);
             dropDictcustomer.DataSource = organizationList;
             dropDictcustomer.ValueMember = "Id";
@@ -91,10 +92,10 @@ namespace daan.ui.PrintingApplication
             request.OrderNumber = tbxOrderNum.Text;
             request.PageStart = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + 1).ToString();
             request.PageEnd = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + pagerControl1.PageSize).ToString();
-            request.StartDate = dpFrom.Value.ToString("yyyy-MM-dd");
-            request.EndDate = dpTo.Value.AddDays(1).ToString("yyyy-MM-dd");
-            request.SDateBegin = dpSFrom.Value.ToString("yyyy-MM-dd");
-            request.SDateEnd = dpSTo.Value.AddDays(1).ToString("yyyy-MM-dd");
+            request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
+            request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
+            request.SDateBegin = dpSFrom.Value.ToString(ConstString.DateFormat);
+            request.SDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
             request.Name = tbxName.Text;
 
             request.Dictlabid = dropDictLab.SelectedValue.ToString();
@@ -108,8 +109,7 @@ namespace daan.ui.PrintingApplication
 
         private void btnQueryOrder_Click(object sender, EventArgs e)
         {
-            string url = ConfigurationManager.AppSettings.Get("PrintingServiceServiceUrl");
-            var printingService = ServiceFactory.GetPrintingService(url);
+            var printingService = ServiceFactory.GetPrintingService();
             var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
             PresentData(response);
@@ -117,8 +117,7 @@ namespace daan.ui.PrintingApplication
 
         void pagerControl1_OnPageChanged(object sender, EventArgs e)
         {
-            string url = ConfigurationManager.AppSettings.Get("PrintingServiceServiceUrl");
-            var printingService = ServiceFactory.GetPrintingService(url);
+            var printingService = ServiceFactory.GetPrintingService();
             var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
             PresentData(response);
@@ -137,7 +136,9 @@ namespace daan.ui.PrintingApplication
                 return;
             }
 
-            if (AddCheckBoxToDataGridView.GetSelectedRows().Any(r => r.Cells["Cell_OrderStatus"].ToInt32(0) < (int)OrdersStatus.FinishCheck))
+            List<string> orderStatus = AddCheckBoxToDataGridView.GetSelectedRows().Select(r => r.Cells["Cell_OrderStatus"].ToString()).ToList();
+            
+            if (orderStatus.Any(s => AllowPrintStatusList.Contains(s) == false))
             {
                 MessageBox.Show("选中订单中有部分没有[完成总检],报告未出,不能预览和打印");
                 return;
@@ -162,9 +163,7 @@ namespace daan.ui.PrintingApplication
                 return;
             }
 
-            string url = ConfigurationManager.AppSettings.Get("PrintingServiceServiceUrl");
-            var printingService = ServiceFactory.GetPrintingService(url);
-
+            var printingService = ServiceFactory.GetPrintingService();
             var request = new GetReportDataRequest()
             {
                 Username = PrintingApp.UserCredential.UserName,
@@ -206,7 +205,7 @@ namespace daan.ui.PrintingApplication
                         dgv_orders.Rows.Cast<DataGridViewRow>()
                             .First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
 
-                    row.Cells["Cell_OrderStatus"].Value = "报告已打印";
+                    row.Cells["Cell_OrderStatus"].Value = ConstString.OrdersStatus_FinishPrint;
                 }
             }
         }
