@@ -29,6 +29,7 @@ namespace daan.ui.PrintingApplication
         private void MainFormTabImpl_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
+            lbl_Version.Text = PrintingApp.CurrentApplicationVersion;
 
             BindQueryGroup();
 

@@ -31,7 +31,7 @@ namespace daan.ui.PrintingApplication.PrintingImpl
             DataSet ds = new DataSet();
             ds = Desrialize(ds, reportDTO.ReportData);
 
-            string reportTemplateContent = ReportTemplateProvider.GetLocalReportTemplateContentByCode(repCode);
+            string reportTemplateContent = ReportTemplateFileProvider.GetLocalReportTemplateFileByCode(repCode);
             Report report = new Report();
             report.Clear();
             report.LoadFromString(reportTemplateContent);

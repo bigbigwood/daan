@@ -92,7 +92,7 @@
     <Compile Include="PrintingImpl\PrintingProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportTemplateProvider.cs" />
+    <Compile Include="ReportTemplateFileProvider.cs" />
     <Compile Include="ServiceFactory.cs" />
     <Compile Include="Control\AddCheckBoxToDataGridView.cs" />
     <Compile Include="VersioningManager.cs" />

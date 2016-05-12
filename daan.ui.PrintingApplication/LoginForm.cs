@@ -72,7 +72,7 @@ namespace daan.ui.PrintingApplication
                 ApplicationUpdater updater = new ApplicationUpdater();
                 updater.Initialize();
 
-                ReportTemplateProvider.Init();
+                ReportTemplateFileProvider.Init(updater.ReportTemplateVersion);
 
                 //show main form
                 this.Hide();

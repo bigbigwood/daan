@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Text;
 using daan.webservice.PrintingSystem.Contract.Models;
 using daan.webservice.PrintingSystem.Contract.Models.User;
 
@@ -16,13 +21,14 @@ namespace daan.ui.PrintingApplication
         public static List<OrganizationInfo> OrganizationAssociations { get; set; }
         public static List<LabInfo> LabAssociations { get; set; }
         public static List<ReportTemplateInfo> ReportTemplates { get; set; }
+        public static String CurrentApplicationVersion { get; set; }
 
-        private static UserInfo MockUserInfo()
-        {
-            return new UserInfo()
-            {
-                UserPrinterConfig = new UserPrinterConfig() { A4Printer = "Microsoft XPS Document Writer", A5Printer = "HP 910", BarcodePrinter = "Fax", PdfPrinter = "OFax" }
-            };
-        }
+        //private static UserInfo MockUserInfo()
+        //{
+        //    return new UserInfo()
+        //    {
+        //        UserPrinterConfig = new UserPrinterConfig() { A4Printer = "Microsoft XPS Document Writer", A5Printer = "HP 910", BarcodePrinter = "Fax", PdfPrinter = "OFax" }
+        //    };
+        //}
     }
 }

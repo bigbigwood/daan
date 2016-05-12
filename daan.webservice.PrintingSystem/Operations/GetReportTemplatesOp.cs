@@ -10,7 +10,7 @@ namespace daan.webservice.PrintingSystem.Operations
         {
             var reportTemplates = ReportTemplateService.GetReportTemplates();
 
-            return new GetReportTemplatesResponse() { ResultType = ResultTypes.Ok, ReportTemplatesInfo = reportTemplates .ToArray()};
+            return new GetReportTemplatesResponse() { ResultType = ResultTypes.Ok, ReportTemplateFiles = reportTemplates.ToArray() };
         }
     }
 

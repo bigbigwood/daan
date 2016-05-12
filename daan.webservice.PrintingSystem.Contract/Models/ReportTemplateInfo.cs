@@ -33,7 +33,5 @@ namespace daan.webservice.PrintingSystem.Contract.Models
         /// </summary>
         [DataMember]
         public String SingleAppraise { get; set; }
-        [DataMember]
-        public String Content { get; set; }
     }
 }

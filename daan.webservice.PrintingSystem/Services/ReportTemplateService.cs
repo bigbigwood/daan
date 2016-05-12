@@ -13,22 +13,22 @@ namespace daan.webservice.PrintingSystem.Services
     public class ReportTemplateService
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly String ReportTemplatePath = ConfigurationManager.AppSettings.Get("ReportTemplatePath");
-        private const string CacheKey = "CacheKey_ReportTemplate";
+        private static readonly String ReportTemplateFilesPath = ConfigurationManager.AppSettings.Get("ReportTemplateFilesPath");
+        private const string CacheKey = "CacheKey_ReportTemplateFile";
 
         /// <summary>
         /// 从内存缓存中读取配置。若缓存中不存在，则重新从文件中读取配置，存入缓存
         /// </summary>
         /// <returns></returns>
-        public static List<ReportTemplateInfo> GetReportTemplates()
+        public static List<ReportTemplateFile> GetReportTemplates()
         {
-            List<ReportTemplateInfo> reportTemplates = null;
+            List<ReportTemplateFile> reportTemplates = null;
 
             ObjectCache cache = MemoryCache.Default;
 
             if (cache.Contains(CacheKey))
             {
-                reportTemplates = cache.GetCacheItem(CacheKey).Value as List<ReportTemplateInfo>;
+                reportTemplates = cache.GetCacheItem(CacheKey).Value as List<ReportTemplateFile>;
             }
             else
             {
@@ -38,7 +38,7 @@ namespace daan.webservice.PrintingSystem.Services
                     CacheItemPolicy policy = new CacheItemPolicy() { Priority = CacheItemPriority.NotRemovable };
                     cache.Set(CacheKey, reportTemplates, policy);
 
-                    var fileInfos = new DirectoryInfo(ReportTemplatePath).GetFiles().ToList();
+                    var fileInfos = new DirectoryInfo(ReportTemplateFilesPath).GetFiles().ToList();
                     List<string> filePaths = fileInfos.Select(f => f.FullName).ToList();
                     HostFileChangeMonitor monitor = new HostFileChangeMonitor(filePaths);
                     monitor.NotifyOnChanged(new OnChangedCallback((o) => cache.Remove(CacheKey)));
@@ -50,14 +50,14 @@ namespace daan.webservice.PrintingSystem.Services
             return reportTemplates;
         }
 
-        public static List<ReportTemplateInfo> LoadReportTemplates()
+        public static List<ReportTemplateFile> LoadReportTemplates()
         {
-            var templates = new List<ReportTemplateInfo>();
+            var templates = new List<ReportTemplateFile>();
 
             try
             {
-                var files = new DirectoryInfo(ReportTemplatePath).GetFiles().ToList();
-                templates.AddRange(files.Select(file => new ReportTemplateInfo() { Name = file.Name, Content = File.ReadAllText(file.FullName) }));
+                var files = new DirectoryInfo(ReportTemplateFilesPath).GetFiles().ToList();
+                templates.AddRange(files.Select(file => new ReportTemplateFile() { FileName = file.Name, FileContent = File.ReadAllText(file.FullName) }));
             }
             catch (Exception ex)
             {
