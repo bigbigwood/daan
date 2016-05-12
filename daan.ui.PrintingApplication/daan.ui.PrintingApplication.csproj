@@ -61,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUpdater.cs" />
+    <Compile Include="Control\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\ComboBoxDataSourceProvider.cs" />
     <Compile Include="ConstString.cs" />
     <Compile Include="Control\PagerControl.cs">
@@ -98,6 +104,9 @@
     <Compile Include="Control\AddCheckBoxToDataGridView.cs" />
     <EmbeddedResource Include="Control\PagerControl.resx">
       <DependentUpon>PagerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrinterSettingForm.resx">
       <DependentUpon>PrinterSettingForm.cs</DependentUpon>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using CCWin;
 using CCWin.SkinClass;
@@ -21,6 +23,9 @@ namespace daan.ui.PrintingApplication
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly List<string> AllowPrintStatusList = new List<string>() { ConstString.OrdersStatus_FinishPrint, ConstString.OrdersStatus_FinishCheck };
+        private ProgressForm prograssForm = null;
+        private delegate bool IncreaseHandle(int nValue);
+        private IncreaseHandle myIncrease = null;
 
         public MainForm()
         {
@@ -83,12 +88,108 @@ namespace daan.ui.PrintingApplication
             dpTo.Value = DateTime.Now;
             dpSFrom.Value = DateTime.Now.AddDays(-7);
             dpSTo.Value = DateTime.Now;
+
+            //test
+            dropStatus.SelectedValue = (int)OrdersStatus.FinishPrint;
+            dpFrom.Value = DateTime.Now.AddDays(-60);
         }
 
         private void PresentData(QueryOrdersResponse response)
         {
             dgv_orders.DataSource = response.Result;
             pagerControl1.DrawControl(response.OrderCount);
+        }
+
+        private void backgroudWorker_PrintReports()
+        {
+            try
+            {
+                this.BeginInvoke(new Action(() =>
+                {
+                    prograssForm = new ProgressForm();
+                    myIncrease = new IncreaseHandle(prograssForm.Increase); // Init increase event
+                    prograssForm.StartPosition = FormStartPosition.CenterScreen;
+                    prograssForm.ShowDialog();
+                    prograssForm = null;
+                }));
+
+                string printerName = "Adobe PDF";
+
+                //Item1 = OrderNumber, Item2 = Cell_OrderStatus, Item3 = Cell_ReportTemplateId
+                List<Tuple<string, string, string>> orderDtoList = AddCheckBoxToDataGridView.GetSelectedRows()
+                    .Select(r => Tuple.Create(
+                        r.Cells["Cell_OrderNumber"].Value.ToString(),
+                        r.Cells["Cell_OrderStatus"].Value.ToString(),
+                        r.Cells["Cell_ReportTemplateId"].Value.ToString()
+                        )).ToList();
+                this.BeginInvoke(new Action(() => prograssForm.ReportProgress(10)));
+
+                Log.InfoFormat("Start printing report, the count of report is {0}...", orderDtoList.Count);
+                string orderNumbers = string.Join(",", orderDtoList.Select(o => o.Item1).ToArray());
+                var printingService = ServiceFactory.GetPrintingService();
+                var request = new GetReportDataRequest()
+                {
+                    Username = PrintingApp.UserCredential.UserName,
+                    Password = PrintingApp.UserCredential.Password,
+                    OrderNumbers = orderNumbers
+                };
+                var response = printingService.GetReportData(request); //30%
+                if (response.ResultType != ResultTypes.Ok)
+                {
+                    this.Invoke(new Action(() => MessageBox.Show("Cannot Get report data")));
+                    this.Invoke(new Action(() => prograssForm.ReportProgress(100)));
+                    return;
+                }
+                this.BeginInvoke(new Action(() => prograssForm.ReportProgress(30)));
+
+                List<string> finishPrintOrderNumbers = new List<string>();
+                int index = 0;
+                int count = response.Reports.Count();
+                while (index < count)
+                {
+                    foreach (var reportInfo in response.Reports)
+                    {
+                        index++;
+                        var orderDto = orderDtoList.FirstOrDefault(o => o.Item1 == reportInfo.OrderNumber);
+                        Int32 reportTemplateId = int.Parse(orderDto.Item3);
+                        reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
+
+                        if (PrintReport(printerName, reportInfo))
+                            finishPrintOrderNumbers.Add(reportInfo.OrderNumber);
+
+                        int weight = (int)((double)index / count * 60 + 30);
+                        this.BeginInvoke(new Action(() => prograssForm.ReportProgress(weight)));
+                    }
+                }
+
+                //更新报告状态
+                var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
+                {
+                    Username = PrintingApp.UserCredential.UserName,
+                    Password = PrintingApp.UserCredential.Password,
+                    OrderTransitions = finishPrintOrderNumbers.Select(o => new OrderTransition()
+                    {
+                        OrderNumber = o,
+                        CurrentStatus = OrdersStatus.FinishCheck,
+                        NewStatus = OrdersStatus.FinishPrint
+                    }).ToArray()
+                };
+                var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
+                this.BeginInvoke(new Action(() => prograssForm.ReportProgress(100)));
+                if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
+                {
+                    foreach (var successOrderNumber in finishPrintOrderNumbers)
+                    {
+                        var row = dgv_orders.Rows.Cast<DataGridViewRow>().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
+                        this.BeginInvoke(new Action(() => row.Cells["Cell_OrderStatus"].Value = ConstString.OrdersStatus_FinishPrint));
+                    }
+                }
+                Log.Info("Finish printing report..."); //100%
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while processing print reports.", ex);
+            }
         }
 
         private QueryOrdersRequest GetQueryOrdersRequest()
@@ -189,53 +290,8 @@ namespace daan.ui.PrintingApplication
                     return;
                 }
 
-                Log.InfoFormat("Start printing report, the count of report is {0}...", orderDtoList.Count);
-                string orderNumbers = string.Join(",", orderDtoList.Select(o => o.Item1).ToArray());
-                var printingService = ServiceFactory.GetPrintingService();
-                var request = new GetReportDataRequest()
-                {
-                    Username = PrintingApp.UserCredential.UserName,
-                    Password = PrintingApp.UserCredential.Password,
-                    OrderNumbers = orderNumbers
-                };
-                var response = printingService.GetReportData(request);
-
-                List<string> finishPrintOrderNumbers = new List<string>();
-                if (response.ResultType == ResultTypes.Ok)
-                {
-                    foreach (var reportInfo in response.Reports)
-                    {
-                        var orderDto = orderDtoList.FirstOrDefault(o => o.Item1 == reportInfo.OrderNumber);
-                        Int32 reportTemplateId = int.Parse(orderDto.Item3);
-                        reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
-
-                        if (PrintReport(printerName, reportInfo))
-                            finishPrintOrderNumbers.Add(reportInfo.OrderNumber);
-                    }
-                }
-
-                //更新报告状态
-                var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
-                {
-                    Username = PrintingApp.UserCredential.UserName,
-                    Password = PrintingApp.UserCredential.Password,
-                    OrderTransitions = finishPrintOrderNumbers.Select(o => new OrderTransition()
-                    {
-                        OrderNumber = o,
-                        CurrentStatus = OrdersStatus.FinishCheck,
-                        NewStatus = OrdersStatus.FinishPrint
-                    }).ToArray()
-                };
-                var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
-                if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
-                {
-                    foreach (var successOrderNumber in finishPrintOrderNumbers)
-                    {
-                        var row = dgv_orders.Rows.Cast<DataGridViewRow>().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
-                        row.Cells["Cell_OrderStatus"].Value = ConstString.OrdersStatus_FinishPrint;
-                    }
-                }
-                Log.Info("Finish printing report...");
+                Thread backgroudWorkerThread = new Thread(new ThreadStart(backgroudWorker_PrintReports));
+                backgroudWorkerThread.Start();
             }
             catch (Exception ex)
             {
@@ -247,9 +303,11 @@ namespace daan.ui.PrintingApplication
         {
             try
             {
+                Stopwatch sw =Stopwatch.StartNew();
                 PrintingProxy printingProxy = new PrintingProxy();
                 printingProxy.PrintReport(printerName, reportInfo);
-
+                sw.Stop();
+                Log.InfoFormat("Print single report cost {0} milliseconds", sw.ElapsedMilliseconds);
                 return true;
             }
             catch (Exception ex)
@@ -257,8 +315,6 @@ namespace daan.ui.PrintingApplication
                 Log.Error("Error while printing report.", ex);
                 return false;
             }
-
         }
-
     }
 }
