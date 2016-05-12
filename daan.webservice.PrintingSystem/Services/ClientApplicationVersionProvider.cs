@@ -26,7 +26,7 @@ namespace daan.webservice.PrintingSystem.Services
 
             ObjectCache cache = MemoryCache.Default;
 
-            if (cache.Contains(CacheKey))
+           if (cache.Contains(CacheKey))
             {
                 clientApplicationVersions = cache.GetCacheItem(CacheKey).Value as List<ClientApplicationVersion>;
             }

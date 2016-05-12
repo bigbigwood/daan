@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
+using daan.ui.PrintingApplication.Helper;
 using FastReport;
-using System.Xml.Serialization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Drawing.Printing;
-using System.Net;
-using System.Net.NetworkInformation;
+using log4net;
 using ReportDTO = daan.webservice.PrintingSystem.Contract.Models.Report.ReportInfo;
 
 namespace daan.ui.PrintingApplication.PrintingImpl
 {
     public class PrintingProxy
     {
-        bool IsSetReportFileName = ConfigurationManager.AppSettings.Get("AutoSetReportFileNameWhilePrinting").ToUpper() == "TRUE";
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly bool IsSetReportFileName = ConfigurationManager.AppSettings.Get("AutoSetReportFileNameWhilePrinting").ToUpper() == "TRUE";
         public void PrintReport(string printerName, ReportDTO reportDTO)
         {
             string printType = string.Empty;

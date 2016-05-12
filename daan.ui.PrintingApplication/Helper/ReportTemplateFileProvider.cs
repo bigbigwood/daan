@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models;
 using log4net;
 
-namespace daan.ui.PrintingApplication
+namespace daan.ui.PrintingApplication.Helper
 {
     public class ReportTemplateFileProvider
     {
@@ -23,10 +22,8 @@ namespace daan.ui.PrintingApplication
 
         public static void UpdateReportTemplateFiles(string version)
         {
+            Log.InfoFormat("Updating files for report template version: {0}.", version);
             var reportTemplateFileList = GetServerReportTemplateFiles();
-
-            //update template in memory
-            _reportTemplateFileList = reportTemplateFileList;
 
             //store file in local machine
             string directoryPath = string.Format(@"{0}\{1}", LocalReportTemplateFilePath, version);
@@ -43,13 +40,16 @@ namespace daan.ui.PrintingApplication
                     Log.WarnFormat("Report template file: {0} already exist, the file will be recovery.", filePath);
                     File.Delete(filePath);
                 }
-                File.Create(filePath);
                 File.WriteAllText(filePath, file.FileContent);
             }
+
+            //update template in memory
+            _reportTemplateFileList = GetLocalReportTemplateFiles(version);
         }
 
         private static List<ReportTemplateFile> GetLocalReportTemplateFiles(string version)
         {
+            Log.InfoFormat("Loading local report template files. current version is {0}.", version);
             var temp = new List<ReportTemplateFile>();
 
             try
@@ -66,8 +66,9 @@ namespace daan.ui.PrintingApplication
             return temp;
         }
 
-        private static List<ReportTemplateFile> GetServerReportTemplateFiles()
+        private static IEnumerable<ReportTemplateFile> GetServerReportTemplateFiles()
         {
+            Log.Info("Getting report template files from server.");
             var serverReportTemplateFiles = new List<ReportTemplateFile>();
 
             var request = new GetReportTemplatesRequest()
@@ -82,13 +83,29 @@ namespace daan.ui.PrintingApplication
                 serverReportTemplateFiles = response.ReportTemplateFiles.ToList();
             }
 
+            if (!serverReportTemplateFiles.Any())
+            {
+                Log.Error("Getting 0 report template files from server.");
+                throw new Exception("Getting 0 report template files from server.");
+            }
+
             return serverReportTemplateFiles;
         }
 
 
         public static String GetLocalReportTemplateFileByCode(string reportTemplateCode)
         {
-            return _reportTemplateFileList.First(r => r.FileName == reportTemplateCode).FileContent;
+            var reportTemplateFile = _reportTemplateFileList.FirstOrDefault(r => r.FileName == reportTemplateCode);
+            if (reportTemplateFile == null)
+            {
+                string message = string.Format("Cannot Get report template file by code: {0}", reportTemplateCode);
+                Log.ErrorFormat(message);
+                throw new Exception(message);
+            }
+            else
+            {
+                return reportTemplateFile.FileContent;
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
 
-namespace daan.ui.PrintingApplication
+namespace daan.ui.PrintingApplication.Helper
 {
     public static class LocalMachineInfomationProvider
     {

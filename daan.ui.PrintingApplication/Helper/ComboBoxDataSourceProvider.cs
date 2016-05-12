@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using daan.webservice.PrintingSystem.Contract.Models.Order;
 using daan.webservice.PrintingSystem.Contract.Models.Report;
 
-namespace daan.ui.PrintingApplication
+namespace daan.ui.PrintingApplication.Helper
 {
     public class EnumEntity
     {

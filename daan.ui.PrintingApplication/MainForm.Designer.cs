@@ -76,11 +76,11 @@
             this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
+            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Version = new System.Windows.Forms.Label();
-            this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
-            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tab_PhyReport.SuspendLayout();
@@ -88,8 +88,8 @@
             this.ReportToolBar.SuspendLayout();
             this.tlp_queryConditions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
-            this.tlp_Bottom.SuspendLayout();
             this.tlp_PagePicker.SuspendLayout();
+            this.tlp_Bottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -754,6 +754,37 @@
             this.Cell_ReportTemplateId.Visible = false;
             this.Cell_ReportTemplateId.Width = 177;
             // 
+            // tlp_PagePicker
+            // 
+            this.tlp_PagePicker.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.tlp_PagePicker.ColumnCount = 2;
+            this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_PagePicker.Controls.Add(this.pagerControl1, 1, 0);
+            this.tlp_PagePicker.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_PagePicker.Location = new System.Drawing.Point(3, 509);
+            this.tlp_PagePicker.Name = "tlp_PagePicker";
+            this.tlp_PagePicker.RowCount = 1;
+            this.tlp_PagePicker.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_PagePicker.Size = new System.Drawing.Size(980, 31);
+            this.tlp_PagePicker.TabIndex = 6;
+            // 
+            // pagerControl1
+            // 
+            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(163, 0);
+            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 10;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(817, 31);
+            this.pagerControl1.TabIndex = 0;
+            // 
             // imageList
             // 
             this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
@@ -790,37 +821,6 @@
             this.lbl_Version.TabIndex = 0;
             this.lbl_Version.Text = "打印工具 v1.0.0.0";
             // 
-            // tlp_PagePicker
-            // 
-            this.tlp_PagePicker.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.tlp_PagePicker.ColumnCount = 2;
-            this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_PagePicker.Controls.Add(this.pagerControl1, 1, 0);
-            this.tlp_PagePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_PagePicker.Location = new System.Drawing.Point(3, 509);
-            this.tlp_PagePicker.Name = "tlp_PagePicker";
-            this.tlp_PagePicker.RowCount = 1;
-            this.tlp_PagePicker.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_PagePicker.Size = new System.Drawing.Size(980, 31);
-            this.tlp_PagePicker.TabIndex = 6;
-            // 
-            // pagerControl1
-            // 
-            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
-            this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(163, 0);
-            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.pagerControl1.Name = "pagerControl1";
-            this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 10;
-            this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(817, 31);
-            this.pagerControl1.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -828,9 +828,11 @@
             this.ClientSize = new System.Drawing.Size(1000, 691);
             this.Controls.Add(this.MainTableLayoutPanel);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "打印工具";
+            this.Text = "达安健康-打印工具";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainFormTabImpl_Load);
             this.MainTableLayoutPanel.ResumeLayout(false);
             this.MainTabControl.ResumeLayout(false);
@@ -842,9 +844,9 @@
             this.tlp_queryConditions.ResumeLayout(false);
             this.tlp_queryConditions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
+            this.tlp_PagePicker.ResumeLayout(false);
             this.tlp_Bottom.ResumeLayout(false);
             this.tlp_Bottom.PerformLayout();
-            this.tlp_PagePicker.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using daan.webservice.PrintingSystem.Contract.Interface;
 
-namespace daan.ui.PrintingApplication
+namespace daan.ui.PrintingApplication.Helper
 {
     public static class ServiceFactory
     {

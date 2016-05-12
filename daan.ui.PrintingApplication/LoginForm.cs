@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.UI.Design.WebControls;
 using System.Windows.Forms;
+using daan.ui.PrintingApplication.Helper;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models.User;
 using log4net;
@@ -33,7 +34,6 @@ namespace daan.ui.PrintingApplication
                     MessageBox.Show("用户名或者密码不能为空");
                     return;
                 }
-
 
                 var userService = ServiceFactory.GetClientApplicationService();
                 var authenticateResponse = userService.Authenticate(new AuthenticateRequest()

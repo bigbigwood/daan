@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUpdater.cs" />
-    <Compile Include="ComboBoxDataSourceProvider.cs" />
+    <Compile Include="Helper\ComboBoxDataSourceProvider.cs" />
     <Compile Include="ConstString.cs" />
     <Compile Include="Control\PagerControl.cs">
       <SubType>UserControl</SubType>
@@ -69,13 +69,14 @@
     <Compile Include="Control\PagerControl.designer.cs">
       <DependentUpon>PagerControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ClientApplicationVersionExtension.cs" />
     <Compile Include="PrinterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PrinterSettingForm.Designer.cs">
       <DependentUpon>PrinterSettingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocalMachineInfomationProvider.cs" />
+    <Compile Include="Helper\LocalMachineInfomationProvider.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,10 +93,9 @@
     <Compile Include="PrintingImpl\PrintingProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportTemplateFileProvider.cs" />
-    <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Helper\ReportTemplateFileProvider.cs" />
+    <Compile Include="Helper\ServiceFactory.cs" />
     <Compile Include="Control\AddCheckBoxToDataGridView.cs" />
-    <Compile Include="VersioningManager.cs" />
     <EmbeddedResource Include="Control\PagerControl.resx">
       <DependentUpon>PagerControl.cs</DependentUpon>
     </EmbeddedResource>

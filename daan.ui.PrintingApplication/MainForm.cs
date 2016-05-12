@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using CCWin;
 using CCWin.SkinClass;
 using daan.ui.PrintingApplication.Control;
+using daan.ui.PrintingApplication.Helper;
 using daan.ui.PrintingApplication.PrintingImpl;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models;
@@ -24,6 +25,11 @@ namespace daan.ui.PrintingApplication
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            System.Environment.Exit(0);
         }
 
         private void MainFormTabImpl_Load(object sender, EventArgs e)
@@ -112,6 +118,7 @@ namespace daan.ui.PrintingApplication
         {
             try
             {
+                Log.Info("Start querying order...");
                 var printingService = ServiceFactory.GetPrintingService();
                 var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
@@ -121,13 +128,14 @@ namespace daan.ui.PrintingApplication
             {
                 Log.Error("Error while querying order.", ex);
             }
-
+            Log.Info("Finish querying order...");
         }
 
         void pagerControl1_OnPageChanged(object sender, EventArgs e)
         {
             try
             {
+                Log.Info("Start querying order...");
                 var printingService = ServiceFactory.GetPrintingService();
                 var response = printingService.QueryOrders(GetQueryOrdersRequest());
 
@@ -137,9 +145,8 @@ namespace daan.ui.PrintingApplication
             {
                 Log.Error("Error while changing page.", ex);
             }
-
+            Log.Info("Finish querying order...");
         }
-
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
@@ -182,7 +189,7 @@ namespace daan.ui.PrintingApplication
                     return;
                 }
 
-                //printerName = "Adobe PDF";
+                Log.InfoFormat("Start printing report, the count of report is {0}...", orderDtoList.Count);
                 string orderNumbers = string.Join(",", orderDtoList.Select(o => o.Item1).ToArray());
                 var printingService = ServiceFactory.GetPrintingService();
                 var request = new GetReportDataRequest()
@@ -193,7 +200,7 @@ namespace daan.ui.PrintingApplication
                 };
                 var response = printingService.GetReportData(request);
 
-                List<string> successOrderNumbers = new List<string>();
+                List<string> finishPrintOrderNumbers = new List<string>();
                 if (response.ResultType == ResultTypes.Ok)
                 {
                     foreach (var reportInfo in response.Reports)
@@ -203,7 +210,7 @@ namespace daan.ui.PrintingApplication
                         reportInfo.ReportTemplateCode = PrintingApp.ReportTemplates.First(r => r.Id == reportTemplateId).Code;
 
                         if (PrintReport(printerName, reportInfo))
-                            successOrderNumbers.Add(reportInfo.OrderNumber);
+                            finishPrintOrderNumbers.Add(reportInfo.OrderNumber);
                     }
                 }
 
@@ -212,7 +219,7 @@ namespace daan.ui.PrintingApplication
                 {
                     Username = PrintingApp.UserCredential.UserName,
                     Password = PrintingApp.UserCredential.Password,
-                    OrderTransitions = successOrderNumbers.Select(o => new OrderTransition()
+                    OrderTransitions = finishPrintOrderNumbers.Select(o => new OrderTransition()
                     {
                         OrderNumber = o,
                         CurrentStatus = OrdersStatus.FinishCheck,
@@ -222,12 +229,13 @@ namespace daan.ui.PrintingApplication
                 var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
                 if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
                 {
-                    foreach (var successOrderNumber in successOrderNumbers)
+                    foreach (var successOrderNumber in finishPrintOrderNumbers)
                     {
                         var row = dgv_orders.Rows.Cast<DataGridViewRow>().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == successOrderNumber);
                         row.Cells["Cell_OrderStatus"].Value = ConstString.OrdersStatus_FinishPrint;
                     }
                 }
+                Log.Info("Finish printing report...");
             }
             catch (Exception ex)
             {
@@ -251,5 +259,6 @@ namespace daan.ui.PrintingApplication
             }
 
         }
+
     }
 }
