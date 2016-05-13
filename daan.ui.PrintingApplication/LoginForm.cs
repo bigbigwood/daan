@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,6 +13,12 @@ using log4net;
 
 namespace daan.ui.PrintingApplication
 {
+    public enum MessageType
+    {
+        Infomation,
+        Warning,
+    }
+
     public partial class LoginForm : Form
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -21,12 +28,12 @@ namespace daan.ui.PrintingApplication
         {
             InitializeComponent();
 
-            this.lbl_message.Text = string.Empty;
-            this.AcceptButton = btnLogin;
-            this.CancelButton = btnExit;
+            lbl_message.Text = string.Empty;
+            AcceptButton = btnLogin;
+            CancelButton = btnExit;
 
-            this.txtUsername.Text = "lishapeng";
-            this.txtPassword.Text = "lishapeng";
+            txtUsername.Text = "lishapeng";
+            txtPassword.Text = "lishapeng";
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -40,8 +47,9 @@ namespace daan.ui.PrintingApplication
             btnExit.Enabled = btnStatus;
         }
 
-        private void ShowMessage(string message)
+        private void ShowMessage(string message, MessageType type)
         {
+            lbl_message.ForeColor = (type == MessageType.Infomation) ? Color.Aqua : Color.Red;
             lbl_message.Text = message;
         }
 
@@ -51,7 +59,7 @@ namespace daan.ui.PrintingApplication
             {
                 if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
                 {
-                    ShowMessage("用户名或者密码不能为空");
+                    ShowMessage("用户名或者密码不能为空", MessageType.Warning);
                     return;
                 }
 
@@ -81,7 +89,7 @@ namespace daan.ui.PrintingApplication
                 string username = txtUsername.Text;
                 string password = txtPassword.Text;
 
-                this.BeginInvoke(new Action<String>(ShowMessage), "用户认证中...");
+                BeginInvoke(new Action<String, MessageType>(ShowMessage), "用户认证中...", MessageType.Infomation);
                 var userService = ServiceFactory.GetClientApplicationService();
                 var authenticateResponse = userService.Authenticate(new AuthenticateRequest()
                 {
@@ -92,8 +100,8 @@ namespace daan.ui.PrintingApplication
                 if (authenticateResponse.ResultType != ResultTypes.Ok)
                 {
                     Log.Info("Authenticate fail.");
-                    this.Invoke(new Action<String>(ShowMessage), "用户认证失败...");
-                    this.Invoke(new Action<bool>(ControlButtons), true);
+                    Invoke(new Action<String, MessageType>(ShowMessage), "用户认证失败...", MessageType.Warning);
+                    Invoke(new Action<bool>(ControlButtons), true);
                     return;
                 }
                 Log.Info("Authenticate OK.");
@@ -101,7 +109,7 @@ namespace daan.ui.PrintingApplication
                 PrintingApp.UserCredential = new UserCredential() { UserName = username, Password = password };
 
 
-                this.BeginInvoke(new Action<String>(ShowMessage), "用户授权中...");
+                BeginInvoke(new Action<String, MessageType>(ShowMessage), "用户授权中...", MessageType.Infomation);
                 var authorizeResponse = userService.Authorize(new AuthorizeRequest()
                 {
                     Username = username,
@@ -110,8 +118,8 @@ namespace daan.ui.PrintingApplication
                 if (authorizeResponse.ResultType != ResultTypes.Ok)
                 {
                     Log.Info("Authorize fail.");
-                    this.Invoke(new Action<String>(ShowMessage), "用户授权失败...");
-                    this.Invoke(new Action<bool>(ControlButtons), true);
+                    Invoke(new Action<String, MessageType>(ShowMessage), "用户授权失败...", MessageType.Warning);
+                    Invoke(new Action<bool>(ControlButtons), true);
                     return;
                 }
                 Log.Info("Authorize OK.");
@@ -120,19 +128,19 @@ namespace daan.ui.PrintingApplication
                 PrintingApp.ReportTemplates = authorizeResponse.ReportTemplates.ToList();
 
                 Log.Info("Loading system data.");
-                this.BeginInvoke(new Action<String>(ShowMessage), "加载系统配置中...");
+                BeginInvoke(new Action<String, MessageType>(ShowMessage), "加载系统配置中...", MessageType.Infomation);
                 ApplicationUpdater updater = new ApplicationUpdater();
                 updater.Initialize();
 
                 ReportTemplateFileProvider.Init(updater.ReportTemplateVersion);
 
-                this.BeginInvoke(new Action<String>(ShowMessage), "登陆成功...");
-                this.BeginInvoke(new Action(ShowMainForm));
+                BeginInvoke(new Action<String, MessageType>(ShowMessage), "登陆成功...", MessageType.Infomation);
+                BeginInvoke(new Action(ShowMainForm));
             }
             catch (Exception ex)
             {
-                this.Invoke(new Action<String>(ShowMessage), "发生登陆异常，请联系管理员...");
-                this.Invoke(new Action<bool>(ControlButtons), true);
+                Invoke(new Action<String, MessageType>(ShowMessage), "发生登陆异常，请联系管理员...", MessageType.Warning);
+                Invoke(new Action<bool>(ControlButtons), true);
                 Log.Error("Login fail.", ex);
             }
             

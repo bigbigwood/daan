@@ -6,6 +6,7 @@ using FastReport;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using FastReport.Utils;
 using log4net;
 using ReportDTO = daan.webservice.PrintingSystem.Contract.Models.Report.ReportInfo;
 
@@ -14,7 +15,10 @@ namespace daan.ui.PrintingApplication.PrintingImpl
     public class PrintingProxy
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly bool IsSetReportFileName = ConfigurationManager.AppSettings.Get("AutoSetReportFileNameWhilePrinting").ToUpper() == "TRUE";
+        private readonly bool EnableAutoSetReportFileName = ConfigurationManager.AppSettings.Get("AutoSetReportFileNameWhilePrinting").ToUpper() == "TRUE";
+        private readonly bool EnableFastReportProgressBar = ConfigurationManager.AppSettings.Get("EnableFastReportProgressBar").ToUpper() == "TRUE";
+        
+        
         public void PrintReport(string printerName, ReportDTO reportDTO)
         {
             string printType = string.Empty;
@@ -62,13 +66,15 @@ namespace daan.ui.PrintingApplication.PrintingImpl
                 page.Landscape = (printType != "横向");
             }
 
+            FastReport.Utils.Config.ReportSettings.ShowProgress = EnableFastReportProgressBar;
             report.PrintSettings.Printer = printerName;
             report.PrintSettings.ShowDialog = false;
-            if (IsSetReportFileName)
+            if (EnableAutoSetReportFileName)
                 report.FileName = string.Format("{0}.pdf", reportDTO.OrderNumber);
 
-
+            Log.InfoFormat("FastReport print {0} report start...", reportDTO.OrderNumber);
             report.Print();
+            Log.InfoFormat("FastReport print {0} report finished...", reportDTO.OrderNumber);
         }
 
 

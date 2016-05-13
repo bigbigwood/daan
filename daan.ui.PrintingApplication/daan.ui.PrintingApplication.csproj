@@ -61,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUpdater.cs" />
+    <Compile Include="Control\ExtendProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\ExtendProgressBar.Designer.cs">
+      <DependentUpon>ExtendProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Control\ProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +108,9 @@
     <Compile Include="Helper\ReportTemplateFileProvider.cs" />
     <Compile Include="Helper\ServiceFactory.cs" />
     <Compile Include="Control\AddCheckBoxToDataGridView.cs" />
+    <EmbeddedResource Include="Control\ExtendProgressBar.resx">
+      <DependentUpon>ExtendProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Control\PagerControl.resx">
       <DependentUpon>PagerControl.cs</DependentUpon>
     </EmbeddedResource>

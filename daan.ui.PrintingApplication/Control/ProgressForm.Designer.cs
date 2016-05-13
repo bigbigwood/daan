@@ -85,7 +85,7 @@
 
         #endregion
 
-        public CCWin.SkinControl.SkinProgressBar progressBar;
+        private CCWin.SkinControl.SkinProgressBar progressBar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
     }

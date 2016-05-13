@@ -77,10 +77,12 @@
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
-            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Version = new System.Windows.Forms.Label();
+            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
+            this.extendProgressBar = new daan.ui.PrintingApplication.Control.ExtendProgressBar();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tab_PhyReport.SuspendLayout();
@@ -89,6 +91,7 @@
             this.tlp_queryConditions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
             this.tlp_PagePicker.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.tlp_Bottom.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -760,7 +763,7 @@
             this.tlp_PagePicker.ColumnCount = 2;
             this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_PagePicker.Controls.Add(this.pagerControl1, 1, 0);
+            this.tlp_PagePicker.Controls.Add(this.tableLayoutPanel1, 1, 0);
             this.tlp_PagePicker.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_PagePicker.Location = new System.Drawing.Point(3, 509);
             this.tlp_PagePicker.Name = "tlp_PagePicker";
@@ -769,21 +772,22 @@
             this.tlp_PagePicker.Size = new System.Drawing.Size(980, 31);
             this.tlp_PagePicker.TabIndex = 6;
             // 
-            // pagerControl1
+            // tableLayoutPanel1
             // 
-            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
-            this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(163, 0);
-            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.pagerControl1.Name = "pagerControl1";
-            this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 10;
-            this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(817, 31);
-            this.pagerControl1.TabIndex = 0;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 800F));
+            this.tableLayoutPanel1.Controls.Add(this.pagerControl1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.extendProgressBar, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(980, 31);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // imageList
             // 
@@ -821,6 +825,30 @@
             this.lbl_Version.TabIndex = 0;
             this.lbl_Version.Text = "打印工具 v1.0.0.0";
             // 
+            // pagerControl1
+            // 
+            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pagerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(180, 0);
+            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 10;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(800, 31);
+            this.pagerControl1.TabIndex = 0;
+            // 
+            // extendProgressBar
+            // 
+            this.extendProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.extendProgressBar.Location = new System.Drawing.Point(3, 3);
+            this.extendProgressBar.Name = "extendProgressBar";
+            this.extendProgressBar.Size = new System.Drawing.Size(138, 25);
+            this.extendProgressBar.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -845,6 +873,7 @@
             this.tlp_queryConditions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
             this.tlp_PagePicker.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.tlp_Bottom.ResumeLayout(false);
             this.tlp_Bottom.PerformLayout();
             this.ResumeLayout(false);
@@ -901,6 +930,8 @@
         private System.Windows.Forms.TableLayoutPanel tlp_Bottom;
         private System.Windows.Forms.Label lbl_Version;
         private System.Windows.Forms.TableLayoutPanel tlp_PagePicker;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Control.PagerControl pagerControl1;
+        private Control.ExtendProgressBar extendProgressBar;
     }
 }
