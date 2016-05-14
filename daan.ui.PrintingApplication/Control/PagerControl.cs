@@ -5,7 +5,7 @@ namespace daan.ui.PrintingApplication.Control
 {
     public partial class PagerControl : UserControl
     {
-        public static readonly Int32 DefaultPageSize = 25;
+        public static readonly Int32 DefaultPageSize = 50;
 
         #region 构造函数
 

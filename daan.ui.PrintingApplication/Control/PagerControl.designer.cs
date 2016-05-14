@@ -49,7 +49,7 @@
             // txtPageNum
             // 
             this.txtPageNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtPageNum.Location = new System.Drawing.Point(674, 5);
+            this.txtPageNum.Location = new System.Drawing.Point(724, 5);
             this.txtPageNum.Margin = new System.Windows.Forms.Padding(4);
             this.txtPageNum.Name = "txtPageNum";
             this.txtPageNum.Size = new System.Drawing.Size(37, 24);
@@ -64,7 +64,7 @@
             this.lnkLast.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F);
             this.lnkLast.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkLast.LinkColor = System.Drawing.Color.Black;
-            this.lnkLast.Location = new System.Drawing.Point(627, 8);
+            this.lnkLast.Location = new System.Drawing.Point(677, 8);
             this.lnkLast.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkLast.Name = "lnkLast";
             this.lnkLast.Size = new System.Drawing.Size(36, 18);
@@ -80,7 +80,7 @@
             this.lnkNext.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkNext.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkNext.LinkColor = System.Drawing.Color.Black;
-            this.lnkNext.Location = new System.Drawing.Point(560, 8);
+            this.lnkNext.Location = new System.Drawing.Point(612, 8);
             this.lnkNext.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkNext.Name = "lnkNext";
             this.lnkNext.Size = new System.Drawing.Size(50, 18);
@@ -96,7 +96,7 @@
             this.lnkPrev.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lnkPrev.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkPrev.LinkColor = System.Drawing.Color.Black;
-            this.lnkPrev.Location = new System.Drawing.Point(488, 7);
+            this.lnkPrev.Location = new System.Drawing.Point(545, 7);
             this.lnkPrev.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkPrev.Name = "lnkPrev";
             this.lnkPrev.Size = new System.Drawing.Size(54, 19);
@@ -112,7 +112,7 @@
             this.lnkFirst.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lnkFirst.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkFirst.LinkColor = System.Drawing.Color.Black;
-            this.lnkFirst.Location = new System.Drawing.Point(435, 7);
+            this.lnkFirst.Location = new System.Drawing.Point(495, 7);
             this.lnkFirst.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkFirst.Name = "lnkFirst";
             this.lnkFirst.Size = new System.Drawing.Size(39, 19);
@@ -127,7 +127,7 @@
             this.lblCurrentPage.AutoSize = true;
             this.lblCurrentPage.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentPage.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblCurrentPage.Location = new System.Drawing.Point(9, 8);
+            this.lblCurrentPage.Location = new System.Drawing.Point(49, 8);
             this.lblCurrentPage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCurrentPage.Name = "lblCurrentPage";
             this.lblCurrentPage.Size = new System.Drawing.Size(17, 18);
@@ -138,7 +138,7 @@
             // 
             this.lblMsg2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblMsg2.AutoSize = true;
-            this.lblMsg2.Location = new System.Drawing.Point(214, 8);
+            this.lblMsg2.Location = new System.Drawing.Point(284, 8);
             this.lblMsg2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMsg2.Name = "lblMsg2";
             this.lblMsg2.Size = new System.Drawing.Size(50, 18);
@@ -151,7 +151,7 @@
             this.lblTotalCount.AutoSize = true;
             this.lblTotalCount.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalCount.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblTotalCount.Location = new System.Drawing.Point(143, 8);
+            this.lblTotalCount.Location = new System.Drawing.Point(213, 8);
             this.lblTotalCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalCount.Name = "lblTotalCount";
             this.lblTotalCount.Size = new System.Drawing.Size(53, 18);
@@ -162,7 +162,7 @@
             // 
             this.lblMsg1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblMsg1.AutoSize = true;
-            this.lblMsg1.Location = new System.Drawing.Point(104, 8);
+            this.lblMsg1.Location = new System.Drawing.Point(174, 8);
             this.lblMsg1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMsg1.Name = "lblMsg1";
             this.lblMsg1.Size = new System.Drawing.Size(22, 18);
@@ -173,7 +173,7 @@
             // 
             this.lblMsg3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblMsg3.AutoSize = true;
-            this.lblMsg3.Location = new System.Drawing.Point(290, 8);
+            this.lblMsg3.Location = new System.Drawing.Point(360, 8);
             this.lblMsg3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMsg3.Name = "lblMsg3";
             this.lblMsg3.Size = new System.Drawing.Size(36, 18);
@@ -184,7 +184,7 @@
             // 
             this.lblMsg4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblMsg4.AutoSize = true;
-            this.lblMsg4.Location = new System.Drawing.Point(384, 8);
+            this.lblMsg4.Location = new System.Drawing.Point(454, 8);
             this.lblMsg4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMsg4.Name = "lblMsg4";
             this.lblMsg4.Size = new System.Drawing.Size(22, 18);
@@ -195,7 +195,7 @@
             // 
             this.lblSept.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblSept.AutoSize = true;
-            this.lblSept.Location = new System.Drawing.Point(34, 8);
+            this.lblSept.Location = new System.Drawing.Point(74, 8);
             this.lblSept.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSept.Name = "lblSept";
             this.lblSept.Size = new System.Drawing.Size(12, 18);
@@ -208,7 +208,7 @@
             this.lblPageCount.AutoSize = true;
             this.lblPageCount.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPageCount.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblPageCount.Location = new System.Drawing.Point(54, 8);
+            this.lblPageCount.Location = new System.Drawing.Point(94, 8);
             this.lblPageCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPageCount.Name = "lblPageCount";
             this.lblPageCount.Size = new System.Drawing.Size(17, 18);
@@ -219,7 +219,7 @@
             // 
             this.txtPageSize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtPageSize.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.txtPageSize.Location = new System.Drawing.Point(334, 5);
+            this.txtPageSize.Location = new System.Drawing.Point(404, 5);
             this.txtPageSize.Margin = new System.Windows.Forms.Padding(4);
             this.txtPageSize.Name = "txtPageSize";
             this.txtPageSize.Size = new System.Drawing.Size(41, 24);
@@ -231,18 +231,18 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 15;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
@@ -267,7 +267,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(801, 34);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(840, 34);
             this.tableLayoutPanel1.TabIndex = 58;
             // 
             // btnGo
@@ -275,7 +275,7 @@
             this.btnGo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnGo.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.btnGo.ForeColor = System.Drawing.Color.Black;
-            this.btnGo.Location = new System.Drawing.Point(724, 4);
+            this.btnGo.Location = new System.Drawing.Point(774, 4);
             this.btnGo.Margin = new System.Windows.Forms.Padding(4);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(62, 26);
@@ -294,7 +294,7 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "PagerControl";
-            this.Size = new System.Drawing.Size(801, 34);
+            this.Size = new System.Drawing.Size(840, 34);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

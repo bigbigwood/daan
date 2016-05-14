@@ -41,7 +41,7 @@ namespace daan.webservice.PrintingSystem.Framework
             catch (Exception ex)
             {
                 Log.Error(ex);
-
+                result.ResultType = ResultTypes.UnknownError;
                 // transaction rollback
             }
             finally

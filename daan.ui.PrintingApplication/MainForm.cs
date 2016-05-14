@@ -45,8 +45,6 @@ namespace daan.ui.PrintingApplication
 
         private void BindDataGrid()
         {
-            pagerControl1.PageIndex = 1;
-            pagerControl1.PageSize = 25;
             pagerControl1.OnPageChanged += new EventHandler(pagerControl1_OnPageChanged);
 
             AddCheckBoxToDataGridView.dgv = dgv_orders;
@@ -99,9 +97,9 @@ namespace daan.ui.PrintingApplication
             dpSFrom.Value = DateTime.Now.AddDays(-7);
             dpSTo.Value = DateTime.Now;
 
-            //test
-            dropStatus.SelectedValue = (int)OrdersStatus.FinishPrint;
-            dpFrom.Value = DateTime.Now.AddDays(-60);
+            ////test
+            //dropStatus.SelectedValue = (int)OrdersStatus.FinishPrint;
+            //dpFrom.Value = DateTime.Now.AddDays(-60);
         }
 
         private void PresentData(QueryOrdersResponse response)
@@ -134,19 +132,11 @@ namespace daan.ui.PrintingApplication
 
         private void btnQueryOrder_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Log.Info("Start querying order...");
-                var printingService = ServiceFactory.GetPrintingService();
-                var response = printingService.QueryOrders(GetQueryOrdersRequest());
+            Log.Info("Start querying order...");
 
-                PresentData(response);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error while querying order.", ex);
-            }
-            Log.Info("Finish querying order...");
+            var request = GetQueryOrdersRequest();
+            Thread backgroudWorkerThread = new Thread(new ParameterizedThreadStart(backgroudWorker_QueryOrders));
+            backgroudWorkerThread.Start(request);
         }
 
         void pagerControl1_OnPageChanged(object sender, EventArgs e)
@@ -229,6 +219,36 @@ namespace daan.ui.PrintingApplication
             }
         }
 
+        private void backgroudWorker_QueryOrders(object obj)
+        {
+            try
+            {
+                var request = obj as QueryOrdersRequest;
+                BeginInvoke(new Action(DisableControls));
+
+                var printingService = ServiceFactory.GetPrintingService();
+                var response = printingService.QueryOrders(request);
+
+
+                Invoke(new Action(() =>
+                {
+                    EnableControls();
+                    PresentData(response);
+                }));
+                Log.Info("Finish querying order...");
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while processing query orders.", ex);
+
+                Invoke(new Action(() =>
+                {
+                    EnableControls();
+                    MessageBox.Show("查询订单异常！");
+                }));
+            }
+        }
+
         private void backgroudWorker_PrintReports(object obj)
         {
             try
@@ -254,7 +274,11 @@ namespace daan.ui.PrintingApplication
                 var response = printingService.GetReportData(request);
                 if (response.ResultType != ResultTypes.Ok)
                 {
-                    Invoke(new Action(() => MessageBox.Show("不能获取到报告数据！")));
+                    Invoke(new Action(() =>
+                    {
+                        EnableControls();
+                        MessageBox.Show("不能获取到所有选中订单的报告数据！");
+                    }));
                     return;
                 }
                 BeginInvoke(new Action(() => extendProgressBar.ReportProgress(getReportDataProgressBarWeight)));
@@ -313,6 +337,12 @@ namespace daan.ui.PrintingApplication
             catch (Exception ex)
             {
                 Log.Error("Error while processing print reports.", ex);
+
+                Invoke(new Action(() =>
+                {
+                    EnableControls();
+                    MessageBox.Show("打印异常！");
+                }));
             }
         }
 

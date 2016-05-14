@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using daan.webservice.PrintingSystem.Contract.Interface;
@@ -36,7 +37,13 @@ namespace daan.ui.PrintingApplication.Helper
 
         private static Binding GetBinding()
         {
-            return new BasicHttpBinding() { MaxReceivedMessageSize = int.MaxValue };
+            TimeSpan timeout = new TimeSpan(0,0,10,0);
+            return new BasicHttpBinding()
+            {
+                SendTimeout = timeout,
+                ReceiveTimeout = timeout, 
+                MaxReceivedMessageSize = int.MaxValue, 
+            };
         }
     }
 }

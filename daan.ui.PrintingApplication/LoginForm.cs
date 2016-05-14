@@ -32,8 +32,8 @@ namespace daan.ui.PrintingApplication
             AcceptButton = btnLogin;
             CancelButton = btnExit;
 
-            txtUsername.Text = "lishapeng";
-            txtPassword.Text = "lishapeng";
+            //txtUsername.Text = "lishapeng";
+            //txtPassword.Text = "lishapeng";
         }
 
         private void btnExit_Click(object sender, EventArgs e)
