@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>daan.webservice.PrintingSystem.Repository</RootNamespace>
+    <AssemblyName>daan.webservice.PrintingSystem.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\EXTERNAL-BIN\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common.Logging.Log4Net">
+      <HintPath>..\EXTERNAL-BIN\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataAccess">
+      <HintPath>..\EXTERNAL-BIN\IBatisNet.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\EXTERNAL-BIN\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\EXTERNAL-BIN\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\ConnectionAlreadyOpened.cs" />
+    <Compile Include="Exceptions\ConnectionNotOpened.cs" />
+    <Compile Include="Interfaces\IOrderReportRepository.cs" />
+    <Compile Include="Interfaces\IInitBasicRepository.cs" />
+    <Compile Include="Interfaces\IDictUserRepository.cs" />
+    <Compile Include="Interfaces\IOperationLogRepository.cs" />
+    <Compile Include="MyBatis\Impl\OrderReportRepositoryMB.cs" />
+    <Compile Include="MyBatis\Impl\InitBasicRepositoryMB.cs" />
+    <Compile Include="MyBatis\Impl\DictUserRepositoryMB.cs" />
+    <Compile Include="MyBatis\Impl\OperationLogRepositoryMB.cs" />
+    <Compile Include="MyBatis\MyBatisConnectionProvider.cs" />
+    <Compile Include="MyBatis\MyBatisRepository.cs" />
+    <Compile Include="MyBatis\Impl\OrderRepositoryMB.cs" />
+    <Compile Include="MyBatis\SessionToPersistanceAdapter.cs" />
+    <Compile Include="MyBatis\TransactionToPersistanceTransaction.cs" />
+    <Compile Include="IConnectionProvider.cs" />
+    <Compile Include="Interfaces\IOrderRepository.cs" />
+    <Compile Include="IPersistanceConnection.cs" />
+    <Compile Include="IPersistanceTransaction.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="NinjectBinder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\daan.domain\daan.domain.csproj">
+      <Project>{78EF06FB-5568-4DC8-986E-59B6C5685072}</Project>
+      <Name>daan.domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daan.mapconfig\daan.mapconfig.csproj">
+      <Project>{868796C3-AAFB-4184-9B27-B017BFAD5ED2}</Project>
+      <Name>daan.mapconfig</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyBatis\MapConfig\order\Orders.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="MyBatis\MapConfig\dict\Operationlog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyBatis\MapConfig\dict\Dictuser.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyBatis\MapConfig\dict\Initbasic.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyBatis\MapConfig\order\Orderreportdata.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

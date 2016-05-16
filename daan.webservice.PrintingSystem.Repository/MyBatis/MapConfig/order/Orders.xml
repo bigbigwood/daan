@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain.repository" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orders_Repo" type="daan.domain.Orders,daan.domain" />
+  </alias>
+
+  <statements>
+    <!--订单号状态修改-->
+    <update id="PrintingSystem.Order.UpdateStatusByOrderNum"  parameterClass="Orders_Repo">
+      UPDATE ORDERS SET STATUS=#Status#
+      WHERE  ordernum = '$Ordernum$'
+    </update>
+  </statements>
+</sqlMap>

@@ -7,6 +7,8 @@ using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Framework.Operation;
 using System.Collections;
 using daan.service.order;
+using daan.webservice.PrintingSystem.Repository;
+using daan.webservice.PrintingSystem.Repository.Interfaces;
 using log4net;
 
 namespace daan.webservice.PrintingSystem.Operations
@@ -20,30 +22,19 @@ namespace daan.webservice.PrintingSystem.Operations
         {
             List<String> messages = new List<string>();
 
-            var dictUser = new Dictuser() { Usercode = request.Username };
-            dictUser = new DictuserService().GetDictuserInfoByUserCode(dictUser);
+            var userRepo = RepositoryManager.GetRepository<IDictUserRepository>();
+            var dictUser = userRepo.GetByUserCode(request.Username);
             if (dictUser == null)
             {
                 throw new Exception("");
             }
-
-            var userInfo = new UserInfo();
-            userInfo.userCode = dictUser.Usercode;
-            userInfo.userName = dictUser.Username;
-            userInfo.userId = Convert.ToInt32(dictUser.Dictuserid);
-            userInfo.loginTime = DateTime.Now;
-            userInfo.joinLabidstr = dictUser.Joinlabid;
-            userInfo.dictlabid = dictUser.Dictlabid;
-            userInfo.joinDeptstr = dictUser.Joindeptid;
-            userInfo.dictlabdeptid = dictUser.Dictlabdeptid;
+            int operaterid = dictUser.Dictuserid == 0 ? 4 : (int)dictUser.Dictuserid;
+            string operatername = string.IsNullOrEmpty(dictUser.Username) ? "admin" : dictUser.Username;
 
             foreach (var orderTransition in request.OrderTransitions)
             {
-                Hashtable ht = new Hashtable();
-                ht.Add("ordernum", orderTransition.OrderNumber);
-                ht.Add("oldstatus", (int)orderTransition.CurrentStatus);
-                ht.Add("status", (int)orderTransition.NewStatus);
-                bool singleUpdateOrderResult = ordersService.EditStatusByOldStatus(ht);
+                var orderRepo = RepositoryManager.GetRepository<IOrderRepository>();
+                bool singleUpdateOrderResult = orderRepo.UpdateOrderStatus(orderTransition.OrderNumber, ((int)orderTransition.NewStatus).ToString());
                 if (singleUpdateOrderResult == false)
                 {
                     string message = String.Format("{0}:{1}", orderTransition.OrderNumber, singleUpdateOrderResult.ToString());
@@ -51,7 +42,7 @@ namespace daan.webservice.PrintingSystem.Operations
                     messages.Add(message);
                 }
 
-                ordersService.AddOperationLog(orderTransition.OrderNumber, null, "报告单集中打印", "新版打印报告单", "修改留痕", "", userInfo);
+                AddOperationLog(orderTransition.OrderNumber, null, "报告单集中打印", "新版打印报告单", "修改留痕", "", operatername, operaterid);
             }
 
             if (messages.Any())
@@ -65,5 +56,22 @@ namespace daan.webservice.PrintingSystem.Operations
         }
 
 
+        public void AddOperationLog(string orderNum, string barCode, string moduleName, string content, string operationType, string remark, string operatername, int operaterid)
+        {
+            var operationLogRepo = RepositoryManager.GetRepository<IOperationLogRepository>();
+
+            var log = new Operationlog();
+            log.Operationid = ordersService.getSeqID("seq_OperationLog");
+            log.Ordernum = orderNum;
+            log.Barcode = barCode;
+            log.Modulename = moduleName;
+            log.Createdate = DateTime.Now;
+            log.Operationtype = operationType;
+            log.Operatername = operatername;
+            log.Operaterid = operaterid;
+            log.Content = content;
+            log.Remark = remark;
+            operationLogRepo.Insert(log);
+        }
     }
 }

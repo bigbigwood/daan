@@ -41,7 +41,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\EXTERNAL-BIN\Daan.Authority.Handler.dll</HintPath>
     </Reference>
-    <Reference Include="IBatisNet.Common.Logging.Log4Net">
+    <Reference Include="IBatisNet.Common.Logging.Log4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\EXTERNAL-BIN\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
@@ -92,7 +93,7 @@
     </Compile>
     <Compile Include="Helper\Convertor.cs" />
     <Compile Include="Helper\XmlHelper.cs" />
-    <Compile Include="Framework\ObjectFactory.cs" />
+    <Compile Include="Framework\NinjectBinder.cs" />
     <Compile Include="Operations\AuthenticateOp.cs" />
     <Compile Include="Operations\AuthorizeOp.cs" />
     <Compile Include="Operations\GetReportDataOp.cs" />
@@ -129,6 +130,10 @@
       <Project>{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}</Project>
       <Name>daan.webservice.PrintingSystem.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\daan.webservice.PrintingSystem.Repository\daan.webservice.PrintingSystem.Repository.csproj">
+      <Project>{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}</Project>
+      <Name>daan.webservice.PrintingSystem.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="daan.sqlserver.config">
@@ -154,6 +159,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>

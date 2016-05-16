@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.PrintingApplication
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem.Contract", "daan.webservice.PrintingSystem.Contract\daan.webservice.PrintingSystem.Contract.csproj", "{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem.Repository", "daan.webservice.PrintingSystem.Repository\daan.webservice.PrintingSystem.Repository.csproj", "{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -254,6 +256,16 @@ Global
 		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8C98EEC-2085-42BB-9F0B-CBDF9E4AE97C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

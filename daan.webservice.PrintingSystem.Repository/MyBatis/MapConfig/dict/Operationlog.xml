@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain.repository" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Operationlog_Repo"  type="daan.domain.Operationlog,daan.domain" />
+  </alias>
+  <statements>
+
+    <insert id="PrintingSystem.dict.InsertOperationlog" parameterClass="Operationlog_Repo">
+      INSERT INTO OPERATIONLOG
+      (OPERATIONID,ORDERNUM,BARCODE,MODULENAME,OPERATERNAME,OPERATERID,CONTENT,OPERATIONTYPE,CREATEDATE,REMARK)
+      VALUES(#Operationid#,#Ordernum#,#Barcode#,#Modulename#,#Operatername#,#Operaterid#,#Content#,#Operationtype#,#Createdate:DateTime:1/1/0001 12:00:00 AM#,#Remark#)
+    </insert>
+  </statements>
+</sqlMap>

@@ -4,7 +4,7 @@ using Ninject;
 
 namespace daan.webservice.PrintingSystem.Framework
 {
-    public static class ObjectFactory
+    public static class NinjectBinder
     {
         private static IKernel _ninjectKernel;
 
@@ -14,7 +14,7 @@ namespace daan.webservice.PrintingSystem.Framework
             _ninjectKernel.Bind<IAuthenticaitionService>().To<CenterAuthenticaitionServiceImpl>();
         }
 
-        public static TInterface GetImpl<TInterface>()
+        public static TInterface Get<TInterface>()
         {
             return _ninjectKernel.Get<TInterface>();
         }

@@ -9,6 +9,8 @@ using daan.webservice.PrintingSystem.Contract.Models;
 using daan.webservice.PrintingSystem.Contract.Models.User;
 using daan.webservice.PrintingSystem.Framework.Operation;
 using daan.webservice.PrintingSystem.Helper;
+using daan.webservice.PrintingSystem.Repository;
+using daan.webservice.PrintingSystem.Repository.Interfaces;
 using UserInfo = daan.webservice.PrintingSystem.Contract.Models.User.UserInfo;
 
 namespace daan.webservice.PrintingSystem.Operations
@@ -31,8 +33,8 @@ namespace daan.webservice.PrintingSystem.Operations
                 };
             }
 
-            var dictUser = new Dictuser() { Usercode = request.Username };
-            dictUser = new DictuserService().GetDictuserInfoByUserCode(dictUser);
+            var userRepo = RepositoryManager.GetRepository<IDictUserRepository>();
+            var dictUser = userRepo.GetByUserCode(request.Username);
             if (dictUser != null && dictUser.Dictlabid.HasValue)
             {
                 var dictLabInfo = new DictlabService().GetDictlabById(dictUser.Dictlabid.Value);

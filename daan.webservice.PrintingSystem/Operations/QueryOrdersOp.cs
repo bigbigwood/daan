@@ -1,4 +1,5 @@
-﻿using daan.service.order;
+﻿using System;
+using daan.service.order;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Framework.Operation;
 
@@ -38,6 +39,53 @@ namespace daan.webservice.PrintingSystem.Operations
             return new QueryOrdersResponse() { ResultType = ResultTypes.Ok, Result = dataTable, OrderCount = orderCount };
         }
 
+
+
+
+
+        /// <summary>
+        /// 截取年龄 >=5岁不取月日时，＜5岁时才取月日时
+        /// </summary>
+        /// <param name="objage">数据库取的Age字段值</param>
+        /// <returns></returns>
+        public static string GetAge(object objage)
+        {
+            string age = string.Empty;
+            try
+            {
+                if (objage.ToString() == string.Empty) { return string.Empty; }
+                if (objage.ToString().Contains("成人")) { return objage.ToString(); }
+                string[] strage = objage.ToString().Split('岁');
+                int year = Convert.ToInt32(strage[0]);
+                if (year >= 5) { age = strage[0] + "岁"; }
+                else
+                {
+
+                    if (strage[0] != "0") { age += strage[0] + "岁"; }
+
+                    string[] strmonth = strage[1].Split('月');
+                    int month = Convert.ToInt32(strmonth[0]);
+                    if (month > 0) { age += month + "月"; }
+
+                    string[] strday = strmonth[1].Split('日');
+                    int day = Convert.ToInt32(strday[0]);
+                    if (day > 0) { age += day + "日"; }
+
+                    string[] strhour = strday[1].Split('时');
+                    int hour = Convert.ToInt32(strhour[0]);
+                    if (hour > 0) { age += hour + "时"; }
+
+                    if (age == string.Empty) { age = "0岁"; }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("年龄格式转换错误！");
+            }
+
+            return age;
+        }
 
     }
 }
