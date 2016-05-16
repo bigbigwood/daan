@@ -13,7 +13,7 @@ namespace daan.webservice.PrintingSystem
             Log.Info("Application start");
 
             Log.Info("ServiceInitializer initialize");
-            ObjectFactory.Initialize();
+            NinjectBinder.Initialize();
         }
 
         protected void Session_Start(object sender, EventArgs e)

@@ -10,36 +10,39 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
         public string OrderNumber { get; set; }
 
         [MessageBodyMember(Order = 2)]
-        public String PageStart { get; set; }
+        public string Barcode { get; set; }
 
         [MessageBodyMember(Order = 3)]
-        public String PageEnd { get; set; }
+        public String PageStart { get; set; }
 
         [MessageBodyMember(Order = 4)]
-        public String Dictlabid { get; set; }
+        public String PageEnd { get; set; }
 
         [MessageBodyMember(Order = 5)]
-        public String Dictcustomerid { get; set; }
+        public String Dictlabid { get; set; }
 
         [MessageBodyMember(Order = 6)]
-        public String StartDate { get; set; }
+        public String Dictcustomerid { get; set; }
 
         [MessageBodyMember(Order = 7)]
-        public String EndDate { get; set; }
+        public String StartDate { get; set; }
 
         [MessageBodyMember(Order = 8)]
-        public String SDateBegin { get; set; }
+        public String EndDate { get; set; }
 
         [MessageBodyMember(Order = 9)]
-        public String SDateEnd { get; set; }
+        public String SamplingDateBegin { get; set; }
 
         [MessageBodyMember(Order = 10)]
-        public String Status { get; set; }
+        public String SamplingDateEnd { get; set; }
 
         [MessageBodyMember(Order = 11)]
-        public String Name { get; set; }
+        public String OrderStatus { get; set; }
 
         [MessageBodyMember(Order = 12)]
+        public String Keyword { get; set; }
+
+        [MessageBodyMember(Order = 13)]
         public String ReportStatus { get; set; }
     }
 }

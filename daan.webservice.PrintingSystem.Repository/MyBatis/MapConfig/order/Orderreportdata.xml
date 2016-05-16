@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain.repository" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+
+  <cacheModels>
+    <cacheModel id="Orderreportdata-cache"  implementation="MEMORY" >
+      <flushInterval hours="24"/>
+      <flushOnExecute  statement="Order.InsertOrderreportdata"/>
+      <flushOnExecute  statement="Order.UpdateOrderreportdata"/>
+      <flushOnExecute  statement="Order.DeleteOrderreportdata"/>
+      <property name="Type" value="Weak"/>
+    </cacheModel>
+  </cacheModels>
+
+  <alias>
+    <typeAlias alias="Orderreportdata_Repo" type="daan.domain.Orderreportdata,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderreportdataResult_Repo" class="daan.domain.Orderreportdata">
+      <result property="Orderreportdataid" column="ORDERREPORTDATAID" />
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="ReportData" column="REPORTDATA" />
+      <result property="Createdate" column="CREATEDATE" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="PrintingSystem.Order.SelectOrderreportdata" parameterClass="string" resultMap="OrderreportdataResult_Repo" cacheModel="Orderreportdata-cache">
+      SELECT ORDERREPORTDATAID, ORDERNUM, REPORTDATA, CREATEDATE
+      FROM Orderreportdata
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERREPORTDATAID = #value#
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    <select id="PrintingSystem.Order.SelectOrderreportdataByOrdernum" parameterClass="string" resultMap="OrderreportdataResult_Repo" cacheModel="Orderreportdata-cache">
+      SELECT ORDERREPORTDATAID, ORDERNUM, REPORTDATA, CREATEDATE
+      FROM Orderreportdata
+      <dynamic prepend="WHERE">
+        <isParameterPresent>
+          ORDERNUM = '$value$'
+        </isParameterPresent>
+      </dynamic>
+    </select>
+    
+    <insert id="PrintingSystem.Order.InsertOrderreportdata" parameterClass="Orderreportdata_Repo">
+      INSERT INTO Orderreportdata
+      (ORDERREPORTDATAID,ORDERNUM,REPORTDATA)
+      VALUES(#Orderreportdataid#,#Ordernum#,#ReportData#)
+    </insert>
+    <update id="PrintingSystem.Order.UpdateOrderreportdata" parameterClass="Orderreportdata_Repo">
+      UPDATE Orderreportdata
+      SET ORDERNUM=#Ordernum#,REPORTDATA=#ReportData#,CREATEDATE=#Createdate#
+      WHERE ORDERNUM = '$Ordernum$'
+    </update>
+    <delete id="PrintingSystem.Order.DeleteOrderreportdata" parameterClass="string">
+      DELETE FROM Orderreportdata WHERE ORDERREPORTDATAID = #value#
+    </delete>
+  </statements>
+</sqlMap>

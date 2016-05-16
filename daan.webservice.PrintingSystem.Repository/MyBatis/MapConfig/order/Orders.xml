@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain.repository" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orders_Repo" type="daan.domain.Orders,daan.domain" />
+  </alias>
+
+  <statements>
+    <select id="Order.SelectOrderReportSummaryByOrderNum" parameterClass="string">
+      select distinct a.ordernum,a.realname,b.customername,ib.basicname as statusname,ib2.basicname as sex,a.age,a.createdate,a.dictreporttemplateid,
+      a.ordertestlst,a.status,m.idnumber,a.section,a.samplingdate,a.postaddress,a.recipient,a.contactnumber,nvl(m.mobile,m.phone) mobile
+      from orders a
+      left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
+      left join dictmember m on m.dictmemberid=a.dictmemberid
+      left join initbasic ib on (a.status=ib.basicvalue and ib.basictype='ORDERSTATUS')
+      left join initbasic ib2 on (a.sex=ib2.basicvalue and ib2.basictype='SEX')
+      where a.iscancel='0' and a.ordernum='$value$'
+    </select>
+
+    <!--订单号状态修改-->
+    <update id="PrintingSystem.Order.UpdateStatusByOrderNum"  parameterClass="Orders_Repo">
+      UPDATE ORDERS SET STATUS=#Status#
+      WHERE  ordernum = '$Ordernum$'
+    </update>
+  </statements>
+</sqlMap>

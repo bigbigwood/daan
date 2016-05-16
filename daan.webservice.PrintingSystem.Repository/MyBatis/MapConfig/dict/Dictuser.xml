@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain.repository" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+
+
+  <cacheModels>
+    <cacheModel id="DictUser-cache"  implementation="MEMORY" >
+      <flushInterval hours="24"/>
+      <property name="Type" value="Weak"/>
+    </cacheModel>
+  </cacheModels>
+  
+  <alias>
+    <typeAlias alias="DictUser_Repo" type="daan.domain.Dictuser,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="DictuserResultjoinlabid_Repo" class="daan.domain.Dictuser">
+      <result property="Dictuserid" column="DICTUSERID" />
+      <result property="Usercode" column="USERCODE" type="string" dbType="varchar"/>
+      <result property="Password" column="PASSWORD" type="string" dbType="varchar"/>
+      <result property="Username" column="USERNAME" type="string" dbType="varchar"/>
+      <result property="Active" column="ACTIVE" type="string" dbType="varchar"/>
+      <result property="Dictlabdeptid" column="DICTLABDEPTID" />
+      <result property="Joinlabid" column="JOINLABID" />
+      <result property="Joindeptid" column="JOINDEPTID" />
+      <result property="Dictlabid" column="DICTLABID" />
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+    <select id="PrintingSystem.Dict.GetDictuserInfoByCode" parameterClass="string" resultMap="DictuserResultjoinlabid_Repo" cacheModel="DictUser-cache">
+      SELECT u.Dictuserid,u.Usercode,u.Password,u.Username,u.Active,u.dictlabdeptid, u.Dictlabid, (u.Dictlabid||','|| nvl(lab.labstr,0)) as Joinlabid, u.dictlabdeptid ,(u.dictlabdeptid ||','|| nvl(labdep.labstrdep,0)) as Joindeptid
+      FROM Dictuser u
+      LEFT JOIN (select wm_concat(dictlabid) as labstr,a.dictuserid  from DICTUSERANDLAB a  group by a.dictuserid) lab on u.dictuserid =lab.dictuserid
+      left join (select  wm_concat(DICTLABDEPTID) as labstrdep,t.dictuserid  from DICTUSERANDLABDEPT t  group by t.dictuserid) labdep on u.dictuserid = labdep.dictuserid
+      WHERE Usercode='$value$'
+    </select>
+  </statements>
+</sqlMap>

@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="daan.domain.repository" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Initbasic" type="daan.domain.Initbasic,daan.domain" />
+    <typeAlias alias="Initbasic_Repo" type="daan.domain.Initbasic,daan.domain" />
   </alias>
+  <!--
+  implementation="MEMORY"是设置缓存的实现方式，可以指定LRU、FIFO等，有点类似于内存的页替换策略。MEMORY是最常使用的一种方式。
+  flushOnExecute设置的是当执行了这些语句时更新缓存  readOnly="false" serialize="true"
+  -->
+  <cacheModels>
+    <cacheModel id="Initbasic-cache"  implementation="MEMORY" >
+      <flushInterval minutes="5"/>
+      <flushOnExecute  statement="Dict.InsertInitbasic"/>
+      <flushOnExecute  statement="Dict.UpdateInitbasic"/>
+      <flushOnExecute  statement="Dict.DeleteInitbasic"/>
+      <property name="Type" value="Weak"/>
+    </cacheModel>
+  </cacheModels>
+  
   <resultMaps>
     <resultMap id="InitbasicResult" class="daan.domain.Initbasic">
       <result property="Basicid" column="BASICID" />
@@ -15,7 +29,7 @@
   </resultMaps>
   <statements>
     
-    <select id="Dict.GetInitbasicInfoByType" parameterClass="Hashtable" >
+    <select id="PrintingSystem.Dict.GetInitbasicInfoByType" parameterClass="Hashtable" cacheModel="Initbasic-cache">
       SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
       <isNotEmpty prepend="and" parameterClass="strKey" >
         Basictype like '%$strKey$%'
@@ -23,7 +37,7 @@
     </select>
 
     <!--按基本资料类型查询-->
-    <select id="Dict.GetInitbasicLst" parameterClass="string" ResultMap="InitbasicResult" >
+    <select id="PrintingSystem.Dict.GetInitbasicLst" parameterClass="string" ResultMap="InitbasicResult" cacheModel="Initbasic-cache">
       SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
       <isNotEmpty prepend="and" parameterClass="string">
         Basictype=#value#
@@ -31,24 +45,24 @@
       order by Basicvalue
     </select>
     
-    <select id="Dict.GetInitbasicInfoByTypeAndByValue" parameterClass="Hashtable" >
+    <select id="PrintingSystem.Dict.GetInitbasicInfoByTypeAndByValue" parameterClass="Hashtable" cacheModel="Initbasic-cache">
       SELECT Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode  FROM Initbasic WHERE 1=1
       <isNotEmpty prepend="and" parameterClass="strKey">
         Basictype like '%LABDEPTTYPE%' and Basicvalue like  '%$strKey$%'
       </isNotEmpty>
     </select>
     
-    <insert id="Dict.InsertInitbasic" parameterClass="Initbasic">
+    <insert id="PrintingSystem.Dict.InsertInitbasic" parameterClass="Initbasic_Repo">
       INSERT INTO Initbasic
       (Basicid,Basictype,Basicvalue,Basicname,Remark,Fastcode)
       VALUES(#Basicid#,#Basictype#,#Basicvalue#,#Basicname#,#Remark#,#Fastcode#)
     </insert>
-    <update id="Dict.UpdateInitbasic" parameterClass="Initbasic">
+    <update id="PrintingSystem.Dict.UpdateInitbasic" parameterClass="Initbasic_Repo">
       UPDATE Initbasic
       SET Basicid=#Basicid#,Basicid=#Basictype#,Basicid=#Basicvalue#,Basicid=#Basicname#,Basicid=#Remark#,Basicid=#Fastcode#
       WHERE Basicid = #Basicid#
     </update>
-    <delete id="Dict.DeleteInitbasic" parameterClass="string">
+    <delete id="PrintingSystem.Dict.DeleteInitbasic" parameterClass="string">
       DELETE FROM Initbasic
       WHERE Basicid = #value#
     </delete>
