@@ -43,6 +43,10 @@
     <Reference Include="IBatisNet.DataMapper">
       <HintPath>..\EXTERNAL-BIN\IBatisNet.DataMapper.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EXTERNAL-BIN\log4net\1.2.10.0\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\EXTERNAL-BIN\Ninject.dll</HintPath>
     </Reference>
@@ -57,10 +61,12 @@
   <ItemGroup>
     <Compile Include="Exceptions\ConnectionAlreadyOpened.cs" />
     <Compile Include="Exceptions\ConnectionNotOpened.cs" />
+    <Compile Include="Interfaces\IOrderBarcodeRepository.cs" />
     <Compile Include="Interfaces\IOrderReportRepository.cs" />
     <Compile Include="Interfaces\IInitBasicRepository.cs" />
     <Compile Include="Interfaces\IDictUserRepository.cs" />
     <Compile Include="Interfaces\IOperationLogRepository.cs" />
+    <Compile Include="MyBatis\Impl\OrderBarcodeRepositoryMB.cs" />
     <Compile Include="MyBatis\Impl\OrderReportRepositoryMB.cs" />
     <Compile Include="MyBatis\Impl\InitBasicRepositoryMB.cs" />
     <Compile Include="MyBatis\Impl\DictUserRepositoryMB.cs" />
@@ -95,7 +101,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="MyBatis\MapConfig\order\Orderbarcode.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyBatis\MapConfig\dict\Operationlog.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

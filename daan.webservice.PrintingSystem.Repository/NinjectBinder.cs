@@ -26,6 +26,7 @@ namespace daan.webservice.PrintingSystem.Repository
             _ninjectKernel.Bind<IOperationLogRepository>().To<OperationLogRepositoryMB>();
             _ninjectKernel.Bind<IInitBasicRepository>().To<InitBasicRepositoryMB>();
             _ninjectKernel.Bind<IOrderReportRepository>().To<OrderReportRepositoryMB>();
+            _ninjectKernel.Bind<IOrderBarcodeRepository>().To<OrderBarcodeRepositoryMB>();
         }
 
         public static TInterface Get<TInterface>()

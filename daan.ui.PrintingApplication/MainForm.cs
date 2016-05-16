@@ -68,15 +68,22 @@ namespace daan.ui.PrintingApplication
 
         private void BindQueryGroup()
         {
-            dropStatus.DataSource = new ComboBoxDataSourceProvider().GetOrderStatusDataSource();
+            var comboBoxDataSourceProvider = new ComboBoxDataSourceProvider();
+            dropStatus.DataSource = comboBoxDataSourceProvider.GetOrderStatusDataSource();
             dropStatus.ValueMember = "EnumValue";
             dropStatus.DisplayMember = "EnumDisplayText";
             dropStatus.SelectedValue = -1;
 
-            dropReportStatus.DataSource = new ComboBoxDataSourceProvider().GetReportStatusDataSource();
+            dropReportStatus.DataSource = comboBoxDataSourceProvider.GetReportStatusDataSource();
             dropReportStatus.ValueMember = "EnumValue";
             dropReportStatus.DisplayMember = "EnumDisplayText";
             dropReportStatus.SelectedValue = (int)ReportStatus.Normal;
+            dropReportStatus.Enabled = false;
+
+            dropNumberType.DataSource = comboBoxDataSourceProvider.GetNumberTypeDataSource();
+            dropNumberType.ValueMember = "EnumValue";
+            dropNumberType.DisplayMember = "EnumDisplayText";
+            dropNumberType.SelectedValue = 1;
 
             var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = ConstString.ALL } };
             labList.AddRange(PrintingApp.LabAssociations);
@@ -113,18 +120,22 @@ namespace daan.ui.PrintingApplication
             var request = new QueryOrdersRequest();
             request.Username = PrintingApp.UserCredential.UserName;
             request.Password = PrintingApp.UserCredential.Password;
-            request.OrderNumber = tbxOrderNum.Text;
             request.PageStart = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + 1).ToString();
             request.PageEnd = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + pagerControl1.PageSize).ToString();
             request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
             request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
-            request.SDateBegin = dpSFrom.Value.ToString(ConstString.DateFormat);
-            request.SDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
-            request.Name = tbxName.Text;
+            request.SamplingDateBegin = dpSFrom.Value.ToString(ConstString.DateFormat);
+            request.SamplingDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
+            request.Keyword = tbxName.Text;
+
+            if ((int) dropNumberType.SelectedValue == 1)
+                request.OrderNumber = tbxOrderNum.Text;
+            else
+                request.Barcode = tbxOrderNum.Text;
 
             request.Dictlabid = dropDictLab.SelectedValue.ToString();
             request.Dictcustomerid = (dropDictcustomer.SelectedValue.ToString() != "-1") ? dropDictcustomer.SelectedValue.ToString() : null;
-            request.Status = (dropStatus.SelectedValue.ToString() != "-1") ? dropStatus.SelectedValue.ToString() : null;
+            request.OrderStatus = (dropStatus.SelectedValue.ToString() != "-1") ? dropStatus.SelectedValue.ToString() : null;
             request.ReportStatus = (dropReportStatus.SelectedValue.ToString() != "-1") ? dropReportStatus.SelectedValue.ToString() : null;
 
             return request;
@@ -284,6 +295,7 @@ namespace daan.ui.PrintingApplication
                 BeginInvoke(new Action(() => extendProgressBar.ReportProgress(getReportDataProgressBarWeight)));
 
                 var finishPrintOrderNumbers = new List<string>();
+                var exceptionPrintOrderNumbers = new List<string>();
                 int index = 0;
                 int count = response.Reports.Count();
                 while (index < count)
@@ -295,6 +307,8 @@ namespace daan.ui.PrintingApplication
 
                         if (PrintReport(printerName, reportInfo))
                             finishPrintOrderNumbers.Add(reportInfo.OrderNumber);
+                        else
+                            exceptionPrintOrderNumbers.Add(reportInfo.OrderNumber);
 
                         int calcWeight = (int)((double)index / count * printReportProgressBarWeight + getReportDataProgressBarWeight);
                         BeginInvoke(new Action(() => extendProgressBar.ReportProgress(calcWeight)));
@@ -316,20 +330,20 @@ namespace daan.ui.PrintingApplication
                 var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
                 if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
                 {
-                    foreach (var o in finishPrintOrderNumbers)
-                    {
-                        BeginInvoke(new Action(() =>
-                            {
-                                UpdateOrderStatusRows(o, ConstString.OrdersStatus_FinishPrint);
-                            }));
-                    }
+                    Invoke(new Action(() => finishPrintOrderNumbers.ForEach(o => UpdateOrderStatusRows(o, ConstString.OrdersStatus_FinishPrint))));
                 }
 
                 Invoke(new Action(() =>
                 {
                     extendProgressBar.ReportProgress(100);
                     EnableControls();
-                    MessageBox.Show("打印完成！");
+                    if (exceptionPrintOrderNumbers.Any())
+                    {
+                        string errorMessage = string.Format("本次打印有部分异常，体检单号为： {0}", string.Join(",", exceptionPrintOrderNumbers.ToArray()));
+                        MessageBox.Show(errorMessage);
+                    }
+                    else
+                        MessageBox.Show("打印完成！");
                 }));
 
                 Log.Info("Finish printing report...");
@@ -363,7 +377,8 @@ namespace daan.ui.PrintingApplication
             }
             catch (Exception ex)
             {
-                Log.Error("Error while printing report.", ex);
+                Log.ErrorFormat("Error while printing report (order number = {0}, report code = {1}).", reportInfo.OrderNumber, reportInfo.ReportTemplateCode);
+                Log.Error(ex);
                 return false;
             }
         }

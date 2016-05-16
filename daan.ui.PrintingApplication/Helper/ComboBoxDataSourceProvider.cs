@@ -38,5 +38,14 @@ namespace daan.ui.PrintingApplication.Helper
                 new EnumEntity() {EnumValue = (int)ReportStatus.Refund, EnumText =ReportStatus.Refund.ToString(), EnumDisplayText = ConstString.ReportStatus_Refund},
             };
         }
+
+        public List<EnumEntity> GetNumberTypeDataSource()
+        {
+            return new List<EnumEntity>()
+            {
+                new EnumEntity() {EnumValue = 1, EnumText = "体检号", EnumDisplayText = "体检号"},
+                new EnumEntity() {EnumValue = 2, EnumText = "条码号", EnumDisplayText = "条码号"},
+            };
+        }
     }
 }

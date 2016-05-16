@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Data;
 using daan.service.order;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Framework.Operation;
+using daan.webservice.PrintingSystem.Repository;
+using daan.webservice.PrintingSystem.Repository.Interfaces;
 
 namespace daan.webservice.PrintingSystem.Operations
 {
@@ -9,34 +12,57 @@ namespace daan.webservice.PrintingSystem.Operations
     {
         public QueryOrdersResponse Process(QueryOrdersRequest request)
         {
-            var htPara = new System.Collections.Hashtable();
+            var response = new QueryOrdersResponse() {ResultType = ResultTypes.Ok};
+            var ordersService = new OrdersService();
+            var ordersRepo = RepositoryManager.GetRepository<IOrderRepository>();
 
             if (!string.IsNullOrWhiteSpace(request.OrderNumber))
             {
-                htPara.Add("ordernum", request.OrderNumber);
-                htPara.Add("pageStart", request.PageStart);
-                htPara.Add("pageEnd", request.PageEnd);
+                var dt = ordersRepo.QueryOrderReportSummaryByOrderNum(request.OrderNumber);
+                foreach (DataRow row in dt.Rows)
+                    row["AGE"] = GetAge(row["AGE"]);
+
+                response.Result = dt;
+                response.OrderCount = response.Result.Rows.Count;
+            }
+            else if (!string.IsNullOrWhiteSpace(request.Barcode))
+            {
+                var orderBarcodeRepo = RepositoryManager.GetRepository<IOrderBarcodeRepository>();
+                var orderBarcodeInfo = orderBarcodeRepo.GetByBarcode(request.Barcode);
+                if (orderBarcodeInfo != null)
+                {
+                    var dt = ordersRepo.QueryOrderReportSummaryByOrderNum(orderBarcodeInfo.Ordernum);
+                    foreach (DataRow row in dt.Rows)
+                        row["AGE"] = GetAge(row["AGE"]);
+
+                    response.Result = dt;
+                    response.OrderCount = response.Result.Rows.Count;
+                }
+                else
+                {
+                    response.OrderCount = 0;
+                }
             }
             else
             {
+                var htPara = new System.Collections.Hashtable();
                 htPara.Add("pageStart", request.PageStart);
                 htPara.Add("pageEnd", request.PageEnd);
                 htPara.Add("dictlabid", request.Dictlabid); // 分点
                 htPara.Add("dictcustomerid", request.Dictcustomerid); //体检单位
                 htPara.Add("StartDate", request.StartDate);
                 htPara.Add("EndDate", request.EndDate);
-                htPara.Add("SDateBegin", request.SDateBegin);
-                htPara.Add("SDateEnd", request.SDateEnd);
-                htPara.Add("status", request.Status); ;
-                htPara.Add("name", request.Name);
+                htPara.Add("SamplingDateBegin", request.SamplingDateBegin);
+                htPara.Add("SamplingDateEnd", request.SamplingDateEnd);
+                htPara.Add("status", request.OrderStatus); ;
+                htPara.Add("name", request.Keyword);
                 htPara.Add("reportstatus", request.ReportStatus);
+
+                response.OrderCount = ordersService.DataForFocusPrintPageTotal(htPara);
+                response.Result = ordersService.DataForFocusPrintPageLst(htPara);
             }
 
-            var ordersService = new OrdersService();
-            var orderCount = ordersService.DataForFocusPrintPageTotal(htPara);
-            var dataTable = ordersService.DataForFocusPrintPageLst(htPara);
-
-            return new QueryOrdersResponse() { ResultType = ResultTypes.Ok, Result = dataTable, OrderCount = orderCount };
+            return response;
         }
 
 

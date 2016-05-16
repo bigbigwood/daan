@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="daan.domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Orderbarcode_Repo" type="daan.domain.Orderbarcode,daan.domain" />
+  </alias>
+  <resultMaps>
+    <resultMap id="OrderbarcodeResult_Repo" class="daan.domain.Orderbarcode">
+      <result property="Orderbarcodeid" column="ORDERBARCODEID" />
+      <result property="Ordernum" column="ORDERNUM" />
+      <result property="Barcode" column="BARCODE" />
+      <result property="Specimentypeid" column="SPECIMENTYPEID"/>
+      <result property="Pathologytypename" column="PATHOLOGYTYPENAME"/>
+      <result property="Pathologyno" column="PATHOLOGYNO" />
+      <result property="Pathologyaddress" column="PATHOLOGYADDRESS" />
+      <result property="Hashcode" column="HASHCODE" />
+      <result property="Status" column="STATUS"/>
+      <result property="Collectdate" column="COLLECTDATE" />
+      <result property="Collectby" column="COLLECTBY"/>
+      <result property="Tubegroup" column="TUBEGROUP"/>
+      <result property="Receiveby" column="RECEIVEBY"/>
+      <result property="Receivedate" column="RECEIVEDATE"/>
+      <result property="Releaseby" column="RELEASEBY" />
+      <result property="Releasedate" column="RELEASEDATE" />
+      <result property="Authorizedate" column="AUTHORIZEDATE" />
+      <result property="Authorizeby" column="AUTHORIZEBY" />
+      <result property="Signaturedate" column="SIGNATUREDATE"/>
+      <result property="Signatureby" column="SIGNATUREBY" />
+      <result property="Createdate" column="CREATEDATE" />
+      <result property="Dictlabdeptid" column="DICTLABDEPTID"/>
+      <result property="Testnames" column="TESTNAMES"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <!--查询是否存在Barcode条码的记录 zhangwei-->
+    <select id="PrintingSystem.OrderBarcode.GetByBarcode" parameterClass="string" resultMap="OrderbarcodeResult_Repo">
+      SELECT * FROM ORDERBARCODE where Barcode = '$barcode$'
+    </select>
+  </statements>
+</sqlMap>

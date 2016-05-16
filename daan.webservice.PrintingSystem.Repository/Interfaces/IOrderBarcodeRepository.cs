@@ -8,9 +8,8 @@ using IBatisNet.DataMapper.Configuration.Statements;
 
 namespace daan.webservice.PrintingSystem.Repository.Interfaces
 {
-    public interface IOrderRepository : IRepository<Orders, Int32>
+    public interface IOrderBarcodeRepository : IRepository<Orderbarcode, Int32>
     {
-        bool UpdateOrderStatus(string orderNumber, string newStatus);
-        DataTable QueryOrderReportSummaryByOrderNum(string orderNumber);
+        Orderbarcode GetByBarcode(string barcode);
     }
 }

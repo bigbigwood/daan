@@ -1,4 +1,9 @@
-﻿using IBatisNet.DataMapper;
+﻿using System;
+using System.Data;
+using IBatisNet.DataMapper;
+using IBatisNet.DataMapper.MappedStatements;
+using IBatisNet.DataMapper.Scope;
+using log4net;
 
 namespace daan.webservice.PrintingSystem.Repository.MyBatis
 {
@@ -6,6 +11,7 @@ namespace daan.webservice.PrintingSystem.Repository.MyBatis
         where TEntity : class
     {
         protected ISqlMapper _sqlMapper;
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public MyBatisRepository()
         {
@@ -56,6 +62,29 @@ namespace daan.webservice.PrintingSystem.Repository.MyBatis
         public virtual TEntity GetByKey(TKey key)
         {
             return _sqlMapper.QueryForObject<TEntity>(this.QueryObjectStatement, key);
+        }
+
+        public DataSet SelectDS(string statementName, object paramObject)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                IMappedStatement statement = _sqlMapper.GetMappedStatement(statementName);
+                RequestScope scope = statement.Statement.Sql.GetRequestScope(statement, paramObject, _sqlMapper.LocalSession);
+                statement.PreparedCommand.Create(scope, _sqlMapper.LocalSession, statement.Statement, paramObject);
+
+                IDbCommand command = _sqlMapper.LocalSession.CreateCommand(CommandType.Text);
+                command.CommandText = scope.IDbCommand.CommandText;
+                Log.Info(scope.IDbCommand.CommandText);
+
+                _sqlMapper.LocalSession.CreateDataAdapter(command).Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return ds;
         }
     }
 }

@@ -4,7 +4,7 @@ using daan.webservice.PrintingSystem.Repository.Interfaces;
 
 namespace daan.webservice.PrintingSystem.Repository.MyBatis.Impl
 {
-    public class OrderRepositoryMB : MyBatisRepository<Orders, int>, IOrderRepository
+    public class OrderBarcodeRepositoryMB : MyBatisRepository<Orderbarcode, int>, IOrderBarcodeRepository
     {
         #region Repository
         protected override string InsertStatement
@@ -38,15 +38,9 @@ namespace daan.webservice.PrintingSystem.Repository.MyBatis.Impl
         }
         #endregion
 
-        public bool UpdateOrderStatus(string orderNumber, string newStatus)
+        public Orderbarcode GetByBarcode(string barcode)
         {
-            return this._sqlMapper.Update("PrintingSystem.Order.UpdateStatusByOrderNum", new Orders() { Ordernum = orderNumber, Status = newStatus }) > 0;  
-        }
-
-        public DataTable QueryOrderReportSummaryByOrderNum(string orderNumber)
-        {
-            var result = base.SelectDS("Order.SelectOrderReportSummaryByOrderNum", orderNumber).Tables[0];
-            return result;
+            return this._sqlMapper.QueryForObject<Orderbarcode>("PrintingSystem.OrderBarcode.GetByBarcode", barcode);
         }
     }
 }

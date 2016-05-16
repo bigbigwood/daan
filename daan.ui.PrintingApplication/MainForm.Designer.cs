@@ -47,7 +47,6 @@
             this.skinLabel2 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel4 = new CCWin.SkinControl.SkinLabel();
-            this.skinLabel5 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel6 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel8 = new CCWin.SkinControl.SkinLabel();
@@ -60,6 +59,7 @@
             this.tbxName = new CCWin.SkinControl.SkinTextBox();
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpSFrom = new System.Windows.Forms.DateTimePicker();
+            this.dropNumberType = new CCWin.SkinControl.SkinComboBox();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,11 +78,11 @@
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
+            this.extendProgressBar = new daan.ui.PrintingApplication.Control.ExtendProgressBar();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Version = new System.Windows.Forms.Label();
-            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
-            this.extendProgressBar = new daan.ui.PrintingApplication.Control.ExtendProgressBar();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tab_PhyReport.SuspendLayout();
@@ -264,7 +264,6 @@
             this.tlp_queryConditions.Controls.Add(this.skinLabel2, 0, 1);
             this.tlp_queryConditions.Controls.Add(this.skinLabel3, 0, 2);
             this.tlp_queryConditions.Controls.Add(this.skinLabel4, 2, 0);
-            this.tlp_queryConditions.Controls.Add(this.skinLabel5, 2, 1);
             this.tlp_queryConditions.Controls.Add(this.skinLabel6, 2, 2);
             this.tlp_queryConditions.Controls.Add(this.skinLabel7, 4, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel8, 4, 1);
@@ -277,6 +276,7 @@
             this.tlp_queryConditions.Controls.Add(this.tbxName, 1, 2);
             this.tlp_queryConditions.Controls.Add(this.tbxOrderNum, 3, 1);
             this.tlp_queryConditions.Controls.Add(this.dpSFrom, 5, 1);
+            this.tlp_queryConditions.Controls.Add(this.dropNumberType, 2, 1);
             this.tlp_queryConditions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_queryConditions.Location = new System.Drawing.Point(3, 35);
             this.tlp_queryConditions.Name = "tlp_queryConditions";
@@ -375,19 +375,6 @@
             this.skinLabel4.Size = new System.Drawing.Size(67, 18);
             this.skinLabel4.TabIndex = 3;
             this.skinLabel4.Text = "体检单位:";
-            // 
-            // skinLabel5
-            // 
-            this.skinLabel5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.skinLabel5.AutoSize = true;
-            this.skinLabel5.BackColor = System.Drawing.Color.Transparent;
-            this.skinLabel5.BorderColor = System.Drawing.Color.White;
-            this.skinLabel5.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel5.Location = new System.Drawing.Point(312, 51);
-            this.skinLabel5.Name = "skinLabel5";
-            this.skinLabel5.Size = new System.Drawing.Size(101, 18);
-            this.skinLabel5.TabIndex = 4;
-            this.skinLabel5.Text = "体检号/条形码:";
             // 
             // skinLabel6
             // 
@@ -600,6 +587,17 @@
             this.dpSFrom.TabIndex = 20;
             this.dpSFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
+            // dropNumberType
+            // 
+            this.dropNumberType.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.dropNumberType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropNumberType.FormattingEnabled = true;
+            this.dropNumberType.Location = new System.Drawing.Point(343, 48);
+            this.dropNumberType.Name = "dropNumberType";
+            this.dropNumberType.Size = new System.Drawing.Size(70, 25);
+            this.dropNumberType.TabIndex = 24;
+            this.dropNumberType.WaterText = "";
+            // 
             // dgv_orders
             // 
             this.dgv_orders.AllowUserToAddRows = false;
@@ -789,6 +787,31 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1180, 31);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // pagerControl1
+            // 
+            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pagerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(335, 0);
+            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 50;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(845, 31);
+            this.pagerControl1.TabIndex = 0;
+            // 
+            // extendProgressBar
+            // 
+            this.extendProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.extendProgressBar.ForeColor = System.Drawing.Color.Lime;
+            this.extendProgressBar.Location = new System.Drawing.Point(3, 3);
+            this.extendProgressBar.Name = "extendProgressBar";
+            this.extendProgressBar.Size = new System.Drawing.Size(262, 25);
+            this.extendProgressBar.TabIndex = 1;
+            // 
             // imageList
             // 
             this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
@@ -824,31 +847,6 @@
             this.lbl_Version.Size = new System.Drawing.Size(116, 18);
             this.lbl_Version.TabIndex = 0;
             this.lbl_Version.Text = "打印工具 v1.0.0.0";
-            // 
-            // pagerControl1
-            // 
-            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pagerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
-            this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(335, 0);
-            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.pagerControl1.Name = "pagerControl1";
-            this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 50;
-            this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(845, 31);
-            this.pagerControl1.TabIndex = 0;
-            // 
-            // extendProgressBar
-            // 
-            this.extendProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.extendProgressBar.ForeColor = System.Drawing.Color.Lime;
-            this.extendProgressBar.Location = new System.Drawing.Point(3, 3);
-            this.extendProgressBar.Name = "extendProgressBar";
-            this.extendProgressBar.Size = new System.Drawing.Size(262, 25);
-            this.extendProgressBar.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -896,7 +894,6 @@
         private CCWin.SkinControl.SkinLabel skinLabel2;
         private CCWin.SkinControl.SkinLabel skinLabel3;
         private CCWin.SkinControl.SkinLabel skinLabel4;
-        private CCWin.SkinControl.SkinLabel skinLabel5;
         private CCWin.SkinControl.SkinLabel skinLabel6;
         private CCWin.SkinControl.SkinLabel skinLabel7;
         private CCWin.SkinControl.SkinLabel skinLabel8;
@@ -934,5 +931,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Control.PagerControl pagerControl1;
         private Control.ExtendProgressBar extendProgressBar;
+        private CCWin.SkinControl.SkinComboBox dropNumberType;
     }
 }
