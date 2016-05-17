@@ -20,7 +20,7 @@ namespace daan.ui.PrintingApplication.Control
 
             var rect = dgv.GetCellDisplayRectangle(0, -1, true);
             var checkBox = new System.Windows.Forms.CheckBox();
-            checkBox.Text = "";
+            checkBox.Name = "AllSelectCheckBox";
             checkBox.Size = new System.Drawing.Size(13, 13);
             checkBox.Location = new System.Drawing.Point(rect.Location.X + dgv.Columns[0].Width / 2 - 13 / 2 - 1, rect.Location.Y + 3);
             checkBox.CheckedChanged += new EventHandler(ckBox_CheckedChanged);
@@ -45,6 +45,16 @@ namespace daan.ui.PrintingApplication.Control
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 row.Cells[0].Value = isSelectAll;
+            }
+        }
+
+        public static void Refresh()
+        {
+            var findControls = dgv.Controls.Find("AllSelectCheckBox", false).FirstOrDefault();
+            if (findControls != null)
+            {
+                CheckBox allSelectCheckBox = findControls as CheckBox;
+                allSelectCheckBox.Checked = false;
             }
         }
     }

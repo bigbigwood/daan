@@ -111,6 +111,7 @@ namespace daan.ui.PrintingApplication
 
         private void PresentData(QueryOrdersResponse response)
         {
+            AddCheckBoxToDataGridView.Refresh();
             dgv_orders.DataSource = response.Result;
             pagerControl1.DrawControl(response.OrderCount);
         }
