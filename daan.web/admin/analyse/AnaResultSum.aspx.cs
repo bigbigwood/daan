@@ -37,6 +37,8 @@ namespace daan.web.admin.analyse
         OrderlabdeptresultService orderlabdeptresultService = new OrderlabdeptresultService();
         OrderdiagnosisService orderdiagnosisService = new OrderdiagnosisService();
         Orderdiagnosis orderdiagnosisTo = new Orderdiagnosis();
+        CommonReport commonreport = new CommonReport();
+        OrderreportdataService reportdataService = new OrderreportdataService();
         #endregion
         public double OrderdiagnosisId
         {
@@ -722,6 +724,9 @@ namespace daan.web.admin.analyse
                     if (ordersService.EditStatusByOldStatus(ht))
                     {
                         ordersService.AddOperationLog(ordernum, null, "总检", "完成总检审核成功", "修改留痕", "");
+                        //获取报告数据并保存
+                        Orderreportdata reportdata = new Orderreportdata() { Ordernum = ordernum, ReportData = commonreport.GetSerializeReportDate(ordernum), Createdate = loginservice.GetServerTime() };
+                        reportdataService.AddOrderreportdata(reportdata);
                     }
                     else
                     {

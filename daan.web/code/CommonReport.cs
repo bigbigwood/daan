@@ -304,7 +304,21 @@ namespace daan.web.code
             SerializeReportDataToFile(ht,rep_filename);
         }
 
-
+        public string GetSerializeReportDate(string ordernum)
+        {
+            Orders orders = orderService.SelectOrdersByOrdernum(ordernum);
+            string repID = string.Empty;
+            if (orders != null)
+            {
+                Dictreporttemplate dictreporttemplate = repService.GetDictreporttemplateByID(orders.Dictreporttemplateid.ToString());
+                if (dictreporttemplate != null)
+                {
+                    repID = dictreporttemplate.Reporttype.ToString();
+                }
+            }
+            DataSet ds = repServeic.GetReportData(ordernum, repID);
+            return Serialize(ds);
+        }
         #endregion
 
         #region 打印条码
