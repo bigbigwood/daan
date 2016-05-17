@@ -413,12 +413,6 @@ namespace daan.service.order
         }
         #endregion
 
-        public List<string> SelectOrdersByStatus(int status)
-        {
-            IList<string> ordernumlist = QueryList<string>("Order.MySelectOrdersByStatus", status.ToString());
-            return ordernumlist.ToList();
-        }
-
         #region >>>短信
         /// <summary>
         /// 获取待发送短信人员名单

@@ -108,6 +108,7 @@ namespace daan.dao.common
         {
             if (_mapper == null)
             {
+                //TODO, should be thread static
                 lock (typeof(SqlMapper))
                 {
                     if (_mapper == null) // double-check
