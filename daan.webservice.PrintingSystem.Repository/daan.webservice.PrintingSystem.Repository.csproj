@@ -45,7 +45,7 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EXTERNAL-BIN\log4net\1.2.10.0\log4net.dll</HintPath>
+      <HintPath>..\EXTERNAL-BIN\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\EXTERNAL-BIN\Ninject.dll</HintPath>

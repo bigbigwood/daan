@@ -42,7 +42,7 @@
       <HintPath>..\EXTERNAL-BIN\FastReport.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\EXTERNAL-BIN\log4net\1.2.10.0\log4net.dll</HintPath>
+      <HintPath>..\EXTERNAL-BIN\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
