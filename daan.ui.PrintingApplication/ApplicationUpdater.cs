@@ -15,9 +15,9 @@ namespace daan.ui.PrintingApplication
     public class ApplicationUpdater
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly string applicationVersionFilePath = ConfigurationManager.AppSettings.Get("ApplicationVersionFilePath");
+        private static readonly string applicationVersionFilePath = FilePathHelper.BuildPath(ConfigurationManager.AppSettings.Get("ApplicationVersionFilePath"));
         private readonly bool EnableApplicationUpdater = ConfigurationManager.AppSettings.Get("EnableApplicationUpdater").ToUpper() == "TRUE";
-        private static readonly Int32 updateCheckIntervalMinutes = 15;
+        private static readonly Int32 updateCheckIntervalMinutes = int.Parse(ConfigurationManager.AppSettings.Get("ApplicationUpdaterRefreshMinutes"));
         private ClientApplicationVersion currentApplicationVersion = new ClientApplicationVersion();
 
         public void Initialize()

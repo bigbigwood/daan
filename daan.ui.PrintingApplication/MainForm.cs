@@ -269,7 +269,8 @@ namespace daan.ui.PrintingApplication
                 const int printReportProgressBarWeight = 60;
                 const int finishUpdateStatusProgressBarWeight = 10;
 
-                string printerName = "Adobe PDF";
+                string printerName = PrintingApp.CurrentUserInfo.UserPrinterConfig.A4Printer ??
+                                     PrintingApp.CurrentUserInfo.UserPrinterConfig.A5Printer;
                 List<ReportInfo> reportDtoList = obj as List<ReportInfo>;
                 BeginInvoke(new Action(() => extendProgressBar.ReportProgress(0)));
                 BeginInvoke(new Action(DisableControls));

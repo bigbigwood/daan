@@ -12,7 +12,7 @@ namespace daan.ui.PrintingApplication.Helper
     public class ReportTemplateFileProvider
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly string LocalReportTemplateFilePath = ConfigurationManager.AppSettings.Get("LocalReportTemplateFilePath");
+        private static readonly string LocalReportTemplateFilePath = FilePathHelper.BuildPath(ConfigurationManager.AppSettings.Get("LocalReportTemplateFilePath"));
         private static List<ReportTemplateFile> _reportTemplateFileList = new List<ReportTemplateFile>();
 
         public static void Init(string currentVersion)

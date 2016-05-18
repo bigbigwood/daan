@@ -82,6 +82,7 @@
       <DependentUpon>PagerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\ClientApplicationVersionExtension.cs" />
+    <Compile Include="Helper\FilePathHelper.cs" />
     <Compile Include="PrinterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
