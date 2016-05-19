@@ -1,13 +1,23 @@
 ﻿using System;
+using System.Data;
+using daan.domain;
+using daan.service.dict;
 using daan.webservice.PrintingSystem.Contract.Models.Report;
 using daan.service.order;
+using daan.webservice.PrintingSystem.Helper;
 using daan.webservice.PrintingSystem.Repository;
 using daan.webservice.PrintingSystem.Repository.Interfaces;
+using log4net;
 
 namespace daan.webservice.PrintingSystem.Services
 {
     public class ReportService
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        OrdersService orderService = new OrdersService();
+        DictreporttemplateService repService = new DictreporttemplateService();
+        daan.service.report.ReportService repServeic = new daan.service.report.ReportService();
+
         /// <summary>
         /// 
         /// </summary>
@@ -19,10 +29,34 @@ namespace daan.webservice.PrintingSystem.Services
             var rawReportData = reportRepo.GetByOrderNumber(orderNumber);
             if (rawReportData == null)
             {
-                throw new Exception(string.Format("不能找到order number:({0})的报告数据", orderNumber));
+                //生成报告
+                Log.InfoFormat("Cannot find report data, will generate report data for order numder: {0}", orderNumber);
+                rawReportData = new Orderreportdata();
+                rawReportData.Orderreportdataid = orderService.getSeqID("SEQ_ORDERREPORTDATA");
+                rawReportData.Ordernum = orderNumber;
+                rawReportData.ReportData = GetSerializeReportDate(orderNumber);
+                rawReportData.Createdate = DateTime.Now;
+                reportRepo.Insert(rawReportData);
+                Log.Info("Generate report data successfully!");
             }
 
             return new ReportInfo() { OrderNumber = orderNumber, ReportData = rawReportData.ReportData };
+        }
+
+        public string GetSerializeReportDate(string orderNumber)
+        {
+            Orders orders = orderService.SelectOrdersByOrdernum(orderNumber);
+            string repId = string.Empty;
+            if (orders != null)
+            {
+                Dictreporttemplate dictreporttemplate = repService.GetDictreporttemplateByID(orders.Dictreporttemplateid.ToString());
+                if (dictreporttemplate != null)
+                {
+                    repId = dictreporttemplate.Reporttype.ToString();
+                }
+            }
+            DataSet ds = repServeic.GetReportData(orderNumber, repId);
+            return SerializationHelper.Serialize(ds);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CCWin;
+using CCWin.SkinControl;
 using CCWin.Win32.Const;
 using daan.ui.PrintingApplication.Control;
 using daan.ui.PrintingApplication.Helper;
@@ -72,7 +73,7 @@ namespace daan.ui.PrintingApplication
             dropStatus.DataSource = comboBoxDataSourceProvider.GetOrderStatusDataSource();
             dropStatus.ValueMember = "EnumValue";
             dropStatus.DisplayMember = "EnumDisplayText";
-            dropStatus.SelectedValue = -1;
+            dropStatus.SelectedValue = (int)OrdersStatus.FinishCheck;
 
             dropReportStatus.DataSource = comboBoxDataSourceProvider.GetReportStatusDataSource();
             dropReportStatus.ValueMember = "EnumValue";
@@ -93,11 +94,7 @@ namespace daan.ui.PrintingApplication
             if (PrintingApp.CurrentUserInfo.DefaultLab != null && PrintingApp.CurrentUserInfo.DefaultLab.Id != 0)
                 dropDictLab.SelectedValue = PrintingApp.CurrentUserInfo.DefaultLab.Id;
 
-            var organizationList = new List<OrganizationInfo>() { new OrganizationInfo() { Id = -1, Name = ConstString.ALL } };
-            organizationList.AddRange(PrintingApp.OrganizationAssociations);
-            dropDictcustomer.DataSource = organizationList;
-            dropDictcustomer.ValueMember = "Id";
-            dropDictcustomer.DisplayMember = "Name";
+            BindOrganizationByLab((int)dropDictLab.SelectedValue);
 
             dpFrom.Value = DateTime.Now.AddDays(-7);
             dpTo.Value = DateTime.Now;
@@ -107,6 +104,35 @@ namespace daan.ui.PrintingApplication
             ////test
             //dropStatus.SelectedValue = (int)OrdersStatus.FinishPrint;
             //dpFrom.Value = DateTime.Now.AddDays(-60);
+        }
+
+        private void BindOrganizationByLab(Int32 labId)
+        {
+            Int32 customerType = 0;
+            var mappingOrganizationList = new List<OrganizationInfo>();
+
+            if (labId != -1) //单个lab
+            {
+                mappingOrganizationList = PrintingApp.OrganizationAssociations.FindAll(c => (c.LabId == labId && c.CustomerType == customerType && c.Active == true) || (c.IsPublic == true && c.Active == true));
+            }
+            else //全部
+            {
+                foreach (LabInfo dict in PrintingApp.LabAssociations)
+                {
+                    List<OrganizationInfo> labMappingOrganizationList = PrintingApp.OrganizationAssociations.FindAll(c => (c.LabId == dict.Id && c.CustomerType == customerType && c.Active == true) || (c.IsPublic == true && c.Active == true));
+                    foreach (var organzation in labMappingOrganizationList)
+                    {
+                        if (!mappingOrganizationList.Contains(organzation))
+                            mappingOrganizationList.Add(organzation);
+                    }
+                }
+            }
+
+            var organizationList = new List<OrganizationInfo>() { new OrganizationInfo() { Id = -1, Name = ConstString.ALL } };
+            organizationList.AddRange(mappingOrganizationList);
+            dropDictcustomer.DataSource = organizationList;
+            dropDictcustomer.ValueMember = "Id";
+            dropDictcustomer.DisplayMember = "Name";
         }
 
         private void PresentData(QueryOrdersResponse response)
@@ -129,7 +155,7 @@ namespace daan.ui.PrintingApplication
             request.SamplingDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
             request.Keyword = tbxName.Text;
 
-            if ((int) dropNumberType.SelectedValue == 1)
+            if ((int)dropNumberType.SelectedValue == 1)
                 request.OrderNumber = tbxOrderNum.Text;
             else
                 request.Barcode = tbxOrderNum.Text;
@@ -160,6 +186,39 @@ namespace daan.ui.PrintingApplication
         {
             var row = dgv_orders.Rows.Cast<DataGridViewRow>().First(r => r.Cells["Cell_OrderNumber"].Value.ToString() == orderNumber);
             row.Cells["Cell_OrderStatus"].Value = status;
+        }
+
+
+        private void dropDictLab_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var dropLabComboBox = sender as SkinComboBox;
+            var lab = dropLabComboBox.SelectedItem as LabInfo;
+            BindOrganizationByLab(lab.Id);
+        }
+
+        private static void ProcessSelectedCheckBoxForDatagridview(DataGridView datagridview)
+        {
+            if (datagridview != null && datagridview.SelectedRows != null)
+            {
+                var selectedRows = datagridview.SelectedRows.Cast<DataGridViewRow>();
+                foreach (var dataGridViewRow in selectedRows)
+                {
+                    var checkboxCell = dataGridViewRow.Cells[0] as DataGridViewCheckBoxCell;
+                    checkboxCell.Value = !(bool) checkboxCell.FormattedValue;
+                }
+            }
+        }
+
+        private void dgv_orders_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var datagridview = sender as DataGridView;
+            ProcessSelectedCheckBoxForDatagridview(datagridview);
+        }
+
+        private void dgv_orders_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var datagridview = sender as DataGridView;
+            ProcessSelectedCheckBoxForDatagridview(datagridview);
         }
 
         private void btnPrint_Click(object sender, EventArgs e)

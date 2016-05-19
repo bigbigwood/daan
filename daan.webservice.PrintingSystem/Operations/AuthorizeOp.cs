@@ -50,27 +50,8 @@ namespace daan.webservice.PrintingSystem.Operations
             }
             response.LabAssociations = lablist.Select(l => l.ToLabInfo()).ToArray();
 
-
-            string CustomerType = "0";
-            var dictSelectedCustomerList = new List<Dictcustomer>();
             var dictAllCustomerList = loginservice.GetDictcustomer();
-            if (dictUser.Dictlabid.HasValue)
-            {
-                dictSelectedCustomerList = dictAllCustomerList.FindAll(c => (c.Dictlabid == dictUser.Dictlabid && c.Customertype == CustomerType && c.Active == "1") || (c.IsPublic == "1" && c.Active == "1"));
-            }
-            else  //全部
-            {
-                foreach (Dictlab dict in lablist)
-                {
-                    List<Dictcustomer> dictcustomerfirt = dictAllCustomerList.FindAll(c => (c.Dictlabid == dict.Dictlabid && c.Customertype == CustomerType && c.Active == "1") || (c.IsPublic == "1" && c.Active == "1"));
-                    foreach (Dictcustomer dictcust in dictcustomerfirt)
-                    {
-                        if (!dictSelectedCustomerList.Contains(dictcust))
-                            dictSelectedCustomerList.Add(dictcust);
-                    }
-                }
-            }
-            response.OrganizationAssociations = dictSelectedCustomerList.Select(c => c.ToOrganizationInfo()).ToArray();
+            response.OrganizationAssociations = dictAllCustomerList.Select(c => c.ToOrganizationInfo()).ToArray();
 
             DictreporttemplateService dictreporttemplateService = new DictreporttemplateService();
             var dictReportTemplates = dictreporttemplateService.GetDictreporttemplateAll();

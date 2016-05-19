@@ -48,5 +48,10 @@ namespace daan.webservice.PrintingSystem.Repository.MyBatis.Impl
             var result = base.SelectDS("Order.SelectOrderReportSummaryByOrderNum", orderNumber).Tables[0];
             return result;
         }
+
+        public Orders GetByOrderNum(string orderNumber)
+        {
+            return this._sqlMapper.QueryForObject<Orders>("Order.SelectOrders", orderNumber);
+        }
     }
 }

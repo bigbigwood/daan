@@ -12,5 +12,6 @@ namespace daan.webservice.PrintingSystem.Repository.Interfaces
     {
         bool UpdateOrderStatus(string orderNumber, string newStatus);
         DataTable QueryOrderReportSummaryByOrderNum(string orderNumber);
+        Orders GetByOrderNum(string orderNumber);
     }
 }
