@@ -52,11 +52,15 @@ namespace daan.webservice.PrintingSystem.Operations
                 htPara.Add("dictcustomerid", request.Dictcustomerid); //体检单位
                 htPara.Add("StartDate", request.StartDate);
                 htPara.Add("EndDate", request.EndDate);
-                htPara.Add("SamplingDateBegin", request.SamplingDateBegin);
-                htPara.Add("SamplingDateEnd", request.SamplingDateEnd);
                 htPara.Add("status", request.OrderStatus); ;
                 htPara.Add("name", request.Keyword);
                 htPara.Add("reportstatus", request.ReportStatus);
+
+                if (!string.IsNullOrWhiteSpace(request.SamplingDateBegin))
+                    htPara.Add("SamplingDateBegin", request.SamplingDateBegin);
+
+                if (!string.IsNullOrWhiteSpace(request.SamplingDateEnd))
+                    htPara.Add("SamplingDateEnd", request.SamplingDateEnd);
 
                 response.OrderCount = ordersService.DataForFocusPrintPageTotal(htPara);
                 response.Result = ordersService.DataForFocusPrintPageLst(htPara);

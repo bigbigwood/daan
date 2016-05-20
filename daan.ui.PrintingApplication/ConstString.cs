@@ -7,6 +7,8 @@ namespace daan.ui.PrintingApplication
 {
     public class ConstString
     {
+        public const String ApplicationTitle = "云康集团-打印工具";
+
         public const String ALL = "全部";
         public const String OrdersStatus_Register = "已登记";
         public const String OrdersStatus_BarCodePrint = "条码已打印";

@@ -49,7 +49,6 @@
             this.skinLabel4 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel6 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
-            this.skinLabel8 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel9 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel10 = new CCWin.SkinControl.SkinLabel();
             this.dropDictLab = new CCWin.SkinControl.SkinComboBox();
@@ -58,8 +57,11 @@
             this.dropReportStatus = new CCWin.SkinControl.SkinComboBox();
             this.tbxName = new CCWin.SkinControl.SkinTextBox();
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
-            this.dpSFrom = new System.Windows.Forms.DateTimePicker();
+            this.dpScanFrom = new System.Windows.Forms.DateTimePicker();
             this.dropNumberType = new CCWin.SkinControl.SkinComboBox();
+            this.tlp_scanDateTime = new System.Windows.Forms.TableLayoutPanel();
+            this.skinLabel8 = new CCWin.SkinControl.SkinLabel();
+            this.cbx_ScanDatetimeEnabled = new System.Windows.Forms.CheckBox();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,17 +80,18 @@
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.extendProgressBar = new daan.ui.PrintingApplication.Control.ExtendProgressBar();
+            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_Version = new System.Windows.Forms.Label();
-            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
-            this.extendProgressBar = new daan.ui.PrintingApplication.Control.ExtendProgressBar();
+            this.lbl_Message = new System.Windows.Forms.Label();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tab_PhyReport.SuspendLayout();
             this.tableLayoutPanel_PhysicalReport.SuspendLayout();
             this.ReportToolBar.SuspendLayout();
             this.tlp_queryConditions.SuspendLayout();
+            this.tlp_scanDateTime.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).BeginInit();
             this.tlp_PagePicker.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -108,7 +111,7 @@
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 3F));
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.MainTableLayoutPanel.Size = new System.Drawing.Size(1342, 740);
+            this.MainTableLayoutPanel.Size = new System.Drawing.Size(1192, 688);
             this.MainTableLayoutPanel.TabIndex = 0;
             // 
             // MainTabControl
@@ -133,7 +136,7 @@
             this.MainTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Top;
             this.MainTabControl.PageNorml = null;
             this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(1336, 695);
+            this.MainTabControl.Size = new System.Drawing.Size(1186, 643);
             this.MainTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.MainTabControl.TabIndex = 0;
             // 
@@ -146,7 +149,7 @@
             this.tab_PhyReport.ImageIndex = 1;
             this.tab_PhyReport.Location = new System.Drawing.Point(0, 60);
             this.tab_PhyReport.Name = "tab_PhyReport";
-            this.tab_PhyReport.Size = new System.Drawing.Size(1336, 635);
+            this.tab_PhyReport.Size = new System.Drawing.Size(1186, 583);
             this.tab_PhyReport.TabIndex = 0;
             this.tab_PhyReport.TabItemImage = null;
             this.tab_PhyReport.Text = "体检报告";
@@ -168,7 +171,7 @@
             this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_PhysicalReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
-            this.tableLayoutPanel_PhysicalReport.Size = new System.Drawing.Size(1336, 635);
+            this.tableLayoutPanel_PhysicalReport.Size = new System.Drawing.Size(1186, 583);
             this.tableLayoutPanel_PhysicalReport.TabIndex = 0;
             // 
             // ReportToolBar
@@ -215,7 +218,7 @@
             this.ReportToolBar.Location = new System.Drawing.Point(0, 0);
             this.ReportToolBar.Name = "ReportToolBar";
             this.ReportToolBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-            this.ReportToolBar.Size = new System.Drawing.Size(1336, 39);
+            this.ReportToolBar.Size = new System.Drawing.Size(1186, 39);
             this.ReportToolBar.SkinAllColor = true;
             this.ReportToolBar.TabIndex = 3;
             this.ReportToolBar.Text = "skinToolStrip1";
@@ -251,9 +254,9 @@
             this.tlp_queryConditions.ColumnCount = 8;
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
+            this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -266,7 +269,6 @@
             this.tlp_queryConditions.Controls.Add(this.skinLabel4, 2, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel6, 2, 2);
             this.tlp_queryConditions.Controls.Add(this.skinLabel7, 4, 0);
-            this.tlp_queryConditions.Controls.Add(this.skinLabel8, 4, 1);
             this.tlp_queryConditions.Controls.Add(this.skinLabel9, 6, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel10, 6, 1);
             this.tlp_queryConditions.Controls.Add(this.dropDictLab, 1, 0);
@@ -275,8 +277,9 @@
             this.tlp_queryConditions.Controls.Add(this.dropReportStatus, 3, 2);
             this.tlp_queryConditions.Controls.Add(this.tbxName, 1, 2);
             this.tlp_queryConditions.Controls.Add(this.tbxOrderNum, 3, 1);
-            this.tlp_queryConditions.Controls.Add(this.dpSFrom, 5, 1);
+            this.tlp_queryConditions.Controls.Add(this.dpScanFrom, 5, 1);
             this.tlp_queryConditions.Controls.Add(this.dropNumberType, 2, 1);
+            this.tlp_queryConditions.Controls.Add(this.tlp_scanDateTime, 4, 1);
             this.tlp_queryConditions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_queryConditions.Location = new System.Drawing.Point(3, 42);
             this.tlp_queryConditions.Name = "tlp_queryConditions";
@@ -284,8 +287,7 @@
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tlp_queryConditions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tlp_queryConditions.Size = new System.Drawing.Size(1330, 137);
+            this.tlp_queryConditions.Size = new System.Drawing.Size(1180, 137);
             this.tlp_queryConditions.TabIndex = 4;
             // 
             // dpSTo
@@ -294,9 +296,9 @@
             this.dpSTo.CustomFormat = "yyyy-MM-dd";
             this.dpSTo.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpSTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSTo.Location = new System.Drawing.Point(1089, 54);
+            this.dpSTo.Location = new System.Drawing.Point(977, 54);
             this.dpSTo.Name = "dpSTo";
-            this.dpSTo.Size = new System.Drawing.Size(238, 27);
+            this.dpSTo.Size = new System.Drawing.Size(200, 27);
             this.dpSTo.TabIndex = 23;
             this.dpSTo.Value = new System.DateTime(2016, 5, 7, 0, 0, 0, 0);
             // 
@@ -306,9 +308,9 @@
             this.dpTo.CustomFormat = "yyyy-MM-dd";
             this.dpTo.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpTo.Location = new System.Drawing.Point(1089, 9);
+            this.dpTo.Location = new System.Drawing.Point(977, 9);
             this.dpTo.Name = "dpTo";
-            this.dpTo.Size = new System.Drawing.Size(238, 27);
+            this.dpTo.Size = new System.Drawing.Size(200, 27);
             this.dpTo.TabIndex = 22;
             this.dpTo.Value = new System.DateTime(2016, 5, 7, 0, 0, 0, 0);
             // 
@@ -318,9 +320,9 @@
             this.dpFrom.CustomFormat = "yyyy-MM-dd";
             this.dpFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpFrom.Location = new System.Drawing.Point(806, 9);
+            this.dpFrom.Location = new System.Drawing.Point(733, 9);
             this.dpFrom.Name = "dpFrom";
-            this.dpFrom.Size = new System.Drawing.Size(238, 27);
+            this.dpFrom.Size = new System.Drawing.Size(199, 27);
             this.dpFrom.TabIndex = 21;
             this.dpFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
@@ -370,7 +372,7 @@
             this.skinLabel4.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel4.BorderColor = System.Drawing.Color.White;
             this.skinLabel4.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel4.Location = new System.Drawing.Point(393, 13);
+            this.skinLabel4.Location = new System.Drawing.Point(319, 13);
             this.skinLabel4.Name = "skinLabel4";
             this.skinLabel4.Size = new System.Drawing.Size(73, 19);
             this.skinLabel4.TabIndex = 3;
@@ -383,7 +385,7 @@
             this.skinLabel6.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel6.BorderColor = System.Drawing.Color.White;
             this.skinLabel6.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel6.Location = new System.Drawing.Point(393, 104);
+            this.skinLabel6.Location = new System.Drawing.Point(319, 104);
             this.skinLabel6.Name = "skinLabel6";
             this.skinLabel6.Size = new System.Drawing.Size(73, 19);
             this.skinLabel6.TabIndex = 5;
@@ -396,24 +398,11 @@
             this.skinLabel7.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel7.BorderColor = System.Drawing.Color.White;
             this.skinLabel7.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel7.Location = new System.Drawing.Point(727, 13);
+            this.skinLabel7.Location = new System.Drawing.Point(654, 13);
             this.skinLabel7.Name = "skinLabel7";
             this.skinLabel7.Size = new System.Drawing.Size(73, 19);
             this.skinLabel7.TabIndex = 6;
             this.skinLabel7.Text = "登记时间:";
-            // 
-            // skinLabel8
-            // 
-            this.skinLabel8.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.skinLabel8.AutoSize = true;
-            this.skinLabel8.BackColor = System.Drawing.Color.Transparent;
-            this.skinLabel8.BorderColor = System.Drawing.Color.White;
-            this.skinLabel8.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel8.Location = new System.Drawing.Point(727, 58);
-            this.skinLabel8.Name = "skinLabel8";
-            this.skinLabel8.Size = new System.Drawing.Size(73, 19);
-            this.skinLabel8.TabIndex = 7;
-            this.skinLabel8.Text = "采样时间:";
             // 
             // skinLabel9
             // 
@@ -422,7 +411,7 @@
             this.skinLabel9.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel9.BorderColor = System.Drawing.Color.White;
             this.skinLabel9.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel9.Location = new System.Drawing.Point(1055, 13);
+            this.skinLabel9.Location = new System.Drawing.Point(943, 13);
             this.skinLabel9.Name = "skinLabel9";
             this.skinLabel9.Size = new System.Drawing.Size(28, 19);
             this.skinLabel9.TabIndex = 8;
@@ -435,7 +424,7 @@
             this.skinLabel10.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel10.BorderColor = System.Drawing.Color.White;
             this.skinLabel10.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel10.Location = new System.Drawing.Point(1055, 58);
+            this.skinLabel10.Location = new System.Drawing.Point(943, 58);
             this.skinLabel10.Name = "skinLabel10";
             this.skinLabel10.Size = new System.Drawing.Size(28, 19);
             this.skinLabel10.TabIndex = 9;
@@ -449,7 +438,7 @@
             this.dropDictLab.FormattingEnabled = true;
             this.dropDictLab.Location = new System.Drawing.Point(93, 8);
             this.dropDictLab.Name = "dropDictLab";
-            this.dropDictLab.Size = new System.Drawing.Size(238, 28);
+            this.dropDictLab.Size = new System.Drawing.Size(199, 28);
             this.dropDictLab.TabIndex = 10;
             this.dropDictLab.WaterText = "";
             this.dropDictLab.SelectedIndexChanged += new System.EventHandler(this.dropDictLab_SelectedIndexChanged);
@@ -462,7 +451,7 @@
             this.dropStatus.FormattingEnabled = true;
             this.dropStatus.Location = new System.Drawing.Point(93, 53);
             this.dropStatus.Name = "dropStatus";
-            this.dropStatus.Size = new System.Drawing.Size(238, 28);
+            this.dropStatus.Size = new System.Drawing.Size(199, 28);
             this.dropStatus.TabIndex = 11;
             this.dropStatus.WaterText = "";
             // 
@@ -472,9 +461,9 @@
             this.dropDictcustomer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictcustomer.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropDictcustomer.FormattingEnabled = true;
-            this.dropDictcustomer.Location = new System.Drawing.Point(472, 8);
+            this.dropDictcustomer.Location = new System.Drawing.Point(398, 8);
             this.dropDictcustomer.Name = "dropDictcustomer";
-            this.dropDictcustomer.Size = new System.Drawing.Size(238, 28);
+            this.dropDictcustomer.Size = new System.Drawing.Size(199, 28);
             this.dropDictcustomer.TabIndex = 12;
             this.dropDictcustomer.WaterText = "";
             // 
@@ -484,9 +473,9 @@
             this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropReportStatus.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropReportStatus.FormattingEnabled = true;
-            this.dropReportStatus.Location = new System.Drawing.Point(472, 99);
+            this.dropReportStatus.Location = new System.Drawing.Point(398, 99);
             this.dropReportStatus.Name = "dropReportStatus";
-            this.dropReportStatus.Size = new System.Drawing.Size(238, 28);
+            this.dropReportStatus.Size = new System.Drawing.Size(199, 28);
             this.dropReportStatus.TabIndex = 13;
             this.dropReportStatus.WaterText = "";
             // 
@@ -513,7 +502,7 @@
             this.tbxName.Padding = new System.Windows.Forms.Padding(6);
             this.tbxName.ReadOnly = false;
             this.tbxName.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbxName.Size = new System.Drawing.Size(244, 34);
+            this.tbxName.Size = new System.Drawing.Size(205, 34);
             // 
             // 
             // 
@@ -523,7 +512,7 @@
             this.tbxName.SkinTxt.Location = new System.Drawing.Point(6, 6);
             this.tbxName.SkinTxt.Multiline = true;
             this.tbxName.SkinTxt.Name = "BaseText";
-            this.tbxName.SkinTxt.Size = new System.Drawing.Size(232, 22);
+            this.tbxName.SkinTxt.Size = new System.Drawing.Size(193, 22);
             this.tbxName.SkinTxt.TabIndex = 0;
             this.tbxName.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.tbxName.SkinTxt.WaterText = "";
@@ -544,7 +533,7 @@
             this.tbxOrderNum.IsPasswordChat = '\0';
             this.tbxOrderNum.IsSystemPasswordChar = false;
             this.tbxOrderNum.Lines = new string[0];
-            this.tbxOrderNum.Location = new System.Drawing.Point(469, 50);
+            this.tbxOrderNum.Location = new System.Drawing.Point(395, 50);
             this.tbxOrderNum.Margin = new System.Windows.Forms.Padding(0);
             this.tbxOrderNum.MaxLength = 32767;
             this.tbxOrderNum.MinimumSize = new System.Drawing.Size(32, 34);
@@ -556,7 +545,7 @@
             this.tbxOrderNum.Padding = new System.Windows.Forms.Padding(6);
             this.tbxOrderNum.ReadOnly = false;
             this.tbxOrderNum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbxOrderNum.Size = new System.Drawing.Size(244, 35);
+            this.tbxOrderNum.Size = new System.Drawing.Size(205, 35);
             // 
             // 
             // 
@@ -566,7 +555,7 @@
             this.tbxOrderNum.SkinTxt.Location = new System.Drawing.Point(6, 6);
             this.tbxOrderNum.SkinTxt.Multiline = true;
             this.tbxOrderNum.SkinTxt.Name = "BaseText";
-            this.tbxOrderNum.SkinTxt.Size = new System.Drawing.Size(232, 23);
+            this.tbxOrderNum.SkinTxt.Size = new System.Drawing.Size(193, 23);
             this.tbxOrderNum.SkinTxt.TabIndex = 0;
             this.tbxOrderNum.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.tbxOrderNum.SkinTxt.WaterText = "";
@@ -576,17 +565,17 @@
             this.tbxOrderNum.WaterText = "";
             this.tbxOrderNum.WordWrap = true;
             // 
-            // dpSFrom
+            // dpScanFrom
             // 
-            this.dpSFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dpSFrom.CustomFormat = "yyyy-MM-dd";
-            this.dpSFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dpSFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSFrom.Location = new System.Drawing.Point(806, 54);
-            this.dpSFrom.Name = "dpSFrom";
-            this.dpSFrom.Size = new System.Drawing.Size(238, 27);
-            this.dpSFrom.TabIndex = 20;
-            this.dpSFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
+            this.dpScanFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dpScanFrom.CustomFormat = "yyyy-MM-dd";
+            this.dpScanFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dpScanFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dpScanFrom.Location = new System.Drawing.Point(733, 54);
+            this.dpScanFrom.Name = "dpScanFrom";
+            this.dpScanFrom.Size = new System.Drawing.Size(199, 27);
+            this.dpScanFrom.TabIndex = 20;
+            this.dpScanFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
             // dropNumberType
             // 
@@ -594,11 +583,49 @@
             this.dropNumberType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropNumberType.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropNumberType.FormattingEnabled = true;
-            this.dropNumberType.Location = new System.Drawing.Point(388, 53);
+            this.dropNumberType.Location = new System.Drawing.Point(314, 53);
             this.dropNumberType.Name = "dropNumberType";
             this.dropNumberType.Size = new System.Drawing.Size(78, 28);
             this.dropNumberType.TabIndex = 24;
             this.dropNumberType.WaterText = "";
+            // 
+            // tlp_scanDateTime
+            // 
+            this.tlp_scanDateTime.ColumnCount = 2;
+            this.tlp_scanDateTime.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_scanDateTime.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tlp_scanDateTime.Controls.Add(this.skinLabel8, 1, 0);
+            this.tlp_scanDateTime.Controls.Add(this.cbx_ScanDatetimeEnabled, 0, 0);
+            this.tlp_scanDateTime.Location = new System.Drawing.Point(603, 48);
+            this.tlp_scanDateTime.Name = "tlp_scanDateTime";
+            this.tlp_scanDateTime.RowCount = 1;
+            this.tlp_scanDateTime.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_scanDateTime.Size = new System.Drawing.Size(124, 39);
+            this.tlp_scanDateTime.TabIndex = 25;
+            // 
+            // skinLabel8
+            // 
+            this.skinLabel8.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.skinLabel8.AutoSize = true;
+            this.skinLabel8.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel8.BorderColor = System.Drawing.Color.White;
+            this.skinLabel8.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel8.Location = new System.Drawing.Point(48, 10);
+            this.skinLabel8.Name = "skinLabel8";
+            this.skinLabel8.Size = new System.Drawing.Size(73, 19);
+            this.skinLabel8.TabIndex = 7;
+            this.skinLabel8.Text = "采样时间:";
+            // 
+            // cbx_ScanDatetimeEnabled
+            // 
+            this.cbx_ScanDatetimeEnabled.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.cbx_ScanDatetimeEnabled.AutoSize = true;
+            this.cbx_ScanDatetimeEnabled.Location = new System.Drawing.Point(23, 11);
+            this.cbx_ScanDatetimeEnabled.Name = "cbx_ScanDatetimeEnabled";
+            this.cbx_ScanDatetimeEnabled.Size = new System.Drawing.Size(18, 17);
+            this.cbx_ScanDatetimeEnabled.TabIndex = 8;
+            this.cbx_ScanDatetimeEnabled.UseVisualStyleBackColor = true;
+            this.cbx_ScanDatetimeEnabled.CheckedChanged += new System.EventHandler(this.cbx_ScanDatetimeEnabled_CheckedChanged);
             // 
             // dgv_orders
             // 
@@ -629,7 +656,7 @@
             this.dgv_orders.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_orders.RowTemplate.Height = 24;
             this.dgv_orders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_orders.Size = new System.Drawing.Size(1330, 406);
+            this.dgv_orders.Size = new System.Drawing.Size(1180, 354);
             this.dgv_orders.TabIndex = 5;
             this.dgv_orders.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_orders_CellMouseClick);
             this.dgv_orders.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_orders_CellMouseDoubleClick);
@@ -767,29 +794,54 @@
             this.tlp_PagePicker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_PagePicker.Controls.Add(this.tableLayoutPanel1, 1, 0);
             this.tlp_PagePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_PagePicker.Location = new System.Drawing.Point(3, 597);
+            this.tlp_PagePicker.Location = new System.Drawing.Point(3, 545);
             this.tlp_PagePicker.Name = "tlp_PagePicker";
             this.tlp_PagePicker.RowCount = 1;
             this.tlp_PagePicker.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_PagePicker.Size = new System.Drawing.Size(1330, 35);
+            this.tlp_PagePicker.Size = new System.Drawing.Size(1180, 35);
             this.tlp_PagePicker.TabIndex = 6;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 955F));
-            this.tableLayoutPanel1.Controls.Add(this.pagerControl1, 2, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 845F));
             this.tableLayoutPanel1.Controls.Add(this.extendProgressBar, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pagerControl1, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1330, 35);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1180, 35);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // extendProgressBar
+            // 
+            this.extendProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.extendProgressBar.ForeColor = System.Drawing.Color.Lime;
+            this.extendProgressBar.Location = new System.Drawing.Point(3, 3);
+            this.extendProgressBar.Name = "extendProgressBar";
+            this.extendProgressBar.Size = new System.Drawing.Size(309, 29);
+            this.extendProgressBar.TabIndex = 1;
+            // 
+            // pagerControl1
+            // 
+            this.pagerControl1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(335, 0);
+            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 50;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(845, 35);
+            this.pagerControl1.TabIndex = 0;
             // 
             // imageList
             // 
@@ -809,54 +861,31 @@
             this.tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 225F));
             this.tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 225F));
-            this.tlp_Bottom.Controls.Add(this.lbl_Version, 2, 0);
-            this.tlp_Bottom.Location = new System.Drawing.Point(3, 707);
+            this.tlp_Bottom.Controls.Add(this.lbl_Message, 0, 0);
+            this.tlp_Bottom.Location = new System.Drawing.Point(3, 655);
             this.tlp_Bottom.Name = "tlp_Bottom";
             this.tlp_Bottom.RowCount = 1;
             this.tlp_Bottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_Bottom.Size = new System.Drawing.Size(1336, 30);
+            this.tlp_Bottom.Size = new System.Drawing.Size(1186, 30);
             this.tlp_Bottom.TabIndex = 1;
             // 
-            // lbl_Version
+            // lbl_Message
             // 
-            this.lbl_Version.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lbl_Version.AutoSize = true;
-            this.lbl_Version.Location = new System.Drawing.Point(1204, 5);
-            this.lbl_Version.Name = "lbl_Version";
-            this.lbl_Version.Size = new System.Drawing.Size(129, 19);
-            this.lbl_Version.TabIndex = 0;
-            this.lbl_Version.Text = "打印工具 v1.0.0.0";
-            // 
-            // pagerControl1
-            // 
-            this.pagerControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pagerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pagerControl1.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
-            this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(375, 0);
-            this.pagerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.pagerControl1.Name = "pagerControl1";
-            this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 50;
-            this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(955, 35);
-            this.pagerControl1.TabIndex = 0;
-            // 
-            // extendProgressBar
-            // 
-            this.extendProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.extendProgressBar.ForeColor = System.Drawing.Color.Lime;
-            this.extendProgressBar.Location = new System.Drawing.Point(3, 3);
-            this.extendProgressBar.Name = "extendProgressBar";
-            this.extendProgressBar.Size = new System.Drawing.Size(294, 29);
-            this.extendProgressBar.TabIndex = 1;
+            this.lbl_Message.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lbl_Message.AutoSize = true;
+            this.lbl_Message.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Message.ForeColor = System.Drawing.Color.Magenta;
+            this.lbl_Message.Location = new System.Drawing.Point(3, 6);
+            this.lbl_Message.Name = "lbl_Message";
+            this.lbl_Message.Size = new System.Drawing.Size(128, 18);
+            this.lbl_Message.TabIndex = 0;
+            this.lbl_Message.Text = "当前选中了0份报告";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1350, 772);
+            this.ClientSize = new System.Drawing.Size(1200, 720);
             this.Controls.Add(this.MainTableLayoutPanel);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -874,6 +903,8 @@
             this.ReportToolBar.PerformLayout();
             this.tlp_queryConditions.ResumeLayout(false);
             this.tlp_queryConditions.PerformLayout();
+            this.tlp_scanDateTime.ResumeLayout(false);
+            this.tlp_scanDateTime.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_orders)).EndInit();
             this.tlp_PagePicker.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -909,7 +940,7 @@
         private CCWin.SkinControl.SkinComboBox dropReportStatus;
         private CCWin.SkinControl.SkinTextBox tbxName;
         private CCWin.SkinControl.SkinTextBox tbxOrderNum;
-        private System.Windows.Forms.DateTimePicker dpSFrom;
+        private System.Windows.Forms.DateTimePicker dpScanFrom;
         private System.Windows.Forms.DateTimePicker dpSTo;
         private System.Windows.Forms.DateTimePicker dpTo;
         private System.Windows.Forms.DateTimePicker dpFrom;
@@ -930,11 +961,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ContractNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ReportTemplateId;
         private System.Windows.Forms.TableLayoutPanel tlp_Bottom;
-        private System.Windows.Forms.Label lbl_Version;
         private System.Windows.Forms.TableLayoutPanel tlp_PagePicker;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Control.PagerControl pagerControl1;
         private Control.ExtendProgressBar extendProgressBar;
         private CCWin.SkinControl.SkinComboBox dropNumberType;
+        private System.Windows.Forms.Label lbl_Message;
+        private System.Windows.Forms.TableLayoutPanel tlp_scanDateTime;
+        private System.Windows.Forms.CheckBox cbx_ScanDatetimeEnabled;
     }
 }

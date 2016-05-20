@@ -40,7 +40,7 @@ namespace daan.ui.PrintingApplication
         private void MainFormTabImpl_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
-            lbl_Version.Text = PrintingApp.CurrentApplicationVersion;
+            Text = ConstString.ApplicationTitle + PrintingApp.CurrentApplicationVersion;
             BindQueryGroup();
             BindDataGrid();
         }
@@ -51,6 +51,7 @@ namespace daan.ui.PrintingApplication
 
             AddCheckBoxToDataGridView.dgv = dgv_orders;
             AddCheckBoxToDataGridView.AddFullSelect();
+            AddCheckBoxToDataGridView.AllSelectCheckBoxCheckEvent = new Action(() =>  ShowMessage(string.Format("当前选中了{0}份报告", AddCheckBoxToDataGridView.GetSelectedRows().Count)));
             dgv_orders.AutoGenerateColumns = false;
         }
 
@@ -99,12 +100,9 @@ namespace daan.ui.PrintingApplication
 
             dpFrom.Value = DateTime.Now.AddDays(-7);
             dpTo.Value = DateTime.Now;
-            dpSFrom.Value = DateTime.Now.AddDays(-7);
-            dpSTo.Value = DateTime.Now;
 
-            ////test
-            //dropStatus.SelectedValue = (int)OrdersStatus.FinishPrint;
-            //dpFrom.Value = DateTime.Now.AddDays(-60);
+            cbx_ScanDatetimeEnabled.Checked = false;
+            DisableScanDatetimeControls();
         }
 
         private void BindOrganizationByLab(Int32 labId)
@@ -152,9 +150,12 @@ namespace daan.ui.PrintingApplication
             request.PageEnd = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + pagerControl1.PageSize).ToString();
             request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
             request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
-            request.SamplingDateBegin = dpSFrom.Value.ToString(ConstString.DateFormat);
-            request.SamplingDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
             request.Keyword = tbxName.Text;
+            
+            if (dpScanFrom.Enabled)
+                request.SamplingDateBegin = dpScanFrom.Value.ToString(ConstString.DateFormat);
+            if (dpSTo.Enabled)
+                request.SamplingDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
 
             if ((int)dropNumberType.SelectedValue == 1)
                 request.OrderNumber = tbxOrderNum.Text;
@@ -197,7 +198,45 @@ namespace daan.ui.PrintingApplication
             BindOrganizationByLab(lab.Id);
         }
 
-        private static void ProcessSelectedCheckBoxForDatagridview(DataGridView datagridview)
+        public void ShowMessage(string message)
+        {
+            lbl_Message.Text = message;
+        }
+
+        private void cbx_ScanDatetimeEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox.Checked)
+                EnableScanDatetimeControls();
+            else
+                DisableScanDatetimeControls();
+        }
+
+        private void EnableScanDatetimeControls()
+        {
+            dpScanFrom.Enabled = true;
+            dpScanFrom.Format = DateTimePickerFormat.Custom;
+            dpScanFrom.CustomFormat = ConstString.DateFormat;
+            dpScanFrom.Value = DateTime.Now.AddDays(-7);
+
+            dpSTo.Enabled = true;
+            dpSTo.Format = DateTimePickerFormat.Custom;
+            dpSTo.CustomFormat = ConstString.DateFormat;
+            dpSTo.Value = DateTime.Now;
+        }
+
+        private void DisableScanDatetimeControls()
+        {
+            dpScanFrom.Enabled = false;
+            dpScanFrom.Format = DateTimePickerFormat.Custom;
+            dpScanFrom.CustomFormat = " ";
+
+            dpSTo.Enabled = false;
+            dpSTo.Format = DateTimePickerFormat.Custom;
+            dpSTo.CustomFormat = " ";
+        }
+
+        private void ProcessSelectedCheckBoxForDatagridview(DataGridView datagridview)
         {
             if (datagridview != null && datagridview.SelectedRows != null)
             {
@@ -208,6 +247,8 @@ namespace daan.ui.PrintingApplication
                     checkboxCell.Value = !(bool)checkboxCell.FormattedValue;
                 }
             }
+
+            ShowMessage(string.Format("当前选中了{0}份报告", AddCheckBoxToDataGridView.GetSelectedRows().Count));
         }
 
         private void dgv_orders_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -459,5 +500,6 @@ namespace daan.ui.PrintingApplication
                 return false;
             }
         }
+
     }
 }

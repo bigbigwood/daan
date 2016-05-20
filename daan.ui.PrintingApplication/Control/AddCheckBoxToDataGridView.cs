@@ -7,6 +7,7 @@ namespace daan.ui.PrintingApplication.Control
 {
     public class AddCheckBoxToDataGridView
     {
+        public static Action AllSelectCheckBoxCheckEvent;
         public static System.Windows.Forms.DataGridView dgv;
         public static void AddFullSelect()
         {
@@ -46,6 +47,9 @@ namespace daan.ui.PrintingApplication.Control
             {
                 row.Cells[0].Value = isSelectAll;
             }
+
+            if (AllSelectCheckBoxCheckEvent != null)
+                AllSelectCheckBoxCheckEvent();
         }
 
         public static void Refresh()

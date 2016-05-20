@@ -46,7 +46,8 @@ namespace daan.ui.PrintingApplication.Helper
 
         public static string BuildApplicationVersionString(ClientApplicationVersion currentApplicationVersion)
         {
-            return string.Format("{0} v{1}", currentApplicationVersion.ApplicationIdentifier, currentApplicationVersion.ApplicationVersion);
+            //return string.Format("{0} v{1}", currentApplicationVersion.ApplicationIdentifier, currentApplicationVersion.ApplicationVersion);
+            return string.Format("v{0}", currentApplicationVersion.ApplicationVersion);
         }
     }
 }
