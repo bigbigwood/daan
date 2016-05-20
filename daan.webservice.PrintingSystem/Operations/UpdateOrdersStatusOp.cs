@@ -60,9 +60,10 @@ namespace daan.webservice.PrintingSystem.Operations
         public void AddOperationLog(string orderNum, string barCode, string moduleName, string content, string operationType, string remark, string operatername, int operaterid)
         {
             var operationLogRepo = RepositoryManager.GetRepository<IOperationLogRepository>();
+            var sequenceProvider = RepositoryManager.GetRepository<ISequenceProvider>();
 
             var log = new Operationlog();
-            log.Operationid = ordersService.getSeqID("seq_OperationLog");
+            log.Operationid = sequenceProvider.GetNextSequence("seq_OperationLog");
             log.Ordernum = orderNum;
             log.Barcode = barCode;
             log.Modulename = moduleName;

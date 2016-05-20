@@ -61,11 +61,13 @@
   <ItemGroup>
     <Compile Include="Exceptions\ConnectionAlreadyOpened.cs" />
     <Compile Include="Exceptions\ConnectionNotOpened.cs" />
+    <Compile Include="Interfaces\ISequenceProvider.cs" />
     <Compile Include="Interfaces\IOrderBarcodeRepository.cs" />
     <Compile Include="Interfaces\IOrderReportRepository.cs" />
     <Compile Include="Interfaces\IInitBasicRepository.cs" />
     <Compile Include="Interfaces\IDictUserRepository.cs" />
     <Compile Include="Interfaces\IOperationLogRepository.cs" />
+    <Compile Include="MyBatis\Impl\MyBatisSequenceProvider.cs" />
     <Compile Include="MyBatis\Impl\OrderBarcodeRepositoryMB.cs" />
     <Compile Include="MyBatis\Impl\OrderReportRepositoryMB.cs" />
     <Compile Include="MyBatis\Impl\InitBasicRepositoryMB.cs" />

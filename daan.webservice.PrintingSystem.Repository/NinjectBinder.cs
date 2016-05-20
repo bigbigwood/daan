@@ -20,6 +20,7 @@ namespace daan.webservice.PrintingSystem.Repository
             _ninjectKernel.Bind<IPersistanceConnection>().To<SessionToPersistanceAdapter>();
             _ninjectKernel.Bind<IConnectionProvider>().To<MyBatisConnectionProvider>();
             _ninjectKernel.Bind<IPersistanceTransaction>().To<TransactionToPersistanceTransaction>();
+            _ninjectKernel.Bind<ISequenceProvider>().To<MyBatisSequenceProvider>();
 
             _ninjectKernel.Bind<IOrderRepository>().To<OrderRepositoryMB>();
             _ninjectKernel.Bind<IDictUserRepository>().To<DictUserRepositoryMB>();
