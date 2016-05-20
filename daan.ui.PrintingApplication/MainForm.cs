@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -204,7 +205,7 @@ namespace daan.ui.PrintingApplication
                 foreach (var dataGridViewRow in selectedRows)
                 {
                     var checkboxCell = dataGridViewRow.Cells[0] as DataGridViewCheckBoxCell;
-                    checkboxCell.Value = !(bool) checkboxCell.FormattedValue;
+                    checkboxCell.Value = !(bool)checkboxCell.FormattedValue;
                 }
             }
         }
@@ -335,6 +336,7 @@ namespace daan.ui.PrintingApplication
                 BeginInvoke(new Action(DisableControls));
 
                 Log.InfoFormat("Start printing report, the count of report is {0}...", reportDtoList.Count);
+                var exceptionReportDataOrderNumbers = new List<string>();
                 string selectOrderNumbers = string.Join(",", reportDtoList.Select(r => r.OrderNumber).ToArray());
                 var printingService = ServiceFactory.GetPrintingService();
                 var request = new GetReportDataRequest()
@@ -344,12 +346,18 @@ namespace daan.ui.PrintingApplication
                     OrderNumbers = selectOrderNumbers
                 };
                 var response = printingService.GetReportData(request);
-                if (response.ResultType != ResultTypes.Ok)
+                if (response.ResultType == ResultTypes.Ok || response.ResultType == ResultTypes.PartiallyOk)
+                {
+                    var allSelectedOrderNumberArray = reportDtoList.Select(r => r.OrderNumber).ToArray();
+                    var successGetReportOrderNumberArray = response.Reports.Select(r => r.OrderNumber).ToArray();
+                    exceptionReportDataOrderNumbers = allSelectedOrderNumberArray.Except(successGetReportOrderNumberArray).ToList();
+                }
+                else
                 {
                     Invoke(new Action(() =>
                     {
                         EnableControls();
-                        MessageBox.Show("不能获取到所有选中订单的报告数据！");
+                        MessageBox.Show("获取报告数据出错！");
                     }));
                     return;
                 }
@@ -357,24 +365,24 @@ namespace daan.ui.PrintingApplication
 
                 var finishPrintOrderNumbers = new List<string>();
                 var exceptionPrintOrderNumbers = new List<string>();
+                var reports = response.Reports;
                 int index = 0;
-                int count = response.Reports.Count();
-                while (index < count)
+                int count = reports.Count();
+
+                foreach (var reportInfo in reports)
                 {
-                    foreach (var reportInfo in response.Reports)
-                    {
-                        index++;
-                        reportInfo.ReportTemplateCode = reportDtoList.First(r => r.OrderNumber == reportInfo.OrderNumber).ReportTemplateCode;
+                    index++;
+                    reportInfo.ReportTemplateCode = reportDtoList.First(r => r.OrderNumber == reportInfo.OrderNumber).ReportTemplateCode;
 
-                        if (PrintReport(printerName, reportInfo))
-                            finishPrintOrderNumbers.Add(reportInfo.OrderNumber);
-                        else
-                            exceptionPrintOrderNumbers.Add(reportInfo.OrderNumber);
+                    if (PrintReport(printerName, reportInfo))
+                        finishPrintOrderNumbers.Add(reportInfo.OrderNumber);
+                    else
+                        exceptionPrintOrderNumbers.Add(reportInfo.OrderNumber);
 
-                        int calcWeight = (int)((double)index / count * printReportProgressBarWeight + getReportDataProgressBarWeight);
-                        BeginInvoke(new Action(() => extendProgressBar.ReportProgress(calcWeight)));
-                    }
+                    int calcWeight = (int)((double)index / count * printReportProgressBarWeight + getReportDataProgressBarWeight);
+                    BeginInvoke(new Action(() => extendProgressBar.ReportProgress(calcWeight)));
                 }
+
 
                 //更新报告状态
                 var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
@@ -398,13 +406,21 @@ namespace daan.ui.PrintingApplication
                 {
                     extendProgressBar.ReportProgress(100);
                     EnableControls();
+
+                    StringBuilder errorMessage = new StringBuilder();
+                    if (exceptionReportDataOrderNumbers.Any())
+                    {
+                        errorMessage.Append(string.Format("本次获取报告数据有部分异常，体检单号为： {0}", string.Join(",", exceptionReportDataOrderNumbers.ToArray())));
+                    }
                     if (exceptionPrintOrderNumbers.Any())
                     {
-                        string errorMessage = string.Format("本次打印有部分异常，体检单号为： {0}", string.Join(",", exceptionPrintOrderNumbers.ToArray()));
-                        MessageBox.Show(errorMessage);
+                        errorMessage.Append(string.Format("本次打印有部分异常，体检单号为： {0}", string.Join(",", exceptionPrintOrderNumbers.ToArray())));
                     }
-                    else
+
+                    if (string.IsNullOrWhiteSpace(errorMessage.ToString()))
                         MessageBox.Show("打印完成！");
+                    else
+                        MessageBox.Show(errorMessage.ToString());
                 }));
 
                 Log.Info("Finish printing report...");

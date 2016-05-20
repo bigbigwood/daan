@@ -14,17 +14,38 @@ namespace daan.webservice.PrintingSystem.Operations
 
         public GetReportDataResponse Process(GetReportDataRequest request)
         {
+            var errorMessages = new List<string>();
+            var reportList = new List<ReportInfo>();
+
             if (string.IsNullOrWhiteSpace((request.OrderNumbers)))
                 return new GetReportDataResponse() { ResultType = ResultTypes.DataValidationError, Messages = new [] {"OrderNumbers cannot be null or empty."}};
 
-            var reportList = new List<ReportInfo>();
             var orderNumbers = request.OrderNumbers.Split(new char[] {';', ','}, StringSplitOptions.RemoveEmptyEntries);
             if (orderNumbers.Any())
             {
-                reportList.AddRange(orderNumbers.Select(orderNumber => service.GetReportInfo(orderNumber)));
+                foreach (var orderNumber in orderNumbers)
+                {
+                    string errorMessage;
+                    var reportInfo = service.GetReportInfo(orderNumber);
+                    if (reportInfo != null)
+                    {
+                        reportList.Add(reportInfo);
+                    }
+                    else
+                    {
+                        errorMessages.Add(string.Format("{0}:{1}", orderNumber, "Cannot get and generate report data."));
+                    }
+                }
             }
 
-            return new GetReportDataResponse() { ResultType = ResultTypes.Ok, Reports = reportList.ToArray()};
+            if (errorMessages.Any())
+            {
+                return new GetReportDataResponse() { ResultType = ResultTypes.PartiallyOk, Reports = reportList.ToArray(), Messages = errorMessages.ToArray()};
+            }
+            else
+            {
+                return new GetReportDataResponse() { ResultType = ResultTypes.Ok, Reports = reportList.ToArray() };
+            }
         }
     }
 }

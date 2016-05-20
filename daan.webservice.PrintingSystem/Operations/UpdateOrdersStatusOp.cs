@@ -18,10 +18,12 @@ namespace daan.webservice.PrintingSystem.Operations
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly OrdersService ordersService = new OrdersService();
 
+
         public UpdateOrdersStatusResponse Process(UpdateOrdersStatusRequest request)
         {
             List<String> messages = new List<string>();
 
+            var orderRepo = RepositoryManager.GetRepository<IOrderRepository>();
             var userRepo = RepositoryManager.GetRepository<IDictUserRepository>();
             var dictUser = userRepo.GetByUserCode(request.Username);
             if (dictUser == null)
@@ -33,7 +35,6 @@ namespace daan.webservice.PrintingSystem.Operations
 
             foreach (var orderTransition in request.OrderTransitions)
             {
-                var orderRepo = RepositoryManager.GetRepository<IOrderRepository>();
                 bool singleUpdateOrderResult = orderRepo.UpdateOrderStatus(orderTransition.OrderNumber, ((int)orderTransition.NewStatus).ToString());
                 if (singleUpdateOrderResult == false)
                 {

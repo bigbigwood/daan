@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSys
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSystem.Repository", "daan.webservice.PrintingSystem.Repository\daan.webservice.PrintingSystem.Repository.csproj", "{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotInUsed", "NotInUsed", "{4B2C4BC5-481A-4488-BBA1-A6C4E18097BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -269,5 +271,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CB945879-BCBD-46EA-A22C-0614F3460124} = {4B2C4BC5-481A-4488-BBA1-A6C4E18097BB}
+		{ECBD7AF2-DBC5-4082-B0FD-05D81EFDE457} = {4B2C4BC5-481A-4488-BBA1-A6C4E18097BB}
+		{DF8704AA-52F8-4286-AC8B-30C24CF319E4} = {4B2C4BC5-481A-4488-BBA1-A6C4E18097BB}
 	EndGlobalSection
 EndGlobal

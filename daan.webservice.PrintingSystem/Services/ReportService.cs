@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.ServiceModel.Channels;
 using daan.domain;
 using daan.service.dict;
 using daan.webservice.PrintingSystem.Contract.Models.Report;
@@ -26,21 +27,33 @@ namespace daan.webservice.PrintingSystem.Services
         public ReportInfo GetReportInfo(string orderNumber)
         {
             var reportRepo = RepositoryManager.GetRepository<IOrderReportRepository>();
-            var rawReportData = reportRepo.GetByOrderNumber(orderNumber);
+            var rawReportData = reportRepo.GetByOrderNumber(orderNumber) ?? GenerateReportData(orderNumber);
             if (rawReportData == null)
+                return null;
+
+            return new ReportInfo() { OrderNumber = orderNumber, ReportData = rawReportData.ReportData };
+        }
+
+        private Orderreportdata GenerateReportData(string orderNumber)
+        {
+            var reportRepo = RepositoryManager.GetRepository<IOrderReportRepository>();
+            try
             {
-                //生成报告
                 Log.InfoFormat("Cannot find report data, will generate report data for order numder: {0}", orderNumber);
-                rawReportData = new Orderreportdata();
+                var rawReportData = new Orderreportdata();
                 rawReportData.Orderreportdataid = orderService.getSeqID("SEQ_ORDERREPORTDATA");
                 rawReportData.Ordernum = orderNumber;
                 rawReportData.ReportData = GetSerializeReportDate(orderNumber);
                 rawReportData.Createdate = DateTime.Now;
                 reportRepo.Insert(rawReportData);
                 Log.Info("Generate report data successfully!");
+                return rawReportData;
             }
-
-            return new ReportInfo() { OrderNumber = orderNumber, ReportData = rawReportData.ReportData };
+            catch (Exception ex)
+            {
+                Log.Error("Generate report data error.", ex);
+                return null;
+            }
         }
 
         public string GetSerializeReportDate(string orderNumber)
