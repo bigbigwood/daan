@@ -134,6 +134,16 @@ namespace daan.ui.PrintingApplication
 
                 ReportTemplateFileProvider.Init(updater.ReportTemplateVersion);
 
+                var applicationUpdateEventType = updater.CheckUpdates();
+                if (applicationUpdateEventType == ApplicationUpdateEventType.ApplicationVersionChanged)
+                {
+                    Log.Info("New application version detected.");
+                    Invoke(new Action<String, MessageType>(ShowMessage), "发现新版本，请下载新版本使用...", MessageType.Warning);
+                    Invoke(new Action<bool>(ControlButtons), true);
+                    return;
+                }
+
+
                 BeginInvoke(new Action<String, MessageType>(ShowMessage), "登陆成功...", MessageType.Infomation);
                 BeginInvoke(new Action(ShowMainForm));
             }
@@ -143,7 +153,7 @@ namespace daan.ui.PrintingApplication
                 Invoke(new Action<bool>(ControlButtons), true);
                 Log.Error("Login fail.", ex);
             }
-            
+
         }
     }
 }

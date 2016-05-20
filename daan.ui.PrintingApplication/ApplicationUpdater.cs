@@ -12,6 +12,13 @@ using log4net;
 
 namespace daan.ui.PrintingApplication
 {
+    public enum ApplicationUpdateEventType
+    {
+        NothingChanged,
+        ApplicationVersionChanged,
+        ReportTemplateVersionChanged,
+    }
+
     public class ApplicationUpdater
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -38,11 +45,27 @@ namespace daan.ui.PrintingApplication
             t.Elapsed += new System.Timers.ElapsedEventHandler(Time_Elapsed);
             t.AutoReset = true;
             t.Enabled = true;
+            t.Start();
         }
 
         public void Time_Elapsed(object source, System.Timers.ElapsedEventArgs e)
         {
-            CheckUpdates();
+            var applicationUpdateEventType = CheckUpdates();
+
+            switch (applicationUpdateEventType)
+            {
+                case ApplicationUpdateEventType.ApplicationVersionChanged:
+                    MessageBox.Show("发现新版本，请下载新版本使用。");
+                    break;
+
+                case ApplicationUpdateEventType.ReportTemplateVersionChanged:
+                    break;
+
+                case ApplicationUpdateEventType.NothingChanged:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public string ReportTemplateVersion
@@ -50,15 +73,15 @@ namespace daan.ui.PrintingApplication
             get { return currentApplicationVersion.ReportTemplateVersion; }
         }
 
-        public void CheckUpdates()
+        public ApplicationUpdateEventType CheckUpdates()
         {
             var latestVersion = GetLatestVersionFromServer();
-            if (latestVersion == null) return;
+            if (latestVersion == null) return ApplicationUpdateEventType.NothingChanged;
 
             Log.InfoFormat("ApplicationIdentifier={0}, ApplicationVersion={1}, ReportTemplateVersion={2}", latestVersion.ApplicationIdentifier, latestVersion.ApplicationVersion, latestVersion.ReportTemplateVersion);
             if (currentApplicationVersion.ApplicationVersion != latestVersion.ApplicationVersion)
             {
-                MessageBox.Show("发现新版本，请下载新版本使用。");
+                return ApplicationUpdateEventType.ApplicationVersionChanged;
             }
             else if (currentApplicationVersion.ReportTemplateVersion != latestVersion.ReportTemplateVersion)
             {
@@ -68,7 +91,10 @@ namespace daan.ui.PrintingApplication
                 // update version file
                 currentApplicationVersion.ReportTemplateVersion = latestVersion.ReportTemplateVersion;
                 ClientApplicationVersionExtension.ToFile(applicationVersionFilePath, currentApplicationVersion);
+                return ApplicationUpdateEventType.ReportTemplateVersionChanged;
             }
+
+            return ApplicationUpdateEventType.NothingChanged;
         }
 
         public ClientApplicationVersion GetLatestVersionFromServer()
