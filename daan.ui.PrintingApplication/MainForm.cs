@@ -51,7 +51,7 @@ namespace daan.ui.PrintingApplication
 
             AddCheckBoxToDataGridView.dgv = dgv_orders;
             AddCheckBoxToDataGridView.AddFullSelect();
-            AddCheckBoxToDataGridView.AllSelectCheckBoxCheckEvent = new Action(() =>  ShowMessage(string.Format("当前选中了{0}份报告", AddCheckBoxToDataGridView.GetSelectedRows().Count)));
+            AddCheckBoxToDataGridView.SelectAllCheckBoxChanged += new Action(OnSelectAllCheckBoxChanged);
             dgv_orders.AutoGenerateColumns = false;
         }
 
@@ -234,6 +234,11 @@ namespace daan.ui.PrintingApplication
             dpSTo.Enabled = false;
             dpSTo.Format = DateTimePickerFormat.Custom;
             dpSTo.CustomFormat = " ";
+        }
+
+        private void OnSelectAllCheckBoxChanged()
+        {
+            ShowMessage(string.Format("当前选中了{0}份报告", AddCheckBoxToDataGridView.GetSelectedRows().Count));
         }
 
         private void ProcessSelectedCheckBoxForDatagridview(DataGridView datagridview)

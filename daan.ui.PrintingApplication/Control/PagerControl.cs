@@ -5,7 +5,9 @@ namespace daan.ui.PrintingApplication.Control
 {
     public partial class PagerControl : UserControl
     {
-        public static readonly Int32 DefaultPageSize = 50;
+        public Int32 MinPageSize = 5;
+        public Int32 DefaultPageSize = 50;
+        public Int32 MaxPageSize = 200;
 
         #region 构造函数
 
@@ -30,7 +32,7 @@ namespace daan.ui.PrintingApplication.Control
             set { pageIndex = value; }
         }
 
-        private int pageSize = DefaultPageSize;
+        private int pageSize;
         /// <summary>
         /// 每页记录数
         /// </summary>
@@ -241,25 +243,20 @@ namespace daan.ui.PrintingApplication.Control
         /// </summary>
         private void txtPageSize_TextChanged(object sender, EventArgs e)
         {
-            int num = 0;
-            if (!int.TryParse(txtPageSize.Text.Trim(), out num) || num <= 0)
-            {
-                num = DefaultPageSize;
-                txtPageSize.Text = DefaultPageSize.ToString();
-            }
-            else
-            {
-                isTextChanged = true;
-            }
-            pageSize = num;
         }
         /// <summary>
         /// 光标离开分页属性
         private void txtPageSize_Leave(object sender, EventArgs e)
         {
-            if (isTextChanged)
+            int num = 0;
+            if (!int.TryParse(txtPageSize.Text.Trim(), out num) || num < MinPageSize || num > MaxPageSize)
             {
-                isTextChanged = false;
+                pageSize = DefaultPageSize;
+                txtPageSize.Text = DefaultPageSize.ToString();
+            }
+            else
+            {
+                pageSize = num;
                 lnkFirst_LinkClicked(null, null);
             }
         }

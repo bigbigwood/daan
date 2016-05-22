@@ -7,7 +7,7 @@ namespace daan.ui.PrintingApplication.Control
 {
     public class AddCheckBoxToDataGridView
     {
-        public static Action AllSelectCheckBoxCheckEvent;
+        public static Action SelectAllCheckBoxChanged;
         public static System.Windows.Forms.DataGridView dgv;
         public static void AddFullSelect()
         {
@@ -21,7 +21,7 @@ namespace daan.ui.PrintingApplication.Control
 
             var rect = dgv.GetCellDisplayRectangle(0, -1, true);
             var checkBox = new System.Windows.Forms.CheckBox();
-            checkBox.Name = "AllSelectCheckBox";
+            checkBox.Name = "SelectAllCheckBox";
             checkBox.Size = new System.Drawing.Size(13, 13);
             checkBox.Location = new System.Drawing.Point(rect.Location.X + dgv.Columns[0].Width / 2 - 13 / 2 - 1, rect.Location.Y + 3);
             checkBox.CheckedChanged += new EventHandler(ckBox_CheckedChanged);
@@ -48,13 +48,13 @@ namespace daan.ui.PrintingApplication.Control
                 row.Cells[0].Value = isSelectAll;
             }
 
-            if (AllSelectCheckBoxCheckEvent != null)
-                AllSelectCheckBoxCheckEvent();
+            if (SelectAllCheckBoxChanged != null)
+                SelectAllCheckBoxChanged();
         }
 
         public static void Refresh()
         {
-            var findControls = dgv.Controls.Find("AllSelectCheckBox", false).FirstOrDefault();
+            var findControls = dgv.Controls.Find("SelectAllCheckBox", false).FirstOrDefault();
             if (findControls != null)
             {
                 CheckBox allSelectCheckBox = findControls as CheckBox;
