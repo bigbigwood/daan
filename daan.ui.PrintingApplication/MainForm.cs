@@ -48,6 +48,7 @@ namespace daan.ui.PrintingApplication
         private void BindDataGrid()
         {
             pagerControl1.OnPageChanged += new EventHandler(pagerControl1_OnPageChanged);
+            pagerControl1.OnPageSizeValueInvalid += new EventHandler(pagerControl1_OnPageSizeValueInvalid);
 
             AddCheckBoxToDataGridView.dgv = dgv_orders;
             AddCheckBoxToDataGridView.AddFullSelect();
@@ -183,6 +184,25 @@ namespace daan.ui.PrintingApplication
         {
             btnQueryOrder_Click(sender, e);
         }
+
+        private void pagerControl1_OnPageSizeValueInvalid(object sender, EventArgs e)
+        {
+            var pagerControl = sender as PagerControl;
+            if (pagerControl != null)
+            {
+                Int32 pagerSize = 0;
+                String pagerSizeText = pagerControl.GetPageSizeText();
+                int.TryParse(pagerSizeText, out pagerSize);
+
+                if (pagerSize < pagerControl.MinPageSize || pagerSize > pagerControl.MaxPageSize)
+                {
+                    MessageBox.Show(string.Format(@"每页显示订单数量不能为""{0}""，它的范围是：{1} - {2}", pagerSizeText, pagerControl.MinPageSize, pagerControl.MaxPageSize));
+                    //ShowMessage(string.Format(@"每页显示订单数量不能为""{0}""，它的范围是：{1} - {2}", pagerSizeText, pagerControl.MinPageSize, pagerControl.MaxPageSize));
+                    return;
+                }
+            }
+        }
+
 
         private void UpdateOrderStatusRows(string orderNumber, string status)
         {

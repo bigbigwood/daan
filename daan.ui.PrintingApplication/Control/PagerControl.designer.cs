@@ -225,7 +225,6 @@
             this.txtPageSize.Size = new System.Drawing.Size(41, 24);
             this.txtPageSize.TabIndex = 46;
             this.txtPageSize.Text = "50";
-            this.txtPageSize.TextChanged += new System.EventHandler(this.txtPageSize_TextChanged);
             this.txtPageSize.Leave += new System.EventHandler(this.txtPageSize_Leave);
             // 
             // tableLayoutPanel1

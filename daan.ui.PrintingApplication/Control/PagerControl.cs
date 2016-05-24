@@ -91,6 +91,7 @@ namespace daan.ui.PrintingApplication.Control
         #region 页码变化触发事件
 
         public event EventHandler OnPageChanged;
+        public event EventHandler OnPageSizeValueInvalid;
 
         #endregion
 
@@ -203,7 +204,7 @@ namespace daan.ui.PrintingApplication.Control
         /// </summary>
         private void txtPageNum_KeyPress(object sender, KeyPressEventArgs e)
         {
-            btnGo_Click(null, null);
+            //btnGo_Click(null, null);
         }
 
         /// <summary>
@@ -232,17 +233,19 @@ namespace daan.ui.PrintingApplication.Control
             if (int.TryParse(txtPageNum.Text.Trim(), out num) && num > 0)
             {
                 PageIndex = num;
-                DrawControl(true);
             }
+            else
+            {
+                pageIndex = 1;
+            }
+
+            DrawControl(true);
         }
 
         #endregion
-        bool isTextChanged = false;
-        /// <summary>
-        /// 分页属性改变了。
-        /// </summary>
-        private void txtPageSize_TextChanged(object sender, EventArgs e)
+        public string GetPageSizeText()
         {
+            return txtPageSize.Text;
         }
         /// <summary>
         /// 光标离开分页属性
@@ -251,13 +254,17 @@ namespace daan.ui.PrintingApplication.Control
             int num = 0;
             if (!int.TryParse(txtPageSize.Text.Trim(), out num) || num < MinPageSize || num > MaxPageSize)
             {
-                pageSize = DefaultPageSize;
-                txtPageSize.Text = DefaultPageSize.ToString();
+                if (OnPageSizeValueInvalid != null)
+                {
+                    OnPageSizeValueInvalid(this, null);
+                }
+
+                //pageSize = DefaultPageSize;
+                txtPageSize.Text = pageSize.ToString();
             }
             else
             {
                 pageSize = num;
-                lnkFirst_LinkClicked(null, null);
             }
         }
     }
