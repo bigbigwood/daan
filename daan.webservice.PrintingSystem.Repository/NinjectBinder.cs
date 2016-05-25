@@ -26,6 +26,7 @@ namespace daan.webservice.PrintingSystem.Repository
             _ninjectKernel.Bind<IDictUserRepository>().To<DictUserRepositoryMB>();
             _ninjectKernel.Bind<IOperationLogRepository>().To<OperationLogRepositoryMB>();
             _ninjectKernel.Bind<IInitBasicRepository>().To<InitBasicRepositoryMB>();
+            _ninjectKernel.Bind<IInitlocalsettingRepository>().To<InitlocalsettingRepositoryMB>();
             _ninjectKernel.Bind<IOrderReportRepository>().To<OrderReportRepositoryMB>();
             _ninjectKernel.Bind<IOrderBarcodeRepository>().To<OrderBarcodeRepositoryMB>();
         }

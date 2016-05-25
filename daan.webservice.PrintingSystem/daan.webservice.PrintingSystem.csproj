@@ -97,6 +97,7 @@
     <Compile Include="Framework\NinjectBinder.cs" />
     <Compile Include="Operations\AuthenticateOp.cs" />
     <Compile Include="Operations\AuthorizeOp.cs" />
+    <Compile Include="Operations\UpdateUserInfoOp.cs" />
     <Compile Include="Operations\GetReportDataOp.cs" />
     <Compile Include="Operations\UpdateOrdersStatusOp.cs" />
     <Compile Include="Operations\GetReportTemplatesOp.cs" />

@@ -13,6 +13,9 @@ namespace daan.webservice.PrintingSystem.Contract.Interface
         AuthorizeResponse Authorize(AuthorizeRequest request);
 
         [OperationContract]
+        UpdateUserInfoResponse UpdateUserInfo(UpdateUserInfoRequest request);
+
+        [OperationContract]
         GetLastClientAppVersionsResponse GetLastClientAppVersions(GetLastClientAppVersionsRequest request);
 
         [OperationContract]

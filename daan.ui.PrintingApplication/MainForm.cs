@@ -61,6 +61,7 @@ namespace daan.ui.PrintingApplication
             pagerControl1.Enabled = true;
             btnQueryOrder.Enabled = true;
             btnPrint.Enabled = true;
+            btnPrinterSetting.Enabled = true;
         }
 
         private void DisableControls()
@@ -68,6 +69,7 @@ namespace daan.ui.PrintingApplication
             pagerControl1.Enabled = false;
             btnQueryOrder.Enabled = false;
             btnPrint.Enabled = false;
+            btnPrinterSetting.Enabled = false;
         }
 
         private void BindQueryGroup()
@@ -524,6 +526,12 @@ namespace daan.ui.PrintingApplication
                 Log.Error(ex);
                 return false;
             }
+        }
+
+        private void btnPrinterSetting_Click(object sender, EventArgs e)
+        {
+            var form = new PrinterSettingForm();
+            form.ShowDialog();
         }
 
     }

@@ -39,6 +39,7 @@
             this.ReportToolBar = new CCWin.SkinControl.SkinToolStrip();
             this.btnQueryOrder = new System.Windows.Forms.ToolStripButton();
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
+            this.btnPrinterSetting = new System.Windows.Forms.ToolStripButton();
             this.tlp_queryConditions = new System.Windows.Forms.TableLayoutPanel();
             this.dpSTo = new System.Windows.Forms.DateTimePicker();
             this.dpTo = new System.Windows.Forms.DateTimePicker();
@@ -214,7 +215,8 @@
             this.ReportToolBar.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
             this.ReportToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnQueryOrder,
-            this.btnPrint});
+            this.btnPrint,
+            this.btnPrinterSetting});
             this.ReportToolBar.Location = new System.Drawing.Point(0, 0);
             this.ReportToolBar.Name = "ReportToolBar";
             this.ReportToolBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
@@ -248,6 +250,16 @@
             this.btnPrint.Size = new System.Drawing.Size(75, 36);
             this.btnPrint.Text = "打印";
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
+            // btnPrinterSetting
+            // 
+            this.btnPrinterSetting.AutoSize = false;
+            this.btnPrinterSetting.Image = ((System.Drawing.Image)(resources.GetObject("btnPrinterSetting.Image")));
+            this.btnPrinterSetting.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPrinterSetting.Name = "btnPrinterSetting";
+            this.btnPrinterSetting.Size = new System.Drawing.Size(100, 36);
+            this.btnPrinterSetting.Text = "打印机设置";
+            this.btnPrinterSetting.Click += new System.EventHandler(this.btnPrinterSetting_Click);
             // 
             // tlp_queryConditions
             // 
@@ -970,5 +982,6 @@
         private System.Windows.Forms.Label lbl_Message;
         private System.Windows.Forms.TableLayoutPanel tlp_scanDateTime;
         private System.Windows.Forms.CheckBox cbx_ScanDatetimeEnabled;
+        private System.Windows.Forms.ToolStripButton btnPrinterSetting;
     }
 }

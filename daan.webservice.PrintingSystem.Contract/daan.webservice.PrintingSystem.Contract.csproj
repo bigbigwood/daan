@@ -49,6 +49,8 @@
     <Compile Include="Messages\AuthenticateResponse.cs" />
     <Compile Include="Messages\AuthorizeResponse.cs" />
     <Compile Include="Messages\AuthorizeRequest.cs" />
+    <Compile Include="Messages\UpdateUserInfoResponse.cs" />
+    <Compile Include="Messages\UpdateUserInfoRequest.cs" />
     <Compile Include="Messages\GetReportTemplatesRequest.cs" />
     <Compile Include="Messages\GetReportTemplatesResponse.cs" />
     <Compile Include="Messages\GetReportDataRequest.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="Models\ReportTemplateInfo.cs" />
     <Compile Include="Models\Report\ReportStatus.cs" />
     <Compile Include="Models\Report\ReportInfo.cs" />
+    <Compile Include="Models\User\UserComputerConfig.cs" />
     <Compile Include="Models\User\UserCredential.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
     <Compile Include="Models\User\UserPrinterConfig.cs" />
