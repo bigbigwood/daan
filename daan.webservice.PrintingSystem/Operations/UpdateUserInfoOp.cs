@@ -26,7 +26,7 @@ namespace daan.webservice.PrintingSystem.Operations
 
             var initlocalsettingRepo = RepositoryManager.GetRepository<IInitlocalsettingRepository>();
 
-            var initlocalsetting = initlocalsettingRepo.GetInitLocalSettingByHostMac(request.UserInfo.UserComputerConfig.HostMac);
+            var initlocalsetting = initlocalsettingRepo.GetByKey(request.UserInfo.UserComputerConfig.HostMac);
             if (initlocalsetting != null)
             {
                 initlocalsetting.Pdfprinter = request.UserInfo.UserPrinterConfig.PdfPrinter;

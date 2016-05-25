@@ -3,27 +3,27 @@ using daan.webservice.PrintingSystem.Repository.Interfaces;
 
 namespace daan.webservice.PrintingSystem.Repository.MyBatis.Impl
 {
-    public class InitlocalsettingRepositoryMB : MyBatisRepository<Initlocalsetting, int>, IInitlocalsettingRepository
+    public class InitlocalsettingRepositoryMB : MyBatisRepository<Initlocalsetting, string>, IInitlocalsettingRepository
     {
         #region Repository
         protected override string InsertStatement
         {
-            get { return "PrintingSystem.Dict.InsertInitlocalsetting"; }
+            get { return "PrintingSystem.Initlocalsetting.Insert"; }
         }
 
         protected override string UpdateStatement
         {
-            get { return "PrintingSystem.Dict.UpdateInitlocalsetting"; }
+            get { return "PrintingSystem.Initlocalsetting.Update"; }
         }
 
         protected override string DeleteStatement
         {
-            get { return "PrintingSystem.Dict.DeleteInitlocalsetting"; }
+            get { return "PrintingSystem.Initlocalsetting.Delete"; }
         }
 
         protected override string QueryObjectStatement
         {
-            get { return null; }
+            get { return "PrintingSystem.Initlocalsetting.GetByKey"; }
         }
 
         protected override string QueryCountStatement
@@ -36,10 +36,5 @@ namespace daan.webservice.PrintingSystem.Repository.MyBatis.Impl
             get { return null; }
         }
         #endregion
-
-        public Initlocalsetting GetInitLocalSettingByHostMac(string hostMac)
-        {
-            return this._sqlMapper.QueryForObject<Initlocalsetting>("PrintingSystem.Dict.GetInitLocalSettingByHostMac", hostMac);
-        }
     }
 }

@@ -21,7 +21,8 @@ namespace daan.webservice.PrintingSystem.Operations
         {
             var userInfo = new UserInfo();
 
-            var initlocalsetting = new InitlocalsettingService().GetInitlocalsetting(request.HostMac);
+            var initlocalsettingRepo = RepositoryManager.GetRepository<IInitlocalsettingRepository>();
+            var initlocalsetting = initlocalsettingRepo.GetByKey(request.HostMac);
             if (initlocalsetting != null)
             {
                 userInfo.UserPrinterConfig = new UserPrinterConfig()

@@ -8,8 +8,7 @@ using IBatisNet.DataMapper.Configuration.Statements;
 
 namespace daan.webservice.PrintingSystem.Repository.Interfaces
 {
-    public interface IInitlocalsettingRepository : IRepository<Initlocalsetting, Int32>
+    public interface IInitlocalsettingRepository : IRepository<Initlocalsetting, string>
     {
-        Initlocalsetting GetInitLocalSettingByHostMac(string hostMac);
     }
 }

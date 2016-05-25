@@ -15,22 +15,21 @@
   </resultMaps>
   <statements>
 
-    <select id="PrintingSystem.Dict.GetInitLocalSettingByHostMac"  parameterClass="string" resultMap="InitlocalsettingResult_Repo">
+    <select id="PrintingSystem.Initlocalsetting.GetByKey"  parameterClass="string" resultMap="InitlocalsettingResult_Repo">
       SELECT Hostmac,Hostname,A4printer,A5printer,Barcodeprinter,Pdfprinter
-      FROM Initlocalsetting  where Hostmac = #value#   
+      FROM Initlocalsetting  where Hostmac = #value#
     </select>
-
-    <insert id="PrintingSystem.Dict.InsertInitlocalsetting" parameterClass="Initlocalsetting_Repo">
+    <insert id="PrintingSystem.Initlocalsetting.Insert" parameterClass="Initlocalsetting_Repo">
       INSERT INTO INITLOCALSETTING
       (HOSTMAC,HOSTNAME,A4PRINTER,A5PRINTER,BARCODEPRINTER,PDFPRINTER)
       VALUES(#Hostmac#,#Hostname#,#A4printer#,#A5printer#,#Barcodeprinter#,#Pdfprinter#)
     </insert>
-    <update id="PrintingSystem.Dict.UpdateInitlocalsetting" parameterClass="Initlocalsetting_Repo">
+    <update id="PrintingSystem.Initlocalsetting.Update" parameterClass="Initlocalsetting_Repo">
       UPDATE INITLOCALSETTING
       SET HOSTMAC=#Hostmac#,HOSTNAME=#Hostname#,A4PRINTER=#A4printer#,A5PRINTER=#A5printer#,BARCODEPRINTER=#Barcodeprinter#,PDFPRINTER=#Pdfprinter#
       WHERE HOSTMAC = #Hostmac#
     </update>
-    <delete id="PrintingSystem.Dict.DeleteInitlocalsetting" parameterClass="string">
+    <delete id="PrintingSystem.Initlocalsetting.Delete" parameterClass="string">
       DELETE FROM INITLOCALSETTING
       WHERE HOSTMAC = #value#
     </delete>
