@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.webservice.PrintingSys
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotInUsed", "NotInUsed", "{4B2C4BC5-481A-4488-BBA1-A6C4E18097BB}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "daan.ui.PrintingApplication.Setup", "daan.ui.PrintingApplication.Setup\daan.ui.PrintingApplication.Setup.vdproj", "{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -268,6 +270,12 @@ Global
 		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0B0F2973-784F-4E0C-8FF8-DEE4B8F7BCEB}.Release|x86.ActiveCfg = Release|Any CPU
+		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Debug|Any CPU.ActiveCfg = Debug
+		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Debug|x86.ActiveCfg = Debug
+		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Release|Any CPU.ActiveCfg = Release
+		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Release|Mixed Platforms.ActiveCfg = Release
+		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
