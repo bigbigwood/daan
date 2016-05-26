@@ -531,7 +531,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:打印报告客户端"
         "ProductCode" = "8:{B1D02418-F70F-47AC-A694-5241086B68DD}"
-        "PackageCode" = "8:{66CAAD2C-C6C7-4D03-A7A4-2139ECFF2F12}"
+        "PackageCode" = "8:{5A19DAF5-39A0-4134-A09E-C8FC77B276D9}"
         "UpgradeCode" = "8:{97D2C556-A83C-48B7-8C69-4B0F9D75D6A8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
