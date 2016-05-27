@@ -1,4 +1,5 @@
-﻿namespace daan.ui.PrintingApplication
+﻿using daan.ui.controls;
+namespace daan.ui.PrintingApplication
 {
     partial class MainForm
     {
@@ -81,8 +82,8 @@
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.extendProgressBar = new daan.ui.PrintingApplication.Control.ExtendProgressBar();
-            this.pagerControl1 = new daan.ui.PrintingApplication.Control.PagerControl();
+            this.extendProgressBar = new ExtendProgressBar();
+            this.pagerControl1 = new PagerControl();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Message = new System.Windows.Forms.Label();
@@ -976,8 +977,8 @@
         private System.Windows.Forms.TableLayoutPanel tlp_Bottom;
         private System.Windows.Forms.TableLayoutPanel tlp_PagePicker;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private Control.PagerControl pagerControl1;
-        private Control.ExtendProgressBar extendProgressBar;
+        private PagerControl pagerControl1;
+        private ExtendProgressBar extendProgressBar;
         private CCWin.SkinControl.SkinComboBox dropNumberType;
         private System.Windows.Forms.Label lbl_Message;
         private System.Windows.Forms.TableLayoutPanel tlp_scanDateTime;

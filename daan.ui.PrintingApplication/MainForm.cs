@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using CCWin;
 using CCWin.SkinControl;
 using CCWin.Win32.Const;
-using daan.ui.PrintingApplication.Control;
 using daan.ui.PrintingApplication.Helper;
 using daan.ui.PrintingApplication.PrintingImpl;
 using daan.webservice.PrintingSystem.Contract.Messages;
@@ -19,6 +18,7 @@ using daan.webservice.PrintingSystem.Contract.Models;
 using daan.webservice.PrintingSystem.Contract.Models.Order;
 using daan.webservice.PrintingSystem.Contract.Models.Report;
 using log4net;
+using daan.ui.controls;
 
 namespace daan.ui.PrintingApplication
 {

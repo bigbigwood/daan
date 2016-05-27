@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
+        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_60174065904EA0BD05EE7F22BBD10409"
         "OwnerKey" = "8:_EF3E2ECB354757F6E2E07A244523F4F7"
         "MsmSig" = "8:_UNDEFINED"
@@ -64,7 +70,19 @@
         "Entry"
         {
         "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
+        "OwnerKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
+        "OwnerKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -76,6 +94,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EF3E2ECB354757F6E2E07A244523F4F7"
+        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -112,13 +136,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
+        "OwnerKey" = "8:_2BAA902C18D22D1030C79B5A41138BB3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2BAA902C18D22D1030C79B5A41138BB3"
+        "OwnerKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -319,6 +355,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4299F88F31D64F89DB9AE8A2B10963B2"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:daan.ui.controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_4299F88F31D64F89DB9AE8A2B10963B2"
+                    {
+                    "Name" = "8:daan.ui.controls.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:daan.ui.controls.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_60174065904EA0BD05EE7F22BBD10409"
             {
             "AssemblyRegister" = "3:1"
@@ -452,6 +519,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F9922EA7E00EF8082159F715A3769EA3"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:daan.ui.PrintingApplication.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_F9922EA7E00EF8082159F715A3769EA3"
+                    {
+                    "Name" = "8:daan.ui.PrintingApplication.Update.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:daan.ui.PrintingApplication.Update.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -530,15 +628,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:打印报告客户端"
-        "ProductCode" = "8:{B1D02418-F70F-47AC-A694-5241086B68DD}"
-        "PackageCode" = "8:{5A19DAF5-39A0-4134-A09E-C8FC77B276D9}"
+        "ProductCode" = "8:{7CD9B827-7DCC-48E7-BAD2-97A23421976E}"
+        "PackageCode" = "8:{7B830489-F96C-4309-A535-58EA4DBECF96}"
         "UpgradeCode" = "8:{97D2C556-A83C-48B7-8C69-4B0F9D75D6A8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:3.0.0"
         "Manufacturer" = "8:达安健康"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -682,7 +780,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F895FF1D2AF04FF79959BDFFB49CEEA1"
             {
             "Name" = "8:卸载"
-            "Arguments" = "8:/x {B1D02418-F70F-47AC-A694-5241086B68DD}"
+            "Arguments" = "8:/x {7CD9B827-7DCC-48E7-BAD2-97A23421976E}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

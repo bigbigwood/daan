@@ -50,6 +50,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotInUsed", "NotInUsed", "{
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "daan.ui.PrintingApplication.Setup", "daan.ui.PrintingApplication.Setup\daan.ui.PrintingApplication.Setup.vdproj", "{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.PrintingApplication.Update", "daan.ui.PrintingApplication.Update\daan.ui.PrintingApplication.Update.csproj", "{188EAD4E-04C5-490C-B92F-3D771ABFD116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daan.ui.controls", "daan.ui.controls\daan.ui.controls.csproj", "{F73F8526-B688-4B0B-B7C7-EEFD03836463}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -276,6 +280,26 @@ Global
 		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Release|Any CPU.ActiveCfg = Release
 		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Release|Mixed Platforms.ActiveCfg = Release
 		{C4A784A5-16C3-4D54-B00C-A8F92EB5DBDD}.Release|x86.ActiveCfg = Release
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Debug|x86.ActiveCfg = Debug|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Debug|x86.Build.0 = Debug|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Release|Any CPU.ActiveCfg = Release|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Release|Mixed Platforms.Build.0 = Release|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Release|x86.ActiveCfg = Release|x86
+		{188EAD4E-04C5-490C-B92F-3D771ABFD116}.Release|x86.Build.0 = Release|x86
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F73F8526-B688-4B0B-B7C7-EEFD03836463}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

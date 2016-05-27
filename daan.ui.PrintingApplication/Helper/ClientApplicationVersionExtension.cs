@@ -23,8 +23,9 @@ namespace daan.ui.PrintingApplication.Helper
             }
 
             var model = new ClientApplicationVersion();
+            model.ApplicationVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             model.ApplicationIdentifier = lines.First(l => l.Contains("ApplicationIdentifier")).Substring("ApplicationIdentifier=".Length);
-            model.ApplicationVersion = lines.First(l => l.Contains("ApplicationVersion")).Substring("ApplicationVersion=".Length); ;
+            //model.ApplicationVersion = lines.First(l => l.Contains("ApplicationVersion")).Substring("ApplicationVersion=".Length); ;
             model.ReportTemplateVersion = lines.First(l => l.Contains("ReportTemplateVersion")).Substring("ReportTemplateVersion=".Length);
 
             return model;
@@ -35,7 +36,7 @@ namespace daan.ui.PrintingApplication.Helper
             var lines = new List<string>()
                 {
                     string.Format("ApplicationIdentifier={0}", currentApplicationVersion.ApplicationIdentifier),
-                    string.Format("ApplicationVersion={0}", currentApplicationVersion.ApplicationVersion),
+                    //string.Format("ApplicationVersion={0}", currentApplicationVersion.ApplicationVersion),
                     string.Format("ReportTemplateVersion={0}", currentApplicationVersion.ReportTemplateVersion),
                 };
 

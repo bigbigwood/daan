@@ -73,14 +73,20 @@ namespace daan.ui.PrintingApplication
             get { return currentApplicationVersion.ReportTemplateVersion; }
         }
 
+        public string LatestVersionDownloadUrl
+        {
+            get; private set;
+        }
+
         public ApplicationUpdateEventType CheckUpdates()
         {
             var latestVersion = GetLatestVersionFromServer();
             if (latestVersion == null) return ApplicationUpdateEventType.NothingChanged;
 
-            Log.InfoFormat("ApplicationIdentifier={0}, ApplicationVersion={1}, ReportTemplateVersion={2}", latestVersion.ApplicationIdentifier, latestVersion.ApplicationVersion, latestVersion.ReportTemplateVersion);
+            Log.InfoFormat("ApplicationIdentifier={0}, ApplicationVersion={1}, DownloadUrl={2}, ReportTemplateVersion={3}", latestVersion.ApplicationIdentifier, latestVersion.ApplicationVersion, latestVersion.DownloadUrl, latestVersion.ReportTemplateVersion);
             if (currentApplicationVersion.ApplicationVersion != latestVersion.ApplicationVersion)
             {
+                LatestVersionDownloadUrl = latestVersion.DownloadUrl;
                 return ApplicationUpdateEventType.ApplicationVersionChanged;
             }
             else if (currentApplicationVersion.ReportTemplateVersion != latestVersion.ReportTemplateVersion)

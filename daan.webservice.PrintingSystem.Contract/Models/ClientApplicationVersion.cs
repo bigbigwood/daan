@@ -25,6 +25,9 @@ namespace daan.webservice.PrintingSystem.Contract.Models
         [XmlAttribute("ApplicationVersion")]
         [DataMember]
         public String ApplicationVersion { get; set; }
+        [XmlAttribute("DownloadUrl")]
+        [DataMember]
+        public String DownloadUrl { get; set; }
         [XmlAttribute("ReportTemplateVersion")]
         [DataMember]
         public String ReportTemplateVersion { get; set; }

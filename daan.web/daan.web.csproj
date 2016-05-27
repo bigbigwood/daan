@@ -3271,6 +3271,14 @@
     <Content Include="Daan.Authority.Handler.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="download\ActiveXPrintSetup.rar" />
+    <Content Include="download\Framework4.0.zip" />
+    <None Include="download\daan.ui.PrintingApplication.Setup-3.0.0.0.msi" />
+    <None Include="download\NewActiveXPrintSetup.rar" />
+    <None Include="download\PDF-XChange_Pro.rar" />
+    <None Include="download\wic_x86_chs.rar" />
+    <None Include="download\体检单位数据导入模版.xls" />
+    <None Include="download\报告模板.rar" />
     <None Include="js\Resources\jquery-easyui\demo\datagrid_data.json" />
     <Content Include="timehelper.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

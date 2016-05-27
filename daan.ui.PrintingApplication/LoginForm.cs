@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -22,7 +23,6 @@ namespace daan.ui.PrintingApplication
     public partial class LoginForm : Form
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        MainForm mainForm = new MainForm();
 
         public LoginForm()
         {
@@ -51,6 +51,29 @@ namespace daan.ui.PrintingApplication
         {
             lbl_message.ForeColor = (type == MessageType.Infomation) ? Color.Aqua : Color.Red;
             lbl_message.Text = message;
+        }
+
+        private void ShowAutoUpdateForm(string url)
+        {
+            string fileName = url.Substring(url.LastIndexOf('/') + 1);
+
+            var result = MessageBox.Show("发现新版本，是否更新？", "更新版本", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+
+                string appPath = FilePathHelper.BuildPath(@".\daan.ui.PrintingApplication.Update.exe");
+                var process = new ProcessStartInfo();
+                process.FileName = appPath;
+                process.Arguments = string.Format(@"-n {0} -u {1}", fileName, url);
+                Process.Start(process);
+
+                Application.Exit();
+            }
+            else
+            {
+                ShowMessage("发现新版本，请下载新版本使用...", MessageType.Warning);
+                ControlButtons(true);
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -137,9 +160,9 @@ namespace daan.ui.PrintingApplication
                 var applicationUpdateEventType = updater.CheckUpdates();
                 if (applicationUpdateEventType == ApplicationUpdateEventType.ApplicationVersionChanged)
                 {
+                    string url = updater.LatestVersionDownloadUrl;
                     Log.Info("New application version detected.");
-                    Invoke(new Action<String, MessageType>(ShowMessage), "发现新版本，请下载新版本使用...", MessageType.Warning);
-                    Invoke(new Action<bool>(ControlButtons), true);
+                    Invoke(new Action<string>(ShowAutoUpdateForm), url);
                     return;
                 }
 
