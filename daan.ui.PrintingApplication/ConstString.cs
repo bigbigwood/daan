@@ -22,5 +22,8 @@ namespace daan.ui.PrintingApplication
         public const String ReportStatus_Refund = "退单";
 
         public const String DateFormat = "yyyy-MM-dd";
+
+        public const String IsUpgradeNewVersion = "发现新版本，是否更新？";
+        public const String DetectNewVersionNotification = "发现新版本，请下载新版本使用...";
     }
 }

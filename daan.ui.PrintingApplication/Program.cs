@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using daan.ui.PrintingApplication.Helper;
 using log4net;
 
 namespace daan.ui.PrintingApplication
@@ -17,6 +18,9 @@ namespace daan.ui.PrintingApplication
         {
             log4net.Config.XmlConfigurator.Configure();
             Log.Info("Application start");
+
+            PrintingApp.Initialize();
+            ReportTemplateFileProvider.Initialize(PrintingApp.GetVersionManager().ReportTemplateVersion);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

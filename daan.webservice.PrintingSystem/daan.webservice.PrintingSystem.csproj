@@ -161,7 +161,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="config\ClientApplicationVersion.config" />
+    <None Include="config\ReportTemplates\C14Rep.frx" />
+    <None Include="config\ReportTemplates\C14Rep2.frx" />
+    <None Include="config\ReportTemplates\CommonRep.frx" />
+    <None Include="config\ReportTemplates\FinancialDatialRep.frx" />
+    <None Include="config\ReportTemplates\GroupRep.frx" />
+    <None Include="config\ReportTemplates\HealthGuidelRep.frx" />
+    <None Include="config\ReportTemplates\HpvLctRep.frx" />
+    <None Include="config\ReportTemplates\HPVRep.frx" />
+    <None Include="config\ReportTemplates\MoneyReceiptRep.frx" />
+    <None Include="config\ReportTemplates\ReturnRep.frx" />
+    <None Include="config\ReportTemplates\TM15Rep.frx" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>

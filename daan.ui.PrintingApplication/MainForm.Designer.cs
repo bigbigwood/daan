@@ -82,8 +82,8 @@ namespace daan.ui.PrintingApplication
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.extendProgressBar = new ExtendProgressBar();
-            this.pagerControl1 = new PagerControl();
+            this.extendProgressBar = new daan.ui.controls.ExtendProgressBar();
+            this.pagerControl1 = new daan.ui.controls.PagerControl();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Message = new System.Windows.Forms.Label();

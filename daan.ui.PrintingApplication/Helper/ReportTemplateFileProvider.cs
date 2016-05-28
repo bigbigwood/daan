@@ -15,7 +15,7 @@ namespace daan.ui.PrintingApplication.Helper
         private static readonly string LocalReportTemplateFilePath = FilePathHelper.BuildPath(ConfigurationManager.AppSettings.Get("LocalReportTemplateFilePath"));
         private static List<ReportTemplateFile> _reportTemplateFileList = new List<ReportTemplateFile>();
 
-        public static void Init(string currentVersion)
+        public static void Initialize(string currentVersion)
         {
             _reportTemplateFileList = GetLocalReportTemplateFiles(currentVersion);
         }

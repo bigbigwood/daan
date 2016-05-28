@@ -35,7 +35,7 @@ namespace daan.ui.PrintingApplication.Helper
         {
             var lines = new List<string>()
                 {
-                    string.Format("ApplicationIdentifier={0}", currentApplicationVersion.ApplicationIdentifier),
+                    //string.Format("ApplicationIdentifier={0}", currentApplicationVersion.ApplicationIdentifier),
                     //string.Format("ApplicationVersion={0}", currentApplicationVersion.ApplicationVersion),
                     string.Format("ReportTemplateVersion={0}", currentApplicationVersion.ReportTemplateVersion),
                 };
@@ -44,11 +44,5 @@ namespace daan.ui.PrintingApplication.Helper
             File.WriteAllLines(path, lines);
         }
 
-
-        public static string BuildApplicationVersionString(ClientApplicationVersion currentApplicationVersion)
-        {
-            //return string.Format("{0} v{1}", currentApplicationVersion.ApplicationIdentifier, currentApplicationVersion.ApplicationVersion);
-            return string.Format("v{0}", currentApplicationVersion.ApplicationVersion);
-        }
     }
 }

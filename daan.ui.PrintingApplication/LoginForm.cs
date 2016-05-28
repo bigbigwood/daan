@@ -8,6 +8,7 @@ using System.Threading;
 using System.Web.UI.Design.WebControls;
 using System.Windows.Forms;
 using daan.ui.PrintingApplication.Helper;
+using daan.ui.PrintingApplication.Versioning;
 using daan.webservice.PrintingSystem.Contract.Messages;
 using daan.webservice.PrintingSystem.Contract.Models.User;
 using log4net;
@@ -57,7 +58,7 @@ namespace daan.ui.PrintingApplication
         {
             string fileName = url.Substring(url.LastIndexOf('/') + 1);
 
-            var result = MessageBox.Show("发现新版本，是否更新？", "更新版本", MessageBoxButtons.YesNo);
+            var result = MessageBox.Show(ConstString.IsUpgradeNewVersion, ConstString.IsUpgradeNewVersion, MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
 
@@ -71,7 +72,7 @@ namespace daan.ui.PrintingApplication
             }
             else
             {
-                ShowMessage("发现新版本，请下载新版本使用...", MessageType.Warning);
+                ShowMessage(ConstString.DetectNewVersionNotification, MessageType.Warning);
                 ControlButtons(true);
             }
         }
@@ -150,25 +151,27 @@ namespace daan.ui.PrintingApplication
                 PrintingApp.OrganizationAssociations = authorizeResponse.OrganizationAssociations.ToList();
                 PrintingApp.ReportTemplates = authorizeResponse.ReportTemplates.ToList();
 
-                Log.Info("Loading system data.");
-                BeginInvoke(new Action<String, MessageType>(ShowMessage), "加载系统配置中...", MessageType.Infomation);
-                ApplicationUpdater updater = new ApplicationUpdater();
-                updater.Initialize();
+                Log.Info("Check updates");
+                BeginInvoke(new Action<String, MessageType>(ShowMessage), "检查更新中...", MessageType.Infomation);
+                ApplicationUpdateChecker updateChecker = new ApplicationUpdateChecker();
+                updateChecker.Initialize();
 
-                ReportTemplateFileProvider.Init(updater.ReportTemplateVersion);
-
-                var applicationUpdateEventType = updater.CheckUpdates();
-                if (applicationUpdateEventType == ApplicationUpdateEventType.ApplicationVersionChanged)
+                var applicationUpdateEventInfo = updateChecker.CheckUpdates();
+                if (applicationUpdateEventInfo.Type == ApplicationUpdateEventType.ApplicationVersionChanged)
                 {
-                    string url = updater.LatestVersionDownloadUrl;
                     Log.Info("New application version detected.");
+                    string url = applicationUpdateEventInfo.LatestVersion.DownloadUrl;
                     Invoke(new Action<string>(ShowAutoUpdateForm), url);
-                    return;
+                    return; // stop process to forbid login to system
+                }
+                else if (applicationUpdateEventInfo.Type == ApplicationUpdateEventType.ReportTemplateVersionChanged)
+                {
+                    var applicationVersionManager = PrintingApp.GetVersionManager();
+                    applicationVersionManager.UpdateReportTemplateVersion(applicationUpdateEventInfo.LatestVersion.ReportTemplateVersion);
                 }
 
-
-                BeginInvoke(new Action<String, MessageType>(ShowMessage), "登陆成功...", MessageType.Infomation);
-                BeginInvoke(new Action(ShowMainForm));
+                Invoke(new Action<String, MessageType>(ShowMessage), "登陆成功...", MessageType.Infomation);
+                Invoke(new Action(ShowMainForm));
             }
             catch (Exception ex)
             {

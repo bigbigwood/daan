@@ -40,7 +40,7 @@ namespace daan.ui.PrintingApplication
         private void MainFormTabImpl_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
-            Text = ConstString.ApplicationTitle + PrintingApp.CurrentApplicationVersion;
+            Text = string.Format("{0} v{1}", ConstString.ApplicationTitle, PrintingApp.GetVersionManager().ApplicationVersion);
             BindQueryGroup();
             BindDataGrid();
         }
