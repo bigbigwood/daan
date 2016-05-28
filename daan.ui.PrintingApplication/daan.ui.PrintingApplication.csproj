@@ -63,7 +63,6 @@
     <Compile Include="Versioning\ApplicationUpdateChecker.cs" />
     <Compile Include="Helper\ComboBoxDataSourceProvider.cs" />
     <Compile Include="ConstString.cs" />
-    <Compile Include="Helper\ClientApplicationVersionExtension.cs" />
     <Compile Include="Helper\FilePathHelper.cs" />
     <Compile Include="PrinterSettingForm.cs">
       <SubType>Form</SubType>
@@ -153,9 +152,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ReportTemplates\1.0.0.0\TM15Rep.frx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ReportTemplates\Versions.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
