@@ -154,6 +154,9 @@
     <Content Include="ReportTemplates\1.0.0.0\TM15Rep.frx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ReportTemplates\Versions.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\daan.ui.controls\daan.ui.controls.csproj">
