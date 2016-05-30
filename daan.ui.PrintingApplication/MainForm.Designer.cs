@@ -42,28 +42,32 @@ namespace daan.ui.PrintingApplication
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
             this.btnPrinterSetting = new System.Windows.Forms.ToolStripButton();
             this.tlp_queryConditions = new System.Windows.Forms.TableLayoutPanel();
+            this.dropProvince = new CCWin.SkinControl.SkinComboBox();
             this.dpSTo = new System.Windows.Forms.DateTimePicker();
             this.dpTo = new System.Windows.Forms.DateTimePicker();
             this.dpFrom = new System.Windows.Forms.DateTimePicker();
             this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel2 = new CCWin.SkinControl.SkinLabel();
-            this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel4 = new CCWin.SkinControl.SkinLabel();
-            this.skinLabel6 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel9 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel10 = new CCWin.SkinControl.SkinLabel();
             this.dropDictLab = new CCWin.SkinControl.SkinComboBox();
             this.dropStatus = new CCWin.SkinControl.SkinComboBox();
             this.dropDictcustomer = new CCWin.SkinControl.SkinComboBox();
-            this.dropReportStatus = new CCWin.SkinControl.SkinComboBox();
-            this.tbxName = new CCWin.SkinControl.SkinTextBox();
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpScanFrom = new System.Windows.Forms.DateTimePicker();
             this.dropNumberType = new CCWin.SkinControl.SkinComboBox();
             this.tlp_scanDateTime = new System.Windows.Forms.TableLayoutPanel();
             this.skinLabel8 = new CCWin.SkinControl.SkinLabel();
             this.cbx_ScanDatetimeEnabled = new System.Windows.Forms.CheckBox();
+            this.dropReportStatus = new CCWin.SkinControl.SkinComboBox();
+            this.skinLabel6 = new CCWin.SkinControl.SkinLabel();
+            this.tbxName = new CCWin.SkinControl.SkinTextBox();
+            this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
+            this.skinLabel11 = new CCWin.SkinControl.SkinLabel();
+            this.tbxSection = new CCWin.SkinControl.SkinTextBox();
+            this.skinLabel5 = new CCWin.SkinControl.SkinLabel();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -271,28 +275,32 @@ namespace daan.ui.PrintingApplication
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tlp_queryConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_queryConditions.Controls.Add(this.dropProvince, 7, 2);
             this.tlp_queryConditions.Controls.Add(this.dpSTo, 7, 1);
             this.tlp_queryConditions.Controls.Add(this.dpTo, 7, 0);
             this.tlp_queryConditions.Controls.Add(this.dpFrom, 5, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel1, 0, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel2, 0, 1);
-            this.tlp_queryConditions.Controls.Add(this.skinLabel3, 0, 2);
             this.tlp_queryConditions.Controls.Add(this.skinLabel4, 2, 0);
-            this.tlp_queryConditions.Controls.Add(this.skinLabel6, 2, 2);
             this.tlp_queryConditions.Controls.Add(this.skinLabel7, 4, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel9, 6, 0);
             this.tlp_queryConditions.Controls.Add(this.skinLabel10, 6, 1);
             this.tlp_queryConditions.Controls.Add(this.dropDictLab, 1, 0);
             this.tlp_queryConditions.Controls.Add(this.dropStatus, 1, 1);
             this.tlp_queryConditions.Controls.Add(this.dropDictcustomer, 3, 0);
-            this.tlp_queryConditions.Controls.Add(this.dropReportStatus, 3, 2);
-            this.tlp_queryConditions.Controls.Add(this.tbxName, 1, 2);
             this.tlp_queryConditions.Controls.Add(this.tbxOrderNum, 3, 1);
             this.tlp_queryConditions.Controls.Add(this.dpScanFrom, 5, 1);
             this.tlp_queryConditions.Controls.Add(this.dropNumberType, 2, 1);
             this.tlp_queryConditions.Controls.Add(this.tlp_scanDateTime, 4, 1);
+            this.tlp_queryConditions.Controls.Add(this.dropReportStatus, 5, 2);
+            this.tlp_queryConditions.Controls.Add(this.skinLabel6, 4, 2);
+            this.tlp_queryConditions.Controls.Add(this.tbxName, 3, 2);
+            this.tlp_queryConditions.Controls.Add(this.skinLabel3, 2, 2);
+            this.tlp_queryConditions.Controls.Add(this.skinLabel11, 6, 2);
+            this.tlp_queryConditions.Controls.Add(this.tbxSection, 1, 2);
+            this.tlp_queryConditions.Controls.Add(this.skinLabel5, 0, 2);
             this.tlp_queryConditions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_queryConditions.Location = new System.Drawing.Point(3, 39);
             this.tlp_queryConditions.Name = "tlp_queryConditions";
@@ -303,15 +311,27 @@ namespace daan.ui.PrintingApplication
             this.tlp_queryConditions.Size = new System.Drawing.Size(1180, 102);
             this.tlp_queryConditions.TabIndex = 4;
             // 
+            // dropProvince
+            // 
+            this.dropProvince.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dropProvince.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropProvince.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dropProvince.FormattingEnabled = true;
+            this.dropProvince.Location = new System.Drawing.Point(983, 70);
+            this.dropProvince.Name = "dropProvince";
+            this.dropProvince.Size = new System.Drawing.Size(194, 28);
+            this.dropProvince.TabIndex = 29;
+            this.dropProvince.WaterText = "";
+            // 
             // dpSTo
             // 
             this.dpSTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dpSTo.CustomFormat = "yyyy-MM-dd";
             this.dpSTo.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpSTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpSTo.Location = new System.Drawing.Point(977, 36);
+            this.dpSTo.Location = new System.Drawing.Point(983, 36);
             this.dpSTo.Name = "dpSTo";
-            this.dpSTo.Size = new System.Drawing.Size(200, 27);
+            this.dpSTo.Size = new System.Drawing.Size(194, 27);
             this.dpSTo.TabIndex = 23;
             this.dpSTo.Value = new System.DateTime(2016, 5, 7, 0, 0, 0, 0);
             // 
@@ -321,9 +341,9 @@ namespace daan.ui.PrintingApplication
             this.dpTo.CustomFormat = "yyyy-MM-dd";
             this.dpTo.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpTo.Location = new System.Drawing.Point(977, 3);
+            this.dpTo.Location = new System.Drawing.Point(983, 3);
             this.dpTo.Name = "dpTo";
-            this.dpTo.Size = new System.Drawing.Size(200, 27);
+            this.dpTo.Size = new System.Drawing.Size(194, 27);
             this.dpTo.TabIndex = 22;
             this.dpTo.Value = new System.DateTime(2016, 5, 7, 0, 0, 0, 0);
             // 
@@ -333,9 +353,9 @@ namespace daan.ui.PrintingApplication
             this.dpFrom.CustomFormat = "yyyy-MM-dd";
             this.dpFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpFrom.Location = new System.Drawing.Point(733, 3);
+            this.dpFrom.Location = new System.Drawing.Point(723, 3);
             this.dpFrom.Name = "dpFrom";
-            this.dpFrom.Size = new System.Drawing.Size(199, 27);
+            this.dpFrom.Size = new System.Drawing.Size(194, 27);
             this.dpFrom.TabIndex = 21;
             this.dpFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
@@ -365,19 +385,6 @@ namespace daan.ui.PrintingApplication
             this.skinLabel2.TabIndex = 1;
             this.skinLabel2.Text = "状态:";
             // 
-            // skinLabel3
-            // 
-            this.skinLabel3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.skinLabel3.AutoSize = true;
-            this.skinLabel3.BackColor = System.Drawing.Color.Transparent;
-            this.skinLabel3.BorderColor = System.Drawing.Color.White;
-            this.skinLabel3.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel3.Location = new System.Drawing.Point(29, 75);
-            this.skinLabel3.Name = "skinLabel3";
-            this.skinLabel3.Size = new System.Drawing.Size(58, 19);
-            this.skinLabel3.TabIndex = 2;
-            this.skinLabel3.Text = "关键词:";
-            // 
             // skinLabel4
             // 
             this.skinLabel4.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -385,24 +392,11 @@ namespace daan.ui.PrintingApplication
             this.skinLabel4.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel4.BorderColor = System.Drawing.Color.White;
             this.skinLabel4.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel4.Location = new System.Drawing.Point(319, 7);
+            this.skinLabel4.Location = new System.Drawing.Point(314, 7);
             this.skinLabel4.Name = "skinLabel4";
             this.skinLabel4.Size = new System.Drawing.Size(73, 19);
             this.skinLabel4.TabIndex = 3;
             this.skinLabel4.Text = "体检单位:";
-            // 
-            // skinLabel6
-            // 
-            this.skinLabel6.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.skinLabel6.AutoSize = true;
-            this.skinLabel6.BackColor = System.Drawing.Color.Transparent;
-            this.skinLabel6.BorderColor = System.Drawing.Color.White;
-            this.skinLabel6.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel6.Location = new System.Drawing.Point(319, 75);
-            this.skinLabel6.Name = "skinLabel6";
-            this.skinLabel6.Size = new System.Drawing.Size(73, 19);
-            this.skinLabel6.TabIndex = 5;
-            this.skinLabel6.Text = "报告状态:";
             // 
             // skinLabel7
             // 
@@ -411,7 +405,7 @@ namespace daan.ui.PrintingApplication
             this.skinLabel7.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel7.BorderColor = System.Drawing.Color.White;
             this.skinLabel7.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel7.Location = new System.Drawing.Point(654, 7);
+            this.skinLabel7.Location = new System.Drawing.Point(644, 7);
             this.skinLabel7.Name = "skinLabel7";
             this.skinLabel7.Size = new System.Drawing.Size(73, 19);
             this.skinLabel7.TabIndex = 6;
@@ -424,7 +418,7 @@ namespace daan.ui.PrintingApplication
             this.skinLabel9.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel9.BorderColor = System.Drawing.Color.White;
             this.skinLabel9.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel9.Location = new System.Drawing.Point(943, 7);
+            this.skinLabel9.Location = new System.Drawing.Point(949, 7);
             this.skinLabel9.Name = "skinLabel9";
             this.skinLabel9.Size = new System.Drawing.Size(28, 19);
             this.skinLabel9.TabIndex = 8;
@@ -437,7 +431,7 @@ namespace daan.ui.PrintingApplication
             this.skinLabel10.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel10.BorderColor = System.Drawing.Color.White;
             this.skinLabel10.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skinLabel10.Location = new System.Drawing.Point(943, 40);
+            this.skinLabel10.Location = new System.Drawing.Point(949, 40);
             this.skinLabel10.Name = "skinLabel10";
             this.skinLabel10.Size = new System.Drawing.Size(28, 19);
             this.skinLabel10.TabIndex = 9;
@@ -451,7 +445,7 @@ namespace daan.ui.PrintingApplication
             this.dropDictLab.FormattingEnabled = true;
             this.dropDictLab.Location = new System.Drawing.Point(93, 3);
             this.dropDictLab.Name = "dropDictLab";
-            this.dropDictLab.Size = new System.Drawing.Size(199, 28);
+            this.dropDictLab.Size = new System.Drawing.Size(194, 28);
             this.dropDictLab.TabIndex = 10;
             this.dropDictLab.WaterText = "";
             this.dropDictLab.SelectedIndexChanged += new System.EventHandler(this.dropDictLab_SelectedIndexChanged);
@@ -464,7 +458,7 @@ namespace daan.ui.PrintingApplication
             this.dropStatus.FormattingEnabled = true;
             this.dropStatus.Location = new System.Drawing.Point(93, 36);
             this.dropStatus.Name = "dropStatus";
-            this.dropStatus.Size = new System.Drawing.Size(199, 28);
+            this.dropStatus.Size = new System.Drawing.Size(194, 28);
             this.dropStatus.TabIndex = 11;
             this.dropStatus.WaterText = "";
             // 
@@ -474,66 +468,11 @@ namespace daan.ui.PrintingApplication
             this.dropDictcustomer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropDictcustomer.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropDictcustomer.FormattingEnabled = true;
-            this.dropDictcustomer.Location = new System.Drawing.Point(398, 3);
+            this.dropDictcustomer.Location = new System.Drawing.Point(393, 3);
             this.dropDictcustomer.Name = "dropDictcustomer";
-            this.dropDictcustomer.Size = new System.Drawing.Size(199, 28);
+            this.dropDictcustomer.Size = new System.Drawing.Size(194, 28);
             this.dropDictcustomer.TabIndex = 12;
             this.dropDictcustomer.WaterText = "";
-            // 
-            // dropReportStatus
-            // 
-            this.dropReportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.dropReportStatus.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dropReportStatus.FormattingEnabled = true;
-            this.dropReportStatus.Location = new System.Drawing.Point(398, 70);
-            this.dropReportStatus.Name = "dropReportStatus";
-            this.dropReportStatus.Size = new System.Drawing.Size(199, 28);
-            this.dropReportStatus.TabIndex = 13;
-            this.dropReportStatus.WaterText = "";
-            // 
-            // tbxName
-            // 
-            this.tbxName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxName.BackColor = System.Drawing.Color.Transparent;
-            this.tbxName.DownBack = null;
-            this.tbxName.Icon = null;
-            this.tbxName.IconIsButton = false;
-            this.tbxName.IconMouseState = CCWin.SkinClass.ControlState.Normal;
-            this.tbxName.IsPasswordChat = '\0';
-            this.tbxName.IsSystemPasswordChar = false;
-            this.tbxName.Lines = new string[0];
-            this.tbxName.Location = new System.Drawing.Point(90, 67);
-            this.tbxName.Margin = new System.Windows.Forms.Padding(0);
-            this.tbxName.MaxLength = 32767;
-            this.tbxName.MinimumSize = new System.Drawing.Size(32, 34);
-            this.tbxName.MouseBack = null;
-            this.tbxName.MouseState = CCWin.SkinClass.ControlState.Normal;
-            this.tbxName.Multiline = true;
-            this.tbxName.Name = "tbxName";
-            this.tbxName.NormlBack = null;
-            this.tbxName.Padding = new System.Windows.Forms.Padding(6);
-            this.tbxName.ReadOnly = false;
-            this.tbxName.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbxName.Size = new System.Drawing.Size(205, 34);
-            // 
-            // 
-            // 
-            this.tbxName.SkinTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbxName.SkinTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbxName.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxName.SkinTxt.Location = new System.Drawing.Point(6, 6);
-            this.tbxName.SkinTxt.Multiline = true;
-            this.tbxName.SkinTxt.Name = "BaseText";
-            this.tbxName.SkinTxt.Size = new System.Drawing.Size(193, 22);
-            this.tbxName.SkinTxt.TabIndex = 0;
-            this.tbxName.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
-            this.tbxName.SkinTxt.WaterText = "";
-            this.tbxName.TabIndex = 18;
-            this.tbxName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.tbxName.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
-            this.tbxName.WaterText = "";
-            this.tbxName.WordWrap = true;
             // 
             // tbxOrderNum
             // 
@@ -546,7 +485,7 @@ namespace daan.ui.PrintingApplication
             this.tbxOrderNum.IsPasswordChat = '\0';
             this.tbxOrderNum.IsSystemPasswordChar = false;
             this.tbxOrderNum.Lines = new string[0];
-            this.tbxOrderNum.Location = new System.Drawing.Point(395, 33);
+            this.tbxOrderNum.Location = new System.Drawing.Point(390, 33);
             this.tbxOrderNum.Margin = new System.Windows.Forms.Padding(0);
             this.tbxOrderNum.MaxLength = 32767;
             this.tbxOrderNum.MinimumSize = new System.Drawing.Size(32, 34);
@@ -558,7 +497,7 @@ namespace daan.ui.PrintingApplication
             this.tbxOrderNum.Padding = new System.Windows.Forms.Padding(6);
             this.tbxOrderNum.ReadOnly = false;
             this.tbxOrderNum.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbxOrderNum.Size = new System.Drawing.Size(205, 34);
+            this.tbxOrderNum.Size = new System.Drawing.Size(200, 34);
             // 
             // 
             // 
@@ -568,7 +507,7 @@ namespace daan.ui.PrintingApplication
             this.tbxOrderNum.SkinTxt.Location = new System.Drawing.Point(6, 6);
             this.tbxOrderNum.SkinTxt.Multiline = true;
             this.tbxOrderNum.SkinTxt.Name = "BaseText";
-            this.tbxOrderNum.SkinTxt.Size = new System.Drawing.Size(193, 22);
+            this.tbxOrderNum.SkinTxt.Size = new System.Drawing.Size(188, 22);
             this.tbxOrderNum.SkinTxt.TabIndex = 0;
             this.tbxOrderNum.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.tbxOrderNum.SkinTxt.WaterText = "";
@@ -584,9 +523,9 @@ namespace daan.ui.PrintingApplication
             this.dpScanFrom.CustomFormat = "yyyy-MM-dd";
             this.dpScanFrom.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dpScanFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dpScanFrom.Location = new System.Drawing.Point(733, 36);
+            this.dpScanFrom.Location = new System.Drawing.Point(723, 36);
             this.dpScanFrom.Name = "dpScanFrom";
-            this.dpScanFrom.Size = new System.Drawing.Size(199, 27);
+            this.dpScanFrom.Size = new System.Drawing.Size(194, 27);
             this.dpScanFrom.TabIndex = 20;
             this.dpScanFrom.Value = new System.DateTime(2016, 4, 1, 0, 0, 0, 0);
             // 
@@ -596,7 +535,7 @@ namespace daan.ui.PrintingApplication
             this.dropNumberType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.dropNumberType.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropNumberType.FormattingEnabled = true;
-            this.dropNumberType.Location = new System.Drawing.Point(314, 36);
+            this.dropNumberType.Location = new System.Drawing.Point(309, 36);
             this.dropNumberType.Name = "dropNumberType";
             this.dropNumberType.Size = new System.Drawing.Size(78, 28);
             this.dropNumberType.TabIndex = 24;
@@ -609,7 +548,7 @@ namespace daan.ui.PrintingApplication
             this.tlp_scanDateTime.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlp_scanDateTime.Controls.Add(this.skinLabel8, 1, 0);
             this.tlp_scanDateTime.Controls.Add(this.cbx_ScanDatetimeEnabled, 0, 0);
-            this.tlp_scanDateTime.Location = new System.Drawing.Point(603, 36);
+            this.tlp_scanDateTime.Location = new System.Drawing.Point(593, 36);
             this.tlp_scanDateTime.Name = "tlp_scanDateTime";
             this.tlp_scanDateTime.RowCount = 1;
             this.tlp_scanDateTime.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -639,6 +578,156 @@ namespace daan.ui.PrintingApplication
             this.cbx_ScanDatetimeEnabled.TabIndex = 8;
             this.cbx_ScanDatetimeEnabled.UseVisualStyleBackColor = true;
             this.cbx_ScanDatetimeEnabled.CheckedChanged += new System.EventHandler(this.cbx_ScanDatetimeEnabled_CheckedChanged);
+            // 
+            // dropReportStatus
+            // 
+            this.dropReportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dropReportStatus.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dropReportStatus.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dropReportStatus.FormattingEnabled = true;
+            this.dropReportStatus.Location = new System.Drawing.Point(723, 70);
+            this.dropReportStatus.Name = "dropReportStatus";
+            this.dropReportStatus.Size = new System.Drawing.Size(194, 28);
+            this.dropReportStatus.TabIndex = 13;
+            this.dropReportStatus.WaterText = "";
+            // 
+            // skinLabel6
+            // 
+            this.skinLabel6.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.skinLabel6.AutoSize = true;
+            this.skinLabel6.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel6.BorderColor = System.Drawing.Color.White;
+            this.skinLabel6.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel6.Location = new System.Drawing.Point(644, 75);
+            this.skinLabel6.Name = "skinLabel6";
+            this.skinLabel6.Size = new System.Drawing.Size(73, 19);
+            this.skinLabel6.TabIndex = 5;
+            this.skinLabel6.Text = "报告状态:";
+            // 
+            // tbxName
+            // 
+            this.tbxName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxName.BackColor = System.Drawing.Color.Transparent;
+            this.tbxName.DownBack = null;
+            this.tbxName.Icon = null;
+            this.tbxName.IconIsButton = false;
+            this.tbxName.IconMouseState = CCWin.SkinClass.ControlState.Normal;
+            this.tbxName.IsPasswordChat = '\0';
+            this.tbxName.IsSystemPasswordChar = false;
+            this.tbxName.Lines = new string[0];
+            this.tbxName.Location = new System.Drawing.Point(390, 67);
+            this.tbxName.Margin = new System.Windows.Forms.Padding(0);
+            this.tbxName.MaxLength = 32767;
+            this.tbxName.MinimumSize = new System.Drawing.Size(32, 34);
+            this.tbxName.MouseBack = null;
+            this.tbxName.MouseState = CCWin.SkinClass.ControlState.Normal;
+            this.tbxName.Multiline = true;
+            this.tbxName.Name = "tbxName";
+            this.tbxName.NormlBack = null;
+            this.tbxName.Padding = new System.Windows.Forms.Padding(6);
+            this.tbxName.ReadOnly = false;
+            this.tbxName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tbxName.Size = new System.Drawing.Size(200, 34);
+            // 
+            // 
+            // 
+            this.tbxName.SkinTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbxName.SkinTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbxName.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxName.SkinTxt.Location = new System.Drawing.Point(6, 6);
+            this.tbxName.SkinTxt.Multiline = true;
+            this.tbxName.SkinTxt.Name = "BaseText";
+            this.tbxName.SkinTxt.Size = new System.Drawing.Size(188, 22);
+            this.tbxName.SkinTxt.TabIndex = 0;
+            this.tbxName.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.tbxName.SkinTxt.WaterText = "";
+            this.tbxName.TabIndex = 18;
+            this.tbxName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.tbxName.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.tbxName.WaterText = "";
+            this.tbxName.WordWrap = true;
+            // 
+            // skinLabel3
+            // 
+            this.skinLabel3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.skinLabel3.AutoSize = true;
+            this.skinLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel3.BorderColor = System.Drawing.Color.White;
+            this.skinLabel3.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel3.Location = new System.Drawing.Point(329, 75);
+            this.skinLabel3.Name = "skinLabel3";
+            this.skinLabel3.Size = new System.Drawing.Size(58, 19);
+            this.skinLabel3.TabIndex = 2;
+            this.skinLabel3.Text = "关键词:";
+            // 
+            // skinLabel11
+            // 
+            this.skinLabel11.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.skinLabel11.AutoSize = true;
+            this.skinLabel11.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel11.BorderColor = System.Drawing.Color.White;
+            this.skinLabel11.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.skinLabel11.Location = new System.Drawing.Point(934, 74);
+            this.skinLabel11.Name = "skinLabel11";
+            this.skinLabel11.Size = new System.Drawing.Size(43, 20);
+            this.skinLabel11.TabIndex = 28;
+            this.skinLabel11.Text = "省份:";
+            // 
+            // tbxSection
+            // 
+            this.tbxSection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSection.BackColor = System.Drawing.Color.Transparent;
+            this.tbxSection.DownBack = null;
+            this.tbxSection.Icon = null;
+            this.tbxSection.IconIsButton = false;
+            this.tbxSection.IconMouseState = CCWin.SkinClass.ControlState.Normal;
+            this.tbxSection.IsPasswordChat = '\0';
+            this.tbxSection.IsSystemPasswordChar = false;
+            this.tbxSection.Lines = new string[0];
+            this.tbxSection.Location = new System.Drawing.Point(90, 67);
+            this.tbxSection.Margin = new System.Windows.Forms.Padding(0);
+            this.tbxSection.MaxLength = 32767;
+            this.tbxSection.MinimumSize = new System.Drawing.Size(32, 34);
+            this.tbxSection.MouseBack = null;
+            this.tbxSection.MouseState = CCWin.SkinClass.ControlState.Normal;
+            this.tbxSection.Multiline = true;
+            this.tbxSection.Name = "tbxSection";
+            this.tbxSection.NormlBack = null;
+            this.tbxSection.Padding = new System.Windows.Forms.Padding(6);
+            this.tbxSection.ReadOnly = false;
+            this.tbxSection.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tbxSection.Size = new System.Drawing.Size(200, 34);
+            // 
+            // 
+            // 
+            this.tbxSection.SkinTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbxSection.SkinTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbxSection.SkinTxt.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxSection.SkinTxt.Location = new System.Drawing.Point(6, 6);
+            this.tbxSection.SkinTxt.Multiline = true;
+            this.tbxSection.SkinTxt.Name = "BaseText";
+            this.tbxSection.SkinTxt.Size = new System.Drawing.Size(188, 22);
+            this.tbxSection.SkinTxt.TabIndex = 0;
+            this.tbxSection.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.tbxSection.SkinTxt.WaterText = "";
+            this.tbxSection.TabIndex = 27;
+            this.tbxSection.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.tbxSection.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.tbxSection.WaterText = "";
+            this.tbxSection.WordWrap = true;
+            // 
+            // skinLabel5
+            // 
+            this.skinLabel5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.skinLabel5.AutoSize = true;
+            this.skinLabel5.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel5.BorderColor = System.Drawing.Color.White;
+            this.skinLabel5.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinLabel5.Location = new System.Drawing.Point(14, 75);
+            this.skinLabel5.Name = "skinLabel5";
+            this.skinLabel5.Size = new System.Drawing.Size(73, 19);
+            this.skinLabel5.TabIndex = 26;
+            this.skinLabel5.Text = "部门机构:";
             // 
             // dgv_orders
             // 
@@ -984,5 +1073,9 @@ namespace daan.ui.PrintingApplication
         private System.Windows.Forms.TableLayoutPanel tlp_scanDateTime;
         private System.Windows.Forms.CheckBox cbx_ScanDatetimeEnabled;
         private System.Windows.Forms.ToolStripButton btnPrinterSetting;
+        private CCWin.SkinControl.SkinComboBox dropProvince;
+        private CCWin.SkinControl.SkinTextBox tbxSection;
+        private CCWin.SkinControl.SkinLabel skinLabel5;
+        private CCWin.SkinControl.SkinLabel skinLabel11;
     }
 }

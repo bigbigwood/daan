@@ -55,6 +55,8 @@ namespace daan.webservice.PrintingSystem.Operations
                 htPara.Add("status", request.OrderStatus); ;
                 htPara.Add("name", request.Keyword);
                 htPara.Add("reportstatus", request.ReportStatus);
+                htPara.Add("section", request.Section);
+                htPara.Add("province", request.Province);
 
                 if (!string.IsNullOrWhiteSpace(request.SamplingDateBegin))
                     htPara.Add("SamplingDateBegin", request.SamplingDateBegin);

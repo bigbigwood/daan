@@ -44,5 +44,11 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
 
         [MessageBodyMember(Order = 13)]
         public String ReportStatus { get; set; }
+
+        [MessageBodyMember(Order = 14)]
+        public String Section { get; set; }
+
+        [MessageBodyMember(Order = 15)]
+        public String Province { get; set; }
     }
 }

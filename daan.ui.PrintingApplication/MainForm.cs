@@ -91,6 +91,8 @@ namespace daan.ui.PrintingApplication
             dropNumberType.DisplayMember = "EnumDisplayText";
             dropNumberType.SelectedValue = 1;
 
+            dropProvince.DataSource = comboBoxDataSourceProvider.GetProvinceDataSource();
+
             var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = ConstString.ALL } };
             labList.AddRange(PrintingApp.LabAssociations);
             dropDictLab.DataSource = labList;
@@ -154,6 +156,7 @@ namespace daan.ui.PrintingApplication
             request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
             request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
             request.Keyword = tbxName.Text;
+            request.Section = tbxSection.Text;
             
             if (dpScanFrom.Enabled)
                 request.SamplingDateBegin = dpScanFrom.Value.ToString(ConstString.DateFormat);
@@ -169,6 +172,7 @@ namespace daan.ui.PrintingApplication
             request.Dictcustomerid = (dropDictcustomer.SelectedValue.ToString() != "-1") ? dropDictcustomer.SelectedValue.ToString() : null;
             request.OrderStatus = (dropStatus.SelectedValue.ToString() != "-1") ? dropStatus.SelectedValue.ToString() : null;
             request.ReportStatus = (dropReportStatus.SelectedValue.ToString() != "-1") ? dropReportStatus.SelectedValue.ToString() : null;
+            request.Province = (dropProvince.SelectedValue.ToString() != ConstString.ALL) ? dropProvince.SelectedValue.ToString() : null;
 
             return request;
         }
