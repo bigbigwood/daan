@@ -208,7 +208,7 @@
     <select id="Dict.GetDictcustomerInfo" parameterClass="Double" resultMap="DictcustomerResult">
       SELECT Dictcustomerid,Customercode,Fastcode,Customername,Customerengname,Engaddress,Displayorder,Address,Telephone,Fax,Postcode,Contactman,Contactphone,
       Email, Active,Remark,Status,Erpcode,Erpname,Documenttype,Documentcode, Dictsalemanid,Dictcheckbillid,Lastupdatedate,Dictlabid, Customertype,Reporttitle,
-      Issms,Customername2,IsPublic,YGSyncStatus,DZSyncStatus FROM Dictcustomer where  Dictcustomerid=#value#
+      Issms,Customername2,IsPublic,YGSyncStatus,DZSyncStatus FROM Dictcustomer where  (Dictcustomerid=#value# or Customercode='$value$')
     </select>
     <!--查询未同步单位信息的单位列表-->
     <select id="Dict.GetNotSynchronizedInfoList" parameterClass="Hashtable">

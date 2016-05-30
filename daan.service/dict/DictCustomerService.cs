@@ -63,6 +63,10 @@ namespace daan.service.dict
         {
             return this.selectObj<Dictcustomer>("Dict.GetDictcustomerInfo", dictlabId);
         }
+        public Dictcustomer GetDictCustomerInfo(string str)
+        {
+            return this.selectObj<Dictcustomer>("Dict.GetDictcustomerInfo", str);
+        }
         #endregion
         
 

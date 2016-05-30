@@ -63,7 +63,9 @@ namespace daan.domain
         private string reportexceptionreason;
         private DateTime? expreportdate;
 
-        //private string area;
+        private string area;
+        private string batchnumber;
+        private string accountmanager;
         #endregion
 
         #region Default ( Empty ) Class Constuctor
@@ -114,7 +116,9 @@ namespace daan.domain
             reportstatus = "";
             reportexceptionreason = "";
             expreportdate = null;
-            //area = null;
+            area = null;
+            batchnumber = null;
+            accountmanager = null;
         }
         #endregion // End of Default ( Empty ) Class Constuctor
 
@@ -637,12 +641,32 @@ namespace daan.domain
         /// <summary>
         /// 营业区
         /// </summary>	
-        //[LogInfo("营业区")]
-        //public string Area
-        //{
-        //    get { return area; }
-        //    set { isChanged |= (area != value); area = value; }
-        //}
+        [LogInfo("营业区")]
+        public string Area
+        {
+            get { return area; }
+            set { isChanged |= (area != value); area = value; }
+        }
+
+        /// <summary>
+        /// 场次号
+        /// </summary>	
+        [LogInfo("场次号")]
+        public string BatchNumber
+        {
+            get { return batchnumber; }
+            set { isChanged |= (batchnumber != value); batchnumber = value; }
+        }
+
+        /// <summary>
+        /// 客户经理
+        /// </summary>
+        [LogInfo("客户经理")]
+        public string AccountManager
+        {
+            get { return accountmanager; }
+            set { isChanged |= (accountmanager != value); accountmanager = value; }
+        }
 
         /// <summary>
         /// 是否结婚 1是  0 否 2 未知，对应规则公式全部

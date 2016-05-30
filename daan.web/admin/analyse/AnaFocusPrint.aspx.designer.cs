@@ -310,6 +310,15 @@ namespace daan.web.admin.analyse {
         protected global::ExtAspNet.FormRow FormRow3;
         
         /// <summary>
+        /// tbxSection 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxSection;
+        
+        /// <summary>
         /// tbxName 控件。
         /// </summary>
         /// <remarks>
@@ -328,22 +337,13 @@ namespace daan.web.admin.analyse {
         protected global::ExtAspNet.DropDownList dropReportStatus;
         
         /// <summary>
-        /// label2 控件。
+        /// dpProvince 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.Label label2;
-        
-        /// <summary>
-        /// label3 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::ExtAspNet.Label label3;
+        protected global::ExtAspNet.DropDownList dpProvince;
         
         /// <summary>
         /// Region2 控件。

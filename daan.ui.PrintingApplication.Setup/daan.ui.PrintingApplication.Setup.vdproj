@@ -15,74 +15,44 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0DBFF474E95EEE6B11C4F94775999740"
-        "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0DBFF474E95EEE6B11C4F94775999740"
-        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0DBFF474E95EEE6B11C4F94775999740"
-        "OwnerKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_163A0EC50A7697FE0EC3C6CAF85D4E2C"
-        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_163A0EC50A7697FE0EC3C6CAF85D4E2C"
-        "OwnerKey" = "8:_EF3E2ECB354757F6E2E07A244523F4F7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2BAA902C18D22D1030C79B5A41138BB3"
-        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
+        "MsmKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
         "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
-        "OwnerKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
+        "MsmKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_60174065904EA0BD05EE7F22BBD10409"
-        "OwnerKey" = "8:_EF3E2ECB354757F6E2E07A244523F4F7"
+        "MsmKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
+        "OwnerKey" = "8:_547B2B0770F7FFF18AAB5681EB4D7AB1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_60174065904EA0BD05EE7F22BBD10409"
+        "MsmKey" = "8:_547B2B0770F7FFF18AAB5681EB4D7AB1"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6BFD974101A968275B04CDBCAC6169D2"
+        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6BFD974101A968275B04CDBCAC6169D2"
+        "OwnerKey" = "8:_96B78F5704DF6175F86AD44E5A2D4249"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -93,32 +63,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7C2D27174A39590B867A89CD025561FB"
+        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
-        "OwnerKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
+        "MsmKey" = "8:_96B78F5704DF6175F86AD44E5A2D4249"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
-        "OwnerKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
+        "MsmKey" = "8:_B82573D38DABF7F441CE601DC562A9BF"
+        "OwnerKey" = "8:_96B78F5704DF6175F86AD44E5A2D4249"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
-        "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
+        "MsmKey" = "8:_B82573D38DABF7F441CE601DC562A9BF"
+        "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -129,13 +99,43 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EF3E2ECB354757F6E2E07A244523F4F7"
+        "MsmKey" = "8:_F0F7D171CC94374006795F642A74B025"
+        "OwnerKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F0F7D171CC94374006795F642A74B025"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
+        "MsmKey" = "8:_F0F7D171CC94374006795F642A74B025"
+        "OwnerKey" = "8:_547B2B0770F7FFF18AAB5681EB4D7AB1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F0F7D171CC94374006795F642A74B025"
+        "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
+        "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
+        "OwnerKey" = "8:_547B2B0770F7FFF18AAB5681EB4D7AB1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
         "OwnerKey" = "8:_869A850BDACA49129E315E6205EEFC2B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -148,31 +148,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EF3E2ECB354757F6E2E07A244523F4F7"
+        "OwnerKey" = "8:_96B78F5704DF6175F86AD44E5A2D4249"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_60174065904EA0BD05EE7F22BBD10409"
+        "OwnerKey" = "8:_B82573D38DABF7F441CE601DC562A9BF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_163A0EC50A7697FE0EC3C6CAF85D4E2C"
+        "OwnerKey" = "8:_6BFD974101A968275B04CDBCAC6169D2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2BAA902C18D22D1030C79B5A41138BB3"
+        "OwnerKey" = "8:_7C2D27174A39590B867A89CD025561FB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F9922EA7E00EF8082159F715A3769EA3"
+        "OwnerKey" = "8:_547B2B0770F7FFF18AAB5681EB4D7AB1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -184,19 +184,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0DBFF474E95EEE6B11C4F94775999740"
+        "OwnerKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4299F88F31D64F89DB9AE8A2B10963B2"
+        "OwnerKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B590ED326112670C30AA2C8A9E65EB17"
+        "OwnerKey" = "8:_F0F7D171CC94374006795F642A74B025"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -304,14 +304,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0DBFF474E95EEE6B11C4F94775999740"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_521ED18BFC034CF97856D0530DD5EB37"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821"
                 "ScatterAssemblies"
                 {
-                    "_0DBFF474E95EEE6B11C4F94775999740"
+                    "_521ED18BFC034CF97856D0530DD5EB37"
                     {
                     "Name" = "8:log4net.dll"
                     "Attributes" = "3:512"
@@ -335,113 +335,51 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_163A0EC50A7697FE0EC3C6CAF85D4E2C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_547B2B0770F7FFF18AAB5681EB4D7AB1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:daan.ui.PrintingApplication.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_547B2B0770F7FFF18AAB5681EB4D7AB1"
+                    {
+                    "Name" = "8:daan.ui.PrintingApplication.Update.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:daan.ui.PrintingApplication.Update.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6BFD974101A968275B04CDBCAC6169D2"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:FastReport.Bars, Version=1.7.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_163A0EC50A7697FE0EC3C6CAF85D4E2C"
+                    "_6BFD974101A968275B04CDBCAC6169D2"
                     {
                     "Name" = "8:FastReport.Bars.dll"
                     "Attributes" = "3:512"
                     }
                 }
             "SourcePath" = "8:FastReport.Bars.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2BAA902C18D22D1030C79B5A41138BB3"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:daan.webservice.PrintingSystem.Contract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2BAA902C18D22D1030C79B5A41138BB3"
-                    {
-                    "Name" = "8:daan.webservice.PrintingSystem.Contract.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:daan.webservice.PrintingSystem.Contract.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4299F88F31D64F89DB9AE8A2B10963B2"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:daan.ui.controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_4299F88F31D64F89DB9AE8A2B10963B2"
-                    {
-                    "Name" = "8:daan.ui.controls.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:daan.ui.controls.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_60174065904EA0BD05EE7F22BBD10409"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:FastReport.Editor, Version=1.7.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_60174065904EA0BD05EE7F22BBD10409"
-                    {
-                    "Name" = "8:FastReport.Editor.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:FastReport.Editor.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
@@ -479,20 +417,82 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B590ED326112670C30AA2C8A9E65EB17"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7C2D27174A39590B867A89CD025561FB"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CSkin, Version=16.1.14.1, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:daan.webservice.PrintingSystem.Contract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B590ED326112670C30AA2C8A9E65EB17"
+                    "_7C2D27174A39590B867A89CD025561FB"
                     {
-                    "Name" = "8:CSkin.dll"
+                    "Name" = "8:daan.webservice.PrintingSystem.Contract.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:CSkin.dll"
+            "SourcePath" = "8:daan.webservice.PrintingSystem.Contract.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_96B78F5704DF6175F86AD44E5A2D4249"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:FastReport, Version=1.7.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_96B78F5704DF6175F86AD44E5A2D4249"
+                    {
+                    "Name" = "8:FastReport.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:FastReport.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B82573D38DABF7F441CE601DC562A9BF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:FastReport.Editor, Version=1.7.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_B82573D38DABF7F441CE601DC562A9BF"
+                    {
+                    "Name" = "8:FastReport.Editor.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:FastReport.Editor.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
@@ -530,20 +530,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EF3E2ECB354757F6E2E07A244523F4F7"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F0F7D171CC94374006795F642A74B025"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:FastReport, Version=1.7.1.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:CSkin, Version=16.1.14.1, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_EF3E2ECB354757F6E2E07A244523F4F7"
+                    "_F0F7D171CC94374006795F642A74B025"
                     {
-                    "Name" = "8:FastReport.dll"
+                    "Name" = "8:CSkin.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:FastReport.dll"
+            "SourcePath" = "8:CSkin.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
@@ -561,20 +561,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F9922EA7E00EF8082159F715A3769EA3"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FDC27CC26CA4FB4AEA9CF4733283C099"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:daan.ui.PrintingApplication.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:daan.ui.controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F9922EA7E00EF8082159F715A3769EA3"
+                    "_FDC27CC26CA4FB4AEA9CF4733283C099"
                     {
-                    "Name" = "8:daan.ui.PrintingApplication.Update.exe"
+                    "Name" = "8:daan.ui.controls.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:daan.ui.PrintingApplication.Update.exe"
+            "SourcePath" = "8:daan.ui.controls.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2E63DD9017C446EBBA8855FDB28FD8A2"
@@ -670,15 +670,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:打印报告客户端"
-        "ProductCode" = "8:{77CA79E9-0972-4E61-BE66-8E81B27C2173}"
-        "PackageCode" = "8:{C618CB22-945F-4F2D-A409-A2F75F272253}"
+        "ProductCode" = "8:{C60EEE1D-654D-45BB-8E1A-D6D7CDF0CF61}"
+        "PackageCode" = "8:{A206D79F-3767-4814-8D14-33A7217501BC}"
         "UpgradeCode" = "8:{97D2C556-A83C-48B7-8C69-4B0F9D75D6A8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.4.0"
         "Manufacturer" = "8:达安健康"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -822,7 +822,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F895FF1D2AF04FF79959BDFFB49CEEA1"
             {
             "Name" = "8:卸载"
-            "Arguments" = "8:/x {77CA79E9-0972-4E61-BE66-8E81B27C2173}"
+            "Arguments" = "8:/x {C60EEE1D-654D-45BB-8E1A-D6D7CDF0CF61}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
@@ -846,7 +846,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_6229601224FC4D3794B861B99CF32B73"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Progress"
+                    "DisplayName" = "8:进度"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminProgressDlg.wid"
@@ -890,7 +890,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_E12A6C41E1BA4724A367BA616902A449"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Finished"
+                    "DisplayName" = "8:已完成"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
@@ -940,7 +940,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_839C5840E53640E681D45CCA8CA5DCB6"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Finished"
+                    "DisplayName" = "8:已完成"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"
@@ -971,7 +971,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_23061556C42945359EA3BDEDB22B73AE"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Installation Folder"
+                    "DisplayName" = "8:安装文件夹"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
@@ -1006,7 +1006,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_97BD6385DA114EF1A9C0CBE30BB9B711"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Welcome"
+                    "DisplayName" = "8:欢迎使用"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdWelcomeDlg.wid"
@@ -1054,7 +1054,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_99BB8AC34674417EB62873839B5D3DFC"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Confirm Installation"
+                    "DisplayName" = "8:确认安装"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdConfirmDlg.wid"
@@ -1091,7 +1091,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_D1B280F0A40C41819DBAD02A7BAE0050"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Progress"
+                    "DisplayName" = "8:进度"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdProgressDlg.wid"
@@ -1135,7 +1135,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_002837E5BB6147DCA0CE4324988F5286"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Confirm Installation"
+                    "DisplayName" = "8:确认安装"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
@@ -1157,7 +1157,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_053B3789487842F9A294C5A69B572AE5"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Installation Folder"
+                    "DisplayName" = "8:安装文件夹"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFolderDlg.wid"
@@ -1179,7 +1179,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_B77D9211CD7B47BFB336CCA836272F2C"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Welcome"
+                    "DisplayName" = "8:欢迎使用"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminWelcomeDlg.wid"

@@ -62,6 +62,9 @@ namespace daan.web.admin.analyse
             DDLInitbasicBinder(dropReportStatus, "REPORTSTATUS");
             dropReportStatus.Items.Insert(0, new ExtAspNet.ListItem("全部", "-1"));
             dropReportStatus.SelectedValue = "0";
+
+            //省份
+            DropProvinceBinder(dpProvince);
         }
 
         // 初始化体检单位
@@ -105,11 +108,19 @@ namespace daan.web.admin.analyse
 
             _parameterCache.Add("StartDate", dpFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
             _parameterCache.Add("EndDate", dpTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
-            _parameterCache.Add("SDateBegin", dpSFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
-            _parameterCache.Add("SDateEnd", dpSTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
+            if (dpSFrom.Text != "" )
+            {
+                _parameterCache.Add("SDateBegin", dpSFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
+            }
+            if (dpSTo.Text != "")
+            {
+                _parameterCache.Add("SDateEnd", dpSTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
+            }
             _parameterCache.Add("status", dropStatus.SelectedValue == "-1" ? null : dropStatus.SelectedValue);
             _parameterCache.Add("name", TextUtility.ReplaceText(tbxName.Text));
             _parameterCache.Add("reportstatus", this.dropReportStatus.SelectedValue == "-1" ? null : this.dropReportStatus.SelectedValue);
+            _parameterCache.Add("section",TextUtility.ReplaceText(tbxSection.Text));
+            _parameterCache.Add("province", dpProvince.SelectedValue == "-1" ? null : dpProvince.SelectedText);
             return _parameterCache;
         }
 
@@ -119,8 +130,10 @@ namespace daan.web.admin.analyse
             _parameterCache.Clear();
             dpFrom.SelectedDate = DateTime.Now.AddDays(-7);
             dpTo.SelectedDate = DateTime.Now;
-            dpSFrom.SelectedDate = DateTime.Now.AddDays(-7);
-            dpSTo.SelectedDate = DateTime.Now;
+            //dpSFrom.SelectedDate = DateTime.Now.AddDays(-7);
+            //dpSTo.SelectedDate = DateTime.Now;
+            dpSFrom.Text = "";
+            dpSTo.Text = "";
             BindDrop();
         }
 
@@ -286,7 +299,7 @@ namespace daan.web.admin.analyse
             string ordernums = GetSelectOrderNums();
             if (ordernums == string.Empty) { return; }
             //打印3.0
-            foreach (int row in gdOrders.SelectedRowIndexArray)
+            foreach (int row in gdOrders.SelectedRowIndexArray  )
             {
                 string ordernum = gdOrders.DataKeys[row][0].ToString();
                 string dictreporttemplateid = gdOrders.DataKeys[row][4].ToString();

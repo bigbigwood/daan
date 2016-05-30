@@ -73,9 +73,9 @@
                                     <ext:DropDownList ID="dropDictcustomer" runat="server" Label="体检单位" Resizable="True"
                                         EnableEdit="true">
                                     </ext:DropDownList>
-                                    <ext:DatePicker ID="dpFrom" runat="server" Label="登记时间" Width="163">
+                                    <ext:DatePicker ID="dpFrom" runat="server" Label="登记时间">
                                     </ext:DatePicker>
-                                    <ext:DatePicker ID="dpTo" runat="server" Label="到" Width="163" CompareMessage="结束日期应该大于开始日期"
+                                    <ext:DatePicker ID="dpTo" runat="server" Label="到" CompareMessage="结束日期应该大于开始日期"
                                         ShowLabel="true" CompareControl="dpFrom" CompareOperator="GreaterThanEqual">
                                     </ext:DatePicker>
                                 </Items>
@@ -87,9 +87,9 @@
                                     <ext:DropDownList ID="dropStatus" runat="server" Label="状态">
                                     </ext:DropDownList>
                                     <ext:TextBox runat="server" ID="tbxOrderNum" Label="体检号/条码号" EmptyText="体检号/条码号" />
-                                    <ext:DatePicker runat="server" Label="采样日期" Width="163" ID="dpSFrom">
+                                    <ext:DatePicker runat="server" Label="采样日期" ID="dpSFrom">
                                     </ext:DatePicker>
-                                    <ext:DatePicker runat="server" Label="到" Width="163" ID="dpSTo" CompareControl="dpSFrom"
+                                    <ext:DatePicker runat="server" Label="到" ID="dpSTo" CompareControl="dpSFrom"
                                         CompareMessage="结束日期应该大于开始日期" CompareOperator="GreaterThanEqual">
                                     </ext:DatePicker>
                                 </Items>
@@ -98,11 +98,11 @@
                         <Rows>
                             <ext:FormRow ID="FormRow3" runat="server">
                                 <Items>
-                                    <ext:TextBox runat="server" ID="tbxName" Label="关键词" />
+                                    <ext:TextBox runat="server" ID="tbxSection" Label="部门机构" EmptyText="个险部、银保部等" />
+                                    <ext:TextBox runat="server" ID="tbxName" Label="关键词" EmptyText="姓名、套餐、营业区、收件人" />
                                     <ext:DropDownList ID="dropReportStatus" Enabled="false" runat="server" Label="报告状态">
                                     </ext:DropDownList>
-                                    <ext:Label runat="server" Text="" ShowLabel="False" ID="label2" />
-                                    <ext:Label runat="server" Text="" ShowLabel="False" ID="label3" />
+                                    <ext:DropDownList runat="server" Label="省份" Resizable="true" EnableEdit="true" ID="dpProvince"></ext:DropDownList>
                                 </Items>
                             </ext:FormRow>
                         </Rows>
@@ -116,21 +116,22 @@
                         PageSize="50" IsDatabasePaging="true" AllowPaging="true" OnPageIndexChange="gdOrders_PageIndexChange"
                         EnableRowNumber="true" Title="Grid" ShowHeader="false" DataKeyNames="ORDERNUM,STATUS,REALNAME,IDNUMBER,dictreporttemplateid">
                         <Columns>
-                            <ext:BoundField HeaderText="订单状态" DataField="STATUSNAME" Width="80" />
-                            <ext:BoundField HeaderText="订单号" DataField="ORDERNUM" Width="110" />
-                            <ext:BoundField HeaderText="姓名" DataField="REALNAME" Width="60" />
-                            <ext:BoundField HeaderText="性别" DataField="SEX" Width="50" />
-                            <ext:BoundField HeaderText="年龄" DataField="AGE" Width="50" />
+                            <ext:BoundField DataField="STATUSNAME" DataToolTipField="STATUSNAME" HeaderText="状态" Width="70px" />
+                            <ext:BoundField DataField="ordernum" DataToolTipField="ordernum" HeaderText="体检号" Width="100px" />
+                            <ext:BoundField DataField="realname" DataToolTipField="realname" HeaderText="姓名" Width="60px" />
+                            <ext:BoundField DataField="age" DataToolTipField="age" HeaderText="年龄" Width="50px" />
+                            <ext:BoundField DataField="sex" DataToolTipField="sex" HeaderText="性别" Width="40px" />
                             <ext:BoundField HeaderText="联系方式" DataToolTipField="MOBILE" DataField="MOBILE" Width="90" />
-                            <ext:BoundField HeaderText="登记时间" DataField="createdate" Width="80" DataFormatString="{0:yyyy-MM-dd}" />
-                            <ext:BoundField HeaderText="体检单位" DataToolTipField="CUSTOMERNAME" DataField="CUSTOMERNAME" Width="250" />
-                            <ext:BoundField HeaderText="套餐名称" DataToolTipField="ORDERTESTLST" DataField="ORDERTESTLST" Width="250" />
-                            <ext:BoundField HeaderText="部门[地区]" DataField="section" Width="100" />
-                            <ext:BoundField HeaderText="采样时间" DataField="samplingdate" DataFormatString="{0:yyyy-MM-dd}" Width="80" />
+                            <ext:BoundField DataField="createdate" DataToolTipField="createdate" HeaderText="登记时间" Width="85px" DataFormatString="{0:yyyy-MM-dd}" />
+                            <ext:BoundField DataField="labname" DataToolTipField="labname" HeaderText="分点" Width="120px" />
+                            <ext:BoundField DataField="customername" DataToolTipField="customername" HeaderText="体检单位" Width="150px" />
+                            <ext:BoundField DataField="section" DataToolTipField="section" HeaderText="部门机构" Width="60" />
+                            <ext:BoundField DataField="area" DataToolTipField="area" HeaderText="营业区" Width="80px" />
+                            <ext:BoundField HeaderText="套餐名称" DataToolTipField="ORDERTESTLST" DataField="ORDERTESTLST" Width="200" />
+                            <ext:BoundField DataField="samplingdate" HeaderText="采样日期" Width="85px" DataFormatString="{0:yyyy-MM-dd}"  />
                             <ext:BoundField HeaderText="邮寄地址" DataField="POSTADDRESS" DataToolTipField="POSTADDRESS" Width="250" />
-                            <ext:BoundField HeaderText="收件人" DataField="RECIPIENT" Width="60" />
-                            <ext:BoundField HeaderText="联系电话" DataField="CONTACTNUMBER" Width="100" />
-                            <%--<ext:BoundField HeaderText="报告状态" DataField="REPORTSTATUS" Width="70" />--%>
+                            <ext:BoundField HeaderText="收件人" DataField="RECIPIENT" DataToolTipField="RECIPIENT" Width="60" />
+                            <ext:BoundField HeaderText="联系电话" DataField="CONTACTNUMBER" DataToolTipField="CONTACTNUMBER" ExpandUnusedSpace="true"  />
                         </Columns>
                     </ext:Grid>
                 </Items>

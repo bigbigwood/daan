@@ -192,6 +192,21 @@ namespace daan.service.report
             refReportData = dsReportData;
             return fReport;
         }
+        //根据条码号和类型获取报表信息
+        public DataSet GetReportDataByType(string order_num, string type)
+        {
+            DataSet ds = new DataSet();
+
+            if (type == "BG_1001") //常规报告模板ID或TM15报告模板
+            {
+                ds = GetCommonData(order_num);
+            }
+            else if (type == "BG_1006")//C14    C13
+            {
+                ds = GetC14Data(order_num);
+            }
+            return ds;
+        }
         #endregion
 
         #region 取得常规报告和TM15报告

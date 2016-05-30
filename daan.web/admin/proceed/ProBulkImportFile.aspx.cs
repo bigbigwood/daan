@@ -271,27 +271,45 @@ namespace daan.web.admin.proceed
             for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
             {
                 IRow row = sheet.GetRow(i);
-                if (row.GetCell(0) == null && row.GetCell(2) == null)
+                if (row == null) continue;
+                //套餐代码为空
+                if (row.GetCell(4) == null)
                 {
-                    break;
+                    continue;
                 }
                 else
                 {
-                    DataRow dataRow = dt.NewRow();
-                    for (int j = row.FirstCellNum; j < (cellCount + 2); j++)
+                    if (string.IsNullOrEmpty(row.GetCell(4).ToString()))
                     {
-                        if (j == cellCount)
-                        {
-                            dataRow[j] = "未上传";
-                        }
-                        else
-                        {
-                            if (row.GetCell(j) != null)
-                                dataRow[j] = row.GetCell(j).ToString();
-                        }
+                        continue;
                     }
-                    dt.Rows.Add(dataRow);
                 }
+                //姓名为空
+                if (row.GetCell(6) == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(row.GetCell(6).ToString()))
+                    {
+                        continue;
+                    }
+                }
+                DataRow dataRow = dt.NewRow();
+                for (int j = row.FirstCellNum; j < (cellCount + 2); j++)
+                {
+                    if (j == cellCount)
+                    {
+                        dataRow[j] = "未上传";
+                    }
+                    else
+                    {
+                        if (row.GetCell(j) != null)
+                            dataRow[j] = row.GetCell(j).ToString();
+                    }
+                }
+                dt.Rows.Add(dataRow);
             }
             return dt;
         }

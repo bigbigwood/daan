@@ -709,7 +709,7 @@ namespace daan.web.admin.analyse
                     int selectIndex = gdOrders.SelectedRowIndexArray[i];
                     string ordernum = gdOrders.DataKeys[selectIndex][0].ToString();
                     int status = int.Parse(gdOrders.DataKeys[selectIndex][1].ToString());
-                    //int status = int.Parse(gdOrders.DataKeys[i][1].ToString());
+
                     if (status != (int)ParamStatus.OrdersStatus.FirstCheck)
                     {
                         MessageBoxShow("状态为初步总检时才可以审核");
@@ -720,9 +720,10 @@ namespace daan.web.admin.analyse
                     ht.Add("oldstatus", (int)ParamStatus.OrdersStatus.FirstCheck);
                     ht.Add("status", (int)ParamStatus.OrdersStatus.FinishCheck);
                     ht.Add("finishbyid", Userinfo.userId);
-                    ht.Add("TRANSED",0);
+                    ht.Add("TRANSED", 0);
                     if (ordersService.EditStatusByOldStatus(ht))
                     {
+                        //记录日志
                         ordersService.AddOperationLog(ordernum, null, "总检", "完成总检审核成功", "修改留痕", "");
                         //获取报告数据并保存
                         Orderreportdata reportdata = new Orderreportdata() { Ordernum = ordernum, ReportData = commonreport.GetSerializeReportDate(ordernum), Createdate = loginservice.GetServerTime() };
@@ -741,8 +742,6 @@ namespace daan.web.admin.analyse
             {
                 MessageBoxShow(string.Format("订单号为：{0}完成总检审核失败,错误信息：{1}", errOrdernum, ex.Message));
             }
-
-
         }
         /// <summary>
         /// 取消完成总检事件

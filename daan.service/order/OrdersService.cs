@@ -565,6 +565,17 @@ namespace daan.service.order
             return selectDS("Order.GetOrderInfoByBarcode", barcode).Tables[0];
         }
 
+        /// <summary>
+        /// /根据用户名、手机号码获取最新订单号
+        /// </summary>
+        /// <param name="ht"></param>
+        /// <returns></returns>
+        public DataTable GetOrderNum(Hashtable ht)
+        {
+            DataTable dt = selectDS("Order.GetNewOrderNum", ht).Tables[0];
+            return dt;
+        }
+
         #region 自动初步总检
         /// <summary>
         /// 获取符合自动初步总检条件的订单列表

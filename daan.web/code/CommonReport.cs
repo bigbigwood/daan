@@ -271,39 +271,6 @@ namespace daan.web.code
             return htPrint;
         }
 
-        public void SerializeReportDate(string ordernum)
-        {
-            //存放文件位置
-            string path = System.Configuration.ConfigurationManager.AppSettings["SerializeReportDateFile"].ToString();
-            string path2 = path + ordernum.Substring(0, 6);
-            if (!Directory.Exists(path2))
-            {
-                Directory.CreateDirectory(path2);
-            }
-            string rep_filename = path2 + "\\" + ordernum + "_rep.bin";
-            //根据体检号获取报告模板和数据
-            Orders orders = orderService.SelectOrdersByOrdernum(ordernum);
-            string repCode = string.Empty;
-            string repID = string.Empty;
-            if (orders != null)
-            {
-                Dictreporttemplate dictreporttemplate = repService.GetDictreporttemplateByID(orders.Dictreporttemplateid.ToString());
-                if (dictreporttemplate != null)
-                {
-                    repCode = dictreporttemplate.Templatecode.ToString();
-                    repID = dictreporttemplate.Reporttype.ToString();
-                }
-            }
-            string reportTemplatePath = HttpContext.Current.Server.MapPath(System.Configuration.ConfigurationManager.AppSettings["path"].ToString());
-            DataSet dsReportData = new DataSet();
-            Report rep = repServeic.GetReport(ordernum, repCode, repID, new DataSet(), reportTemplatePath, out dsReportData, 1);
-            //序列化报告模板和数据
-            Hashtable ht = new Hashtable();
-            ht["json"] = Serialize(rep.SaveToString());
-            ht["dsjson"] = Serialize(dsReportData);
-            SerializeReportDataToFile(ht,rep_filename);
-        }
-
         public string GetSerializeReportDate(string ordernum)
         {
             Orders orders = orderService.SelectOrdersByOrdernum(ordernum);
@@ -317,7 +284,8 @@ namespace daan.web.code
                 }
             }
             DataSet ds = repServeic.GetReportData(ordernum, repID);
-            return Serialize(ds);
+            string dsjson=Serialize(ds);
+            return dsjson;
         }
         #endregion
 
@@ -395,6 +363,24 @@ namespace daan.web.code
             {
                 return null;
             }
+        }
+        public static T Desrialize<T>(T obj, string str)
+        {
+            try
+            {
+                obj = default(T);
+                IFormatter formatter = new BinaryFormatter();
+                byte[] buffer = Convert.FromBase64String(str);
+                MemoryStream stream = new MemoryStream(buffer);
+                obj = (T)formatter.Deserialize(stream);
+                stream.Flush();
+                stream.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("反序列化失败,原因:" + ex.Message);
+            }
+            return obj;
         }
         #endregion
 

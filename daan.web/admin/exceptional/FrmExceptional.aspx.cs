@@ -9,6 +9,7 @@ using daan.service.proceed;
 using daan.web.code;
 using ExtAspNet;
 using daan.util.Common;
+using daan.util.Web;
 namespace daan.web.admin.exceptional
 {
     public partial class FrmExceptional : PageBase
@@ -24,6 +25,7 @@ namespace daan.web.admin.exceptional
             {
                 BindDictLab();
                 BindDrop();
+                BindAddress();
                 dateend.Text = DateTime.Today.ToString("yyyy-MM-dd");
                 datebegin.Text = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
             }
@@ -31,17 +33,14 @@ namespace daan.web.admin.exceptional
             {
                 if (Request.Form["__EVENTARGUMENT"] == "CancelWindowClose")
                 {
-                    Hashtable ht = ViewState["SearchWhere"] as Hashtable;
-                    ht["pageStart"] = GridOrders.PageSize * (GridOrders.PageIndex);
-                    ht["pageEnd"] = GridOrders.PageSize * (GridOrders.PageIndex + 1);
-                    BindData(ht, false);
+                    BindData();
                 }
             }
         }
 
-        #region >>>> zhouy 事件
+        #region >>>>  事件
 
-        #region >>>> zhouy 查询，分页
+        #region >>>>  查询，分页
         //关闭窗体
         protected void WinCancel_Close(object sender, WindowCloseEventArgs e)
         {
@@ -51,10 +50,7 @@ namespace daan.web.admin.exceptional
         protected void GridOrders_PageIndexChange(object sender, GridPageEventArgs e)
         {
             GridOrders.PageIndex = e.NewPageIndex;
-            Hashtable ht = ViewState["SearchWhere"] as Hashtable;
-            ht["pageStart"] = GridOrders.PageSize * (GridOrders.PageIndex);
-            ht["pageEnd"] = GridOrders.PageSize * (GridOrders.PageIndex + 1);
-            BindData(ht, false);
+            BindData();
         }
 
         //查询
@@ -72,25 +68,8 @@ namespace daan.web.admin.exceptional
             {
                 if (this.datebegin.SelectedDate <= this.dateend.SelectedDate)
                 {
-                    Hashtable ht = new Hashtable();
-                    ht["pageStart"] = 0;
-                    ht["pageEnd"] = GridOrders.PageSize;
-                    ht["DateStart"] = datebegin.Text;
-                    ht["DateEnd"] = Convert.ToDateTime(dateend.Text).AddDays(1).ToString("yyyy-MM-dd");
-                    if (DropDictLab.SelectedValue == "0")
-                        ht["labid"] = Userinfo.joinLabidstr;
-                    else
-                        ht["labid"] = DropDictLab.SelectedValue;
-                    ht["memberid"] = null;
-                    ht["realname"] = tbxName.Text = TextUtility.ReplaceText(tbxName.Text);
-                    ht["ordernum"] = tbxOrderNum.Text;
-                    ht["status"] = dropStatus.SelectedIndex == 0 ? null : dropStatus.SelectedValue;
-                    ht["customerid"] = DropCustomer.SelectedValue == "-1" ? null : DropCustomer.SelectedValue;
-                    ht["customertype"] =null;
-                    ht["iscancel"] = DropIScancel.SelectedIndex == 0 ? null : DropIScancel.SelectedValue;
-                    ViewState["SearchWhere"] = ht;
                     GridOrders.PageIndex = 0;//设置显示第一页
-                    BindData(ht, true);
+                    BindData();
                 }
                 else
                 {
@@ -102,14 +81,11 @@ namespace daan.web.admin.exceptional
             {
                 MessageBoxShow("请输入开始时间及结束时间查询！", MessageBoxIcon.Information);
             }
-
-
-
         }
 
         #endregion
 
-        #region >>>> zhouy 查看订单 修改订单，追加项目，作废订单
+        #region >>>>  查看订单 修改订单，追加项目，作废订单
         //查看订单
         protected void btnSeeDetail_Click(object sender, EventArgs e)
         {
@@ -150,10 +126,20 @@ namespace daan.web.admin.exceptional
                 return "";
             }
             string str = string.Empty;
+            List<string> cus = new List<string>();
             for (int i = 0; i < strSelect.Length; i++)
             {
                 str += GridOrders.DataKeys[strSelect[i]][0].ToString() + ",";
-
+                //也可以考虑场次号相同的才允许批量操作
+                if (!cus.Contains(GridOrders.DataKeys[strSelect[i]][5].ToString()))
+                {
+                    cus.Add(GridOrders.DataKeys[strSelect[i]][5].ToString());
+                }
+            }
+            if (cus.Count !=1)
+            {
+                MessageBoxShow("您勾选的记录不属于同一个体检单位，不能进行统一批量操作!");
+                return "";
             }
             return str.TrimEnd(',');
         }
@@ -202,7 +188,7 @@ namespace daan.web.admin.exceptional
 
         #endregion
 
-        #region >>>> zhouy 绑定分点 以及选分点筛选单位
+        #region >>>>  绑定分点 以及选分点筛选单位 省市
         /// <summary>
         /// 绑定分点
         /// </summary>
@@ -222,7 +208,6 @@ namespace daan.web.admin.exceptional
             dropStatus.Items.Insert(0, new ListItem("全部", "-1"));
         }
         
-
         /// <summary>
         /// 绑定单位
         /// </summary>
@@ -236,9 +221,34 @@ namespace daan.web.admin.exceptional
         {
             BindCustomer(Convert.ToInt32(DropDictLab.SelectedValue));
         }
+
+        protected void dropPageSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int pagesize = Convert.ToInt32(dropPageSize.SelectedValue.ToString());
+            GridOrders.PageSize = pagesize;
+            GridOrders.PageIndex = 0;
+            BindData();
+        }
+
+        private void BindAddress()
+        {
+            DropProvinceBinder(dpProvince);
+            DropCityBinder(dpProvince, dpCity);
+        }
+
+        /// <summary>
+        /// 选择省
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void dpProvince_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dpCity.Items.Clear();
+            DropCityBinder(dpProvince, dpCity);
+        }
         #endregion
 
-        #region >>>> zhouy 获取选中行记录 操作
+        #region >>>>  获取选中行记录 操作
         /// <summary>操作选中单行的订单号
         /// 操作选中单行的订单号
         /// </summary>
@@ -291,7 +301,7 @@ namespace daan.web.admin.exceptional
 
         #endregion
 
-        #region >>>> zhouy 方法
+        #region >>>> 方法
 
         /// <summary>绑定Grid数据
         /// 
@@ -313,7 +323,14 @@ namespace daan.web.admin.exceptional
             }
         }
 
-        /// <summary>弹出(个人收费,单位批量上传)窗口        /// 
+        private void BindData()
+        {
+            Hashtable ht = getPara();
+            GridOrders.RecordCount = mamagement.GetManagementOrdersCount(ht);
+            GridOrders.DataSource = mamagement.GetManagementOrders(ht);
+            GridOrders.DataBind();
+        }
+        /// <summary>弹出(个人收费,单位批量上传)窗口         
         /// </summary>
         /// <param name="title">窗口名</param>
         /// <param name="URL">URL</param>
@@ -353,8 +370,45 @@ namespace daan.web.admin.exceptional
             string[] arrorder = ordernums.Split(',');
             for (int i = 0; i < arrorder.Length; i++)
             {
-                mamagement.AddOperationLog(arrorder[i], "", "体检集中管理", "批量" + str + "[" + ordernums + "]", "节点信息", "批量" + str);
+                mamagement.AddOperationLog(arrorder[i], "", "异常订单处理中心", "批量" + str + "[" + ordernums + "]", "节点信息", "批量" + str);
             }
+        }
+        /// <summary>构造查询参数
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Hashtable getPara()
+        {
+            Hashtable ht = new Hashtable();
+            ht["DateStart"] = datebegin.Text;
+            ht["DateEnd"] = Convert.ToDateTime(dateend.Text).AddDays(1).ToString("yyyy-MM-dd");
+            if (DropDictLab.SelectedValue == "0")
+                ht["labid"] = Userinfo.joinLabidstr;
+            else
+                ht["labid"] = DropDictLab.SelectedValue;
+            ht["memberid"] = null;
+            ht["realname"] = tbxName.Text = TextUtility.ReplaceText(tbxName.Text);
+            ht["ordernum"] = tbxOrderNum.Text;
+            ht["status"] = dropStatus.SelectedIndex == 0 ? null : dropStatus.SelectedValue;
+            ht["customerid"] = DropCustomer.SelectedValue == "-1" ? null : DropCustomer.SelectedValue;
+            ht["customertype"] = null;
+            ht["iscancel"] = DropIScancel.SelectedIndex == 0 ? null : DropIScancel.SelectedValue;
+            PageUtil pageUtil = new PageUtil(GridOrders.PageIndex, GridOrders.PageSize);
+            ht["pageStart"] = pageUtil.GetPageStartNum();
+            ht["pageEnd"] = pageUtil.GetPageEndNum();
+
+            if (dpSFrom.Text != "")
+                ht.Add("sdatestart", dpSFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
+            if (dpSTo.Text != "")
+                ht.Add("sdateend", dpSTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
+            if (dpProvince.SelectedValue != "-1")
+                ht.Add("province",dpProvince.SelectedText);
+            if (dpCity.SelectedValue != "-1")
+                ht.Add("city",dpCity.SelectedText);
+            ht.Add("area", string.IsNullOrEmpty(tbxArea.Text.Trim()) ? null : TextUtility.ReplaceText(tbxArea.Text.Trim()));
+            ht.Add("section", string.IsNullOrEmpty(tbxSection.Text.Trim()) ? null : TextUtility.ReplaceText(tbxSection.Text.Trim()));
+            ht.Add("batchnumber", string.IsNullOrEmpty(tbxBatchNumber.Text.Trim()) ? null : TextUtility.ReplaceText(tbxBatchNumber.Text.Trim()));
+            return ht;
         }
         #endregion
     }

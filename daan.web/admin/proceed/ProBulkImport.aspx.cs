@@ -463,7 +463,15 @@ namespace daan.web.admin.proceed
                         _orders.Recipient = realname;
                         _orders.ContactNumber = dr["手机"].ToString().Trim();
                     }
-                    //_orders.Area = dr["营业区"].ToString().Replace('_', ' ').Trim();
+                    //add 20160421 增加营业区、场次号
+                    _orders.Area = dr["营业区"].ToString().Replace('_', ' ').Trim();
+                    _orders.BatchNumber = dr["场次号"].ToString().Replace('_', ' ').Trim();
+
+                    //add 20160530 增加客户经理字段
+                    if (dt.Columns.Contains("客户经理"))
+                    {
+                        _orders.AccountManager = dr["客户经理"].ToString().Replace('_', ' ').Trim();
+                    }
                     b = registerservice.insertUpdateOrders("单位批量上传", "", true, productList, grouptestList, member, _orders, "", ref errstr);
 
                     SetTableValue(b, errstr, dr);
@@ -498,41 +506,68 @@ namespace daan.web.admin.proceed
         /// </summary>
         /// <param name="path">服务器excel文档路径</param>
         /// <returns></returns>
-        public static DataTable RenderDataTableFromExcel(string path)
+        public DataTable RenderDataTableFromExcel(string path)
         {
             DataTable dt = new DataTable();
 
             HSSFWorkbook hssfworkbook;
+
+            FileInfo fileInfo = new FileInfo(path);
+            if (!fileInfo.Exists)
+            {
+                return null;
+            }
             using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 hssfworkbook = new HSSFWorkbook(file);
-            }
-            ISheet sheet = hssfworkbook.GetSheetAt(0);
-            //System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
 
-            IRow headerRow = sheet.GetRow(0);
-            int cellCount = headerRow.LastCellNum;
-            for (int j = 0; j < cellCount; j++)
-            {
-                if (headerRow.GetCell(j) == null)
-                {
-                    continue;
-                }
-                ICell cell = headerRow.GetCell(j);
-                dt.Columns.Add(cell.ToString());
-            }
-            dt.Columns.Add("上传状态", typeof(string));
-            dt.Columns.Add("失败原因", typeof(string));
 
-            for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
-            {
-                IRow row = sheet.GetRow(i);
-                if (row.GetCell(0) == null && row.GetCell(2) == null)
+                ISheet sheet = hssfworkbook.GetSheetAt(0);
+                //System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+
+                IRow headerRow = sheet.GetRow(0);
+                int cellCount = headerRow.LastCellNum;
+
+                for (int j = 0; j < cellCount; j++)
                 {
-                    break;
+                    if (headerRow.GetCell(j) == null)
+                    {
+                        continue;
+                    }
+                    ICell cell = headerRow.GetCell(j);
+                    dt.Columns.Add(cell.ToString());
                 }
-                else
+                dt.Columns.Add("上传状态", typeof(string));
+                dt.Columns.Add("失败原因", typeof(string));
+
+                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
                 {
+                    IRow row = sheet.GetRow(i);
+                    if (row == null) continue;
+                    //套餐代码为空
+                    if (row.GetCell(4) == null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(row.GetCell(4).ToString()))
+                        {
+                            continue;
+                        }
+                    }
+                    //姓名为空
+                    if (row.GetCell(6) == null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(row.GetCell(6).ToString()))
+                        {
+                            continue;
+                        }
+                    }
                     DataRow dataRow = dt.NewRow();
                     for (int j = row.FirstCellNum; j < (cellCount + 2); j++)
                     {
@@ -548,8 +583,9 @@ namespace daan.web.admin.proceed
                     }
                     dt.Rows.Add(dataRow);
                 }
+                return dt;
             }
-            return dt;
+
         }
 
         #region 检测导入EXCEL文件列头是否标准
