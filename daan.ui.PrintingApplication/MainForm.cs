@@ -168,7 +168,7 @@ namespace daan.ui.PrintingApplication
             else
                 request.Barcode = tbxOrderNum.Text;
 
-            request.Dictlabid = dropDictLab.SelectedValue.ToString();
+            request.Dictlabid = (dropDictLab.SelectedValue.ToString() != "-1") ? dropDictLab.SelectedValue.ToString() : null;
             request.Dictcustomerid = (dropDictcustomer.SelectedValue.ToString() != "-1") ? dropDictcustomer.SelectedValue.ToString() : null;
             request.OrderStatus = (dropStatus.SelectedValue.ToString() != "-1") ? dropStatus.SelectedValue.ToString() : null;
             request.ReportStatus = (dropReportStatus.SelectedValue.ToString() != "-1") ? dropReportStatus.SelectedValue.ToString() : null;
