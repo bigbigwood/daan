@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Xml;
 using daan.webservice.PrintingSystem.Contract.Interface;
 
 namespace daan.ui.PrintingApplication.Helper
@@ -37,12 +38,22 @@ namespace daan.ui.PrintingApplication.Helper
 
         private static Binding GetBinding()
         {
+            var readerQuotas = new System.Xml.XmlDictionaryReaderQuotas
+            {
+                MaxDepth = 1024,
+                MaxStringContentLength = int.MaxValue,
+                MaxArrayLength = 16384,
+                MaxBytesPerRead = 4096,
+                MaxNameTableCharCount = 16384
+            };
+
             TimeSpan timeout = new TimeSpan(0,0,10,0);
             return new BasicHttpBinding()
             {
                 SendTimeout = timeout,
                 ReceiveTimeout = timeout, 
-                MaxReceivedMessageSize = int.MaxValue, 
+                MaxReceivedMessageSize = int.MaxValue,
+                ReaderQuotas = readerQuotas,
             };
         }
     }
