@@ -294,6 +294,38 @@ namespace daan.ui.PrintingApplication
             ProcessSelectedCheckBoxForDatagridview(datagridview);
         }
 
+        private void dgv_orders_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    //若行已是选中状态就不再进行设置  
+                    if (dgv_orders.Rows[e.RowIndex].Selected == false)
+                    {
+                        dgv_orders.ClearSelection();
+                        dgv_orders.Rows[e.RowIndex].Selected = true;
+                    }
+                    //只选中一行时设置活动单元格  
+                    if (dgv_orders.SelectedRows.Count == 1)
+                    {
+                        dgv_orders.CurrentCell = dgv_orders.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    }
+                    //弹出操作菜单  
+                    cms_orderGrid.Show(MousePosition.X, MousePosition.Y);
+                }
+            }  
+        }
+
+        private void menuItem_Copy_Click(object sender, EventArgs e)
+        {
+            if (dgv_orders.CurrentCell != null)
+            {
+                string sClipboadStr = dgv_orders.CurrentCell.Value.ToString();
+                Clipboard.SetText(sClipboadStr);
+            }
+        }
+
         private void btnPrint_Click(object sender, EventArgs e)
         {
             try

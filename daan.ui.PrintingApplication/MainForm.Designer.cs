@@ -31,8 +31,8 @@ namespace daan.ui.PrintingApplication
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainTabControl = new CCWin.SkinControl.SkinTabControl();
             this.tab_PhyReport = new CCWin.SkinControl.SkinTabPage();
@@ -69,13 +69,6 @@ namespace daan.ui.PrintingApplication
             this.tbxSection = new CCWin.SkinControl.SkinTextBox();
             this.skinLabel5 = new CCWin.SkinControl.SkinLabel();
             this.dgv_orders = new System.Windows.Forms.DataGridView();
-            this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.extendProgressBar = new daan.ui.controls.ExtendProgressBar();
-            this.pagerControl1 = new daan.ui.controls.PagerControl();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_Message = new System.Windows.Forms.Label();
             this.Cell_OrderStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_OrderNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -93,6 +86,15 @@ namespace daan.ui.PrintingApplication
             this.Cell_Recipient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ContractNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cell_ReportTemplateId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_PagePicker = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.extendProgressBar = new daan.ui.controls.ExtendProgressBar();
+            this.pagerControl1 = new daan.ui.controls.PagerControl();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_Message = new System.Windows.Forms.Label();
+            this.cms_orderGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuItem_Copy = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTableLayoutPanel.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tab_PhyReport.SuspendLayout();
@@ -104,6 +106,7 @@ namespace daan.ui.PrintingApplication
             this.tlp_PagePicker.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tlp_Bottom.SuspendLayout();
+            this.cms_orderGrid.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -766,6 +769,146 @@ namespace daan.ui.PrintingApplication
             this.dgv_orders.TabIndex = 5;
             this.dgv_orders.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_orders_CellMouseClick);
             this.dgv_orders.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_orders_CellMouseDoubleClick);
+            this.dgv_orders.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_orders_CellMouseDown);
+            // 
+            // Cell_OrderStatus
+            // 
+            this.Cell_OrderStatus.DataPropertyName = "STATUSNAME";
+            this.Cell_OrderStatus.HeaderText = "订单状态";
+            this.Cell_OrderStatus.Name = "Cell_OrderStatus";
+            this.Cell_OrderStatus.ReadOnly = true;
+            this.Cell_OrderStatus.Width = 89;
+            // 
+            // Cell_OrderNumber
+            // 
+            this.Cell_OrderNumber.DataPropertyName = "ORDERNUM";
+            this.Cell_OrderNumber.HeaderText = "订单号";
+            this.Cell_OrderNumber.Name = "Cell_OrderNumber";
+            this.Cell_OrderNumber.ReadOnly = true;
+            this.Cell_OrderNumber.Width = 75;
+            // 
+            // Cell_FullName
+            // 
+            this.Cell_FullName.DataPropertyName = "REALNAME";
+            this.Cell_FullName.HeaderText = "姓名";
+            this.Cell_FullName.Name = "Cell_FullName";
+            this.Cell_FullName.ReadOnly = true;
+            this.Cell_FullName.Width = 61;
+            // 
+            // Cell_Sex
+            // 
+            this.Cell_Sex.DataPropertyName = "SEX";
+            this.Cell_Sex.HeaderText = "性别";
+            this.Cell_Sex.Name = "Cell_Sex";
+            this.Cell_Sex.ReadOnly = true;
+            this.Cell_Sex.Width = 61;
+            // 
+            // Cell_Age
+            // 
+            this.Cell_Age.DataPropertyName = "AGE";
+            this.Cell_Age.HeaderText = "年龄";
+            this.Cell_Age.Name = "Cell_Age";
+            this.Cell_Age.ReadOnly = true;
+            this.Cell_Age.Width = 61;
+            // 
+            // Cell_Mobile
+            // 
+            this.Cell_Mobile.DataPropertyName = "MOBILE";
+            this.Cell_Mobile.HeaderText = "联系方式";
+            this.Cell_Mobile.Name = "Cell_Mobile";
+            this.Cell_Mobile.ReadOnly = true;
+            this.Cell_Mobile.Width = 89;
+            // 
+            // Cell_CreateDate
+            // 
+            this.Cell_CreateDate.DataPropertyName = "createdate";
+            dataGridViewCellStyle5.Format = "yyyy-MM-dd";
+            this.Cell_CreateDate.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Cell_CreateDate.HeaderText = "登记时间";
+            this.Cell_CreateDate.Name = "Cell_CreateDate";
+            this.Cell_CreateDate.ReadOnly = true;
+            this.Cell_CreateDate.Width = 89;
+            // 
+            // Cell_LabName
+            // 
+            this.Cell_LabName.DataPropertyName = "labname";
+            this.Cell_LabName.HeaderText = "分点";
+            this.Cell_LabName.Name = "Cell_LabName";
+            this.Cell_LabName.Width = 61;
+            // 
+            // Cell_OrganizationName
+            // 
+            this.Cell_OrganizationName.DataPropertyName = "CUSTOMERNAME";
+            this.Cell_OrganizationName.HeaderText = "体检单位";
+            this.Cell_OrganizationName.Name = "Cell_OrganizationName";
+            this.Cell_OrganizationName.ReadOnly = true;
+            this.Cell_OrganizationName.Width = 89;
+            // 
+            // Cell_OrderPackageName
+            // 
+            this.Cell_OrderPackageName.DataPropertyName = "ORDERTESTLST";
+            this.Cell_OrderPackageName.HeaderText = "套餐名称";
+            this.Cell_OrderPackageName.Name = "Cell_OrderPackageName";
+            this.Cell_OrderPackageName.ReadOnly = true;
+            this.Cell_OrderPackageName.Width = 89;
+            // 
+            // Cell_Section
+            // 
+            this.Cell_Section.DataPropertyName = "section";
+            this.Cell_Section.HeaderText = "部门机构";
+            this.Cell_Section.Name = "Cell_Section";
+            this.Cell_Section.ReadOnly = true;
+            this.Cell_Section.Width = 89;
+            // 
+            // Cell_Area
+            // 
+            this.Cell_Area.DataPropertyName = "area";
+            this.Cell_Area.HeaderText = "营业区";
+            this.Cell_Area.Name = "Cell_Area";
+            this.Cell_Area.Width = 75;
+            // 
+            // Cell_SamplingDate
+            // 
+            this.Cell_SamplingDate.DataPropertyName = "samplingdate";
+            dataGridViewCellStyle6.Format = "yyyy-MM-dd";
+            this.Cell_SamplingDate.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Cell_SamplingDate.HeaderText = "采样时间";
+            this.Cell_SamplingDate.Name = "Cell_SamplingDate";
+            this.Cell_SamplingDate.ReadOnly = true;
+            this.Cell_SamplingDate.Width = 89;
+            // 
+            // Cell_PostAddress
+            // 
+            this.Cell_PostAddress.DataPropertyName = "POSTADDRESS";
+            this.Cell_PostAddress.HeaderText = "邮寄地址";
+            this.Cell_PostAddress.Name = "Cell_PostAddress";
+            this.Cell_PostAddress.ReadOnly = true;
+            this.Cell_PostAddress.Width = 89;
+            // 
+            // Cell_Recipient
+            // 
+            this.Cell_Recipient.DataPropertyName = "RECIPIENT";
+            this.Cell_Recipient.HeaderText = "收件人";
+            this.Cell_Recipient.Name = "Cell_Recipient";
+            this.Cell_Recipient.ReadOnly = true;
+            this.Cell_Recipient.Width = 75;
+            // 
+            // Cell_ContractNumber
+            // 
+            this.Cell_ContractNumber.DataPropertyName = "CONTACTNUMBER";
+            this.Cell_ContractNumber.HeaderText = "联系电话";
+            this.Cell_ContractNumber.Name = "Cell_ContractNumber";
+            this.Cell_ContractNumber.ReadOnly = true;
+            this.Cell_ContractNumber.Width = 89;
+            // 
+            // Cell_ReportTemplateId
+            // 
+            this.Cell_ReportTemplateId.DataPropertyName = "dictreporttemplateid";
+            this.Cell_ReportTemplateId.HeaderText = "Cell_ReportTemplateId";
+            this.Cell_ReportTemplateId.Name = "Cell_ReportTemplateId";
+            this.Cell_ReportTemplateId.ReadOnly = true;
+            this.Cell_ReportTemplateId.Visible = false;
+            this.Cell_ReportTemplateId.Width = 185;
             // 
             // tlp_PagePicker
             // 
@@ -863,144 +1006,20 @@ namespace daan.ui.PrintingApplication
             this.lbl_Message.TabIndex = 0;
             this.lbl_Message.Text = "当前选中了0份报告";
             // 
-            // Cell_OrderStatus
+            // cms_orderGrid
             // 
-            this.Cell_OrderStatus.DataPropertyName = "STATUSNAME";
-            this.Cell_OrderStatus.HeaderText = "订单状态";
-            this.Cell_OrderStatus.Name = "Cell_OrderStatus";
-            this.Cell_OrderStatus.ReadOnly = true;
-            this.Cell_OrderStatus.Width = 89;
+            this.cms_orderGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItem_Copy});
+            this.cms_orderGrid.Name = "cms_orderGrid";
+            this.cms_orderGrid.ShowImageMargin = false;
+            this.cms_orderGrid.Size = new System.Drawing.Size(84, 28);
             // 
-            // Cell_OrderNumber
+            // menuItem_Copy
             // 
-            this.Cell_OrderNumber.DataPropertyName = "ORDERNUM";
-            this.Cell_OrderNumber.HeaderText = "订单号";
-            this.Cell_OrderNumber.Name = "Cell_OrderNumber";
-            this.Cell_OrderNumber.ReadOnly = true;
-            this.Cell_OrderNumber.Width = 75;
-            // 
-            // Cell_FullName
-            // 
-            this.Cell_FullName.DataPropertyName = "REALNAME";
-            this.Cell_FullName.HeaderText = "姓名";
-            this.Cell_FullName.Name = "Cell_FullName";
-            this.Cell_FullName.ReadOnly = true;
-            this.Cell_FullName.Width = 61;
-            // 
-            // Cell_Sex
-            // 
-            this.Cell_Sex.DataPropertyName = "SEX";
-            this.Cell_Sex.HeaderText = "性别";
-            this.Cell_Sex.Name = "Cell_Sex";
-            this.Cell_Sex.ReadOnly = true;
-            this.Cell_Sex.Width = 61;
-            // 
-            // Cell_Age
-            // 
-            this.Cell_Age.DataPropertyName = "AGE";
-            this.Cell_Age.HeaderText = "年龄";
-            this.Cell_Age.Name = "Cell_Age";
-            this.Cell_Age.ReadOnly = true;
-            this.Cell_Age.Width = 61;
-            // 
-            // Cell_Mobile
-            // 
-            this.Cell_Mobile.DataPropertyName = "MOBILE";
-            this.Cell_Mobile.HeaderText = "联系方式";
-            this.Cell_Mobile.Name = "Cell_Mobile";
-            this.Cell_Mobile.ReadOnly = true;
-            this.Cell_Mobile.Width = 89;
-            // 
-            // Cell_CreateDate
-            // 
-            this.Cell_CreateDate.DataPropertyName = "createdate";
-            dataGridViewCellStyle1.Format = "yyyy-MM-dd";
-            this.Cell_CreateDate.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Cell_CreateDate.HeaderText = "登记时间";
-            this.Cell_CreateDate.Name = "Cell_CreateDate";
-            this.Cell_CreateDate.ReadOnly = true;
-            this.Cell_CreateDate.Width = 89;
-            // 
-            // Cell_LabName
-            // 
-            this.Cell_LabName.DataPropertyName = "labname";
-            this.Cell_LabName.HeaderText = "分点";
-            this.Cell_LabName.Name = "Cell_LabName";
-            this.Cell_LabName.Width = 61;
-            // 
-            // Cell_OrganizationName
-            // 
-            this.Cell_OrganizationName.DataPropertyName = "CUSTOMERNAME";
-            this.Cell_OrganizationName.HeaderText = "体检单位";
-            this.Cell_OrganizationName.Name = "Cell_OrganizationName";
-            this.Cell_OrganizationName.ReadOnly = true;
-            this.Cell_OrganizationName.Width = 89;
-            // 
-            // Cell_OrderPackageName
-            // 
-            this.Cell_OrderPackageName.DataPropertyName = "ORDERTESTLST";
-            this.Cell_OrderPackageName.HeaderText = "套餐名称";
-            this.Cell_OrderPackageName.Name = "Cell_OrderPackageName";
-            this.Cell_OrderPackageName.ReadOnly = true;
-            this.Cell_OrderPackageName.Width = 89;
-            // 
-            // Cell_Section
-            // 
-            this.Cell_Section.DataPropertyName = "section";
-            this.Cell_Section.HeaderText = "部门机构";
-            this.Cell_Section.Name = "Cell_Section";
-            this.Cell_Section.ReadOnly = true;
-            this.Cell_Section.Width = 89;
-            // 
-            // Cell_Area
-            // 
-            this.Cell_Area.DataPropertyName = "area";
-            this.Cell_Area.HeaderText = "营业区";
-            this.Cell_Area.Name = "Cell_Area";
-            this.Cell_Area.Width = 75;
-            // 
-            // Cell_SamplingDate
-            // 
-            this.Cell_SamplingDate.DataPropertyName = "samplingdate";
-            dataGridViewCellStyle2.Format = "yyyy-MM-dd";
-            this.Cell_SamplingDate.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Cell_SamplingDate.HeaderText = "采样时间";
-            this.Cell_SamplingDate.Name = "Cell_SamplingDate";
-            this.Cell_SamplingDate.ReadOnly = true;
-            this.Cell_SamplingDate.Width = 89;
-            // 
-            // Cell_PostAddress
-            // 
-            this.Cell_PostAddress.DataPropertyName = "POSTADDRESS";
-            this.Cell_PostAddress.HeaderText = "邮寄地址";
-            this.Cell_PostAddress.Name = "Cell_PostAddress";
-            this.Cell_PostAddress.ReadOnly = true;
-            this.Cell_PostAddress.Width = 89;
-            // 
-            // Cell_Recipient
-            // 
-            this.Cell_Recipient.DataPropertyName = "RECIPIENT";
-            this.Cell_Recipient.HeaderText = "收件人";
-            this.Cell_Recipient.Name = "Cell_Recipient";
-            this.Cell_Recipient.ReadOnly = true;
-            this.Cell_Recipient.Width = 75;
-            // 
-            // Cell_ContractNumber
-            // 
-            this.Cell_ContractNumber.DataPropertyName = "CONTACTNUMBER";
-            this.Cell_ContractNumber.HeaderText = "联系电话";
-            this.Cell_ContractNumber.Name = "Cell_ContractNumber";
-            this.Cell_ContractNumber.ReadOnly = true;
-            this.Cell_ContractNumber.Width = 89;
-            // 
-            // Cell_ReportTemplateId
-            // 
-            this.Cell_ReportTemplateId.DataPropertyName = "dictreporttemplateid";
-            this.Cell_ReportTemplateId.HeaderText = "Cell_ReportTemplateId";
-            this.Cell_ReportTemplateId.Name = "Cell_ReportTemplateId";
-            this.Cell_ReportTemplateId.ReadOnly = true;
-            this.Cell_ReportTemplateId.Visible = false;
-            this.Cell_ReportTemplateId.Width = 185;
+            this.menuItem_Copy.Name = "menuItem_Copy";
+            this.menuItem_Copy.Size = new System.Drawing.Size(127, 24);
+            this.menuItem_Copy.Text = "拷贝";
+            this.menuItem_Copy.Click += new System.EventHandler(this.menuItem_Copy_Click);
             // 
             // MainForm
             // 
@@ -1031,6 +1050,7 @@ namespace daan.ui.PrintingApplication
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tlp_Bottom.ResumeLayout(false);
             this.tlp_Bottom.PerformLayout();
+            this.cms_orderGrid.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1097,5 +1117,7 @@ namespace daan.ui.PrintingApplication
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_Recipient;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ContractNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cell_ReportTemplateId;
+        private System.Windows.Forms.ContextMenuStrip cms_orderGrid;
+        private System.Windows.Forms.ToolStripMenuItem menuItem_Copy;
     }
 }
