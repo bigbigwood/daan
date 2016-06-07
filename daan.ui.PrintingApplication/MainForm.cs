@@ -155,8 +155,8 @@ namespace daan.ui.PrintingApplication
             request.PageEnd = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + pagerControl1.PageSize).ToString();
             request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
             request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
-            request.Keyword = tbxName.Text;
-            request.Section = tbxSection.Text;
+            request.Keyword = string.IsNullOrWhiteSpace(tbxName.Text) ? null : tbxName.Text.Trim();
+            request.Section = string.IsNullOrWhiteSpace(tbxSection.Text) ? null : tbxSection.Text.Trim();
             
             if (dpScanFrom.Enabled)
                 request.SamplingDateBegin = dpScanFrom.Value.ToString(ConstString.DateFormat);
@@ -181,6 +181,7 @@ namespace daan.ui.PrintingApplication
         {
             Log.Info("Start querying order...");
 
+            pagerControl1.PageIndex = 1;
             var request = GetQueryOrdersRequest();
             Thread backgroudWorkerThread = new Thread(new ParameterizedThreadStart(backgroudWorker_QueryOrders));
             backgroudWorkerThread.Start(request);
@@ -188,7 +189,11 @@ namespace daan.ui.PrintingApplication
 
         void pagerControl1_OnPageChanged(object sender, EventArgs e)
         {
-            btnQueryOrder_Click(sender, e);
+            Log.Info("Start processing page changed event...");
+
+            var request = GetQueryOrdersRequest();
+            Thread backgroudWorkerThread = new Thread(new ParameterizedThreadStart(backgroudWorker_QueryOrders));
+            backgroudWorkerThread.Start(request);
         }
 
         private void pagerControl1_OnPageSizeValueInvalid(object sender, EventArgs e)
