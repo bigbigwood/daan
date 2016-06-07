@@ -54,6 +54,7 @@ namespace daan.webservice.PrintingSystem.Helper
             model.ContractNumber = domainDictcustomer.Contactphone;
             model.Email = domainDictcustomer.Email;
             model.Active = (domainDictcustomer.Active == "1");
+            model.IsPublic = (domainDictcustomer.IsPublic == "1");
             model.EnableSmsNotification = (domainDictcustomer.Issms == "1");
             model.Remark = domainDictcustomer.Remark;
             model.Status = domainDictcustomer.Status;
@@ -64,9 +65,8 @@ namespace daan.webservice.PrintingSystem.Helper
             model.DictSalemanId = domainDictcustomer.Dictsalemanid.HasValue ? (int)domainDictcustomer.Dictsalemanid : 0;
             model.DictCheckBillId = domainDictcustomer.Dictcheckbillid.HasValue ? (int)domainDictcustomer.Dictcheckbillid : 0;
             model.LabId = domainDictcustomer.Dictlabid.HasValue ? (int)domainDictcustomer.Dictlabid : 0;
-            //model.CustomerType = int.Parse(domainDictcustomer.Customertype);
+            model.CustomerType = int.Parse(domainDictcustomer.Customertype);
             model.CustomReportTitle = domainDictcustomer.Reporttitle;
-            //model.IsPublic = domainDictcustomer.IsPublic;
             model.DisplayOrder = domainDictcustomer.Displayorder.HasValue ? (int)domainDictcustomer.Displayorder : 0;
             model.LastUpdateDate = domainDictcustomer.Lastupdatedate;
             model.YGSyncStatus = domainDictcustomer.YGSyncStatus;
