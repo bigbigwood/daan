@@ -75,33 +75,63 @@ namespace daan.ui.PrintingApplication
         private void BindQueryGroup()
         {
             var comboBoxDataSourceProvider = new ComboBoxDataSourceProvider();
-            dropStatus.DataSource = comboBoxDataSourceProvider.GetOrderStatusDataSource();
-            dropStatus.ValueMember = "EnumValue";
-            dropStatus.DisplayMember = "EnumDisplayText";
-            dropStatus.SelectedValue = (int)OrdersStatus.FinishCheck;
-
-            dropReportStatus.DataSource = comboBoxDataSourceProvider.GetReportStatusDataSource();
-            dropReportStatus.ValueMember = "EnumValue";
-            dropReportStatus.DisplayMember = "EnumDisplayText";
-            dropReportStatus.SelectedValue = (int)ReportStatus.Normal;
-            dropReportStatus.Enabled = false;
 
             dropNumberType.DataSource = comboBoxDataSourceProvider.GetNumberTypeDataSource();
             dropNumberType.ValueMember = "EnumValue";
             dropNumberType.DisplayMember = "EnumDisplayText";
             dropNumberType.SelectedValue = 1;
 
-            dropProvince.DataSource = comboBoxDataSourceProvider.GetProvinceDataSource();
+            var getOrderStatusDataSource = comboBoxDataSourceProvider.GetOrderStatusDataSource();
+            var dropStatusListItems = getOrderStatusDataSource.Select(o => new ListItem()
+            {
+                Key = o.EnumValue.ToString(), Value = o.EnumDisplayText
+            }).ToList();
+            dropStatus.BindCustomDataSource(dropStatusListItems);
+            dropStatus.SelectedItem = dropStatusListItems.FirstOrDefault(i => i.Key == ((int) OrdersStatus.FinishCheck).ToString());
+
+            var getReportStatusDataSource = comboBoxDataSourceProvider.GetReportStatusDataSource();
+            var dropReportStatusListItems = getReportStatusDataSource.Select(o => new ListItem()
+            {
+                Key = o.EnumValue.ToString(),
+                Value = o.EnumDisplayText
+            }).ToList();
+            dropReportStatus.BindCustomDataSource(dropReportStatusListItems);
+            dropReportStatus.SelectedItem = dropReportStatusListItems.FirstOrDefault(i => i.Key == ((int)ReportStatus.Normal).ToString());
+            dropReportStatus.Enabled = false;
+
+            var getProvinceDataSource = comboBoxDataSourceProvider.GetProvinceDataSource();
+            var dropProvinceListItems = getProvinceDataSource.Select(o => new ListItem()
+            {
+                Key = o,
+                Value = o
+            }).ToList();
+            dropProvince.BindCustomDataSource(dropProvinceListItems);
+            dropProvince.SelectedItem = dropProvinceListItems.First();
+
 
             var labList = new List<LabInfo>() { new LabInfo() { Id = -1, Name = ConstString.ALL } };
             labList.AddRange(PrintingApp.LabAssociations);
-            dropDictLab.DataSource = labList;
-            dropDictLab.ValueMember = "Id";
-            dropDictLab.DisplayMember = "Name";
-            if (PrintingApp.CurrentUserInfo.DefaultLab != null && PrintingApp.CurrentUserInfo.DefaultLab.Id != 0)
-                dropDictLab.SelectedValue = PrintingApp.CurrentUserInfo.DefaultLab.Id;
 
-            BindOrganizationByLab((int)dropDictLab.SelectedValue);
+            var dropDictLabListItems = labList.Select(o => new ListItem()
+            {
+                Key = o.Id.ToString(),
+                Value = o.Name
+            }).ToList();
+            dropDictLab.BindCustomDataSource(dropDictLabListItems);
+            if (PrintingApp.CurrentUserInfo.DefaultLab != null && PrintingApp.CurrentUserInfo.DefaultLab.Id != 0)
+            {
+                dropDictLab.SelectedItem =
+                    dropDictLabListItems.FirstOrDefault(
+                        l => l.Key == PrintingApp.CurrentUserInfo.DefaultLab.Id.ToString());
+            }
+            else
+            {
+                dropDictLab.SelectedItem =
+                    dropDictLabListItems.FirstOrDefault();
+            }
+
+            BindOrganizationByLab(int.Parse((dropDictLab.SelectedItem as ListItem).Key));
+
 
             dpFrom.Value = DateTime.Now.AddDays(-7);
             dpTo.Value = DateTime.Now;
@@ -134,10 +164,13 @@ namespace daan.ui.PrintingApplication
 
             var organizationList = new List<OrganizationInfo>() { new OrganizationInfo() { Id = -1, Name = ConstString.ALL } };
             organizationList.AddRange(mappingOrganizationList);
-            dropDictcustomer.DataSource = organizationList;
-            dropDictcustomer.ValueMember = "Id";
-            dropDictcustomer.DisplayMember = "Name";
+
+            var listItems = organizationList.Select(o => new ListItem() {Key = o.Id.ToString(), Value = o.Name}).ToList();
+            dropDictcustomer.BindCustomDataSource(listItems);
+            dropDictcustomer.SelectedItem = listItems.First();
         }
+
+
 
         private void PresentData(QueryOrdersResponse response)
         {
@@ -168,11 +201,11 @@ namespace daan.ui.PrintingApplication
             else
                 request.Barcode = tbxOrderNum.Text;
 
-            request.Dictlabid = (dropDictLab.SelectedValue.ToString() != "-1") ? dropDictLab.SelectedValue.ToString() : null;
-            request.Dictcustomerid = (dropDictcustomer.SelectedValue.ToString() != "-1") ? dropDictcustomer.SelectedValue.ToString() : null;
-            request.OrderStatus = (dropStatus.SelectedValue.ToString() != "-1") ? dropStatus.SelectedValue.ToString() : null;
-            request.ReportStatus = (dropReportStatus.SelectedValue.ToString() != "-1") ? dropReportStatus.SelectedValue.ToString() : null;
-            request.Province = (dropProvince.SelectedValue.ToString() != ConstString.ALL) ? dropProvince.SelectedValue.ToString() : null;
+            request.Dictlabid = (dropDictLab.GetSelectedKey() != "-1") ? dropDictLab.GetSelectedKey() : null;
+            request.Dictcustomerid = (dropDictcustomer.GetSelectedKey() != "-1") ? dropDictcustomer.GetSelectedKey() : null;
+            request.OrderStatus = (dropStatus.GetSelectedKey() != "-1") ? dropStatus.GetSelectedKey() : null;
+            request.ReportStatus = (dropReportStatus.GetSelectedKey() != "-1") ? dropReportStatus.GetSelectedKey() : null;
+            request.Province = (dropProvince.GetSelectedKey() != ConstString.ALL) ? dropProvince.GetSelectedKey() : null;
 
             return request;
         }
@@ -225,8 +258,8 @@ namespace daan.ui.PrintingApplication
         private void dropDictLab_SelectedIndexChanged(object sender, EventArgs e)
         {
             var dropLabComboBox = sender as SkinComboBox;
-            var lab = dropLabComboBox.SelectedItem as LabInfo;
-            BindOrganizationByLab(lab.Id);
+            var lab = dropLabComboBox.SelectedItem as ListItem;
+            BindOrganizationByLab(int.Parse(lab.Key));
         }
 
         public void ShowMessage(string message)

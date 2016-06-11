@@ -31,8 +31,8 @@ namespace daan.ui.PrintingApplication
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainTabControl = new CCWin.SkinControl.SkinTabControl();
             this.tab_PhyReport = new CCWin.SkinControl.SkinTabPage();
@@ -42,7 +42,7 @@ namespace daan.ui.PrintingApplication
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
             this.btnPrinterSetting = new System.Windows.Forms.ToolStripButton();
             this.tlp_queryConditions = new System.Windows.Forms.TableLayoutPanel();
-            this.dropProvince = new CCWin.SkinControl.SkinComboBox();
+            this.dropProvince = new SearchableComboBox();
             this.dpSTo = new System.Windows.Forms.DateTimePicker();
             this.dpTo = new System.Windows.Forms.DateTimePicker();
             this.dpFrom = new System.Windows.Forms.DateTimePicker();
@@ -52,16 +52,16 @@ namespace daan.ui.PrintingApplication
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel9 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel10 = new CCWin.SkinControl.SkinLabel();
-            this.dropDictLab = new CCWin.SkinControl.SkinComboBox();
-            this.dropStatus = new CCWin.SkinControl.SkinComboBox();
-            this.dropDictcustomer = new CCWin.SkinControl.SkinComboBox();
+            this.dropDictLab = new SearchableComboBox();
+            this.dropStatus = new SearchableComboBox();
+            this.dropDictcustomer = new daan.ui.controls.SearchableComboBox();
             this.tbxOrderNum = new CCWin.SkinControl.SkinTextBox();
             this.dpScanFrom = new System.Windows.Forms.DateTimePicker();
             this.dropNumberType = new CCWin.SkinControl.SkinComboBox();
             this.tlp_scanDateTime = new System.Windows.Forms.TableLayoutPanel();
             this.skinLabel8 = new CCWin.SkinControl.SkinLabel();
             this.cbx_ScanDatetimeEnabled = new System.Windows.Forms.CheckBox();
-            this.dropReportStatus = new CCWin.SkinControl.SkinComboBox();
+            this.dropReportStatus = new SearchableComboBox();
             this.skinLabel6 = new CCWin.SkinControl.SkinLabel();
             this.tbxName = new CCWin.SkinControl.SkinTextBox();
             this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
@@ -822,8 +822,8 @@ namespace daan.ui.PrintingApplication
             // Cell_CreateDate
             // 
             this.Cell_CreateDate.DataPropertyName = "createdate";
-            dataGridViewCellStyle5.Format = "yyyy-MM-dd";
-            this.Cell_CreateDate.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Format = "yyyy-MM-dd";
+            this.Cell_CreateDate.DefaultCellStyle = dataGridViewCellStyle1;
             this.Cell_CreateDate.HeaderText = "登记时间";
             this.Cell_CreateDate.Name = "Cell_CreateDate";
             this.Cell_CreateDate.ReadOnly = true;
@@ -870,8 +870,8 @@ namespace daan.ui.PrintingApplication
             // Cell_SamplingDate
             // 
             this.Cell_SamplingDate.DataPropertyName = "samplingdate";
-            dataGridViewCellStyle6.Format = "yyyy-MM-dd";
-            this.Cell_SamplingDate.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Format = "yyyy-MM-dd";
+            this.Cell_SamplingDate.DefaultCellStyle = dataGridViewCellStyle2;
             this.Cell_SamplingDate.HeaderText = "采样时间";
             this.Cell_SamplingDate.Name = "Cell_SamplingDate";
             this.Cell_SamplingDate.ReadOnly = true;
@@ -908,7 +908,7 @@ namespace daan.ui.PrintingApplication
             this.Cell_ReportTemplateId.Name = "Cell_ReportTemplateId";
             this.Cell_ReportTemplateId.ReadOnly = true;
             this.Cell_ReportTemplateId.Visible = false;
-            this.Cell_ReportTemplateId.Width = 185;
+            this.Cell_ReportTemplateId.Width = 177;
             // 
             // tlp_PagePicker
             // 
@@ -1017,7 +1017,7 @@ namespace daan.ui.PrintingApplication
             // menuItem_Copy
             // 
             this.menuItem_Copy.Name = "menuItem_Copy";
-            this.menuItem_Copy.Size = new System.Drawing.Size(127, 24);
+            this.menuItem_Copy.Size = new System.Drawing.Size(83, 24);
             this.menuItem_Copy.Text = "拷贝";
             this.menuItem_Copy.Click += new System.EventHandler(this.menuItem_Copy_Click);
             // 
@@ -1075,10 +1075,10 @@ namespace daan.ui.PrintingApplication
         private CCWin.SkinControl.SkinLabel skinLabel8;
         private CCWin.SkinControl.SkinLabel skinLabel9;
         private CCWin.SkinControl.SkinLabel skinLabel10;
-        private CCWin.SkinControl.SkinComboBox dropDictLab;
-        private CCWin.SkinControl.SkinComboBox dropStatus;
-        private CCWin.SkinControl.SkinComboBox dropDictcustomer;
-        private CCWin.SkinControl.SkinComboBox dropReportStatus;
+        private SearchableComboBox dropDictLab;
+        private SearchableComboBox dropStatus;
+        private SearchableComboBox dropDictcustomer;
+        private SearchableComboBox dropReportStatus;
         private CCWin.SkinControl.SkinTextBox tbxName;
         private CCWin.SkinControl.SkinTextBox tbxOrderNum;
         private System.Windows.Forms.DateTimePicker dpScanFrom;
@@ -1096,7 +1096,7 @@ namespace daan.ui.PrintingApplication
         private System.Windows.Forms.TableLayoutPanel tlp_scanDateTime;
         private System.Windows.Forms.CheckBox cbx_ScanDatetimeEnabled;
         private System.Windows.Forms.ToolStripButton btnPrinterSetting;
-        private CCWin.SkinControl.SkinComboBox dropProvince;
+        private SearchableComboBox dropProvince;
         private CCWin.SkinControl.SkinTextBox tbxSection;
         private CCWin.SkinControl.SkinLabel skinLabel5;
         private CCWin.SkinControl.SkinLabel skinLabel11;
