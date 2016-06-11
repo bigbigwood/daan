@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using CCWin.SkinControl;
-using log4net;
 
 namespace daan.ui.controls
 {
     public partial class SearchableComboBox : SkinComboBox
     {
-        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         //初始化绑定默认关键词（此数据源可以从数据库取）
         List<ListItem> listOnit = new List<ListItem>();
         //输入key之后，返回的关键词
@@ -48,9 +40,10 @@ namespace daan.ui.controls
 
         private void SearchableComboBox_TextUpdate(object sender, EventArgs e)
         {
-            Log.InfoFormat("text updated fired with text: {0}", this.Text);
             if (string.IsNullOrEmpty(Text.Trim()))
             {
+                Items.Clear();
+                Items.AddRange(listOnit.ToArray());
                 Cursor = Cursors.Default; //保持鼠标指针形状，有时候鼠标指针会被覆盖，所以要进行一次设置。
                 return;
             }
