@@ -435,8 +435,8 @@ namespace daan.ui.PrintingApplication
             try
             {
                 const int getReportDataProgressBarWeight = 30;
-                const int printReportProgressBarWeight = 60;
-                const int finishUpdateStatusProgressBarWeight = 10;
+                const int printReportProgressBarWeight = 70;
+                //const int finishUpdateStatusProgressBarWeight = 10;
 
                 string printerName = PrintingApp.CurrentUserInfo.UserPrinterConfig.A4Printer ??
                                      PrintingApp.CurrentUserInfo.UserPrinterConfig.A5Printer;
@@ -489,30 +489,28 @@ namespace daan.ui.PrintingApplication
                         exceptionPrintOrderNumbers.Add(reportInfo.OrderNumber);
 
                     int calcWeight = (int)((double)index / count * printReportProgressBarWeight + getReportDataProgressBarWeight);
-                    BeginInvoke(new Action(() => extendProgressBar.ReportProgress(calcWeight)));
-                }
 
-
-                //更新报告状态
-                var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
-                {
-                    Username = PrintingApp.UserCredential.UserName,
-                    Password = PrintingApp.UserCredential.Password,
-                    OrderTransitions = finishPrintOrderNumbers.Select(o => new OrderTransition()
+                    //更新报告状态
+                    var updateOrdersStatusRequest = new UpdateOrdersStatusRequest()
                     {
-                        OrderNumber = o,
-                        CurrentStatus = OrdersStatus.FinishCheck,
-                        NewStatus = OrdersStatus.FinishPrint
-                    }).ToArray()
-                };
-                var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
-                if (updateOrdersStatusResponse.ResultType == ResultTypes.Ok)
-                {
-                    Invoke(new Action(() => finishPrintOrderNumbers.ForEach(o => UpdateOrderStatusRows(o, ConstString.OrdersStatus_FinishPrint))));
+                        Username = PrintingApp.UserCredential.UserName,
+                        Password = PrintingApp.UserCredential.Password,
+                        OrderTransitions = new [] { new OrderTransition()
+                        {
+                            OrderNumber = reportInfo.OrderNumber,
+                            CurrentStatus = OrdersStatus.FinishCheck,
+                            NewStatus = OrdersStatus.FinishPrint
+                        }},
+                    };
+                    var updateOrdersStatusResponse = printingService.UpdateOrdersStatus(updateOrdersStatusRequest);
+
+                    BeginInvoke(new Action(() => extendProgressBar.ReportProgress(calcWeight)));
                 }
 
                 Invoke(new Action(() =>
                 {
+                    finishPrintOrderNumbers.ForEach(o => UpdateOrderStatusRows(o, ConstString.OrdersStatus_FinishPrint));
+
                     extendProgressBar.ReportProgress(100);
                     EnableControls();
 
