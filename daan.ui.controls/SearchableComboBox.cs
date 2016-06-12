@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CCWin.SkinControl;
+using log4net;
 
 namespace daan.ui.controls
 {
     public partial class SearchableComboBox : SkinComboBox
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //初始化绑定默认关键词（此数据源可以从数据库取）
         List<ListItem> listOnit = new List<ListItem>();
         //输入key之后，返回的关键词
@@ -91,6 +94,17 @@ namespace daan.ui.controls
         {
             ComboBox comb = sender as ComboBox;
             _showText = comb.SelectedText;
+        }
+
+        private void SearchableComboBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)  // or Key.Enter or Key.Return
+            {
+                //Log.Info("enter key fired.");
+                ComboBox comb = sender as ComboBox;
+                //Log.InfoFormat("SelectedText={0}", comb.SelectedText);
+                _showText = comb.SelectedText;
+            }
         }
     }
 }

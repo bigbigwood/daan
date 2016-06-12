@@ -34,6 +34,9 @@
     <Reference Include="CSkin">
       <HintPath>..\EXTERNAL-BIN\CSkin 4.0\CSkin.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\EXTERNAL-BIN\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />

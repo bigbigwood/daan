@@ -37,6 +37,7 @@
             this.TextUpdate += new System.EventHandler(this.SearchableComboBox_TextUpdate);
             this.DropDownClosed += new System.EventHandler(this.SearchableComboBox_DropDownClosed);
             this.TextChanged += new System.EventHandler(this.SearchableComboBox_TextChanged);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SearchableComboBox_KeyPress);
             this.ResumeLayout(false);
 
         }
