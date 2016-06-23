@@ -18,46 +18,44 @@ namespace daan.web.admin.exceptional
                 if (Request.QueryString["OrderNum"] != null && Request.QueryString["OrderNum"] != string.Empty)
                 {
                     BindDictLab();
+                    BindArea();
                     string OrderNum = Request.QueryString["OrderNum"];
-                    //string OrderNums = String.Format("'{0}'", OrderNum.Replace(",", "','"));
                     hidOrderNums.Text = OrderNum;
-                    Hashtable ht = new Hashtable();
-                    ht["pageStart"] = 0;
-                    ht["pageEnd"] = GridOrders.PageSize;
-                    ht["ordernum"] = OrderNum;
-                    ViewState["SearchWhere"] = ht;
-                    GridOrders.PageIndex = 0;//设置显示第一页
-                    BindData(ht, true);
+                    BindData();
                 }
             }
         }
 
-        /// <summary>
-        /// 绑定Grid数据
-        /// </summary>
-        /// <param name="ht">查询参数</param>
-        /// <param name="isSearch">是否重新查询</param>
-        private void BindData(Hashtable ht, bool isSearch)
+        #region 省市区绑定及下拉选择事件
+        private void BindArea()
         {
-            GridOrders.DataSource = mamagement.GetManagementOrdersByDictmemberid(ht);
-            GridOrders.DataBind();
-            if (isSearch)
-            {
-                int pagecount = mamagement.GetManagementOrdersByDictmemberidCount(ht);
-                ht["PageCount"] = GridOrders.RecordCount = pagecount;
-            }
-            else
-            {
-                GridOrders.RecordCount = Convert.ToInt32(ht["PageCount"]);
-            }
+            DropProvinceBinder(dpProvince);
+            DropCityBinder(dpProvince, dpCity);
+            DropCountyBinder(dpCity, dpCounty);
         }
+        //选择省份
+        protected void dpProvince_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropCityBinder(dpProvince, dpCity);
+            DropCountyBinder(dpCity, dpCounty);
+        }
+        //选择市
+        protected void dpCity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropCountyBinder(dpCity, dpCounty);
+        }
+
+        #endregion
+
+        #region 绑定分点  单位
         /// <summary>
         /// 绑定分点
         /// </summary>
         private void BindDictLab()
         {
             DDLDictLabBinder(DropDictLab, true);
-            //DropDictLab.Items.Insert(0, new ExtAspNet.ListItem("全部", "0"));
+            DropDictLab.Items.Insert(0, new ExtAspNet.ListItem("全部", "-1"));
+            DropDictLab.SelectedIndex = 0;
             if (DropDictLab.SelectedValue != null)
             {
                 BindCustomer(Convert.ToDouble(DropDictLab.SelectedValue));
@@ -76,31 +74,21 @@ namespace daan.web.admin.exceptional
         /// </summary>
         private void BindCustomer(double labid)
         {
-            DropDictcustomerBinder(DropCustomer, labid.ToString(), false);
+            DropDictcustomerBinder(DropCustomer, labid.ToString(), true);
         }
+        #endregion
 
-        protected void ck1_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 绑定Grid数据
+        /// </summary>
+        /// <param name="ht">查询参数</param>
+        /// <param name="isSearch">是否重新查询</param>
+        private void BindData()
         {
-            if (ck1.Checked)
-            {
-                txtTelphone.Enabled = txtRecName.Enabled = txtAddress.Enabled = true;
-                txtAddress.Focus();
-            }
-            else
-            {
-                txtTelphone.Enabled = txtRecName.Enabled = txtAddress.Enabled = false;
-                txtAddress.Text = txtRecName.Text = txtTelphone.Text = string.Empty;
-            }
-        }
-
-        //分页
-        protected void GridOrders_PageIndexChange(object sender, GridPageEventArgs e)
-        {
-            GridOrders.PageIndex = e.NewPageIndex;
-            Hashtable ht = ViewState["SearchWhere"] as Hashtable;
-            ht["pageStart"] = GridOrders.PageSize * (GridOrders.PageIndex);
-            ht["pageEnd"] = GridOrders.PageSize * (GridOrders.PageIndex + 1);
-            BindData(ht, false);
+            Hashtable ht = new Hashtable();
+            ht["ordernum"] = hidOrderNums.Text;
+            GridOrders.DataSource = mamagement.GetManagementOrdersByDictmemberid(ht);
+            GridOrders.DataBind();
         }
 
         ///保存
@@ -109,46 +97,66 @@ namespace daan.web.admin.exceptional
             string ordernums = hidOrderNums.Text;
             if (string.IsNullOrEmpty(ordernums))
             {
-                MessageBoxShow("未有体检号，请关闭窗口后重新选择！"); return;
-            }
-            int dropDictLab = Convert.ToInt32(DropDictLab.SelectedValue);
-            int dropCustomer = Convert.ToInt32(DropCustomer.SelectedValue);
-            if (dropDictLab == 0 || dropCustomer == 0 || dropCustomer == -1)
-            {
-                MessageBoxShow("请先选择分点后再选择单位名称！"); return;
+                MessageBoxShow("没有体检号，请关闭窗口后重新选择！"); return;
             }
             if (ordernums == string.Empty) { return; }
             Hashtable ht = new Hashtable();
-            if (ck1.Checked)
-            {
-                if (string.IsNullOrEmpty(txtAddress.Text.Trim()) || string.IsNullOrEmpty(txtRecName.Text.Trim()) || string.IsNullOrEmpty(txtTelphone.Text.Trim()))
-                {
-                    MessageBoxShow("勾选统一寄送报告后，报告寄送信息不能为空！"); return;
-                }
-                else
-                {
-                    ht.Add("ck","1");
-                    ht.Add("address",txtAddress.Text.Trim());
-                    ht.Add("recname", txtRecName.Text.Trim());
-                    ht.Add("telphone", txtTelphone.Text.Trim());
-                }
-            }
             ht.Add("ordernum", ordernums);
-            ht.Add("dictlabid", dropDictLab);
-            ht.Add("dictcustomerid", dropCustomer);
+            //分点
+            int dropDictLab = Convert.ToInt32(DropDictLab.SelectedValue);
+            if (dropDictLab != -1)
+            {   
+                ht.Add("dictlabid", dropDictLab);
+            }
+            //单位
+            int dropCustomer = Convert.ToInt32(DropCustomer.SelectedValue);
+            if (dropCustomer != -1)
+            {
+                ht.Add("dictcustomerid", dropCustomer);
+            }
+            //省
+            string province = dpProvince.SelectedValue;
+            if (province != "-1")
+                ht.Add("province", province);
+            //市
+            string city = dpCity.SelectedValue;
+            if (city != "-1")
+                ht.Add("city",city);
+            //区县
+            string county = dpCounty.SelectedValue;
+            if (county != "-1")
+                ht.Add("county", county);
+            //部门机构
             if (!string.IsNullOrEmpty(txtSection.Text.Trim()))
-                ht.Add("section",txtSection.Text.Trim());
+                ht.Add("section", txtSection.Text.Trim());
+            //营业区
+            if (!string.IsNullOrEmpty(txtArea.Text.Trim()))
+                ht.Add("area", txtArea.Text.Trim());
+            //客户经理
+            if (!string.IsNullOrEmpty(txtAccountManager.Text.Trim()))
+                ht.Add("accountmanager", txtAccountManager.Text.Trim());
+            //采样日期
+            if (!string.IsNullOrEmpty(dtSampleDate.Text))
+                ht.Add("sampledate", dtSampleDate.Text);
+            //报告回寄信息
+            if (!string.IsNullOrEmpty(txtAddress.Text.Trim()))
+                ht.Add("address", txtAddress.Text.Trim());
+            if (!string.IsNullOrEmpty(txtRecName.Text.Trim()))
+                ht.Add("recname", txtRecName.Text.Trim());
+            if (!string.IsNullOrEmpty(txtTelphone.Text.Trim()))
+                ht.Add("telphone", txtTelphone.Text.Trim());
+            if (ht.Count <= 1) return;
             
             if (mamagement.UpdateDictmemberidByOrderNum(ht))
             {
+                MessageBoxShow("批量修改成功！");
                 //刷记录
-                BindData((ViewState["SearchWhere"] as Hashtable), false);
-
+                BindData();
                 //记录操作日志
                 string[] arr = ordernums.Split(',');
                 foreach (string str in arr)
                 {
-                    mamagement.AddOperationLog(str, "", "异常管理中心", "批量修改订单" + ordernums + "[" + str + "]", "修改留痕", "批量" + ordernums);
+                    mamagement.AddOperationLog(str, "", "异常管理中心", "批量修改订单[" + str + "]", "修改留痕", "批量" + ordernums);
                 }
             }
             else

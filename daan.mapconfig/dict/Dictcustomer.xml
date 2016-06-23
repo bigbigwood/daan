@@ -76,6 +76,14 @@
         </isParameterPresent>
       </dynamic>
     </select>
+
+    <select id="Dict.SelectCustomerBySearchBox" parameterClass="Hashtable">
+      select c.dictcustomerid,c.customercode,c.customername,c.displayorder,c.address,c.telephone,c.fax,c.postcode,c.contactman,c.contactphone,
+      c.customertype,c.customername2,decode(c.ispublic,'1','公共单位','分点单位') ispublic,l.labname
+      from dictcustomer c ,dictlab l
+      where c.dictlabid=l.dictlabid and c.active='1'
+      and c.customername like '%$customername$%' and (c.dictlabid in($labid$) or c.ispublic='1')
+    </select>
     
     <select id="Dict.SelectDictcustomerByCode" parameterClass="Hashtable"  resultMap="DictcustomerResult" >
       SELECT DICTCUSTOMERID AS Dictcustomerid,CUSTOMERCODE AS Customercode,FASTCODE AS Fastcode,CUSTOMERNAME AS Customername,CUSTOMERENGNAME AS Customerengname,

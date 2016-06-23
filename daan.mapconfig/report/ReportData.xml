@@ -51,7 +51,7 @@
     <select id="report.GetDataTitle" parameterClass="string" >
       <!--select a.realname,decode(a.sex,'M','男','F','女','未知') sex,a.age,a.ordernum,a.enterdate,a.dictmemberid,nvl(d.customername2,d.customername) customername,d.reporttitle,lab.labdescription,to_char(a.finishdate,'yyyy-MM-dd') as finishdate from
       orders a  left join dictcustomer d on (a.dictcustomerid = d.dictcustomerid) left join dictlab lab
-      on a.dictlabid=lab.dictlabid
+      on a.dictlabid=lab.dictlabid                  
       where a.ordernum = $value$-->
       select b.barcode, a.realname,decode(a.sex,'M','男','F','女','未知') sex,a.age,a.ordernum,a.enterdate,a.dictmemberid,nvl(d.customername2,d.customername) customername,
       d.reporttitle,lab.labdescription,to_char(a.finishdate,'yyyy-MM-dd') as finishdate,a.area,a.section,a.accountmanager

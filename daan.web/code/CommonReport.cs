@@ -25,6 +25,7 @@ namespace daan.web.code
         public string repID = "";//报告模板ID      
         ReportService repServeic = new ReportService();
         OrdersService orderService = new OrdersService();
+        OrderreportdataService optService = new OrderreportdataService();
         InitlocalsettingService initlocalsettingService = new InitlocalsettingService();
         Initlocalsetting initlocalsetting = new Initlocalsetting();
         DictreporttemplateService repService = new DictreporttemplateService();
@@ -213,6 +214,12 @@ namespace daan.web.code
             return ht;
         }
 
+        #region 新版打印
+        /// <summary>
+        /// 暂未使用
+        /// </summary>
+        /// <param name="ordernum"></param>
+        /// <returns></returns>
         public Hashtable getPrintReportDate(string ordernum)
         {
             string path = System.Configuration.ConfigurationManager.AppSettings["SerializeReportDateFile"].ToString();
@@ -249,6 +256,7 @@ namespace daan.web.code
             }
             return htPrint;
         }
+
         /// <summary>
         /// 获取报告数据，不涉及模板
         /// </summary>
@@ -264,15 +272,31 @@ namespace daan.web.code
                 repCode = dictreporttemplate.Templatecode.ToString();
                 repID = dictreporttemplate.Reporttype.ToString();
             }
-            DataSet ds = repServeic.GetReportData(ordernum, repID);
+            string dsjson = string.Empty;
+            //根据体检号去体检报告数据表中查找记录
+            Orderreportdata optdata = optService.GetOrderreportdata(ordernum);
+            if (optdata != null)
+            {
+                dsjson = optdata.ReportData;
+            }
+            else//体检报告数据表中没有数据则实时去数据库查询填充报告需要的数据
+            {
+                DataSet ds = repServeic.GetReportData(ordernum, repID);
+                dsjson=Serialize(ds);
+            }
             Hashtable htPrint = new Hashtable();
             htPrint.Add("repCode",repCode);
-            htPrint.Add("dsjson",Serialize(ds));
+            htPrint.Add("dsjson",dsjson);
             return htPrint;
         }
-
+        /// <summary>
+        /// 获取报告填充数据。完成总检后生成序列化报告数据时调用
+        /// </summary>
+        /// <param name="ordernum"></param>
+        /// <returns></returns>
         public string GetSerializeReportDate(string ordernum)
         {
+            //根据体检号获取报告模板和数据
             Orders orders = orderService.SelectOrdersByOrdernum(ordernum);
             string repID = string.Empty;
             if (orders != null)
@@ -287,6 +311,8 @@ namespace daan.web.code
             string dsjson=Serialize(ds);
             return dsjson;
         }
+
+        #endregion
         #endregion
 
         #region 打印条码
@@ -364,6 +390,7 @@ namespace daan.web.code
                 return null;
             }
         }
+
         public static T Desrialize<T>(T obj, string str)
         {
             try

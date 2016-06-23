@@ -11,9 +11,12 @@ using System.Xml;
 using daan.service.login;
 using daan.service.proceed;
 using daan.service.dict;
+using daan.service.report;
 using daan.util.Common;
 using System.Text;
 using System.Collections;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace daan.webservice.ToYH
 {
@@ -24,6 +27,7 @@ namespace daan.webservice.ToYH
         static readonly ProRegisterService registerservice = new ProRegisterService();
         static readonly OrderbarcodeService barcodeservice = new OrderbarcodeService();
         static readonly DictCustomerService customerservice = new DictCustomerService();
+        static readonly ReportService rservice = new ReportService();
         static readonly string enterby = "大众平台";
         static readonly double? enterbyID = 0;
         /// <summary>登录验证
@@ -650,6 +654,246 @@ namespace daan.webservice.ToYH
             else
             {
                 return result_Fail + ErrorCode.Update_0003;
+            }
+        }
+
+        /// <summary>
+        /// 防癌orC14信息以json形式返回
+        /// </summary>
+        /// <param name="uname"></param>
+        /// <param name="umobile"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetDataForJson(string uname, string umobile, string type)
+        {
+            if (string.IsNullOrEmpty(uname) || string.IsNullOrEmpty(umobile) || string.IsNullOrEmpty(type))
+            {
+                return "{\"0|\":\"姓名|手机号|类型为空\"}";
+            }
+            else if (type != "BG_1001" && type != "BG_1006")
+            {
+                return "{\"0|\":\"此类型不存在\"}";
+            }
+
+            try
+            {
+                DataTable dt = new DataTable();
+                Hashtable ht = new Hashtable();
+                ht.Add("uname", uname);
+                ht.Add("umobile", umobile);
+                //根据用户名、手机号码获取最新订单号
+                dt = os.GetOrderNum(ht);
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    return "{\"0|\":\"不存在条码号\"}";
+                }
+                DataRow dr = dt.Rows[0];
+                if (dr["iscancel"].ToString() == "1")
+                {
+                    return "{\"0|\":" + "已作废。作废原因[" + dr["cancelreason"] + "]}";
+                }
+                if (Convert.ToInt32(dr["status"]) < 25)
+                {
+                    return "{\"0|\":\"完成总检后才能查看报告\"}";
+ 
+                }
+
+                DataSet ds = new DataSet();
+                string strjson = string.Empty;
+                if (type == "BG_1001")
+                {
+                    //获取报告相关信息
+                    ds = rservice.GetReportDataByType(dr["ordernum"].ToString(), type);
+                    string dtRepTitleresult = "";//基本信息
+                    string dtOrderresultcommentresult = "";//总体评价
+                    string dtRepImportantSignsresult = "";//本次体检结果
+                    string dtRepDiseaseGuideresult = "";//解读与建议
+                    string dtRepExamComparedresult = "";//历史检测比对
+
+                    #region>>>>>基本信息
+                    ////基本信息
+                    //DataTable dtRepTitle = new DataTable();
+                    //dtRepTitle.Columns.Add("姓名");
+                    //dtRepTitle.Columns.Add("性别");
+                    //dtRepTitle.Columns.Add("年龄");
+                    //dtRepTitle.Columns.Add("检验编号");
+                    //dtRepTitle.Columns.Add("报告日期");
+                    //dtRepTitle.Columns.Add("单位");
+                    //if (ds.Tables["dtRepTitle"].Rows.Count > 0) 
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtRepTitle"].Rows)
+                    //    {
+                    //        DataRow newRow = dtRepTitle.NewRow();
+                    //        newRow["姓名"] = row["REALNAME"];
+                    //        newRow["性别"] = row["SEX"];
+                    //        newRow["年龄"] = row["AGE"];
+                    //        newRow["检验编号"] = row["ORDERNUM"];
+                    //        newRow["报告日期"] = row["FINISHDATE"];
+                    //        newRow["单位"] = row["CUSTOMERNAME"];
+                    //        dtRepTitle.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtRepTitleresult = JsonConvert.SerializeObject(ds.Tables["dtRepTitle"], new DataTableConverter());
+
+
+
+                    #endregion
+
+                    #region>>>>总体评价
+                    ////总体评价
+                    //DataTable dtOrderresultcomment = new DataTable();
+                    //dtOrderresultcomment.Columns.Add("评价内容与建议");
+                    //if (ds.Tables["dtOrderresultcomment"].Rows.Count > 0) 
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtOrderresultcomment"].Rows)
+                    //    {
+                    //        DataRow newRow = dtOrderresultcomment.NewRow();
+                    //        newRow["评价内容与建议"] = row["RESULTCOMMENT"];
+                    //        dtOrderresultcomment.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtOrderresultcommentresult = JsonConvert.SerializeObject(ds.Tables["dtOrderresultcomment"], new DataTableConverter());
+                    #endregion
+
+                    #region>>>>>本次体检结果
+                    ////本次体检结果
+                    //DataTable dtRepImportantSigns = new DataTable();
+                    //dtRepImportantSigns.Columns.Add("项目名称");
+                    //dtRepImportantSigns.Columns.Add("本次检测结果");
+                    //dtRepImportantSigns.Columns.Add("提示");
+                    //dtRepImportantSigns.Columns.Add("单位");
+                    //dtRepImportantSigns.Columns.Add("参考范围");
+                    //if (ds.Tables["dtRepImportantSigns"].Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtRepImportantSigns"].Rows)
+                    //    {
+                    //        DataRow newRow = dtRepImportantSigns.NewRow();
+                    //        newRow["项目名称"] = row["TESTNAME"];
+                    //        newRow["本次检测结果"] = row["TESTRESULT"];
+                    //        newRow["提示"] = row["HLFLAG"];
+                    //        newRow["单位"] = row["UNIT"];
+                    //        newRow["参考范围"] = row["TEXTSHOW"];
+                    //        dtRepImportantSigns.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtRepImportantSignsresult = JsonConvert.SerializeObject(ds.Tables["dtRepImportantSigns"], new DataTableConverter());
+                    #endregion
+
+                    #region>>>>>解读与建议
+                    ////解读与建议
+                    //DataTable dtRepDiseaseGuide = new DataTable();
+                    //dtRepDiseaseGuide.Columns.Add("解读项目");
+                    //dtRepDiseaseGuide.Columns.Add("医学解释");
+                    //dtRepDiseaseGuide.Columns.Add("病因提示");
+                    //dtRepDiseaseGuide.Columns.Add("本次检验建议");
+                    //if (ds.Tables["dtRepDiseaseGuide"].Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtRepDiseaseGuide"].Rows)
+                    //    {
+                    //        DataRow newRow = dtRepDiseaseGuide.NewRow();
+                    //        newRow["解读项目"] = row["DIAGNOSISNAME"];
+                    //        newRow["医学解释"] = row["DISEASEDESCRIPTION"];
+                    //        newRow["病因提示"] = row["DISEASECAUSE"];
+                    //        newRow["本次检验建议"] = row["SUGGESTION"];
+                    //        dtRepDiseaseGuide.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtRepDiseaseGuideresult = JsonConvert.SerializeObject(ds.Tables["dtRepDiseaseGuide"], new DataTableConverter());
+                    #endregion
+
+                    #region>>>>>历史检测比对
+                    ////历史检测比对
+                    //DataTable dtRepExamCompared = new DataTable();
+                    //dtRepExamCompared.Columns.Add("日期");
+                    //dtRepExamCompared.Columns.Add("项目名称");
+                    //dtRepExamCompared.Columns.Add("历史检测结果");
+                    //if (ds.Tables["dtRepExamCompared"].Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtRepExamCompared"].Rows)
+                    //    {
+                    //        DataRow newRow = dtRepExamCompared.NewRow();
+                    //        newRow["日期"] = row["FIVETESTDATE"];
+                    //        newRow["项目名称"] = row["TESTNAME"];
+                    //        newRow["历史检测结果"] = row["FIVETESTRESULT"];
+                    //        dtRepExamCompared.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtRepExamComparedresult = JsonConvert.SerializeObject(ds.Tables["dtRepExamCompared"], new DataTableConverter());
+                    #endregion
+                    string strRepTitleresult = dtRepTitleresult.Substring(0, dtRepTitleresult.Length - 2);
+                    strjson = "{\"1|\":" + strRepTitleresult + ",\"CommentResult\":" + dtOrderresultcommentresult + ",\"TestResult\":" + dtRepImportantSignsresult + ",\"DiseaseGuideresult\":"
+                    + dtRepDiseaseGuideresult + ",\"Comparedresult\":" + dtRepExamComparedresult + "}]}";
+
+                }
+                else if (type == "BG_1006")
+                {
+                    //获取C14报告相关信息
+                    ds = rservice.GetReportDataByType(dr["ordernum"].ToString(), type);
+
+                    string dtRepTitleresult = "";//基本信息
+                    string dtRepImportantSignsresult = "";//本次体检结果
+
+                    #region>>>>>基本信息
+                    ////基本信息
+                    //DataTable dtRepTitle = new DataTable();
+                    //dtRepTitle.Columns.Add("姓名");
+                    //dtRepTitle.Columns.Add("性别");
+                    //dtRepTitle.Columns.Add("年龄");
+                    //dtRepTitle.Columns.Add("检验编号");
+                    //dtRepTitle.Columns.Add("报告日期");
+                    //dtRepTitle.Columns.Add("单位");
+                    //if (ds.Tables["dtRepTitle"].Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtRepTitle"].Rows)
+                    //    {
+                    //        DataRow newRow = dtRepTitle.NewRow();
+                    //        newRow["姓名"] = row["REALNAME"];
+                    //        newRow["性别"] = row["SEX"];
+                    //        newRow["年龄"] = row["AGE"];
+                    //        newRow["检验编号"] = row["ORDERNUM"];
+                    //        newRow["报告日期"] = row["FINISHDATE"];
+                    //        newRow["单位"] = row["CUSTOMERNAME"];
+                    //        dtRepTitle.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtRepTitleresult = JsonConvert.SerializeObject(ds.Tables["dtRepTitle"], new DataTableConverter());
+                    #endregion
+
+                    #region>>>>>本次体检结果
+                    ////本次体检结果
+                    //DataTable dtRepImportantSigns = new DataTable();
+                    //dtRepImportantSigns.Columns.Add("项目名称");
+                    //dtRepImportantSigns.Columns.Add("本次检测结果");
+                    //dtRepImportantSigns.Columns.Add("检验方法");
+                    //dtRepImportantSigns.Columns.Add("提示");
+                    //dtRepImportantSigns.Columns.Add("单位");
+                    //dtRepImportantSigns.Columns.Add("参考范围");
+                    //if (ds.Tables["dtRepImportantSigns"].Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow row in ds.Tables["dtRepImportantSigns"].Rows)
+                    //    {
+                    //        DataRow newRow = dtRepImportantSigns.NewRow();
+                    //        newRow["项目名称"] = row["TESTNAME"];
+                    //        newRow["本次检测结果"] = row["TESTRESULT"];
+                    //        newRow["提示"] = row["HLFLAG"];
+                    //        newRow["单位"] = row["UNIT"];
+                    //        newRow["参考范围"] = row["TEXTSHOW"];
+                    //        newRow["检验方法"] = row["testmethod"];
+                    //        dtRepImportantSigns.Rows.Add(newRow);
+                    //    }
+                    //}
+                    dtRepImportantSignsresult = JsonConvert.SerializeObject(ds.Tables["dtRepImportantSigns"], new DataTableConverter());
+                    #endregion
+
+                    string strRepTitleresult = dtRepTitleresult.Substring(0, dtRepTitleresult.Length - 2);
+                    strjson = "{\"1|\":" + strRepTitleresult + ",\"TestResult\":" + dtRepImportantSignsresult + "}]}";
+                }
+                return strjson;
+            }
+            catch (Exception ex)
+            {
+                return "{" + String.Format("\"0|\":{0} {1}", "\"其它原因", ex.Message) + "\"}";
             }
         }
 

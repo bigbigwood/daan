@@ -53,6 +53,17 @@ namespace daan.service.common
         }
 
         /// <summary>
+        /// 报告财务审核状态
+        /// </summary>
+        public enum FinanceAuditStatus
+        {
+            [EnumDescription("已审核")]
+            Audit=1,
+            [EnumDescription("未审核")]
+            UnAudit=0,
+        }
+
+        /// <summary>
         /// Billhead表状态
         /// </summary>
         public enum BillheadStatus
@@ -156,6 +167,7 @@ namespace daan.service.common
             [EnumDescription("功能科室")]
             FunctionDepartment = 3,
         }
+
 
         /// <summary>
         /// LIS订单状态

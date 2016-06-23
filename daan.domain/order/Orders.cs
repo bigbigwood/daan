@@ -66,6 +66,11 @@ namespace daan.domain
         private string area;
         private string batchnumber;
         private string accountmanager;
+        private string auditstatus;
+        private string auditusername;
+        private DateTime? audittime;
+        private string specimencount;
+
         #endregion
 
         #region Default ( Empty ) Class Constuctor
@@ -119,6 +124,10 @@ namespace daan.domain
             area = null;
             batchnumber = null;
             accountmanager = null;
+            auditstatus = "0";
+            auditusername = null;
+            audittime = null;
+            specimencount = null;
         }
         #endregion // End of Default ( Empty ) Class Constuctor
 
@@ -666,6 +675,46 @@ namespace daan.domain
         {
             get { return accountmanager; }
             set { isChanged |= (accountmanager != value); accountmanager = value; }
+        }
+
+        /// <summary>
+        /// 财务审核状态
+        /// </summary>
+        [LogInfo("财务审核状态")]
+        public string AuditStatus
+        {
+            get { return auditstatus; }
+            set { isChanged |= (auditstatus != value); auditstatus = value; }
+        }
+
+        /// <summary>
+        /// 财务审核人姓名
+        /// </summary>
+        [LogInfo("财务审核人姓名")]
+        public string AuditUserName
+        {
+            get { return auditusername; }
+            set { isChanged |= (auditusername != value); auditusername = value; }
+        }
+
+        /// <summary>
+        /// 财务审核时间
+        /// </summary>
+        [LogInfo("财务审核时间")]
+        public DateTime? AuditTime
+        {
+            get { return audittime; }
+            set { isChanged |= (audittime != value); audittime = value; }
+        }
+
+        /// <summary>
+        /// 本批标本总数
+        /// </summary>
+        [LogInfo("本批标本总数")]
+        public string SpecimenCount
+        {
+            get { return specimencount; }
+            set { isChanged |= (specimencount != value); specimencount = value; }
         }
 
         /// <summary>

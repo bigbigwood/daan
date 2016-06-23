@@ -23,7 +23,7 @@
             </ext:Toolbar>
         </Toolbars>
         <Regions>
-            <ext:Region Layout="Fit" Height="270px" Position="Top" ShowHeader="False" ShowBorder="False"
+            <ext:Region Layout="Fit" Height="280px" Position="Top" ShowHeader="False" ShowBorder="False"
                 Split="true">
                 <Items>
                     <ext:ContentPanel ShowHeader="False" ShowBorder="False" runat="server">
@@ -39,38 +39,46 @@
                                 </ext:dropdownlist>
                             </td> 
                             <td style="height:25px">
-                                <ext:label runat="server" text="体 检 号<font color=red>*</font>：" EncodeText="false" showlabel="False" cssclass="mright_lable" id="lblOrderNum">                                    </ext:label>
+                                <ext:label runat="server" text="体 检 号<font color=red>*</font>：" EncodeText="false" showlabel="False" cssclass="mright_lable" id="lblOrderNum">                                    
+                                </ext:label>
                             </td>
                             <td>
-                                <ext:textbox runat="server" id="tbxOrderNum" readonly="true" Enabled="False" cssclass="tbxwidth100">                                    </ext:textbox>
+                                <ext:textbox runat="server" id="tbxOrderNum" readonly="true" Enabled="False" width="152">                                    
+                                </ext:textbox>
                             </td>                           
                         </tr>
                         <tr>                            
                             <td>
-                                <ext:label runat="server" text="姓　　名<font color=red>*</font>：" EncodeText="false"  showlabel="False" cssclass="mright_lable" id="lblName">                                    </ext:label>
+                                <ext:label runat="server" text="姓　　名<font color=red>*</font>：" EncodeText="false"  showlabel="False" cssclass="mright_lable" id="lblName">                                    
+                                </ext:label>
                             </td>
                             <td >
-                                <ext:textbox runat="server" id="tbxName" label="" required="true" cssclass="tbxwidth100">                                    </ext:textbox>
+                                <ext:textbox runat="server" id="tbxName" label="" required="true" cssclass="tbxwidth100">                                    
+                                </ext:textbox>
                             </td>
                             <td>    
-                                <ext:label runat="server" text="身 份 证<font color=red>*</font>：" EncodeText="false"  showlabel="False" cssclass="mright_lable" id="lblIDNumber">                                    </ext:label>
+                                <ext:label runat="server" text="身 份 证<font color=red>*</font>：" EncodeText="false"  showlabel="False" cssclass="mright_lable" id="lblIDNumber">                                    
+                                </ext:label>
                             </td>
                             <td>
                                 <ext:textbox runat="server" id="tbxIDNumber"  cssclass="tbxwidth100"> </ext:textbox>
                             </td>
                             <td>
-                                <ext:label runat="server" text="生　　日<font color=red>*</font>：" EncodeText="false"   showlabel="False" cssclass="mright_lable" id="Label1">                                    </ext:label>
+                                <ext:label runat="server" text="生　　日<font color=red>*</font>：" EncodeText="false"   showlabel="False" cssclass="mright_lable" id="Label1">                                    
+                                </ext:label>
                             </td>
                             <td>
-                                <ext:datepicker id="dateBirthday" width="156" required="true" runat="server" dateformatstring="yyyy-MM-dd"
+                                <ext:datepicker id="dateBirthday" width="140" required="true" runat="server" dateformatstring="yyyy-MM-dd"
                                     enabledateselect="true" autopostback="true" ontextchanged="dateBirthday_TextChanged">
                                     </ext:datepicker>
                             </td>
                             <td>
-                                <ext:label runat="server" text="年　　龄<font color=red>*</font>：" EncodeText="false"  showlabel="False" cssclass="mright_lable" id="lblAge">                                    </ext:label>
+                                <ext:label runat="server" text="年　　龄<font color=red>*</font>：" EncodeText="false"  showlabel="False" cssclass="mright_lable" id="lblAge">                                    
+                                </ext:label>
                             </td>
                             <td>
-                                <ext:numberbox runat="server" showlabel="False" id="tbxAge" cssclass="inline" width="22%" autopostback="true" ontextchanged="tbxAge_TextChanged">                                    </ext:numberbox>
+                                <ext:numberbox runat="server" showlabel="False" id="tbxAge" cssclass="inline" width="22%" autopostback="true" ontextchanged="tbxAge_TextChanged">                                    
+                                </ext:numberbox>
                                 <ext:label runat="server" text="岁" showlabel="False" cssclass="inlineTop" id="lblYear"></ext:label>
                                 <ext:numberbox runat="server" showlabel="False" id="tbxMonth" cssclass="inline"  width="22%"  autopostback="true" ontextchanged="tbxAge_TextChanged"></ext:numberbox>
                                 <ext:label runat="server" text="月" showlabel="False" cssclass="inlineTop" id="lblMonth"></ext:label>
@@ -107,7 +115,7 @@
                                 <ext:label runat="server" text="E-Mail　：" showlabel="False" cssclass="mright_lable" id="lblEMail"></ext:label>
                             </td>
                             <td>
-                                <ext:textbox runat="server" id="tbxEMail" width="156" regex="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+                                <ext:textbox runat="server" id="tbxEMail" width="152" regex="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
                                 regexmessage="E-Mail格式不对">
                                 </ext:textbox>
                             </td>
@@ -133,12 +141,11 @@
                                     </ext:dropdownlist>
                             </td>
                             <td>
-                                <ext:label runat="server" text="单位部门 ：" showlabel="False" cssclass="mright_lable"
-                                    id="lblPhysicalType"> 
-                                    </ext:label>
+                                <ext:label runat="server" text="部门机构 ：" showlabel="False" cssclass="mright_lable" id="lblPhysicalType"> 
+                                </ext:label>
                             </td>
                             <td>
-                                <ext:textbox runat="server" id="tbxSection" width="156"></ext:textbox>
+                                <ext:textbox runat="server" id="tbxSection"  cssclass="tbxwidth100"></ext:textbox>
                             </td>
                             <td>
                                 <ext:Label runat="server" Text="采样日期：" ShowLabel="false" cssclass="mright_lable"></ext:Label>
@@ -152,30 +159,27 @@
                                 <ext:Label runat="server" Text="省份：" CssClass="mright_lable"></ext:Label>
                            </td>
                            <td>
-                                <ext:DropDownList runat="server" ID="dpProvince" Resizable="True" Width="140px" AutoPostBack="true" OnSelectedIndexChanged="dpProvince_SelectedIndexChanged">
+                                <ext:DropDownList runat="server" ID="dpProvince" EnableEdit="true" Resizable="True"  width="128"  AutoPostBack="true" OnSelectedIndexChanged="dpProvince_SelectedIndexChanged">
                                 </ext:DropDownList>
                            </td>
                            <td>
                                 <ext:Label runat="server" Text="城市：" CssClass="mright_lable"></ext:Label>
                            </td>
                             <td>
-                                <ext:DropDownList runat="server" ID="dpCity" Resizable="True" Width="140px" AutoPostBack="true" OnSelectedIndexChanged="dpCity_SelectedIndexChanged">
+                                <ext:DropDownList runat="server" ID="dpCity" EnableEdit="true" Resizable="True"  width="128"  AutoPostBack="true" OnSelectedIndexChanged="dpCity_SelectedIndexChanged">
                                 </ext:DropDownList>
                            </td>
                            <td>
                                 <ext:Label runat="server" Text="地区：" CssClass="mright_lable"></ext:Label>
                            </td>
-                            <td colspan="3">
-                                <ext:DropDownList runat="server" ID="dpCounty" Resizable="True" Width="140px" AutoPostBack="true"></ext:DropDownList>
+                            <td>
+                                <ext:DropDownList runat="server" ID="dpCounty" EnableEdit="true" Resizable="True"  width="128"  AutoPostBack="true"></ext:DropDownList>
                            </td>
-                        </tr>
-                        <tr>
-                            <td style="height:25px">
-                                <ext:label runat="server" text="联系地址 ：" showlabel="False" cssclass="mright_lable" id="lblAddres">
-                                </ext:label>
+                           <td>
+                                <ext:label runat="server" text="营业区："  cssclass="mright_lable"  id="Label3"> </ext:label>
                             </td>
-                            <td colspan="7">
-                                <ext:textbox runat="server" id="tbxAddres" cssstyle="width:99%"></ext:textbox>
+                            <td>
+                                <ext:textbox runat="server" id="txtArea" width="152"></ext:textbox>
                             </td>
                         </tr>
                         <tr>
@@ -186,7 +190,22 @@
                             <td><ext:Label runat="server" Text="收 件 人：" showlabel="False" cssclass="mright_lable"></ext:Label></td>
                             <td><ext:TextBox runat="server" ID="txtRECIPIENT" cssclass="tbxwidth100" ></ext:TextBox></td>
                             <td><ext:Label runat="server" Text="联系电话：" showlabel="False" cssclass="mright_lable"></ext:Label></td>
-                            <td><ext:TextBox runat="server" ID="txtCONTACTNUMBER" cssclass="tbxwidth100" ></ext:TextBox></td>
+                            <td><ext:TextBox runat="server" ID="txtCONTACTNUMBER"  width="152" ></ext:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td style="height:25px">
+                                <ext:label runat="server" text="联系地址 ：" showlabel="False" cssclass="mright_lable" id="lblAddres">
+                                </ext:label>
+                            </td>
+                            <td colspan="5">
+                                <ext:textbox runat="server" id="tbxAddres" cssstyle="width:99%"></ext:textbox>
+                            </td>
+                            <td>
+                                <ext:label runat="server" text="客户经理："  cssclass="mright_lable" id="Label4"></ext:label>
+                            </td>
+                            <td>
+                                <ext:textbox runat="server" id="tbxAccountmanager" width="152"></ext:textbox>
+                            </td>
                         </tr>
                         <tr >
                             <td style="height:25px">

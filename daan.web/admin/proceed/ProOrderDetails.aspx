@@ -22,10 +22,10 @@
             </ext:Toolbar>
         </Toolbars>     
         <Regions>
-            <ext:Region Layout="Fit" Height="210px" Position="Top" ShowHeader="False" ShowBorder="False"
+            <ext:Region Layout="Fit" Height="260px" Position="Top" ShowHeader="False" ShowBorder="False"
                 Split="true">
                 <Items>
-                    <ext:ContentPanel ShowHeader="False" ShowBorder="False">
+                    <ext:ContentPanel runat="server" ShowHeader="False" ShowBorder="False">
                     <table border="0" width="100%"  >
                         <tr>
                             <td  style="height:25px; text-align:right">
@@ -120,7 +120,7 @@
                                 <ext:textbox  Enabled="false"  runat="server" id="tbxCustomer" cssclass="tbxwidth100"></ext:textbox>
                             </td>
                             <td>
-                                <ext:label runat="server" text="单位部门："  cssclass="mright_lable"  id="lblPhysicalType"> </ext:label>
+                                <ext:label runat="server" text="部门机构："  cssclass="mright_lable"  id="lblPhysicalType"> </ext:label>
                             </td>
                             <td>
                                 <ext:textbox  Enabled="false"  runat="server" id="tbxSection" width="152"></ext:textbox>
@@ -142,16 +142,38 @@
                            <td>
                                 <ext:Label ID="lblcountyname" runat="server" Text="地区：" CssClass="mright_lable"></ext:Label>
                            </td>
-                            <td colspan="3">
+                            <td>
                                 <ext:textbox runat="server" id="tbxCountyname" CssClass="width:99%" Enabled="false"></ext:textbox>
                            </td>
+                           <td>
+                                <ext:label runat="server" text="营业区："  cssclass="mright_lable"  id="Label3"> </ext:label>
+                            </td>
+                            <td>
+                                <ext:textbox  Enabled="false"  runat="server" id="txtArea" width="152"></ext:textbox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height:25px">
+                                <ext:Label ID="Label5" runat="server" Text="邮寄地址：" showlabel="False" cssclass="mright_lable"></ext:Label>
+                            </td>
+                            <td colspan="3"><ext:TextBox  Enabled="false" runat="server" ID="txtPostAddress" Width="350px" ></ext:TextBox></td>
+                            <td><ext:Label ID="Label6" runat="server" Text="收 件 人：" showlabel="False" cssclass="mright_lable"></ext:Label></td>
+                            <td><ext:TextBox runat="server"  Enabled="false" ID="txtRECIPIENT" cssclass="tbxwidth100" ></ext:TextBox></td>
+                            <td><ext:Label ID="Label7" runat="server" Text="联系电话：" showlabel="False" cssclass="mright_lable"></ext:Label></td>
+                            <td><ext:TextBox runat="server"  Enabled="false" ID="txtCONTACTNUMBER" width="152"></ext:TextBox></td>
                         </tr>
                         <tr > 
                             <td style="height:25px">
                                 <ext:label runat="server" text="联系地址："  cssclass="mright_lable" id="lblAddres"></ext:label>
                             </td>
-                            <td colspan="7">
+                            <td colspan="5">
                                 <ext:textbox  Enabled="false"  runat="server" id="tbxAddres" cssstyle="width:99%"></ext:textbox>
+                            </td>
+                            <td>
+                                <ext:label runat="server" text="客户经理："  cssclass="mright_lable" id="Label4"></ext:label>
+                            </td>
+                            <td>
+                                <ext:textbox  Enabled="false"  runat="server" id="tbxAccountmanager" width="152"></ext:textbox>
                             </td>
                         </tr>
                         <tr>

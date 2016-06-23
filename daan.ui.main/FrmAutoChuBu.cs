@@ -13,6 +13,7 @@ using daan.service.order;
 using System.Collections;
 using daan.service.common;
 using daan.domain;
+using daan.service.login;
 namespace daan.ui.main
 {
     /*
@@ -28,9 +29,13 @@ namespace daan.ui.main
     {
         bool b;
         readonly OrdersService os = new OrdersService();
+        readonly CommonReport commonreport = new CommonReport();
+        readonly OrderreportdataService reportdataService = new OrderreportdataService();
+        readonly LoginService loginservice = new LoginService();
         private readonly System.Timers.Timer timer = new System.Timers.Timer();
         private static readonly string username = "医学部管理员";
         private static readonly double userid = 2401;
+        
         public FrmAutoChuBu()
         {
             InitializeComponent();
@@ -155,12 +160,13 @@ namespace daan.ui.main
         }
 
         /// <summary>
-        /// C14自动初步总检+完成总检，不用判断结果是否异常，且不用写结果评价
+        /// C14/C13自动初步总检+完成总检，不用判断结果是否异常，且不用写结果评价
         /// </summary>
         /// <param name="dr"></param>
         private void autoC14Check(DataRow dr)
         {
             string ordernum = dr["ordernum"].ToString();
+            string productname = dr["ordertestlst"].ToString();
             Hashtable htScan = new Hashtable();
             htScan.Add("isScan", true);
             htScan.Add("EnterByID", userid);
@@ -186,6 +192,21 @@ namespace daan.ui.main
                 {
                     //完成总检成功后记录操作日志
                     os.AddOperationLog(ordernum, null, "完成总检", "对[" + ordernum + "]执行自动完成总检", "修改留痕", "", htScan);
+                    //3、生成报告数据
+                    Orderreportdata reportdata = new Orderreportdata() { Ordernum = ordernum, ReportData = commonreport.GetSerializeReportDate(ordernum), Createdate = loginservice.GetServerTime() };
+                    reportdataService.AddOrderreportdata(reportdata);
+                    //4、如果是现场报告，直接将状态改为报告已打印
+                    if (productname.Contains("现场报告"))
+                    {
+                        Hashtable ht2 = new Hashtable();
+                        ht2.Add("ordernum", ordernum);
+                        ht2.Add("oldstatus", (int)ParamStatus.OrdersStatus.FinishCheck);
+                        ht2.Add("status", (int)ParamStatus.OrdersStatus.FinishPrint);
+                        if (os.EditStatusByOldStatus(ht2))
+                        {
+                            os.AddOperationLog(ordernum, null, "报告单集中打印", "对[" + ordernum + "]【现场报告】执行自动更改报告已打印状态", "修改留痕", "", null);
+                        }
+                    }
                 }
             }
         }

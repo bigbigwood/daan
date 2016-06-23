@@ -95,16 +95,17 @@ namespace daan.ui.main
                                  headerservice.UpdateOrderfileheader(fileheader);
                                  continue;
                              }
-                             DataTable dtt = RenderDataTableFromExcel(fileName);
-                             if (dtt == null || dtt.Rows.Count == 0)
-                             {
-                                 strmessage = string.Format("{0}:未获取到Excl文档上的文件数据或服务器上找不到上传的Excel文件！", DateTime.Now);
-                                 SetTB(strmessage);
-                                 headerservice.UpdateOrderfileheader(fileheader);
-                                 continue;
-                             }
                              try
                              {
+                                 DataTable dtt = RenderDataTableFromExcel(fileName);
+                                 if (dtt == null || dtt.Rows.Count == 0)
+                                 {
+                                     strmessage = string.Format("{0}:未获取到Excl文档上的文件数据或服务器上找不到上传的Excel文件！", DateTime.Now);
+                                     SetTB(strmessage);
+                                     headerservice.UpdateOrderfileheader(fileheader);
+                                     continue;
+                                 }
+                             
                                  if (AutoUploadFile(dtt, dr))
                                  {
                                      strmessage = String.Format("{0}: 文件名: {1}扫描完毕。", DateTime.Now, dr["filename"]);
@@ -238,10 +239,11 @@ namespace daan.ui.main
                 string sex = "U";
                 if (dr["性别"] != DBNull.Value && !string.IsNullOrEmpty(dr["性别"].ToString()))
                 {
-                    if (dr["性别"].ToString() == "女")
-                        sex = "F";
-                    else if (dr["性别"].ToString() == "男")
-                        sex = "M";
+                    //if (dr["性别"].ToString() == "女")
+                    //    sex = "F";
+                    //else if (dr["性别"].ToString() == "男")
+                    //    sex = "M";
+                    sex = dr["性别"].ToString().Replace('_', ' ').Trim() == "女" ? "F" : (dr["性别"].ToString().Replace('_', ' ').Trim() == "男" ? "M" : "U");
                 }   
 
                 List<Dicttestitem> productList = productlistTemp.Where<Dicttestitem>(c => c.Testcode == productTestCode && (c.Forsex.ToUpper() == sex.ToUpper() || c.Forsex.ToUpper() == "B")).ToList<Dicttestitem>();
@@ -461,7 +463,24 @@ namespace daan.ui.main
                 _orders.Status = ((int)ParamStatus.OrdersStatus.BarCodePrint).ToString();
                 DateTime samplingdate;
                 bool s = DateTime.TryParse(dr["采样日期"].ToString(), out samplingdate);
-                if (s) { _orders.SamplingDate = samplingdate; }
+                if (s)
+                {
+                    TimeSpan timespan = DateTime.Now - samplingdate;
+                    if (Math.Abs(timespan.Days) > 30)
+                    {
+                        filedetail.Reason = "采样时间与当前时间相差不能超过一个月";
+                        filedetail.Barcode = detailbarcode;
+                        filedetail.Status = 0;
+                        filedetail.Orderfileheaderid = Orderfileheaderid;
+                        filedetail.Createdate = DateTime.Now;
+                        filedetail.Realname = realname;
+                        filedetail.Mobile = mobile;
+                        filedetail.Idnumber = idnumber;
+                        detailservice.InsertOrderfiledetail(filedetail);
+                        continue;
+                    }
+                    _orders.SamplingDate = samplingdate;
+                }
 
                 _orders.Province = province;
                 _orders.City = city;
@@ -477,6 +496,19 @@ namespace daan.ui.main
                     _orders.PostAddress = dr["住址"].ToString().Trim();
                     _orders.Recipient = realname;
                     _orders.ContactNumber = dr["手机"].ToString().Trim();
+                }
+
+                _orders.Area = dr["营业区"].ToString().Replace('_', ' ').Trim();
+                _orders.BatchNumber = dr["场次号"].ToString().Replace('_', ' ').Trim();
+                //add 20160530 增加客户经理字段
+                if (dt.Columns.Contains("客户经理"))
+                {
+                    _orders.AccountManager = dr["客户经理"].ToString().Replace('_', ' ').Trim();
+                }
+                //add 20160612 增加本批标本总数字段
+                if (dt.Columns.Contains("本批标本总数"))
+                {
+                    _orders.SpecimenCount = dr["本批标本总数"].ToString().Replace('_', ' ').Trim();
                 }
                 #endregion
 
@@ -823,7 +855,6 @@ namespace daan.ui.main
             {
                 hssfworkbook = new HSSFWorkbook(file);
 
-
                 ISheet sheet = hssfworkbook.GetSheetAt(0);
                 //System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
 
@@ -845,27 +876,45 @@ namespace daan.ui.main
                 for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
                 {
                     IRow row = sheet.GetRow(i);
-                    if (row.GetCell(0) == null && row.GetCell(2) == null)
+                    if (row == null) continue;
+                    //套餐代码为空
+                    if (row.GetCell(5) == null)
                     {
-                        break;
+                        continue;
                     }
                     else
                     {
-                        DataRow dataRow = dt.NewRow();
-                        for (int j = row.FirstCellNum; j < (cellCount + 2); j++)
+                        if (string.IsNullOrEmpty(row.GetCell(5).ToString()))
                         {
-                            if (j == cellCount)
-                            {
-                                dataRow[j] = "未上传";
-                            }
-                            else
-                            {
-                                if (row.GetCell(j) != null)
-                                    dataRow[j] = row.GetCell(j).ToString();
-                            }
+                            continue;
                         }
-                        dt.Rows.Add(dataRow);
                     }
+                    //姓名为空
+                    if (row.GetCell(8) == null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(row.GetCell(8).ToString()))
+                        {
+                            continue;
+                        }
+                    }
+                    DataRow dataRow = dt.NewRow();
+                    for (int j = row.FirstCellNum; j < (cellCount + 2); j++)
+                    {
+                        if (j == cellCount)
+                        {
+                            dataRow[j] = "未上传";
+                        }
+                        else
+                        {
+                            if (row.GetCell(j) != null)
+                                dataRow[j] = row.GetCell(j).ToString();
+                        }
+                    }
+                    dt.Rows.Add(dataRow);
                 }
                 return dt;
             }

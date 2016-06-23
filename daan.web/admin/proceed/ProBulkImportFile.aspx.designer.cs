@@ -148,6 +148,15 @@ namespace daan.web.admin.proceed {
         protected global::ExtAspNet.DropDownList DropCustomer;
         
         /// <summary>
+        /// tbxmember 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxmember;
+        
+        /// <summary>
         /// dpProvince 控件。
         /// </summary>
         /// <remarks>

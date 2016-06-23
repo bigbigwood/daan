@@ -445,7 +445,16 @@ namespace daan.web.admin.proceed
                     _orders.Status = ((int)ParamStatus.OrdersStatus.BarCodePrint).ToString();
                     DateTime samplingdate;
                     bool s = DateTime.TryParse(dr["采样日期"].ToString(), out samplingdate);
-                    if (s) { _orders.SamplingDate = samplingdate; }
+                    if (s) 
+                    {
+                        TimeSpan timespan = DateTime.Now - samplingdate;
+                        if (Math.Abs(timespan.Days) > 30)
+                        {
+                            SetTableValue(false, "采样时间与当前时间相差不能超过一个月", dr);
+                            continue;
+                        }
+                        _orders.SamplingDate = samplingdate; 
+                    }
 
                     _orders.Province = dpProvince.SelectedValue == "-1" ? "" : dpProvince.SelectedText;
                     _orders.City = dpCity.SelectedValue == "-1" ? "" : dpCity.SelectedText;
@@ -471,6 +480,11 @@ namespace daan.web.admin.proceed
                     if (dt.Columns.Contains("客户经理"))
                     {
                         _orders.AccountManager = dr["客户经理"].ToString().Replace('_', ' ').Trim();
+                    }
+                    //add 20160612 增加本批标本总数字段
+                    if (dt.Columns.Contains("本批标本总数"))
+                    {
+                        _orders.SpecimenCount = dr["本批标本总数"].ToString().Replace('_', ' ').Trim();
                     }
                     b = registerservice.insertUpdateOrders("单位批量上传", "", true, productList, grouptestList, member, _orders, "", ref errstr);
 
@@ -545,25 +559,25 @@ namespace daan.web.admin.proceed
                     IRow row = sheet.GetRow(i);
                     if (row == null) continue;
                     //套餐代码为空
-                    if (row.GetCell(4) == null)
+                    if (row.GetCell(5) == null)
                     {
                         continue;
                     }
                     else
                     {
-                        if (string.IsNullOrEmpty(row.GetCell(4).ToString()))
+                        if (string.IsNullOrEmpty(row.GetCell(5).ToString()))
                         {
                             continue;
                         }
                     }
                     //姓名为空
-                    if (row.GetCell(6) == null)
+                    if (row.GetCell(8) == null)
                     {
                         continue;
                     }
                     else
                     {
-                        if (string.IsNullOrEmpty(row.GetCell(6).ToString()))
+                        if (string.IsNullOrEmpty(row.GetCell(8).ToString()))
                         {
                             continue;
                         }

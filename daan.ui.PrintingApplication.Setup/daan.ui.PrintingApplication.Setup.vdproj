@@ -22,7 +22,7 @@
         "Entry"
         {
         "MsmKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
-        "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
+        "OwnerKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -35,6 +35,12 @@
         {
         "MsmKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
         "OwnerKey" = "8:_547B2B0770F7FFF18AAB5681EB4D7AB1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
+        "OwnerKey" = "8:_27DE6EAAC4AC4B9BB81A4F88805E767E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -184,13 +190,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
+        "OwnerKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FDC27CC26CA4FB4AEA9CF4733283C099"
+        "OwnerKey" = "8:_521ED18BFC034CF97856D0530DD5EB37"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -670,15 +676,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:打印报告客户端"
-        "ProductCode" = "8:{C60EEE1D-654D-45BB-8E1A-D6D7CDF0CF61}"
-        "PackageCode" = "8:{A206D79F-3767-4814-8D14-33A7217501BC}"
+        "ProductCode" = "8:{085ACBE3-6B16-4A94-B06B-6B0288358112}"
+        "PackageCode" = "8:{51FF06BA-7362-42C1-8F89-8A584A2FB3C3}"
         "UpgradeCode" = "8:{97D2C556-A83C-48B7-8C69-4B0F9D75D6A8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.4.0"
+        "ProductVersion" = "8:1.7.0"
         "Manufacturer" = "8:达安健康"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -822,7 +828,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F895FF1D2AF04FF79959BDFFB49CEEA1"
             {
             "Name" = "8:卸载"
-            "Arguments" = "8:/x {C60EEE1D-654D-45BB-8E1A-D6D7CDF0CF61}"
+            "Arguments" = "8:/x {085ACBE3-6B16-4A94-B06B-6B0288358112}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

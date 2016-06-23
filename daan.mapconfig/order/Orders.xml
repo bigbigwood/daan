@@ -52,6 +52,10 @@
       <result property="Area" column="AREA" />
       <result property="BatchNumber" column="BATCHNUMBER" />
       <result property="AccountManager" column="ACCOUNTMANAGER" />
+      <result property="AuditStatus" column="AUDITSTATUS" />
+      <result property="AuditUserName" column="AUDITUSERNAME" />
+      <result property="AuditTime" column="AUDITTIME" />
+      <result property="SpecimenCount" column="SPECIMENCOUNT" />
     </resultMap>
 
     <resultMap id="Ordersingle" class="daan.domain.Orders">
@@ -223,7 +227,7 @@
       (select distinct o.dictmemberid,decode(o.iscancel,'1','已作废','未作废') as cancel,o.dictlabid,o.ordersource,o.ordernum,o.realname,o.age,o.dictcustomerid,
       o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,initsex.basicname as sex,o.batchnumber,
       nvl(lab.labname,'') as labname, decode(length(o.section),0,cus.customername,null,cus.customername,cus.customername||'.'||o.section) as customername2,
-      cus.customername,o.section,
+      cus.customername,o.section,o.accountmanager,o.specimencount,
       initsta.basicname as status,o.status as statusvalue,o.iolis,o.iopacs,o.samplingdate,o.cancelreason,o.postaddress,o.recipient,o.contactnumber,o.area
       from orders o
       left join  dictlab lab on o.dictlabid=lab.dictlabid
@@ -361,7 +365,7 @@
     <!--查询修改单位名称的相关数据 zyf-->
     <select id="Order.GetManagementOrdersByDictmemberid" parameterClass="Hashtable" >
       select o.dictmemberid,decode(o.iscancel,'1','已作废','未作废') as cancel,o.dictlabid,o.ordersource,o.ordernum,o.realname,
-      o.age,o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,
+      o.age,o.createdate,o.enterby,o.remarks,decode(o.ismarried,'0','未婚','1','已婚','未知') as ismarried,o.accountmanager,
       initsex.basicname as sex,nvl(lab.labname,'') as labname,cus.customername,o.section,o.area,o.samplingdate,
       initsta.basicname as status,o.status as statusvalue,o.iolis,o.iopacs,o.postaddress,o.recipient,o.contactnumber
       from orders o
@@ -617,14 +621,16 @@
       select * from
       (select rownum as rn,t.* from
       (select distinct a.ordernum,a.realname,b.customername,ib.basicname as statusname,ib2.basicname as sex,a.age,a.createdate,a.dictreporttemplateid,
-      a.ordertestlst,a.status,m.idnumber,a.section,a.samplingdate,a.postaddress,a.recipient,a.contactnumber,nvl(m.mobile,m.phone) mobile,lab.labname,a.area 
+      a.ordertestlst,a.status,m.idnumber,a.section,a.samplingdate,a.postaddress,a.recipient,a.contactnumber,nvl(m.mobile,m.phone) mobile,lab.labname,a.area,
+      a.accountmanager,nvl(a.auditstatus,'0') auditstatus,decode(a.auditstatus,'1','已审核','未审核') auditstatustext,a.auditusername,to_char(a.audittime,'yyyy-mm-dd HH:MI:SS') audittime,
+      a.batchnumber
       from orders a
       left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
       left join dictlab lab on lab.dictlabid=a.dictlabid
       left join dictmember m on m.dictmemberid=a.dictmemberid
       left join initbasic ib on (a.status=ib.basicvalue and ib.basictype='ORDERSTATUS')
       left join initbasic ib2 on (a.sex=ib2.basicvalue and ib2.basictype='SEX')
-      left join orderbarcode c on a.ordernum=c.ordernum
+       join orderbarcode c on a.ordernum=c.ordernum
       where a.iscancel='0'
       <isNotEmpty prepend="and" property="ordernum">
         (a.ordernum='$ordernum$' or c.barcode='$ordernum$')
@@ -646,7 +652,7 @@
           a.section like '%$section$%'
         </isNotEmpty>
         <isNotEmpty prepend="and" property="name">
-          (a.realname like '%$name$%' or a.ordertestlst like '%$name$%' or a.recipient like '%$name$%' or a.area like '%$name$%')
+          (a.realname like '%$name$%' or a.ordertestlst like '%$name$%' or a.recipient like '%$name$%' or a.area like '%$name$%' or a.batchnumber like '%$name$%')
         </isNotEmpty>
         <isNotNull prepend="and" property="dictcustomerid">
           b.dictcustomerid= $dictcustomerid$
@@ -656,6 +662,21 @@
         </isNotNull>
         <isNotNull prepend="and" property="status">
           a.status= '$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="auditstatus">
+          nvl(a.auditstatus,'0')= '$auditstatus$'
+        </isNotNull>
+        <isNotNull prepend="and" property="batchnumber">
+          a.batchnumber= '$batchnumber$'
+        </isNotNull>
+        <isNotEmpty prepend="and" property="auditusername">
+          a.auditusername like '%$auditusername$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="FDateBegin">
+          a.audittime <![CDATA[>=]]>to_date('$FDateBegin$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="FDateEnd">
+          a.audittime <![CDATA[<]]>to_date('$FDateEnd$','yyyy-MM-dd')
         </isNotNull>
         <isNotNull prepend="and" property="reportstatus">
           <!--报告状态正常-->
@@ -679,7 +700,7 @@
     <select id="Order.DataForFocusPrintPageTotal" parameterClass="Hashtable">
       select count(1) as total from( select distinct a.ordernum from orders a
       left join dictcustomer b on b.dictcustomerid=a.dictcustomerid
-      left join orderbarcode c on a.ordernum=c.ordernum
+       join orderbarcode c on a.ordernum=c.ordernum
       where a.iscancel='0'
       <isNotEmpty prepend="and" property="ordernum">
         (a.ordernum='$ordernum$' or c.barcode='$ordernum$')
@@ -708,6 +729,21 @@
         </isNotNull>
         <isNotNull prepend="and" property="province">
           a.province= '$province$'
+        </isNotNull>
+        <isNotNull prepend="and" property="auditstatus">
+          nvl(a.auditstatus,'0')= '$auditstatus$'
+        </isNotNull>
+        <isNotNull prepend="and" property="batchnumber">
+          a.batchnumber= '$batchnumber$'
+        </isNotNull>
+        <isNotEmpty prepend="and" property="auditusername">
+          a.auditusername like '%$auditusername$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="FDateBegin">
+          a.audittime <![CDATA[>=]]>to_date('$FDateBegin$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="FDateEnd">
+          a.audittime <![CDATA[<]]>to_date('$FDateEnd$','yyyy-MM-dd')
         </isNotNull>
         <isNotNull prepend="and" property="reportstatus">
           <!--报告状态正常-->
@@ -732,7 +768,8 @@
     <!--【集中打印报告】导出数据-->
     <select id="Order.DataForFocusPrintExport" parameterClass="Hashtable">
       select
-      rownum 序号,ib.basicname 状态,a.batchnumber 场次号,a.ordernum 体检号,a.realname 姓名,ib2.basicname 性别,a.age 年龄,to_char(a.createdate,'yyyy-mm-dd') 日期,
+      rownum 序号,ib.basicname 标本状态,decode(a.auditstatus,'1','已审核','未审核') 财务状态,to_char(a.audittime,'yyyy-mm-dd HH:MI:SS') 财务审核时间,
+      a.batchnumber 场次号,a.accountmanager 客户经理,a.ordernum 体检号,a.realname 姓名,ib2.basicname 性别,a.age 年龄,m.idnumber 身份证号,to_char(a.createdate,'yyyy-mm-dd') 日期,
       a.ordertestlst 项目,lab.labname 分点名称,b.customername 单位名称,a.section 部门机构,a.area 营业区,a.remarks 备注,to_char(a.samplingdate,'yyyy-mm-dd') 采样日期,a.postaddress 邮寄地址,
       a.recipient 收件人,a.contactnumber 联系电话
       from orders a
@@ -740,6 +777,7 @@
       left join initbasic ib2 on (a.sex=ib2.basicvalue and ib2.basictype='SEX')
       left join dictcustomer b on(a.dictcustomerid=b.dictcustomerid)
       left join dictlab lab on a.dictlabid=lab.dictlabid
+      left join dictmember m on a.dictmemberid=m.dictmemberid
       where a.iscancel='0'
       <isNotEmpty prepend="and" property="ordernum">
         a.ordernum='$ordernum$'
@@ -772,11 +810,103 @@
         <isNotNull prepend="and" property="status">
           a.status= '$status$'
         </isNotNull>
+        <isNotNull prepend="and" property="auditstatus">
+          nvl(a.auditstatus,'0')= '$auditstatus$'
+        </isNotNull>
+        <isNotNull prepend="and" property="batchnumber">
+          a.batchnumber= '$batchnumber$'
+        </isNotNull>
+        <isNotEmpty prepend="and" property="auditusername">
+          a.auditusername like '%$auditusername$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="FDateBegin">
+          a.audittime <![CDATA[>=]]>to_date('$FDateBegin$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="FDateEnd">
+          a.audittime <![CDATA[<]]>to_date('$FDateEnd$','yyyy-MM-dd')
+        </isNotNull>
         <isNotNull prepend="and" property="dictlabid">
           a.dictlabid  in ($dictlabid$)
         </isNotNull>
       </isEmpty>
     </select>
+    
+    <select id="Order.DataForFinanceAuditExport" parameterClass="Hashtable">
+      select 场次号,体检号,条码号,标本状态,财务状态,财务审核人,财务审核时间,客户经理,姓名,性别,省,市,县,营业区,部门机构,备注,年龄,电话,身份证,套餐代码,套餐,wm_concat(检测项名称) 检测项名称,分点名称,单位代码,单位名称,登记日期,采样日期,
+      sum(达安标准价) 达安标准价,sum(分点价) 分点价,sum(应收价) 应收价,sum(成交价) 成交价,签约子公司,套餐标准价格,套餐成交价格,收件人,联系电话,收件地址
+      from
+      (
+      select a.ordernum 体检号,b.barcode 条码号,a.realname 姓名,decode(a.sex,'M','男','F','女','未知') as 性别,a.Section 部门机构,a.age 年龄,b.testname 检测项名称,c.customercode 单位代码,c.customername 单位名称,d.labname 分点名称,to_char(a.createdate,'yyyy-MM-dd') 登记日期,
+      b.standardprice 达安标准价,b.groupprice 分点价,b.contractprice 应收价,b.finalprice 成交价,a.remarks 备注,to_char(a.samplingdate,'yyyy-MM-dd') 采样日期,dc.mobile 电话,dc.idnumber 身份证 ,
+      b.productname 套餐,i.testcode 套餐代码,a.province 省,a.city 市,a.county 县,i.price 套餐标准价格,dd.price 套餐成交价格,s.subcompanyname 签约子公司,a.area 营业区,a.batchnumber 场次号,a.recipient 收件人 ,a.contactnumber 联系电话,a.postaddress 收件地址,
+      decode(a.auditstatus,'1','已审核','未审核') 财务状态,to_char(a.audittime,'yyyy-mm-dd HH:MI:SS') 财务审核时间,a.auditusername 财务审核人,a.accountmanager 客户经理,ib.basicname 标本状态
+      from orders a
+      left join ordergrouptest b on a.ordernum=b.ordernum
+      left join dictcustomer c on a.dictcustomerid=c.dictcustomerid
+      left join dictlab d on a.dictlabid=d.dictlabid
+      left join dictmember dc on a.dictmemberid=dc.dictmemberid
+      left join dicttestitem i on b.dictproductid=i.dicttestitemid
+      left join dictcustomerdiscounted dd on (a.dictcustomerid=dd.dictcustomerid and dd.productid=b.dictproductid and dd.active='1'
+      and to_date(to_char(a.createdate,'yyyy-mm-dd'),'yyyy-mm-dd')>=dd.begindate and to_date(to_char(a.createdate,'yyyy-mm-dd'),'yyyy-mm-dd') <![CDATA[<=]]> dd.enddate )
+      left join subcompany s on dd.dictsubcompanyid=s.subcompanyid
+      left join initbasic ib on (a.status=ib.basicvalue and ib.basictype='ORDERSTATUS')
+      where a.iscancel='0'
+      <isNotEmpty prepend="and" property="ordernum">
+        a.ordernum='$ordernum$'
+      </isNotEmpty>
+      <isEmpty prepend="" property="ordernum">
+        <isNotNull prepend="and" property="StartDate">
+          a.enterdate <![CDATA[>=]]>to_date('$StartDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="EndDate">
+          a.enterdate <![CDATA[<]]>to_date('$EndDate$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateBegin">
+          (a.samplingdate <![CDATA[>=]]>to_date('$SDateBegin$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotNull prepend="and" property="SDateEnd">
+          (a.samplingdate <![CDATA[<]]>to_date('$SDateEnd$','yyyy-MM-dd') or a.samplingdate is null)
+        </isNotNull>
+        <isNotEmpty prepend="and" property="section">
+          a.section like '%$section$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="name">
+          (a.realname like '%$name$%' or a.ordertestlst like '%$name$%' or a.recipient like '%$name$%' or a.area like '%$name$%')
+        </isNotEmpty>
+        <isNotNull prepend="and" property="dictcustomerid">
+          c.dictcustomerid= $dictcustomerid$
+        </isNotNull>
+        <isNotNull prepend="and" property="province">
+          a.province= '$province$'
+        </isNotNull>
+        <isNotNull prepend="and" property="status">
+          a.status= '$status$'
+        </isNotNull>
+        <isNotNull prepend="and" property="auditstatus">
+          nvl(a.auditstatus,'0')= '$auditstatus$'
+        </isNotNull>
+        <isNotNull prepend="and" property="batchnumber">
+          a.batchnumber= '$batchnumber$'
+        </isNotNull>
+        <isNotEmpty prepend="and" property="auditusername">
+          a.auditusername like '%$auditusername$%'
+        </isNotEmpty>
+        <isNotNull prepend="and" property="FDateBegin">
+          a.audittime <![CDATA[>=]]>to_date('$FDateBegin$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="FDateEnd">
+          a.audittime <![CDATA[<]]>to_date('$FDateEnd$','yyyy-MM-dd')
+        </isNotNull>
+        <isNotNull prepend="and" property="dictlabid">
+          a.dictlabid  in ($dictlabid$)
+        </isNotNull>
+      </isEmpty>
+      )www
+      group by  www.场次号,www.体检号,www.条码号,www.姓名,www.性别,www.部门机构,www.备注,www.年龄,www.电话,www.身份证,www.单位代码,www.单位名称,www.营业区,www.分点名称,www.登记日期,www.采样日期,
+      www.省,www.市,www.县,www.套餐代码,www.套餐,www.套餐标准价格,www.套餐成交价格,www.签约子公司,www.收件人,www.联系电话,www.收件地址,www.财务状态,www.财务审核人,www.财务审核时间,www.客户经理,www.标本状态
+      order by www.登记日期
+    </select>
+    
     <!--查询订单异常报告记录-->
     <select id="Order.GetOrderExceptionReport" parameterClass="Hashtable">
       select count(1) from orderexceptionreport a
@@ -890,8 +1020,8 @@
     <!--添加订单记录 zhouy     -->
     <insert id="Order.InsertOrders" parameterClass="Orders">
       INSERT INTO ORDERS
-      (ORDERNUM,REMARKS,DICTMEMBERID,DICTCUSTOMERID,REALNAME,SEX,CACULATEDAGE,AGE,CANCELBY,ENTERDATE,ENTERBY,DICTREPORTTEMPLATEID,LASTUPDATEDATE,ORDERTESTLST,ORDERTYPE,DICTLABID,AUTHORIZEDBYID,FINISHBYID,FILENAME,TRANSED,ORDERSOURCE,SECTION,ISMARRIED,STATUS,SAMPLINGDATE,PROVINCE,CITY,COUNTY,POSTADDRESS,RECIPIENT,CONTACTNUMBER,ISAUTOFIRSTCHECK,REPORTSTATUS,REPORTEXCEPTIONREASON,EXPREPORTDATE,AREA,BATCHNUMBER,ACCOUNTMANAGER)
-      VALUES(#Ordernum#,#Remarks#,#Dictmemberid#,#Dictcustomerid#,#Realname#,#Sex#,#Caculatedage#,#Age#,#Cancelby#,sysdate,#Enterby#,#Dictreporttemplateid#,sysdate,#Ordertestlst#,#Ordertype#,#Dictlabid#,#Authorizedbyid#,#Finishbyid#,#Filename#,#Transed#,#Ordersource#,#Section#,#Ismarried#,#Status#,#SamplingDate#,#Province#,#City#,#County#,#PostAddress#,#Recipient#,#ContactNumber#,#IsAutoFirstCheck#,#ReportStatus#,#ReportExceptionReason#,#ExpReportDate#,#Area#,#BatchNumber#,#AccountManager#)
+      (ORDERNUM,REMARKS,DICTMEMBERID,DICTCUSTOMERID,REALNAME,SEX,CACULATEDAGE,AGE,CANCELBY,ENTERDATE,ENTERBY,DICTREPORTTEMPLATEID,LASTUPDATEDATE,ORDERTESTLST,ORDERTYPE,DICTLABID,AUTHORIZEDBYID,FINISHBYID,FILENAME,TRANSED,ORDERSOURCE,SECTION,ISMARRIED,STATUS,SAMPLINGDATE,PROVINCE,CITY,COUNTY,POSTADDRESS,RECIPIENT,CONTACTNUMBER,ISAUTOFIRSTCHECK,REPORTSTATUS,REPORTEXCEPTIONREASON,EXPREPORTDATE,AREA,BATCHNUMBER,ACCOUNTMANAGER,AUDITSTATUS,AUDITUSERNAME,AUDITTIME,SPECIMENCOUNT)
+      VALUES(#Ordernum#,#Remarks#,#Dictmemberid#,#Dictcustomerid#,#Realname#,#Sex#,#Caculatedage#,#Age#,#Cancelby#,sysdate,#Enterby#,#Dictreporttemplateid#,sysdate,#Ordertestlst#,#Ordertype#,#Dictlabid#,#Authorizedbyid#,#Finishbyid#,#Filename#,#Transed#,#Ordersource#,#Section#,#Ismarried#,#Status#,#SamplingDate#,#Province#,#City#,#County#,#PostAddress#,#Recipient#,#ContactNumber#,#IsAutoFirstCheck#,#ReportStatus#,#ReportExceptionReason#,#ExpReportDate#,#Area#,#BatchNumber#,#AccountManager#,#AuditStatus#,#AuditUserName#,#AuditTime#,#SpecimenCount#)
     </insert>
 
     <!--查询订单详细信息 zhouy-->
@@ -1031,10 +1161,17 @@
       <isNotNull prepend=", " property="sampledate">
         o.samplingdate=to_date(#sampledate#,'yyyy-mm-dd')
       </isNotNull>
-      <isNotNull prepend=", " property="ck">
-        <isEqual compareValue="1" property="ck">
-          POSTADDRESS=#address#,RECIPIENT=#recname#,CONTACTNUMBER=#telphone#
-        </isEqual>
+      <isNotNull prepend=", " property="accountmanager">
+        o.accountmanager='$accountmanager$'
+      </isNotNull>
+      <isNotNull prepend=", " property="address">
+        POSTADDRESS=#address#
+      </isNotNull>
+      <isNotNull prepend=", " property="recname">
+        RECIPIENT=#recname#
+      </isNotNull>
+      <isNotNull prepend=", " property="telphone">
+        CONTACTNUMBER=#telphone#
       </isNotNull>
       where o.ordernum in ($ordernum$)
     </update>
@@ -1062,7 +1199,7 @@
       ORDERTESTLST=#Ordertestlst#,DICTLABID=#Dictlabid#,ORDERSOURCE=#Ordersource#,ISMARRIED=#Ismarried#,SECTION=#Section#,
       PROVINCE=#Province#,CITY=#City#,COUNTY=#County#,POSTADDRESS=#PostAddress#,RECIPIENT=#Recipient#,CONTACTNUMBER=#ContactNumber#,SAMPLINGDATE=#SamplingDate#,
       ISAUTOFIRSTCHECK=#IsAutoFirstCheck#,REPORTSTATUS=#ReportStatus#,REPORTEXCEPTIONREASON=#ReportExceptionReason#,EXPREPORTDATE=#ExpReportDate#,AREA=#Area#,
-      BATCHNUMBER=#BatchNumber#,ACCOUNTMANAGER=#AccountManager#
+      BATCHNUMBER=#BatchNumber#,ACCOUNTMANAGER=#AccountManager#,AUDITSTATUS=#AuditStatus#,AUDITUSERNAME=#AuditUserName#,AUDITTIME=#AuditTime#,SPECIMENCOUNT=#SpecimenCount#
       WHERE ORDERNUM = #Ordernum#
     </update>
 
@@ -1071,6 +1208,18 @@
       UPDATE ORDERS SET IOLIS=$iolis$ WHERE ORDERNUM in($ordernum$)
     </update>
 
+    <!--报告打印审核-->
+    <update id="Order.FinanceAudit" parameterClass="Hashtable">
+      update orders o set o.auditstatus='$AuditStatus$'
+      <isEqual prepend="," property="AuditStatus" compareValue="1">
+        o.auditusername='$AuditUserName$',o.audittime=sysdate
+      </isEqual>
+      <isEqual prepend="," property="AuditStatus" compareValue="0">
+        o.auditusername=null,o.audittime=null
+      </isEqual>
+      where o.ordernum in ($ordernums$)
+    </update>
+    
     <delete id="DeleteOrders" parameterClass="string">
       DELETE FROM ORDERS WHERE ORDERNUM = #value#
     </delete>

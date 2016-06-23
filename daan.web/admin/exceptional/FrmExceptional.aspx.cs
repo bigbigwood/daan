@@ -129,7 +129,7 @@ namespace daan.web.admin.exceptional
             List<string> cus = new List<string>();
             for (int i = 0; i < strSelect.Length; i++)
             {
-                str += GridOrders.DataKeys[strSelect[i]][0].ToString() + ",";
+                str +=GridOrders.DataKeys[strSelect[i]][0].ToString() + ",";
                 //也可以考虑场次号相同的才允许批量操作
                 if (!cus.Contains(GridOrders.DataKeys[strSelect[i]][5].ToString()))
                 {

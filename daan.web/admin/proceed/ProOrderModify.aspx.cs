@@ -261,6 +261,9 @@ namespace daan.web.admin.proceed
             _orders.ContactNumber = txtCONTACTNUMBER.Text.Trim();
             _orders.Recipient = txtRECIPIENT.Text.Trim();
             _orders.PostAddress = txtPostAddress.Text.Trim();
+            //营业区
+            _orders.Area = txtArea.Text.Trim();
+            _orders.AccountManager = tbxAccountmanager.Text.Trim();
             //采样日期
             DateTime? spdate = null;
             if(dtSampleDate.Text!="")
@@ -309,6 +312,8 @@ namespace daan.web.admin.proceed
             if (_order.Province != order.Province) { content += string.Format("省份：[{0}]更改为[{1}]", _order.Province, order.Province); }
             if (_order.City != order.City) { content += string.Format("城市：[{0}]更改为[{1}]", _order.City, order.City); }
             if (_order.County != order.County) { content += string.Format("地区：[{0}]更改为[{1}]", _order.County, order.County); }
+            if (_order.Area != order.Area) { content += string.Format("营业区：[{0}]更改为[{1}]", _order.Area, order.Area); }
+            if (_order.AccountManager != order.AccountManager) { content += string.Format("客户经理：[{0}]更改为[{1}]", _order.AccountManager, order.AccountManager); }
 
             if (_order.Age != order.Age) { content += string.Format("年龄:[{0}]更改为[{1}],", _order.Age, order.Age); }
             if (_order.Remarks != order.Remarks) { content += string.Format("备注:[{0}]更改为[{1}],", _order.Remarks, order.Remarks); }
@@ -697,6 +702,8 @@ namespace daan.web.admin.proceed
             txtRECIPIENT.Text = order.Recipient;
             txtCONTACTNUMBER.Text = order.ContactNumber;
             dtSampleDate.Text = order.SamplingDate == null ? "" : order.SamplingDate.Value.ToString("yyyy-MM-dd");
+            txtArea.Text = order.Area ?? "";
+            tbxAccountmanager.Text = order.AccountManager ?? "";
             if (order.Province==null||order.Province=="")
             {
                 dpProvince.SelectedIndex = 0;

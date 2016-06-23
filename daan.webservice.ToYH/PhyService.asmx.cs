@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using daan.domain;
+using System.Web.Script.Services;
 
 namespace daan.webservice.ToYH
 {
@@ -115,6 +116,24 @@ namespace daan.webservice.ToYH
                 return resstr = "0|" + str;
             }
             return Utils.deleteOrderByBarcode(barcode);
+        }
+
+        [WebMethod(true, Description = "防癌检测与C14信息接口")]
+        public string getDataString(String uname, String umobile, String type)
+        {
+            string resstr = string.Empty;
+            return resstr = Utils.GetDataForJson(uname, umobile, type);
+        }
+
+        [WebMethod(true, Description = "防癌检测与C14信息接口")]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false, XmlSerializeString = false)]
+        public void getDataJson(String uname, String umobile, String type)
+        {
+            string resstr = string.Empty;
+            resstr = Utils.GetDataForJson(uname, umobile, type);
+            Context.Response.Clear();
+            Context.Response.ContentType = "text/html";
+            Context.Response.Write(resstr);
         }
     }
 }

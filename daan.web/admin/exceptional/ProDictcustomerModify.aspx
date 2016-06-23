@@ -13,6 +13,7 @@
         <Toolbars>
             <ext:Toolbar ID="Toolbar1" runat="server">
                 <Items>
+                    <ext:Label ID="Label1" runat="server" Text="请根据需要填写对应的批量修改信息，不需要修改的则留空" CssStyle="color:blue;font-weight:bold;"></ext:Label>
                     <ext:ToolbarFill ID="ToolbarFill1" runat="server">
                     </ext:ToolbarFill>
                     <ext:Button ID="btnSave" runat="server" Text="保 存" Icon="SystemSaveNew" OnClick="BtnSave_Click" />
@@ -23,7 +24,7 @@
             </ext:Toolbar>
         </Toolbars>
         <Regions>
-            <ext:Region Layout="Fit" Height="80px" Position="Top" ShowHeader="False" ShowBorder="False" Split="true">
+            <ext:Region Layout="Fit" Height="115px" Position="Top" ShowHeader="False" ShowBorder="False" Split="true">
                 <Items>
                     <ext:Form ID="Form3" runat="server" BodyPadding="5px" EnableBackgroundColor="false"
                         LabelWidth="80px" LabelAlign="Right" Title="Form" ShowBorder="false" ShowHeader="False">
@@ -36,19 +37,28 @@
                                     </ext:DropDownList>                                   
                                     <ext:DropDownList ID="DropCustomer" Label="单位" EnableEdit="true" Resizable="True" runat="server">
                                     </ext:DropDownList>
-                                    <ext:TextBox runat="server" Label="部门" ID="txtSection" EmptyText="如果需要统一修改则填写"></ext:TextBox>
+                                    <ext:datepicker id="dtSampleDate" runat="server" Label="采样日期" dateformatstring="yyyy-MM-dd" enabledateselect="true"></ext:datepicker>
                                 </Items>
                             </ext:FormRow>
                             <ext:FormRow>
                                 <Items>
-                                    <ext:CheckBox runat="server" ID="ck1" AutoPostBack="true" OnCheckedChanged="ck1_CheckedChanged" Text="<font color='red'>该批报告统一邮寄信息，请注意：勾选此项后以下三项为必填</font>" ></ext:CheckBox>
+                                    <ext:TextBox runat="server" Label="部门机构" ID="txtSection"></ext:TextBox>
+                                    <ext:TextBox runat="server" Label="营业区" ID="txtArea"></ext:TextBox>
+                                    <ext:TextBox runat="server" Label="客户经理" ID="txtAccountManager"></ext:TextBox>
                                 </Items>
                             </ext:FormRow>
                             <ext:FormRow>
                                 <Items>
-                                    <ext:TextBox runat="server" Enabled="false" ID="txtAddress" Label="邮寄地址"></ext:TextBox>
-                                    <ext:TextBox runat="server" Enabled="false" ID="txtRecName" Label="收件人"></ext:TextBox>
-                                    <ext:TextBox runat="server" Enabled="false" ID="txtTelphone" Label="联系电话"></ext:TextBox>
+                                    <ext:DropDownList runat="server" ID="dpProvince" Resizable="True" EnableEdit="true" Label="省份" AutoPostBack="true" OnSelectedIndexChanged="dpProvince_SelectedIndexChanged"></ext:DropDownList>
+                                    <ext:DropDownList runat="server" ID="dpCity" Resizable="True" EnableEdit="true" Label="市" AutoPostBack="true" OnSelectedIndexChanged="dpCity_SelectedIndexChanged"></ext:DropDownList>
+                                    <ext:DropDownList runat="server" ID="dpCounty" Resizable="True" EnableEdit="true" Label="区" AutoPostBack="true"></ext:DropDownList>
+                                </Items>
+                            </ext:FormRow>
+                            <ext:FormRow>
+                                <Items>
+                                    <ext:TextBox runat="server" ID="txtAddress" Label="邮寄地址"></ext:TextBox>
+                                    <ext:TextBox runat="server" ID="txtRecName" Label="收件人"></ext:TextBox>
+                                    <ext:TextBox runat="server" ID="txtTelphone" Label="联系电话"></ext:TextBox>
                                 </Items>
                             </ext:FormRow>
                         </Rows>
@@ -57,21 +67,23 @@
             </ext:Region>
             <ext:Region Layout="Fit" Position="Center" ShowHeader="False" ShowBorder="False">
                 <Items>
-                    <ext:Grid ID="GridOrders" Title="订单列表" AutoScroll="true" ShowHeader="false" PageSize="20"
-                        IsDatabasePaging="true" EnableTextSelection="true" AllowPaging="true" runat="server"
-                        AutoWidth="true" AutoHeight="true" EnableRowNumber="true" OnPageIndexChange="GridOrders_PageIndexChange">
+                    <ext:Grid ID="GridOrders" Title="订单列表" AutoScroll="true" ShowHeader="false"
+                        IsDatabasePaging="true" EnableTextSelection="true" AllowPaging="false" runat="server"
+                        AutoWidth="true" AutoHeight="true" EnableRowNumber="true">
                         <Columns>
-                            <ext:BoundField DataField="ordernum" HeaderText="体检号" Width="110px" />
+                            <ext:BoundField DataField="ordernum" HeaderText="体检号" Width="100px" />
                             <ext:BoundField DataField="status" HeaderText="状态" Width="80px" />
                             <ext:BoundField DataField="realname" HeaderText="姓名" Width="60px" />
                             <ext:BoundField DataField="age" HeaderText="年龄" Width="40px" />
                             <ext:BoundField DataField="sex" HeaderText="性别" Width="40px" />
                             <ext:BoundField DataField="ismarried" HeaderText="婚否" Width="40px" />
-                            <%--<ext:BoundField DataField="cancel" HeaderText="是否作废" Width="60px" />--%>
                             <ext:BoundField DataField="createdate" HeaderText="登记时间" Width="85px" DataFormatString="{0:yyyy-MM-dd}" />
+                            <ext:BoundField DataField="labname" DataToolTipField="labname" HeaderText="分点" Width="100px" />
                             <ext:BoundField DataField="customername" DataToolTipField="customername" HeaderText="单位" Width="120px" />
-                            <ext:BoundField DataField="section" DataToolTipField="section" HeaderText="部门" Width="150px" />
-                            <ext:BoundField DataField="enterby" HeaderText="录单人" Width="50px" />
+                            <ext:BoundField DataField="section" DataToolTipField="section" HeaderText="部门机构" Width="100px" />
+                            <ext:BoundField DataField="area" HeaderText="营业区" Width="100px" />
+                            <ext:BoundField DataField="accountmanager" HeaderText="客户经理" Width="70px" />
+                            <ext:BoundField DataField="samplingdate" HeaderText="采样日期" Width="85px" DataFormatString="{0:yyyy-MM-dd}"/>
                             <ext:BoundField DataField="postaddress" DataToolTipField="postaddress" HeaderText="邮寄地址" Width="120px" />
                             <ext:BoundField DataField="recipient" HeaderText="收件人" Width="50px" />
                             <ext:BoundField DataField="contactnumber" HeaderText="联系电话" Width="100px" />

@@ -427,22 +427,22 @@ namespace daan.web.admin.proceed {
         protected global::ExtAspNet.DropDownList dpCounty;
         
         /// <summary>
-        /// lblAddres 控件。
+        /// Label3 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.Label lblAddres;
+        protected global::ExtAspNet.Label Label3;
         
         /// <summary>
-        /// tbxAddres 控件。
+        /// txtArea 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.TextBox tbxAddres;
+        protected global::ExtAspNet.TextBox txtArea;
         
         /// <summary>
         /// txtPostAddress 控件。
@@ -470,6 +470,42 @@ namespace daan.web.admin.proceed {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::ExtAspNet.TextBox txtCONTACTNUMBER;
+        
+        /// <summary>
+        /// lblAddres 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.Label lblAddres;
+        
+        /// <summary>
+        /// tbxAddres 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxAddres;
+        
+        /// <summary>
+        /// Label4 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.Label Label4;
+        
+        /// <summary>
+        /// tbxAccountmanager 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxAccountmanager;
         
         /// <summary>
         /// tbxRemark 控件。

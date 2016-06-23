@@ -152,7 +152,7 @@
       a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
     </isNotNull>
     <isNotEmpty prepend="and" property="Section">
-      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or c.customername like '%$Section$%')
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or c.customername like '%$Section$%' or a.area like '%$Section$%')
     </isNotEmpty>
     <isNotEqual property="province" compareValue="-1" prepend="and">
       a.province =  #province#
@@ -188,7 +188,7 @@
       a.createdate >= to_date('$DateStart$','yyyy-MM-dd')
     </isNotNull>
     <isNotEmpty prepend="and" property="Section">
-      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or c.customername like '%$Section$%')
+      (a.section like '%$Section$%' or a.remarks like '%$Section$%' or c.customername like '%$Section$%' or a.area like '%$Section$%')
     </isNotEmpty>
     <isNotEqual property="province" compareValue="-1" prepend="and">
       a.province =  #province#
@@ -200,13 +200,14 @@
   </select>
   <!--根据条件查询TM15检测数据导出  -->
   <select id="Order.SelectTM15ByWhereTime" parameterClass="Hashtable">
-    select 体检号,条码号,姓名,性别,区域,省,市,县,备注,年龄,电话,身份证,套餐代码,套餐,wm_concat(检测项名称) 检测项名称,单位代码,单位名称,分点名称,登记日期,采样日期,
-    sum(达安标准价) 达安标准价,sum(分点价) 分点价,sum(应收价) 应收价,sum(成交价) 成交价,报告状态,签约子公司,套餐标准价格,套餐成交价格
+    select 场次号,体检号,条码号,财务状态,财务审核人,财务审核时间,客户经理,姓名,性别,省,市,县,营业区,部门机构,备注,年龄,电话,身份证,套餐代码,套餐,wm_concat(检测项名称) 检测项名称,分点名称,单位代码,单位名称,登记日期,采样日期,
+    sum(达安标准价) 达安标准价,sum(分点价) 分点价,sum(应收价) 应收价,sum(成交价) 成交价,报告状态,签约子公司,套餐标准价格,套餐成交价格,收件人,联系电话,收件地址
     from
     (
-    select a.ordernum 体检号,b.barcode 条码号,a.realname 姓名,decode(a.sex,'M','男','F','女','未知') as 性别,a.Section 区域,a.age 年龄,b.testname 检测项名称,c.customercode 单位代码,c.customername 单位名称,d.labname 分点名称,to_char(a.createdate,'yyyy-MM-dd') 登记日期,
+    select a.ordernum 体检号,b.barcode 条码号,a.realname 姓名,decode(a.sex,'M','男','F','女','未知') as 性别,a.Section 部门机构,a.age 年龄,b.testname 检测项名称,c.customercode 单位代码,c.customername 单位名称,d.labname 分点名称,to_char(a.createdate,'yyyy-MM-dd') 登记日期,
     b.standardprice 达安标准价,b.groupprice 分点价,b.contractprice 应收价,b.finalprice 成交价,a.status 报告状态,a.remarks 备注,to_char(a.samplingdate,'yyyy-MM-dd') 采样日期,dc.mobile 电话,dc.idnumber 身份证 ,
-    b.productname 套餐,i.testcode 套餐代码,a.province 省,a.city 市,a.county 县,i.price 套餐标准价格,dd.price 套餐成交价格,s.subcompanyname 签约子公司
+    b.productname 套餐,i.testcode 套餐代码,a.province 省,a.city 市,a.county 县,i.price 套餐标准价格,dd.price 套餐成交价格,s.subcompanyname 签约子公司,a.area 营业区,a.batchnumber 场次号,a.recipient 收件人 ,a.contactnumber 联系电话,a.postaddress 收件地址,
+    decode(a.auditstatus,'1','已审核','未审核') 财务状态,to_char(a.audittime,'yyyy-mm-dd HH:MI:SS') 财务审核时间,a.auditusername 财务审核人,a.accountmanager 客户经理
     from orders a
     left join ordergrouptest b on a.ordernum=b.ordernum
     left join dictcustomer c on a.dictcustomerid=c.dictcustomerid
@@ -230,10 +231,10 @@
       www.单位名称 like '%太平%'
     </isNotNull>
     <isNotEmpty prepend="and" property="Section">
-      (www.区域 like '%$Section$%' or www.备注 like '%$Section$%' or www.单位名称 like '%$Section$%')
+      (www.部门机构 like '%$Section$%' or www.备注 like '%$Section$%' or www.单位名称 like '%$Section$%' or www.营业区 like '%$Section$%')
     </isNotEmpty>
-    group by  www.体检号,www.条码号,www.姓名,www.性别,www.区域,www.备注,www.年龄,www.电话,www.身份证,www.单位代码,www.单位名称,www.分点名称,www.登记日期,www.采样日期,www.报告状态,
-    www.省,www.市,www.县,www.套餐代码,www.套餐,www.套餐标准价格,www.套餐成交价格,www.签约子公司
+    group by  www.场次号,www.体检号,www.条码号,www.姓名,www.性别,www.部门机构,www.备注,www.年龄,www.电话,www.身份证,www.单位代码,www.单位名称,www.营业区,www.分点名称,www.登记日期,www.采样日期,www.报告状态,
+    www.省,www.市,www.县,www.套餐代码,www.套餐,www.套餐标准价格,www.套餐成交价格,www.签约子公司,www.收件人,www.联系电话,www.收件地址,www.财务状态,www.财务审核人,www.财务审核时间,www.客户经理
     order by www.登记日期
   </select>
 

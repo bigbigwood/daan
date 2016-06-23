@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace daan.web.admin.exceptional {
+namespace daan.web.admin.proceed {
     
     
-    public partial class ProDictcustomerModify {
+    public partial class ProFinanceAudit {
         
         /// <summary>
         /// Head1 控件。
@@ -49,13 +49,13 @@ namespace daan.web.admin.exceptional {
         protected global::ExtAspNet.RegionPanel RegionPanel1;
         
         /// <summary>
-        /// Toolbar1 控件。
+        /// Toolbar3 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.Toolbar Toolbar1;
+        protected global::ExtAspNet.Toolbar Toolbar3;
         
         /// <summary>
         /// Label1 控件。
@@ -67,6 +67,15 @@ namespace daan.web.admin.exceptional {
         protected global::ExtAspNet.Label Label1;
         
         /// <summary>
+        /// dropPageSize 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DropDownList dropPageSize;
+        
+        /// <summary>
         /// ToolbarFill1 控件。
         /// </summary>
         /// <remarks>
@@ -76,13 +85,49 @@ namespace daan.web.admin.exceptional {
         protected global::ExtAspNet.ToolbarFill ToolbarFill1;
         
         /// <summary>
-        /// btnSave 控件。
+        /// btnSearch 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.Button btnSave;
+        protected global::ExtAspNet.Button btnSearch;
+        
+        /// <summary>
+        /// ToolbarSeparator3 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.ToolbarSeparator ToolbarSeparator3;
+        
+        /// <summary>
+        /// btnAudit 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.Button btnAudit;
+        
+        /// <summary>
+        /// ToolbarSeparator5 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.ToolbarSeparator ToolbarSeparator5;
+        
+        /// <summary>
+        /// btnUnAudit 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.Button btnUnAudit;
         
         /// <summary>
         /// ToolbarSeparator1 控件。
@@ -94,22 +139,31 @@ namespace daan.web.admin.exceptional {
         protected global::ExtAspNet.ToolbarSeparator ToolbarSeparator1;
         
         /// <summary>
-        /// btnClose 控件。
+        /// btnExport 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.Button btnClose;
+        protected global::ExtAspNet.Button btnExport;
         
         /// <summary>
-        /// Form3 控件。
+        /// Region1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.Form Form3;
+        protected global::ExtAspNet.Region Region1;
+        
+        /// <summary>
+        /// Form2 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.Form Form2;
         
         /// <summary>
         /// FormRow1 控件。
@@ -121,58 +175,193 @@ namespace daan.web.admin.exceptional {
         protected global::ExtAspNet.FormRow FormRow1;
         
         /// <summary>
-        /// DropDictLab 控件。
+        /// dropDictLab 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.DropDownList DropDictLab;
+        protected global::ExtAspNet.DropDownList dropDictLab;
         
         /// <summary>
-        /// DropCustomer 控件。
+        /// ContentPanel2 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.DropDownList DropCustomer;
+        protected global::ExtAspNet.ContentPanel ContentPanel2;
         
         /// <summary>
-        /// dtSampleDate 控件。
+        /// Label2 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.DatePicker dtSampleDate;
+        protected global::ExtAspNet.Label Label2;
         
         /// <summary>
-        /// txtSection 控件。
+        /// dropDictcustomer 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.TextBox txtSection;
+        protected global::ExtAspNet.DropDownList dropDictcustomer;
         
         /// <summary>
-        /// txtArea 控件。
+        /// tbxmember 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.TextBox txtArea;
+        protected global::ExtAspNet.TextBox tbxmember;
         
         /// <summary>
-        /// txtAccountManager 控件。
+        /// dpFrom 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.TextBox txtAccountManager;
+        protected global::ExtAspNet.DatePicker dpFrom;
+        
+        /// <summary>
+        /// dpTo 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpTo;
+        
+        /// <summary>
+        /// FormRow4 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.FormRow FormRow4;
+        
+        /// <summary>
+        /// dropAuditStatus 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DropDownList dropAuditStatus;
+        
+        /// <summary>
+        /// tbxAuditUserName 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxAuditUserName;
+        
+        /// <summary>
+        /// dpFFrom 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpFFrom;
+        
+        /// <summary>
+        /// dpFTo 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpFTo;
+        
+        /// <summary>
+        /// FormRow2 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.FormRow FormRow2;
+        
+        /// <summary>
+        /// dropStatus 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DropDownList dropStatus;
+        
+        /// <summary>
+        /// tbxOrderNum 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxOrderNum;
+        
+        /// <summary>
+        /// dpSFrom 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpSFrom;
+        
+        /// <summary>
+        /// dpSTo 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpSTo;
+        
+        /// <summary>
+        /// FormRow3 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.FormRow FormRow3;
+        
+        /// <summary>
+        /// tbxSection 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxSection;
+        
+        /// <summary>
+        /// tbxName 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxName;
+        
+        /// <summary>
+        /// dropReportStatus 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DropDownList dropReportStatus;
         
         /// <summary>
         /// dpProvince 控件。
@@ -184,66 +373,21 @@ namespace daan.web.admin.exceptional {
         protected global::ExtAspNet.DropDownList dpProvince;
         
         /// <summary>
-        /// dpCity 控件。
+        /// Region2 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.DropDownList dpCity;
+        protected global::ExtAspNet.Region Region2;
         
         /// <summary>
-        /// dpCounty 控件。
+        /// gdOrders 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::ExtAspNet.DropDownList dpCounty;
-        
-        /// <summary>
-        /// txtAddress 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::ExtAspNet.TextBox txtAddress;
-        
-        /// <summary>
-        /// txtRecName 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::ExtAspNet.TextBox txtRecName;
-        
-        /// <summary>
-        /// txtTelphone 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::ExtAspNet.TextBox txtTelphone;
-        
-        /// <summary>
-        /// GridOrders 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::ExtAspNet.Grid GridOrders;
-        
-        /// <summary>
-        /// hidOrderNums 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::ExtAspNet.HiddenField hidOrderNums;
+        protected global::ExtAspNet.Grid gdOrders;
     }
 }

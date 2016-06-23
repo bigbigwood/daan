@@ -14,10 +14,12 @@
                 <Items>
                     <ext:Label runat="server" Text="每页数据量："></ext:Label>
                     <ext:DropDownList runat="server" AutoPostBack="true" ID="dropPageSize" Width="70px" OnSelectedIndexChanged="dropPageSize_SelectedIndexChanged">
-                        <ext:ListItem Text="20" Value="20" Selected="true" />
                         <ext:ListItem Text="50" Value="50"/>
                         <ext:ListItem Text="100" Value="100" />
-                        <ext:ListItem Text="150" Value="150" />
+                        <ext:ListItem Text="200" Value="200" />
+                        <ext:ListItem Text="300" Value="300" />
+                        <ext:ListItem Text="400" Value="400" />
+                        <ext:ListItem Text="500" Value="500" Selected="true"/>
                     </ext:DropDownList>
                     <ext:ToolbarFill ID="ToolbarFill1" runat="server">
                     </ext:ToolbarFill>
@@ -113,8 +115,9 @@
                     <ext:Grid ID="GridOrders" Title="订单列表" DataKeyNames="ordernum,cancel,labname,statusvalue,realname,dictcustomerid"
                         AutoScroll="true" EnableCheckBoxSelect="true" ShowHeader="false" PageSize="20"
                         IsDatabasePaging="true" EnableTextSelection="true" AllowPaging="true" runat="server"
-                        AutoWidth="true" AutoHeight="true" EnableRowNumber="true" OnPageIndexChange="GridOrders_PageIndexChange">
+                        AutoWidth="true" AutoHeight="true" EnableRowNumber="false" OnPageIndexChange="GridOrders_PageIndexChange">
                         <Columns>
+                            <ext:BoundField DataField="rn" HeaderText="序号" Width="40px" />
                             <ext:BoundField DataField="status" DataToolTipField="status" HeaderText="状态" Width="70px" />
                             <ext:BoundField DataField="ordernum" DataToolTipField="ordernum" HeaderText="体检号" Width="100px" />
                             <ext:BoundField DataField="realname" DataToolTipField="realname" HeaderText="姓名" Width="60px" />
@@ -127,7 +130,8 @@
                             <ext:BoundField DataField="customername" DataToolTipField="customername" HeaderText="体检单位" Width="150px" />
                             <ext:BoundField DataField="section" DataToolTipField="section" HeaderText="部门机构" Width="60" />
                             <ext:BoundField DataField="area" DataToolTipField="area" HeaderText="营业区" Width="80px" />
-                            <ext:BoundField DataField="enterby" DataToolTipField="enterby" HeaderText="录单人" Width="80px" />
+                            <ext:BoundField DataField="accountmanager" DataToolTipField="accountmanager" HeaderText="客户经理" Width="70px" />
+                            <ext:BoundField DataField="enterby" DataToolTipField="enterby" HeaderText="录单人" Width="70px" />
                             <ext:BoundField DataField="samplingdate" HeaderText="采样日期" Width="85px" DataFormatString="{0:yyyy-MM-dd}"  />
                             <ext:BoundField DataField="remarks" DataToolTipField="remarks" HeaderText="备注" Width="100"/>
                             <ext:BoundField HeaderText="邮寄地址" DataField="POSTADDRESS" DataToolTipField="POSTADDRESS" Width="250" />

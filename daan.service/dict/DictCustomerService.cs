@@ -282,6 +282,13 @@ namespace daan.service.dict
             return res;
         }
         #endregion
+
+        #region >>>> 体检单位模糊搜索
+        public DataTable GetCustomerListBySearchBox(Hashtable ht)
+        {
+            return selectDS("Dict.SelectCustomerBySearchBox", ht).Tables[0];
+        }
+        #endregion
     }
 
 }

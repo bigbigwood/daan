@@ -36,17 +36,72 @@ namespace daan.web.admin.analyse
         /// 查询参数缓存,查询条件改变时，必须clear里面的东西
         /// </summary>
         static Hashtable _parameterCache = new Hashtable();
+        //是否需要财务审核报告
+        bool IsNeedFinanceAudit = Convert.ToBoolean(ConfigurationManager.AppSettings["IsNeedFinanceAuditToPrinting"].ToString());
         #endregion
 
         #region >>>页面初始化及查询
         protected void Page_Load(object sender, EventArgs e)
         {
             ExtAspNet.PageContext.RegisterStartupScript("(Ext.getCmp('" + dropDictcustomer.ClientID + "')).listWidth=250;");
+            
+            if (Request.Form["__EVENTTARGET"] == tbxmember.ClientID && Request.Form["__EVENTARGUMENT"] == "specialkey") { SelectCustomer(); }
+
             if (!IsPostBack)
             {
                 InitPageData();
             }
         }
+
+        #region >>>>体检单位模糊查询
+        private void SelectCustomer()
+        {
+            string cusName = tbxmember.Text.Trim();
+            if (string.IsNullOrEmpty(cusName))
+            {
+                //体检单位初始化
+                BinddropDictcustomer(dropDictLab.SelectedValue);
+            }
+            else
+            {
+                string labid = string.Empty;
+                if (dropDictLab.SelectedValue == "-1")
+                {
+                    labid = Userinfo.joinLabidstr;
+                }
+                else
+                {
+                    labid = dropDictLab.SelectedValue;
+                }
+                Hashtable htPara = new Hashtable();
+                htPara.Add("labid", labid);
+                htPara.Add("customername", cusName);
+
+                DataTable dtList = new DictCustomerService().GetCustomerListBySearchBox(htPara);
+                if (dtList == null || dtList.Rows.Count == 0)
+                {
+                    MessageBoxShow("没有搜索到匹配的体检单位！");
+                    tbxmember.Text = string.Empty;
+                    tbxmember.Focus();
+                    return;
+                }
+                else if (dtList.Rows.Count == 1)
+                {
+                    dropDictcustomer.SelectedValue = dtList.Rows[0]["dictcustomerid"].ToString();
+                    tbxmember.Text = string.Empty;
+                }
+                else
+                {
+                    dropDictcustomer.DataSource = dtList;
+                    dropDictcustomer.DataValueField = "Dictcustomerid";
+                    dropDictcustomer.DataTextField = "Customername";
+                    dropDictcustomer.DataBind();
+                    tbxmember.Text = string.Empty;
+                }
+            }
+        }
+        #endregion
+
         // 初始化下拉列表的数据
         void BindDrop()
         {
@@ -62,7 +117,6 @@ namespace daan.web.admin.analyse
             DDLInitbasicBinder(dropReportStatus, "REPORTSTATUS");
             dropReportStatus.Items.Insert(0, new ExtAspNet.ListItem("全部", "-1"));
             dropReportStatus.SelectedValue = "0";
-
             //省份
             DropProvinceBinder(dpProvince);
         }
@@ -106,8 +160,16 @@ namespace daan.web.admin.analyse
             //体检单位
             _parameterCache.Add("dictcustomerid", dropDictcustomer.SelectedValue == "-1" ? null : dropDictcustomer.SelectedValue);
 
-            _parameterCache.Add("StartDate", dpFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
-            _parameterCache.Add("EndDate", dpTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
+            //登记日期开始日期
+            if (dpFrom.Text != "")
+            {
+                _parameterCache.Add("StartDate", dpFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
+            }
+            //登记日期结束日期
+            if (dpTo.Text != "")
+            {
+                _parameterCache.Add("EndDate", dpTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
+            }
             if (dpSFrom.Text != "" )
             {
                 _parameterCache.Add("SDateBegin", dpSFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
@@ -121,6 +183,26 @@ namespace daan.web.admin.analyse
             _parameterCache.Add("reportstatus", this.dropReportStatus.SelectedValue == "-1" ? null : this.dropReportStatus.SelectedValue);
             _parameterCache.Add("section",TextUtility.ReplaceText(tbxSection.Text));
             _parameterCache.Add("province", dpProvince.SelectedValue == "-1" ? null : dpProvince.SelectedText);
+            if (IsNeedFinanceAudit)
+            {
+                //财务审核状态
+                _parameterCache.Add("auditstatus", dropAuditStatus.SelectedValue == "-1" ? null : dropAuditStatus.SelectedValue);
+                //场次号
+                if (!string.IsNullOrEmpty(tbxBatchNumber.Text.Trim()))
+                {
+                    _parameterCache.Add("batchnumber", TextUtility.ReplaceText(tbxBatchNumber.Text.Trim()));
+                }
+                //财务审核日期开始日期
+                if (dpFFrom.Text != "")
+                {
+                    _parameterCache.Add("FDateBegin", dpFFrom.SelectedDate.Value.ToString("yyyy-MM-dd"));
+                }
+                //财务审核日期结束日期
+                if (dpFTo.Text != "")
+                {
+                    _parameterCache.Add("FDateEnd", dpFTo.SelectedDate.Value.AddDays(1).ToString("yyyy-MM-dd"));
+                }
+            }
             return _parameterCache;
         }
 
@@ -130,10 +212,6 @@ namespace daan.web.admin.analyse
             _parameterCache.Clear();
             dpFrom.SelectedDate = DateTime.Now.AddDays(-7);
             dpTo.SelectedDate = DateTime.Now;
-            //dpSFrom.SelectedDate = DateTime.Now.AddDays(-7);
-            //dpSTo.SelectedDate = DateTime.Now;
-            dpSFrom.Text = "";
-            dpSTo.Text = "";
             BindDrop();
         }
 
@@ -164,7 +242,12 @@ namespace daan.web.admin.analyse
                 //判断是否总检完成
                 if (CheckIsFinishCheck(gdOrders.DataKeys[strSelect[i]][1]))
                 {
-                    MessageBoxShow("选中订单中有部分没有[完成总检],报告未出,不能预览和打印"); return "";
+                    MessageBoxShow("选中订单中有部分没有[完成总检],报告未出,不能打印"); return "";
+                }
+                //判断是否财务审核
+                if (IsNeedFinanceAudit && gdOrders.DataKeys[strSelect[i]][5].ToString() != "1")
+                {
+                    MessageBoxShow("选中订单中有部分没有[财务审核],不能预览和打印"); return "";
                 }
             }
             return str.TrimEnd(',');
@@ -200,23 +283,14 @@ namespace daan.web.admin.analyse
 
                 return;
             }
-            if (this.dpFrom.Text != "" && this.dpTo.Text != "")
+            if ((dpFrom.Text == "" || dpTo.Text == "") && (dpSFrom.Text == "" || dpSTo.Text == "") && (dpFFrom.Text == "" || dpFTo.Text == ""))
             {
-                if (this.dpFrom.SelectedDate <= this.dpTo.SelectedDate)
-                {
-                    BindgdOrders();
-                }
-                else
-                {
-
-                    MessageBoxShow("结束时间应大于开始时间！", MessageBoxIcon.Information);
-                }
+                MessageBoxShow("登记时间、采样日期、财务审核日期必须要有一个作为查询条件！", MessageBoxIcon.Information);
             }
             else
             {
-                MessageBoxShow("请输入开始时间及结束时间查询！", MessageBoxIcon.Information);
+                BindgdOrders();
             }
-
         }
 
         /// <summary>
@@ -355,6 +429,11 @@ namespace daan.web.admin.analyse
                 {
                     MessageBoxShow("选中订单没有[完成总检],不能预览"); return;
                 }
+                //判断是否财务审核
+                if (IsNeedFinanceAudit && gdOrders.DataKeys[gdOrders.SelectedRowIndexArray[0]][5].ToString() != "1")
+                {
+                    MessageBoxShow("选中订单没有[财务审核],不能预览"); return;
+                }
                 str = "../report/RepShowView.aspx?reportType=1&order_num=" + ordernum;
             }
             PageContext.RegisterStartupScript(WinReportView.GetShowReference(str));
@@ -404,8 +483,6 @@ namespace daan.web.admin.analyse
         }
         #endregion
 
-
-
         #region >>>10.日志查询
         protected void btnLog_Click(object sender, EventArgs e)
         {
@@ -436,26 +513,29 @@ namespace daan.web.admin.analyse
             //StringBuilder strExists = new StringBuilder();//不存在的文件清单
             string pdfFile = ConfigurationManager.AppSettings["PdfFile"].ToString();//获取需要下载的报告路径，此路径为报告上传社区扫描程序的路径                  
 
-            #region >>>>获取选中行的订单号并判断是否已完成总检
+            #region >>>>获取选中行的订单号并判断是否已完成总检和财务审核
             foreach (int row in gdOrders.SelectedRowIndexArray)
             {
                 Orders order = new ProRegisterService().SelectOrderInfo(gdOrders.DataKeys[row][0].ToString());
                 if (order.Status == "25" || order.Status == "30")
                 {
-                    if (gdOrders.DataKeys[row][3] == null)
+                    if (IsNeedFinanceAudit && gdOrders.DataKeys[row][5].ToString() == "1")
                     {
-                        idnumbers.Add("");
+                        if (gdOrders.DataKeys[row][3] == null)
+                        {
+                            idnumbers.Add("");
+                        }
+                        else
+                        {
+                            idnumbers.Add(string.Format("{0}_{1}_{2}.pdf", gdOrders.DataKeys[row][3].ToString(), gdOrders.DataKeys[row][0].ToString(), gdOrders.DataKeys[row][2].ToString()));
+                        }
+                        ordernums.Add(string.Format("{0}_{1}.pdf", gdOrders.DataKeys[row][0].ToString(), gdOrders.DataKeys[row][2].ToString()));
                     }
-                    else
-                    {
-                        idnumbers.Add(string.Format("{0}_{1}_{2}.pdf", gdOrders.DataKeys[row][3].ToString(), gdOrders.DataKeys[row][0].ToString(), gdOrders.DataKeys[row][2].ToString()));
-                    }
-                    ordernums.Add(string.Format("{0}_{1}.pdf", gdOrders.DataKeys[row][0].ToString(), gdOrders.DataKeys[row][2].ToString()));
                 }
             }
             if (ordernums.Count() <= 0)
             {
-                MessageBoxShow("请至少选择一项状态为完成总检或报告已打印的记录!");
+                MessageBoxShow("请至少选择一项状态为完成总检或报告已打印且财务已审核的记录!");
                 return;
             }
             #endregion
@@ -572,5 +652,6 @@ namespace daan.web.admin.analyse
         }
         #endregion
 
+        
     }
 }

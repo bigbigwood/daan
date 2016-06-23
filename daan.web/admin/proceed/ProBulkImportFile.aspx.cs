@@ -31,12 +31,62 @@ namespace daan.web.admin.proceed
         protected void Page_Load(object sender, EventArgs e)
         {
             ExtAspNet.PageContext.RegisterStartupScript("(Ext.getCmp('" + DropCustomer.ClientID + "')).listWidth=250;");
+            if (Request.Form["__EVENTTARGET"] == tbxmember.ClientID && Request.Form["__EVENTARGUMENT"] == "specialkey") { SelectCustomer(); }
             if (!IsPostBack)
             {
                 BindDictLab();
                 BindAddress();
             }
         }
+
+        #region >>>>体检单位模糊查询
+        private void SelectCustomer()
+        {
+            string cusName = tbxmember.Text.Trim();
+            if (string.IsNullOrEmpty(cusName))
+            {
+                //体检单位初始化
+                BindCustomer(Convert.ToInt32(DropDictLab.SelectedValue));
+            }
+            else
+            {
+                string labid = string.Empty;
+                if (DropDictLab.SelectedValue == "-1")
+                {
+                    labid = Userinfo.joinLabidstr;
+                }
+                else
+                {
+                    labid = DropDictLab.SelectedValue;
+                }
+                Hashtable htPara = new Hashtable();
+                htPara.Add("labid", labid);
+                htPara.Add("customername", cusName);
+
+                DataTable dtList = new DictCustomerService().GetCustomerListBySearchBox(htPara);
+                if (dtList == null || dtList.Rows.Count == 0)
+                {
+                    MessageBoxShow("没有搜索到匹配的体检单位！");
+                    tbxmember.Text = string.Empty;
+                    tbxmember.Focus();
+                    return;
+                }
+                else if (dtList.Rows.Count == 1)
+                {
+                    DropCustomer.SelectedValue = dtList.Rows[0]["dictcustomerid"].ToString();
+                    tbxmember.Text = string.Empty;
+                }
+                else
+                {
+                    DropCustomer.DataSource = dtList;
+                    DropCustomer.DataValueField = "Dictcustomerid";
+                    DropCustomer.DataTextField = "Customername";
+                    DropCustomer.DataBind();
+                    tbxmember.Text = string.Empty;
+                }
+            }
+        }
+        #endregion
 
         #region >>>省市区
         private void BindAddress()
@@ -94,7 +144,7 @@ namespace daan.web.admin.proceed
         }
         #endregion
 
-        #region >>>>  绑定分点 以及选分点筛选单位
+        #region >>>>绑定分点 以及选分点筛选单位
         /// <summary>
         /// 绑定分点
         /// </summary>
@@ -273,25 +323,25 @@ namespace daan.web.admin.proceed
                 IRow row = sheet.GetRow(i);
                 if (row == null) continue;
                 //套餐代码为空
-                if (row.GetCell(4) == null)
+                if (row.GetCell(5) == null)
                 {
                     continue;
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(row.GetCell(4).ToString()))
+                    if (string.IsNullOrEmpty(row.GetCell(5).ToString()))
                     {
                         continue;
                     }
                 }
                 //姓名为空
-                if (row.GetCell(6) == null)
+                if (row.GetCell(8) == null)
                 {
                     continue;
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(row.GetCell(6).ToString()))
+                    if (string.IsNullOrEmpty(row.GetCell(8).ToString()))
                     {
                         continue;
                     }

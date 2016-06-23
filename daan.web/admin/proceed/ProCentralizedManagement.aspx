@@ -75,7 +75,7 @@
                 Split="true">
                 <Items>
                     <ext:Form ID="Form2" runat="server" BodyPadding="5px" EnableBackgroundColor="false"
-                        LabelWidth="80px" LabelAlign="Right" Title="Form" ShowBorder="false" ShowHeader="False">
+                        LabelWidth="90px" LabelAlign="Right" Title="Form" ShowBorder="false" ShowHeader="False">
                         <Rows>
                             <ext:FormRow ID="FormRow2" runat="server">
                                 <Items>
@@ -99,7 +99,7 @@
                                     <ext:DatePicker ID="datebegin" Label="登记时间" runat="server" DateFormatString="yyyy-MM-dd" />
                                     <ext:DatePicker ID="dateend" Label="至" runat="server" DateFormatString="yyyy-MM-dd" />
                                     <ext:TriggerBox ID="tbxOrderNum" runat="server" TriggerIcon="Search" ShowTrigger="false"
-                                     OnTriggerClick="tbxOrderNum_TriggerClick" Label="体检,条码号" EmptyText="此条件忽略其他条件">
+                                     OnTriggerClick="tbxOrderNum_TriggerClick" Label="体检号/条码号" EmptyText="此条件忽略其他条件">
                                     </ext:TriggerBox>
                                     <ext:TextBox runat="server" ID="tbxName" Label="姓　　名" />
                                 </Items>
@@ -115,20 +115,19 @@
                         IsDatabasePaging="true" EnableTextSelection="true" AllowPaging="true" runat="server"
                         AutoWidth="true" AutoHeight="true" EnableRowNumber="true" OnPageIndexChange="GridOrders_PageIndexChange">
                         <Columns>
-                            <ext:BoundField DataField="ordernum" DataToolTipField="ordernum" HeaderText="体检号"
-                                Width="110px" />
-                            <ext:BoundField DataField="realname" DataToolTipField="realname" HeaderText="姓名"
-                                Width="80px" />
+                            <ext:BoundField DataField="status" DataToolTipField="status" HeaderText="状态" Width="70px" />
+                            <ext:BoundField DataField="ordernum" DataToolTipField="ordernum" HeaderText="体检号" Width="100px" />
+                            <ext:BoundField DataField="realname" DataToolTipField="realname" HeaderText="姓名" Width="60px" />
                             <ext:BoundField DataField="age" DataToolTipField="age" HeaderText="年龄" Width="50px" />
                             <ext:BoundField DataField="sex" DataToolTipField="sex" HeaderText="性别" Width="40px" />
-                            <ext:BoundField DataField="ismarried" DataToolTipField="ismarried" HeaderText="婚否"
-                                Width="50px" />
-                            <ext:BoundField DataField="status" DataToolTipField="status" HeaderText="状态" Width="80px" />
+                            <ext:BoundField DataField="ismarried" DataToolTipField="ismarried" HeaderText="婚否" Width="50px" />
                             <ext:BoundField DataField="cancel" DataToolTipField="cancelreason" HeaderText="是否作废" Width="60px" />
-                            <ext:BoundField DataField="createdate" DataToolTipField="createdate" HeaderText="登记时间"
-                                Width="85px" DataFormatString="{0:yyyy-MM-dd}" />
-                            <ext:BoundField DataField="customername" DataToolTipField="customername" HeaderText="单位"
-                                Width="200px" />
+                            <ext:BoundField DataField="createdate" DataToolTipField="createdate" HeaderText="登记时间" Width="85px" DataFormatString="{0:yyyy-MM-dd}" />
+                            <ext:BoundField DataField="labname" DataToolTipField="labname" HeaderText="分点" Width="120px" />
+                            <ext:BoundField DataField="customername" DataToolTipField="customername" HeaderText="体检单位" Width="150px" />
+                            <ext:BoundField DataField="section" DataToolTipField="section" HeaderText="部门机构" Width="60" />
+                            <ext:BoundField DataField="area" DataToolTipField="area" HeaderText="营业区" Width="80px" />
+                            <ext:BoundField DataField="accountmanager" DataToolTipField="accountmanager" HeaderText="客户经理" Width="80px" />
                             <ext:BoundField DataField="enterby" DataToolTipField="enterby" HeaderText="录单人" Width="80px" />
                             <ext:BoundField DataField="samplingdate" HeaderText="采样日期" Width="85px" DataFormatString="{0:yyyy-MM-dd}"  />
                             <ext:BoundField DataField="remarks" DataToolTipField="remarks" HeaderText="备注" Width="100"/>

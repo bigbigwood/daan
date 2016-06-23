@@ -226,6 +226,21 @@ namespace daan.service.order
             }
             return dt;
         }
+
+        /// <summary>
+        /// 报告打印审核导出数据
+        /// </summary>
+        /// <param name="ht"></param>
+        /// <returns></returns>
+        public DataTable DataForFinanceAuditExport(Hashtable ht)
+        {
+            DataTable dt = selectDS("Order.DataForFinanceAuditExport", ht).Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dt.Rows[i]["年龄"] = WebUI.GetAge(dt.Rows[i]["年龄"]);
+            }
+            return dt;
+        }
         /// <summary>
         ///客户追踪处理查询,分页查询
         /// </summary>
@@ -321,6 +336,16 @@ namespace daan.service.order
         public bool EditTransed(Hashtable ht)
         {
             return update("Order.EditTransed", ht) > 0;
+        }
+
+        /// <summary>
+        /// 报告财务审核
+        /// </summary>
+        /// <param name="ht"></param>
+        /// <returns></returns>
+        public bool FinanceAudit(Hashtable ht)
+        {
+            return update("Order.FinanceAudit", ht) > 0;
         }
 
         /// <summary>

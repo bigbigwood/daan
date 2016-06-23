@@ -229,6 +229,15 @@ namespace daan.web.admin.analyse {
         protected global::ExtAspNet.DropDownList dropDictLab;
         
         /// <summary>
+        /// ContentPanel2 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.ContentPanel ContentPanel2;
+        
+        /// <summary>
         /// dropDictcustomer 控件。
         /// </summary>
         /// <remarks>
@@ -236,6 +245,15 @@ namespace daan.web.admin.analyse {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::ExtAspNet.DropDownList dropDictcustomer;
+        
+        /// <summary>
+        /// tbxmember 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxmember;
         
         /// <summary>
         /// dpFrom 控件。
@@ -254,6 +272,51 @@ namespace daan.web.admin.analyse {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::ExtAspNet.DatePicker dpTo;
+        
+        /// <summary>
+        /// FormRow4 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.FormRow FormRow4;
+        
+        /// <summary>
+        /// dropAuditStatus 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DropDownList dropAuditStatus;
+        
+        /// <summary>
+        /// tbxBatchNumber 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.TextBox tbxBatchNumber;
+        
+        /// <summary>
+        /// dpFFrom 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpFFrom;
+        
+        /// <summary>
+        /// dpFTo 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::ExtAspNet.DatePicker dpFTo;
         
         /// <summary>
         /// FormRow2 控件。

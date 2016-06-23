@@ -44,44 +44,47 @@
                                     <ext:dropdownlist id="DropDictLab" Resizable="True" comparetype="String" comparevalue="-1" compareoperator="NotEqual" comparemessage="请选择省份！" runat="server" autopostback="true" onselectedindexchanged="DropDictLab_SelectedIndexChanged"  width="200px"> </ext:dropdownlist>
                                 </td>
                                 <td width="80">
-                                    <ext:label runat="server" text="体检单位：" cssstyle="float:right;" id="lblCustomer"></ext:label>
+                                    <ext:label runat="server" text="体检单位11：" cssstyle="float:right;" id="lblCustomer"></ext:label>
+                                </td>
+                                <td width="200">
+                                    <ext:dropdownlist id="DropCustomer"   runat="server" width="200px" Resizable="True" EnableEdit="true"/>
                                 </td>
                                 <td>
-                                    <ext:dropdownlist id="DropCustomer"   runat="server" width="200px" Resizable="True" EnableEdit="true"/>
+                                    <ext:TextBox runat="server" CssClass="inline" ID="tbxmember" EmptyText="输入后回车" Width="90px"></ext:TextBox>
                                 </td>
                             </tr>
                             <tr style="height:30px">
                                 <td align="right">省：</td>
-                                <td><ext:DropDownList runat="server" Width="200px" Resizable="true" AutoPostBack="true" ID="dpProvince" OnSelectedIndexChanged="dpProvince_SelectedIndexChanged"></ext:DropDownList></td>
+                                <td><ext:DropDownList runat="server" Width="200px" Resizable="true" AutoPostBack="true" EnableEdit="true" ID="dpProvince" OnSelectedIndexChanged="dpProvince_SelectedIndexChanged"></ext:DropDownList></td>
                                 <td align="right">市：</td>
-                                <td><ext:DropDownList runat="server" Width="200px" Resizable="true" AutoPostBack="true" ID="dpCity" OnSelectedIndexChanged="dpCity_SelectedIndexChanged"></ext:DropDownList></td>
+                                <td colspan="2"><ext:DropDownList runat="server" Width="200px" Resizable="true" AutoPostBack="true" EnableEdit="true" ID="dpCity" OnSelectedIndexChanged="dpCity_SelectedIndexChanged"></ext:DropDownList></td>
                             </tr>
                             <tr> 
                                 <td align="right">县/区：</td>
-                                <td><ext:DropDownList runat="server" Width="200px" Resizable="true" ID="dpCounty" AutoPostBack="true" OnSelectedIndexChanged="dpCounty_SelectedIndexChanged"></ext:DropDownList></td>
+                                <td><ext:DropDownList runat="server" Width="200px" Resizable="true" ID="dpCounty" EnableEdit="true" AutoPostBack="true" OnSelectedIndexChanged="dpCounty_SelectedIndexChanged"></ext:DropDownList></td>
                                 <td height="25">
                                     <ext:label runat="server" text="选择文件：" showlabel="False" cssstyle="float:right;" id="lblFile"></ext:label>
                                 </td>
-                                <td valign="top">
+                                <td valign="top" colspan="2">
                                     <ext:fileupload runat="server" id="fileExcel" emptytext="请选择要上传的文件" enabled="true" readonly="false" cssstyle="width:70%"></ext:fileupload>
                                 </td>
                             </tr>
                             <tr style="height:35px">
                                 <td></td>
-                                <td colspan="3">
+                                <td colspan="4">
                                     <ext:CheckBox runat="server" ID="ck1" Text="<font color='red'>该批导入客户报告书统一寄送到以下地址，注：勾选此项后以下三项为必填</font>" 
                                     CssStyle="color:red;" AutoPostBack="true" Checked="true" OnCheckedChanged="ck1_CheckedChanged"></ext:CheckBox>
                                 </td>
                             </tr>
                             <tr style="height:30px">
                                 <td align="right">邮寄地址：</td>
-                                <td colspan="3"><ext:TextBox runat="server" ID="txtAddress" Width="525px"></ext:TextBox></td>
+                                <td colspan="4"><ext:TextBox runat="server" ID="txtAddress" Width="525px"></ext:TextBox></td>
                             </tr>
                             <tr>
                                 <td align="right">收件人：</td>
                                 <td><ext:TextBox runat="server" ID="txtRecName" Width="200px"></ext:TextBox></td>
                                 <td align="right">联系电话：</td>
-                                <td><ext:TextBox runat="server" ID="txtTelphone" Width="200px"></ext:TextBox></td>
+                                <td colspan="2"><ext:TextBox runat="server" ID="txtTelphone" Width="240px"></ext:TextBox></td>
                             </tr>
                         </table>
                     </ext:ContentPanel>
@@ -92,6 +95,15 @@
     <ext:HiddenField runat="server" ID="hidProvince"></ext:HiddenField>
     <ext:HiddenField runat="server" ID="hidCity"></ext:HiddenField>
     <ext:HiddenField runat="server" ID="hidCounty"></ext:HiddenField>
+    <script type="text/javascript">
+        function onReady() {
+            var tbxmemberID = '<%= tbxmember.ClientID %>';
+            var tbxmember = Ext.getCmp(tbxmemberID);
+            tbxmember.on("specialkey", function (box, e) {
+                __doPostBack(tbxmemberID, 'specialkey');
+            });
+        }
+    </script>
     </form>
 </body>
 </html>

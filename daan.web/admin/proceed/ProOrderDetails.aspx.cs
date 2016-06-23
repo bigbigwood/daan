@@ -94,7 +94,9 @@ namespace daan.web.admin.proceed
             tbxProvincename.Text = order.Province != null ? order.Province : "";
             tbxCityname.Text = order.City != null ? order.City : "";
             tbxCountyname.Text = order.County != null ? order.County : "";
-
+            txtPostAddress.Text = order.PostAddress;
+            txtRECIPIENT.Text = order.Recipient;
+            txtCONTACTNUMBER.Text = order.ContactNumber;
             tbxDictLab.Text = loginservice.GetLoginDictlab().Where<Dictlab>(c => c.Dictlabid == order.Dictlabid).First<Dictlab>().Labname;
 
             if (order.Ordersource == "1")
@@ -108,7 +110,8 @@ namespace daan.web.admin.proceed
             else {
                 tbxCustomer.Text = "个人客户";
             }
-
+            txtArea.Text = order.Area ?? "";
+            tbxAccountmanager.Text = order.AccountManager ?? "";
         }
 
         // 会员资料赋值
