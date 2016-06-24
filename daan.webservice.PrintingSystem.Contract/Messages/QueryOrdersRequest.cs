@@ -7,10 +7,10 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
     public class QueryOrdersRequest : RequestBase
     {
         [MessageBodyMember(Order = 1)]
-        public string OrderNumber { get; set; }
+        public String OrderNumber { get; set; }
 
         [MessageBodyMember(Order = 2)]
-        public string Barcode { get; set; }
+        public String Barcode { get; set; }
 
         [MessageBodyMember(Order = 3)]
         public String PageStart { get; set; }
@@ -31,10 +31,10 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
         public String EndDate { get; set; }
 
         [MessageBodyMember(Order = 9)]
-        public String SamplingDateBegin { get; set; }
+        public String ScanStartDate { get; set; }
 
         [MessageBodyMember(Order = 10)]
-        public String SamplingDateEnd { get; set; }
+        public String ScanEndDate { get; set; }
 
         [MessageBodyMember(Order = 11)]
         public String OrderStatus { get; set; }
@@ -50,5 +50,17 @@ namespace daan.webservice.PrintingSystem.Contract.Messages
 
         [MessageBodyMember(Order = 15)]
         public String Province { get; set; }
+
+        [MessageBodyMember(Order = 16)]
+        public String FinanceAuditStatus { get; set; }
+
+        [MessageBodyMember(Order = 17)]
+        public String BatchNumber { get; set; }
+
+        [MessageBodyMember(Order = 18)]
+        public String AuditStartDate { get; set; }
+
+        [MessageBodyMember(Order = 19)]
+        public String AuditEndDate { get; set; }
     }
 }

@@ -50,19 +50,31 @@ namespace daan.webservice.PrintingSystem.Operations
                 htPara.Add("pageEnd", request.PageEnd);
                 htPara.Add("dictlabid", request.Dictlabid); // 分点
                 htPara.Add("dictcustomerid", request.Dictcustomerid); //体检单位
-                htPara.Add("StartDate", request.StartDate);
-                htPara.Add("EndDate", request.EndDate);
-                htPara.Add("status", request.OrderStatus); ;
-                htPara.Add("name", request.Keyword);
+                htPara.Add("status", request.OrderStatus);
+                htPara.Add("auditstatus", request.FinanceAuditStatus);
                 htPara.Add("reportstatus", request.ReportStatus);
+                htPara.Add("name", request.Keyword);
                 htPara.Add("section", request.Section);
                 htPara.Add("province", request.Province);
+                htPara.Add("batchnumber", request.BatchNumber);
 
-                if (!string.IsNullOrWhiteSpace(request.SamplingDateBegin))
-                    htPara.Add("SamplingDateBegin", request.SamplingDateBegin);
+                if (!string.IsNullOrWhiteSpace(request.StartDate))
+                    htPara.Add("StartDate", request.StartDate);
 
-                if (!string.IsNullOrWhiteSpace(request.SamplingDateEnd))
-                    htPara.Add("SamplingDateEnd", request.SamplingDateEnd);
+                if (!string.IsNullOrWhiteSpace(request.EndDate))
+                    htPara.Add("EndDate", request.EndDate);
+
+                if (!string.IsNullOrWhiteSpace(request.ScanStartDate))
+                    htPara.Add("SDateBegin", request.ScanStartDate);
+
+                if (!string.IsNullOrWhiteSpace(request.ScanEndDate))
+                    htPara.Add("SDateEnd", request.ScanEndDate);
+
+                if (!string.IsNullOrWhiteSpace(request.AuditStartDate))
+                    htPara.Add("FDateBegin", request.AuditStartDate);
+
+                if (!string.IsNullOrWhiteSpace(request.AuditEndDate))
+                    htPara.Add("FDateEnd", request.AuditEndDate);
 
                 response.OrderCount = ordersService.DataForFocusPrintPageTotal(htPara);
                 response.Result = ordersService.DataForFocusPrintPageLst(htPara);

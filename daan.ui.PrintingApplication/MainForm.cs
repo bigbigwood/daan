@@ -26,6 +26,7 @@ namespace daan.ui.PrintingApplication
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly List<string> AllowPrintStatusList = new List<string>() { ConstString.OrdersStatus_FinishPrint, ConstString.OrdersStatus_FinishCheck };
+        private bool _isNeedFinanceAudit = Convert.ToBoolean(ConfigurationManager.AppSettings["IsNeedFinanceAuditToPrinting"].ToString());
 
         public MainForm()
         {
@@ -192,20 +193,31 @@ namespace daan.ui.PrintingApplication
 
         private QueryOrdersRequest GetQueryOrdersRequest()
         {
+
             var request = new QueryOrdersRequest();
             request.Username = PrintingApp.UserCredential.UserName;
             request.Password = PrintingApp.UserCredential.Password;
             request.PageStart = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + 1).ToString();
             request.PageEnd = ((pagerControl1.PageIndex - 1) * pagerControl1.PageSize + pagerControl1.PageSize).ToString();
-            request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
-            request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
             request.Keyword = string.IsNullOrWhiteSpace(tbxName.Text) ? null : tbxName.Text.Trim();
             request.Section = string.IsNullOrWhiteSpace(tbxSection.Text) ? null : tbxSection.Text.Trim();
-            
-            if (dpScanFrom.Enabled)
-                request.SamplingDateBegin = dpScanFrom.Value.ToString(ConstString.DateFormat);
-            if (dpSTo.Enabled)
-                request.SamplingDateEnd = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
+            request.BatchNumber = string.IsNullOrWhiteSpace(tbxBatchNumber.Text) ? null : tbxBatchNumber.Text.Trim();
+
+            if (cbx_RegisterTimeEnabled.Checked)
+            {
+                request.StartDate = dpFrom.Value.ToString(ConstString.DateFormat);
+                request.EndDate = dpTo.Value.AddDays(1).ToString(ConstString.DateFormat);
+            }
+            if (cbx_ScanDatetimeEnabled.Checked)
+            {
+                request.ScanStartDate = dpScanFrom.Value.ToString(ConstString.DateFormat);
+                request.ScanEndDate = dpSTo.Value.AddDays(1).ToString(ConstString.DateFormat);
+            }
+            if (cbx_AuditTimeEnabled.Checked)
+            {
+                request.AuditStartDate = dpAuditFrom.Value.ToString(ConstString.DateFormat);
+                request.AuditEndDate = dpAuditTo.Value.AddDays(1).ToString(ConstString.DateFormat);
+            }
 
             if ((int)dropNumberType.SelectedValue == 1)
                 request.OrderNumber = tbxOrderNum.Text;
@@ -215,6 +227,7 @@ namespace daan.ui.PrintingApplication
             request.Dictlabid = (dropDictLab.GetSelectedKey() != "-1") ? dropDictLab.GetSelectedKey() : null;
             request.Dictcustomerid = (dropDictcustomer.GetSelectedKey() != "-1") ? dropDictcustomer.GetSelectedKey() : null;
             request.OrderStatus = (dropStatus.GetSelectedKey() != "-1") ? dropStatus.GetSelectedKey() : null;
+            request.FinanceAuditStatus = (dropAuditStatus.GetSelectedKey() != "-1") ? dropAuditStatus.GetSelectedKey() : null;
             request.ReportStatus = (dropReportStatus.GetSelectedKey() != "-1") ? dropReportStatus.GetSelectedKey() : null;
             request.Province = (dropProvince.GetSelectedKey() != ConstString.ALL) ? dropProvince.GetSelectedKey() : null;
 
@@ -226,14 +239,22 @@ namespace daan.ui.PrintingApplication
             Log.Info("Start querying order...");
 
             pagerControl1.PageIndex = 1;
-            var request = GetQueryOrdersRequest();
-            Thread backgroudWorkerThread = new Thread(new ParameterizedThreadStart(backgroudWorker_QueryOrders));
-            backgroudWorkerThread.Start(request);
+            ProcessQueryOrders();
         }
 
         void pagerControl1_OnPageChanged(object sender, EventArgs e)
         {
             Log.Info("Start processing page changed event...");
+            ProcessQueryOrders();
+        }
+
+        private void ProcessQueryOrders()
+        {
+            if (!cbx_RegisterTimeEnabled.Checked && !cbx_ScanDatetimeEnabled.Checked && !cbx_AuditTimeEnabled.Checked)
+            {
+                MessageBox.Show("登记时间、采样日期、财务审核日期必须要有一个作为查询条件！");
+                return;
+            }
 
             var request = GetQueryOrdersRequest();
             Thread backgroudWorkerThread = new Thread(new ParameterizedThreadStart(backgroudWorker_QueryOrders));
@@ -252,7 +273,6 @@ namespace daan.ui.PrintingApplication
                 if (pagerSize < pagerControl.MinPageSize || pagerSize > pagerControl.MaxPageSize)
                 {
                     MessageBox.Show(string.Format(@"每页显示订单数量不能为""{0}""，它的范围是：{1} - {2}", pagerSizeText, pagerControl.MinPageSize, pagerControl.MaxPageSize));
-                    //ShowMessage(string.Format(@"每页显示订单数量不能为""{0}""，它的范围是：{1} - {2}", pagerSizeText, pagerControl.MinPageSize, pagerControl.MaxPageSize));
                     return;
                 }
             }
@@ -396,12 +416,13 @@ namespace daan.ui.PrintingApplication
                     return;
                 }
 
-                //Item1 = OrderNumber, Item2 = Cell_OrderStatus, Item3 = Cell_ReportTemplateId
-                List<Tuple<string, string, string>> orderDtoList = AddCheckBoxToDataGridView.GetSelectedRows()
+                //Item1 = OrderNumber, Item2 = Cell_OrderStatus, Item3 = Cell_ReportTemplateId, Item4 = Cell_AuditStatus
+                List<Tuple<string, string, string, string>> orderDtoList = AddCheckBoxToDataGridView.GetSelectedRows()
                     .Select(r => Tuple.Create(
                         r.Cells["Cell_OrderNumber"].Value.ToString(),
                         r.Cells["Cell_OrderStatus"].Value.ToString(),
-                        r.Cells["Cell_ReportTemplateId"].Value.ToString()
+                        r.Cells["Cell_ReportTemplateId"].Value.ToString(),
+                        r.Cells["Cell_AuditStatus"].Value.ToString()
                         )).ToList();
 
                 var wrongStatusOrderDtos = orderDtoList.FindAll(o => AllowPrintStatusList.Contains(o.Item2) == false);
@@ -409,6 +430,16 @@ namespace daan.ui.PrintingApplication
                 {
                     MessageBox.Show(string.Format("选中订单号为:{0},没有[完成总检],报告未出,不能预览和打印", string.Join(",", wrongStatusOrderDtos.Select(o => o.Item1).ToArray())));
                     return;
+                }
+
+                if (_isNeedFinanceAudit)
+                {
+                    var unAuditOrderDtos = orderDtoList.FindAll(o => o.Item4 == ConstString.FinanceAuditStatus_UnAudit);
+                    if (unAuditOrderDtos.Any())
+                    {
+                        MessageBox.Show(string.Format("选中订单号为:{0},没有[财务审核],不能预览和打印", string.Join(",", unAuditOrderDtos.Select(o => o.Item1).ToArray())));
+                        return;
+                    }
                 }
 
                 var wrongTemplateIdOrderDtos = orderDtoList.FindAll(o => PrintingApp.ReportTemplates.Exists(r => r.Id == int.Parse(o.Item3)) == false);
