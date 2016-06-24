@@ -39,6 +39,16 @@ namespace daan.ui.PrintingApplication.Helper
             };
         }
 
+        public List<EnumEntity> GetFinanceAuditStatusDataSource()
+        {
+            return new List<EnumEntity>()
+            {
+                new EnumEntity() {EnumValue = -1, EnumText ="All", EnumDisplayText = ConstString.ALL},
+                new EnumEntity() {EnumValue = (int)FinanceAuditStatus.Audit, EnumText =FinanceAuditStatus.Audit.ToString(), EnumDisplayText = ConstString.FinanceAuditStatus_Audit},
+                new EnumEntity() {EnumValue = (int)FinanceAuditStatus.UnAudit, EnumText =FinanceAuditStatus.UnAudit.ToString(), EnumDisplayText = ConstString.FinanceAuditStatus_UnAudit},
+            };
+        }
+
         public List<EnumEntity> GetNumberTypeDataSource()
         {
             return new List<EnumEntity>()

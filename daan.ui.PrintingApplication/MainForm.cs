@@ -89,6 +89,15 @@ namespace daan.ui.PrintingApplication
             dropStatus.BindCustomDataSource(dropStatusListItems);
             dropStatus.SelectedItem = dropStatusListItems.FirstOrDefault(i => i.Key == ((int) OrdersStatus.FinishCheck).ToString());
 
+            var getFinanceAuditStatusDataSource = comboBoxDataSourceProvider.GetFinanceAuditStatusDataSource();
+            var dropAuditStatusListItems = getFinanceAuditStatusDataSource.Select(o => new ListItem()
+            {
+                Key = o.EnumValue.ToString(),
+                Value = o.EnumDisplayText
+            }).ToList();
+            dropAuditStatus.BindCustomDataSource(dropAuditStatusListItems);
+            dropAuditStatus.SelectedItem = dropAuditStatusListItems.First();
+
             var getReportStatusDataSource = comboBoxDataSourceProvider.GetReportStatusDataSource();
             var dropReportStatusListItems = getReportStatusDataSource.Select(o => new ListItem()
             {
@@ -136,8 +145,10 @@ namespace daan.ui.PrintingApplication
             dpFrom.Value = DateTime.Now.AddDays(-7);
             dpTo.Value = DateTime.Now;
 
+            cbx_RegisterTimeEnabled.Checked = true;
+            cbx_AuditTimeEnabled.Checked = true;
             cbx_ScanDatetimeEnabled.Checked = false;
-            DisableScanDatetimeControls();
+            //SwitchScanDatetimeControls(false);
         }
 
         private void BindOrganizationByLab(Int32 labId)
@@ -267,37 +278,44 @@ namespace daan.ui.PrintingApplication
             lbl_Message.Text = message;
         }
 
+        private void cbx_RegisterTimeEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            SwitchDatetimePickerControls(checkbox.Checked, dpFrom, dpTo);
+        }
+
         private void cbx_ScanDatetimeEnabled_CheckedChanged(object sender, EventArgs e)
         {
             var checkbox = sender as CheckBox;
-            if (checkbox.Checked)
-                EnableScanDatetimeControls();
+            SwitchDatetimePickerControls(checkbox.Checked, dpScanFrom, dpSTo);
+        }
+
+        private void cbx_AuditTimeEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            SwitchDatetimePickerControls(checkbox.Checked, dpAuditFrom, dpAuditTo);
+        }
+
+        private void SwitchDatetimePickerControls(bool enabled, DateTimePicker dpFrom, DateTimePicker dpTo)
+        {
+            dpFrom.Enabled = enabled;
+            dpFrom.Format = DateTimePickerFormat.Custom;
+
+            dpTo.Enabled = enabled;
+            dpTo.Format = DateTimePickerFormat.Custom;
+
+            if (enabled)
+            {
+                dpFrom.CustomFormat = ConstString.DateFormat;
+                dpFrom.Value = DateTime.Now.AddDays(-7);
+                dpTo.CustomFormat = ConstString.DateFormat;
+                dpTo.Value = DateTime.Now;
+            }
             else
-                DisableScanDatetimeControls();
-        }
-
-        private void EnableScanDatetimeControls()
-        {
-            dpScanFrom.Enabled = true;
-            dpScanFrom.Format = DateTimePickerFormat.Custom;
-            dpScanFrom.CustomFormat = ConstString.DateFormat;
-            dpScanFrom.Value = DateTime.Now.AddDays(-7);
-
-            dpSTo.Enabled = true;
-            dpSTo.Format = DateTimePickerFormat.Custom;
-            dpSTo.CustomFormat = ConstString.DateFormat;
-            dpSTo.Value = DateTime.Now;
-        }
-
-        private void DisableScanDatetimeControls()
-        {
-            dpScanFrom.Enabled = false;
-            dpScanFrom.Format = DateTimePickerFormat.Custom;
-            dpScanFrom.CustomFormat = " ";
-
-            dpSTo.Enabled = false;
-            dpSTo.Format = DateTimePickerFormat.Custom;
-            dpSTo.CustomFormat = " ";
+            {
+                dpFrom.CustomFormat = " ";
+                dpTo.CustomFormat = " ";
+            }
         }
 
         private void OnSelectAllCheckBoxChanged()
@@ -605,6 +623,10 @@ namespace daan.ui.PrintingApplication
             var form = new PrinterSettingForm();
             form.ShowDialog();
         }
+
+
+
+
 
     }
 }

@@ -63,6 +63,7 @@
     <Compile Include="Messages\GetLastClientAppVersionRequest.cs" />
     <Compile Include="Messages\MessageBase.cs" />
     <Compile Include="Models\ClientApplicationVersion.cs" />
+    <Compile Include="Models\Order\FinanceAuditStatus.cs" />
     <Compile Include="Models\ReportTemplateFile.cs" />
     <Compile Include="Models\OrganizationInfo.cs" />
     <Compile Include="Models\LabInfo.cs" />
