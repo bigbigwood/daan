@@ -149,7 +149,7 @@ namespace daan.ui.PrintingApplication
             cbx_RegisterTimeEnabled.Checked = true;
             cbx_AuditTimeEnabled.Checked = true;
             cbx_ScanDatetimeEnabled.Checked = false;
-            //SwitchScanDatetimeControls(false);
+            SwitchDatetimePickerControls(false, dpScanFrom, dpSTo);
         }
 
         private void BindOrganizationByLab(Int32 labId)
